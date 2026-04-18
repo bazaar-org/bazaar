@@ -169,11 +169,19 @@ BZ_DEFINE_DATA (
 static DexFuture *
 retrieve_refs_for_remote_fiber (RetrieveRefsForRemoteData *data);
 
-static void
-gather_refs_update_progress (const char     *status,
-                             guint           progress,
-                             gboolean        estimating,
-                             GatherRefsData *data);
+static DexFuture *
+retrieve_refs_for_enumerable_remote (BzFlatpakInstance   *self,
+                                     GCancellable        *cancellable,
+                                     const char          *remote_name,
+                                     FlatpakInstallation *installation,
+                                     FlatpakRemote       *remote);
+
+static DexFuture *
+retrieve_refs_for_noenumerable_remote (BzFlatpakInstance   *self,
+                                       GCancellable        *cancellable,
+                                       const char          *remote_name,
+                                       FlatpakInstallation *installation,
+                                       FlatpakRemote       *remote);
 
 BZ_DEFINE_DATA (
     transaction,
@@ -949,11 +957,15 @@ ensure_flathub_fiber (EnsureFlathubData *data)
 static DexFuture *
 load_local_ref_fiber (LoadLocalRefData *data)
 {
-  GFile   *file                  = data->file;
-  gboolean result                = FALSE;
-  g_autoptr (GError) local_error = NULL;
-  g_autofree char *uri           = NULL;
-  g_autofree char *path          = NULL;
+  g_autoptr (BzFlatpakInstance) self = NULL;
+  GFile        *file                 = data->file;
+  GCancellable *cancellable          = data->cancellable;
+  gboolean      result               = FALSE;
+  g_autoptr (GError) local_error     = NULL;
+  g_autofree char *uri               = NULL;
+  g_autofree char *path              = NULL;
+
+  bz_weak_get_or_return_reject (self, data->self);
 
   uri  = g_file_get_uri (file);
   path = g_file_get_path (file);
@@ -1017,16 +1029,31 @@ load_local_ref_fiber (LoadLocalRefData *data)
             "Failed to load locate \"Name\" key in flatpakref '%s': %s",
             uri, local_error->message);
 
+      {
+        g_autoptr (BzBackendNotification) notif = NULL;
+
+        notif = bz_backend_notification_new ();
+        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_PRESENT_ID);
+        bz_backend_notification_set_generic_id (notif, name);
+
+        send_notif_all (self, notif, TRUE);
+      }
+
       return dex_future_new_take_string (g_steal_pointer (&name));
     }
   else
     /* This is a bundle ref */
     {
-      g_autoptr (FlatpakBundleRef) bref = NULL;
-      g_autoptr (BzFlatpakEntry) entry  = NULL;
-      g_autoptr (GBytes) appstream_gz   = NULL;
-      g_autoptr (GBytes) appstream      = NULL;
-      g_autoptr (AsComponent) component = NULL;
+      g_autoptr (FlatpakBundleRef) bref        = NULL;
+      g_autoptr (GFile) resolved_file          = NULL;
+      const char          *name                = NULL;
+      const char          *origin              = NULL;
+      FlatpakInstallation *add_to_installation = NULL;
+      g_autoptr (FlatpakRemote) remote         = NULL;
+      g_autoptr (BzFlatpakEntry) entry         = NULL;
+      g_autoptr (GBytes) appstream_gz          = NULL;
+      g_autoptr (GBytes) appstream             = NULL;
+      g_autoptr (AsComponent) component        = NULL;
 
       if (path == NULL)
         return dex_future_new_reject (
@@ -1035,7 +1062,38 @@ load_local_ref_fiber (LoadLocalRefData *data)
             "Cannot load '%s' as a flatpak bundle: URI is not a local file",
             uri);
 
-      bref = flatpak_bundle_ref_new (file, &local_error);
+#ifdef SANDBOXED_LIBFLATPAK
+      {
+        g_autofree char *basename   = NULL;
+        g_autofree char *module_dir = NULL;
+        g_autofree char *staging    = NULL;
+        g_autofree char *dest       = NULL;
+
+        basename   = g_path_get_basename (path);
+        module_dir = bz_dup_module_dir ();
+        staging    = g_build_filename (module_dir, "bundle-staging", NULL);
+        g_mkdir_with_parents (staging, 0755);
+        dest = g_build_filename (staging, basename, NULL);
+
+        resolved_file = g_file_new_for_path (dest);
+
+        result = g_file_copy (
+            file, resolved_file,
+            G_FILE_COPY_OVERWRITE | G_FILE_COPY_NOFOLLOW_SYMLINKS,
+            NULL, NULL, NULL,
+            &local_error);
+        if (!result)
+          return dex_future_new_reject (
+              BZ_FLATPAK_ERROR,
+              BZ_FLATPAK_ERROR_IO_MISBEHAVIOR,
+              "Failed to copy bundle from %s to %s : %s",
+              path, dest, local_error->message);
+      }
+#else
+      resolved_file = g_object_ref (file);
+#endif
+
+      bref = flatpak_bundle_ref_new (resolved_file, &local_error);
       if (bref == NULL)
         return dex_future_new_reject (
             BZ_FLATPAK_ERROR,
@@ -1043,6 +1101,126 @@ load_local_ref_fiber (LoadLocalRefData *data)
             "Failed to load local flatpak bundle '%s': %s",
             path,
             local_error->message);
+
+      name   = flatpak_ref_get_name (FLATPAK_REF (bref));
+      origin = flatpak_bundle_ref_get_origin (bref);
+
+      if (self->system != NULL)
+        add_to_installation = self->system;
+      else if (self->user != NULL)
+        add_to_installation = self->user;
+
+      /* First check if we already should have the origin remote
+         installed */
+      if (self->system != NULL)
+        {
+          g_autoptr (GPtrArray) remotes = NULL;
+
+          remotes = flatpak_installation_list_remotes (
+              self->system, NULL, NULL);
+          if (remotes != NULL)
+            {
+              for (guint i = 0; i < remotes->len; i++)
+                {
+                  FlatpakRemote *existing = NULL;
+                  const char    *url      = NULL;
+
+                  existing = g_ptr_array_index (remotes, i);
+                  url      = flatpak_remote_get_url (existing);
+
+                  if (url != NULL &&
+                      g_strcmp0 (url, origin) == 0)
+                    {
+                      remote              = g_object_ref (existing);
+                      add_to_installation = NULL;
+                      break;
+                    }
+                }
+            }
+        }
+      if (self->user != NULL)
+        {
+          g_autoptr (GPtrArray) remotes = NULL;
+
+          remotes = flatpak_installation_list_remotes (
+              self->user, NULL, NULL);
+          if (remotes != NULL)
+            {
+              for (guint i = 0; i < remotes->len; i++)
+                {
+                  FlatpakRemote *existing = NULL;
+                  const char    *url      = NULL;
+
+                  existing = g_ptr_array_index (remotes, i);
+                  url      = flatpak_remote_get_url (existing);
+
+                  if (url != NULL &&
+                      g_strcmp0 (url, origin) == 0)
+                    {
+                      remote              = g_object_ref (existing);
+                      add_to_installation = NULL;
+                      break;
+                    }
+                }
+            }
+        }
+
+      if (add_to_installation != NULL)
+        {
+          g_autoptr (FlatpakRemote) config_remote = NULL;
+          g_autofree char *remote_name            = NULL;
+
+          /* Configure and sync the new remote */
+          remote_name = g_strdup_printf ("%s-bazaar-origin", name);
+
+          config_remote = flatpak_remote_new (remote_name);
+          flatpak_remote_set_url (config_remote, origin);
+          flatpak_remote_set_disabled (config_remote, FALSE);
+          flatpak_remote_set_noenumerate (config_remote, FALSE);
+          flatpak_remote_set_gpg_verify (config_remote, TRUE);
+
+          result = flatpak_installation_add_remote (
+              add_to_installation, config_remote, FALSE, cancellable, NULL);
+          if (result)
+            {
+              {
+                g_autoptr (BzBackendNotification) notif = NULL;
+
+                notif = bz_backend_notification_new ();
+                bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_INVALIDATE_REMOTES);
+
+                send_notif_all (self, notif, TRUE);
+              }
+
+              remote = flatpak_installation_get_remote_by_name (
+                  add_to_installation, remote_name, cancellable, NULL);
+              if (remote != NULL)
+                {
+                  {
+                    g_autoptr (BzBackendNotification) notif = NULL;
+
+                    notif = bz_backend_notification_new ();
+                    bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_START);
+                    bz_backend_notification_set_remote_name (notif, remote_name);
+
+                    send_notif_all (self, notif, TRUE);
+                  }
+                  result = dex_await (
+                      retrieve_refs_for_enumerable_remote (
+                          self, cancellable, remote_name, add_to_installation, remote),
+                      NULL);
+                  {
+                    g_autoptr (BzBackendNotification) notif = NULL;
+
+                    notif = bz_backend_notification_new ();
+                    bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_FINISH);
+                    bz_backend_notification_set_remote_name (notif, remote_name);
+
+                    send_notif_all (self, notif, TRUE);
+                  }
+                }
+            }
+        }
 
       appstream_gz = flatpak_bundle_ref_get_appstream (bref);
       if (appstream_gz != NULL)
@@ -1090,7 +1268,7 @@ load_local_ref_fiber (LoadLocalRefData *data)
 
       entry = bz_flatpak_entry_new_for_ref (
           FLATPAK_REF (bref),
-          NULL,
+          remote,
           FALSE,
           component,
           NULL,
@@ -1103,7 +1281,35 @@ load_local_ref_fiber (LoadLocalRefData *data)
             path,
             local_error->message);
 
-      return dex_future_new_for_object (entry);
+      {
+        g_autoptr (BzBackendNotification) notif = NULL;
+
+        notif = bz_backend_notification_new ();
+        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_TELL_INCOMING);
+        bz_backend_notification_set_n_incoming (notif, 1);
+
+        send_notif_all (self, notif, TRUE);
+      }
+      {
+        g_autoptr (BzBackendNotification) notif = NULL;
+
+        notif = bz_backend_notification_new ();
+        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REPLACE_ENTRY);
+        bz_backend_notification_set_entry (notif, BZ_ENTRY (entry));
+
+        send_notif_all (self, notif, TRUE);
+      }
+      {
+        g_autoptr (BzBackendNotification) notif = NULL;
+
+        notif = bz_backend_notification_new ();
+        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_PRESENT_ID);
+        bz_backend_notification_set_generic_id (notif, bz_entry_get_id (BZ_ENTRY (entry)));
+
+        send_notif_all (self, notif, TRUE);
+      }
+
+      return dex_future_new_for_string (name);
     }
 }
 
@@ -1247,22 +1453,13 @@ retrieve_remote_refs_fiber (GatherRefsData *data)
         "%s", error_string->str);
 }
 
-static void
-gather_refs_update_progress (const char     *status,
-                             guint           progress,
-                             gboolean        estimating,
-                             GatherRefsData *data)
-{
-}
-
 static DexFuture *
-retrieve_refs_for_enumerable_remote (RetrieveRefsForRemoteData *data,
-                                     const char                *remote_name,
-                                     FlatpakInstallation       *installation,
-                                     FlatpakRemote             *remote)
+retrieve_refs_for_enumerable_remote (BzFlatpakInstance   *self,
+                                     GCancellable        *cancellable,
+                                     const char          *remote_name,
+                                     FlatpakInstallation *installation,
+                                     FlatpakRemote       *remote)
 {
-  g_autoptr (BzFlatpakInstance) self    = NULL;
-  GCancellable *cancellable             = data->parent->cancellable;
   g_autoptr (GError) local_error        = NULL;
   gboolean result                       = FALSE;
   g_autoptr (GFile) appstream_dir       = NULL;
@@ -1275,8 +1472,6 @@ retrieve_refs_for_enumerable_remote (RetrieveRefsForRemoteData *data,
   g_autoptr (GPtrArray) children        = NULL;
   g_autoptr (GHashTable) component_hash = NULL;
   g_autoptr (GPtrArray) refs            = NULL;
-
-  bz_weak_get_or_return_reject (self, data->parent->self);
 
   g_debug ("Remote '%s' is enumerable, listing all remote refs", remote_name);
 
@@ -1296,10 +1491,7 @@ retrieve_refs_for_enumerable_remote (RetrieveRefsForRemoteData *data,
   result = flatpak_installation_update_appstream_full_sync (
       installation,
       remote_name,
-      NULL,
-      (FlatpakProgressCallback) gather_refs_update_progress,
-      data,
-      NULL,
+      NULL, NULL, NULL, NULL,
       cancellable,
       &local_error);
   if (!result)
@@ -1479,18 +1671,15 @@ retrieve_refs_for_enumerable_remote (RetrieveRefsForRemoteData *data,
 }
 
 static DexFuture *
-retrieve_refs_for_noenumerable_remote (RetrieveRefsForRemoteData *data,
-                                       const char                *remote_name,
-                                       FlatpakInstallation       *installation,
-                                       FlatpakRemote             *remote)
+retrieve_refs_for_noenumerable_remote (BzFlatpakInstance   *self,
+                                       GCancellable        *cancellable,
+                                       const char          *remote_name,
+                                       FlatpakInstallation *installation,
+                                       FlatpakRemote       *remote)
 {
-  g_autoptr (BzFlatpakInstance) self   = NULL;
-  GCancellable *cancellable            = data->parent->cancellable;
   g_autoptr (GError) local_error       = NULL;
   g_autoptr (GPtrArray) installed_apps = NULL;
   guint matched                        = 0;
-
-  bz_weak_get_or_return_reject (self, data->parent->self);
 
   installed_apps = flatpak_installation_list_installed_refs_by_kind (
       installation,
@@ -1628,10 +1817,12 @@ retrieve_refs_for_remote_fiber (RetrieveRefsForRemoteData *data)
   if (is_noenumerate)
 #endif
     ret = retrieve_refs_for_noenumerable_remote (
-        data, remote_name, installation, remote);
+        self, data->parent->cancellable,
+        remote_name, installation, remote);
   else
     ret = retrieve_refs_for_enumerable_remote (
-        data, remote_name, installation, remote);
+        self, data->parent->cancellable,
+        remote_name, installation, remote);
 
   {
     g_autoptr (BzBackendNotification) notif = NULL;
@@ -1908,15 +2099,17 @@ transaction_fiber (TransactionData *data)
       for (guint i = 0; i < installations->len; i++)
         {
           BzFlatpakEntry  *entry                     = NULL;
+          const char      *bundle_path               = NULL;
           FlatpakRef      *ref                       = NULL;
           gboolean         is_user                   = FALSE;
           g_autofree char *ref_fmt                   = NULL;
           g_autoptr (FlatpakTransaction) transaction = NULL;
 
-          entry   = g_ptr_array_index (installations, i);
-          ref     = bz_flatpak_entry_get_ref (entry);
-          is_user = bz_flatpak_entry_is_user (BZ_FLATPAK_ENTRY (entry));
-          ref_fmt = flatpak_ref_format_ref (ref);
+          entry       = g_ptr_array_index (installations, i);
+          bundle_path = bz_flatpak_entry_get_bundle_path (entry);
+          ref         = bz_flatpak_entry_get_ref (entry);
+          is_user     = bz_flatpak_entry_is_user (BZ_FLATPAK_ENTRY (entry));
+          ref_fmt     = flatpak_ref_format_ref (ref);
 
           if ((is_user && self->user == NULL) ||
               (!is_user && self->system == NULL))
@@ -1945,12 +2138,25 @@ transaction_fiber (TransactionData *data)
                   local_error->message);
             }
 
-          result = flatpak_transaction_add_install (
-              transaction,
-              bz_entry_get_remote_repo_name (BZ_ENTRY (entry)),
-              ref_fmt,
-              NULL,
-              &local_error);
+          if (bundle_path != NULL)
+            /* Prioritize bundle installation */
+            {
+              g_autoptr (GFile) file = NULL;
+
+              file   = g_file_new_for_path (bundle_path);
+              result = flatpak_transaction_add_install_bundle (
+                  transaction,
+                  file,
+                  NULL,
+                  &local_error);
+            }
+          else
+            result = flatpak_transaction_add_install (
+                transaction,
+                bz_entry_get_remote_repo_name (BZ_ENTRY (entry)),
+                ref_fmt,
+                NULL,
+                &local_error);
           if (!result)
             {
               dex_channel_close_send (channel);
@@ -2436,9 +2642,11 @@ transaction_operation_done (FlatpakTransaction          *transaction,
       g_assert_not_reached ();
     }
 
-  origin    = flatpak_transaction_operation_get_remote (operation);
-  ref       = flatpak_transaction_operation_get_ref (operation);
-  is_user   = flatpak_transaction_get_installation (transaction) == self->user_interactive;
+  if (op_type != FLATPAK_TRANSACTION_OPERATION_INSTALL_BUNDLE)
+    origin = flatpak_transaction_operation_get_remote (operation);
+  ref     = flatpak_transaction_operation_get_ref (operation);
+  is_user = flatpak_transaction_get_installation (transaction) == self->user_interactive;
+
   unique_id = bz_flatpak_ref_parts_format_unique (origin, ref, is_user);
 
   if (notif_kind == BZ_BACKEND_NOTIFICATION_KIND_INSTALL_DONE ||

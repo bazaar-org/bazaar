@@ -303,7 +303,7 @@ browse_flathub_cb (BzWindow      *self,
 }
 
 static void
-open_search_cb (BzWindow       *self,
+open_search_cb (BzWindow     *self,
                 BzSearchPage *widget)
 {
   adw_view_stack_set_visible_child_name (self->main_view_stack, "search");
@@ -443,7 +443,7 @@ action_show_group (GtkWidget  *widget,
     {
       AdwDialog *dialog = NULL;
 
-      dialog =bz_addons_dialog_new_single (group);
+      dialog = bz_addons_dialog_new_single (group);
       adw_dialog_present (dialog, GTK_WIDGET (self));
     }
   else
@@ -458,7 +458,7 @@ action_addons_group (GtkWidget  *widget,
   BzWindow   *self               = BZ_WINDOW (widget);
   const char *id                 = NULL;
   g_autoptr (BzEntryGroup) group = NULL;
-  AdwDialog  *addons_dialog      = NULL;
+  AdwDialog *addons_dialog       = NULL;
 
   id    = g_variant_get_string (parameter, NULL);
   group = bz_application_map_factory_convert_one (
@@ -929,7 +929,7 @@ bz_window_show_entry (BzWindow *self,
   g_return_if_fail (BZ_IS_ENTRY (entry));
 
   group = bz_entry_group_new_for_single_entry (entry);
-  bz_window_show_group(self, group);
+  bz_window_show_group (self, group);
 }
 
 void
