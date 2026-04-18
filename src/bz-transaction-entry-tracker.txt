@@ -5,7 +5,7 @@ parent-name=object
 author=AUTOGEN
 
 enum=bz transaction_entry_kind install update removal
-enum=bz transaction_entry_status queued ongoing done
+enum=bz transaction_entry_status queued ongoing done cancelled
 
 include=<gtk/gtk.h>
 include="bz-entry.h"
@@ -15,3 +15,6 @@ property=current_ops GListModel G_TYPE_LIST_MODEL object
 property=finished_ops GListModel G_TYPE_LIST_MODEL object
 property=kind BzTransactionEntryKind BZ_TYPE_TRANSACTION_ENTRY_KIND enum
 property=status BzTransactionEntryStatus BZ_TYPE_TRANSACTION_ENTRY_STATUS enum
+property=progress double G_TYPE_DOUBLE double
+property=pending gboolean G_TYPE_BOOLEAN boolean
+property=active gboolean G_TYPE_BOOLEAN boolean

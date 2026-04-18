@@ -208,6 +208,30 @@ template $BzTransactionTile: $BzListTile {
               }
 
               Box {
+                visible: bind $is_cancelled(template.tracker as <$BzTransactionEntryTracker>.status as <$BzTransactionEntryStatus>) as <bool>;
+                halign: start;
+                spacing: 4;
+                margin-top: 8;
+
+                styles [
+                  "grey",
+                  "colored",
+                  "small-pill",
+                  "download-size-pill",
+                ]
+
+                Label {
+                  styles [
+                    "caption-heading",
+                  ]
+
+                  valign: center;
+                  xalign: 0.0;
+                  label: _("Cancelled");
+                }
+              }
+
+              Box {
                 visible: bind $is_transaction_tracker_errored(template.tracker as <$BzTransactionEntryTracker>.finished-ops) as <bool>;
                 halign: start;
                 spacing: 4;

@@ -70,6 +70,9 @@ bz_transaction_manager_get_pending (BzTransactionManager *self);
 gboolean
 bz_transaction_manager_get_has_transactions (BzTransactionManager *self);
 
+GListModel *
+bz_transaction_manager_get_all_trackers (BzTransactionManager *self);
+
 G_GNUC_WARN_UNUSED_RESULT
 DexFuture *
 bz_transaction_manager_add (BzTransactionManager *self,

@@ -52,6 +52,7 @@ struct _BzAddonsDialog
   DexFuture    *selected_ui_future;
   BzResult     *parent_ui_entry;
   DexFuture    *parent_ui_future;
+  BzStateInfo  *state;
 
   AdwAnimation *width_animation;
   AdwAnimation *height_animation;
@@ -74,6 +75,7 @@ enum
   PROP_SELECTED_GROUP,
   PROP_SELECTED_UI_ENTRY,
   PROP_PARENT_UI_ENTRY,
+  PROP_STATE,
 
   LAST_PROP
 };
@@ -87,10 +89,6 @@ static void       license_cb (BzAddonsDialog *self, GtkButton *button);
 static void       dl_stats_cb (BzAddonsDialog *self, GtkButton *button);
 static void       animate_to_size (BzAddonsDialog *self);
 static void       on_visible_page_tag_changed (AdwNavigationView *nav_view, GParamSpec *pspec, BzAddonsDialog *self);
-static char      *get_install_stack_page (gpointer object, int installable, int removable);
-static void       install_cb (GtkButton *button, BzAddonsDialog *self);
-static void       remove_cb (GtkButton *button, BzAddonsDialog *self);
-static void       run_cb (GtkButton *button, BzAddonsDialog *self);
 static DexFuture *on_parent_ui_entry_resolved (DexFuture *future, GWeakRef *wr);
 static DexFuture *on_selected_ui_entry_resolved (DexFuture *future, GWeakRef *wr);
 static void       set_selected_group (BzAddonsDialog *self, BzEntryGroup *group);
@@ -108,6 +106,7 @@ bz_addons_dialog_dispose (GObject *object)
   g_clear_object (&self->selected_group);
   g_clear_object (&self->selected_ui_entry);
   g_clear_object (&self->parent_ui_entry);
+  g_clear_object (&self->state);
   g_clear_object (&self->width_animation);
   g_clear_object (&self->height_animation);
 
@@ -135,6 +134,9 @@ bz_addons_dialog_get_property (GObject    *object,
       break;
     case PROP_PARENT_UI_ENTRY:
       g_value_set_object (value, self->parent_ui_entry);
+      break;
+    case PROP_STATE:
+      g_value_set_object (value, bz_state_info_get_default ());
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -204,6 +206,13 @@ bz_addons_dialog_class_init (BzAddonsDialogClass *klass)
           BZ_TYPE_RESULT,
           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PROP_STATE] =
+      g_param_spec_object (
+          "state",
+          NULL, NULL,
+          BZ_TYPE_STATE_INFO,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   g_type_ensure (BZ_TYPE_ADDON_TILE);
@@ -233,10 +242,6 @@ bz_addons_dialog_class_init (BzAddonsDialogClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, format_parent_title);
   gtk_widget_class_bind_template_callback (widget_class, get_description_max_height);
   gtk_widget_class_bind_template_callback (widget_class, get_description_toggle_text);
-  gtk_widget_class_bind_template_callback (widget_class, get_install_stack_page);
-  gtk_widget_class_bind_template_callback (widget_class, install_cb);
-  gtk_widget_class_bind_template_callback (widget_class, remove_cb);
-  gtk_widget_class_bind_template_callback (widget_class, run_cb);
 
   gtk_widget_class_bind_template_callback (widget_class, license_cb);
   gtk_widget_class_bind_template_callback (widget_class, size_cb);
@@ -283,9 +288,9 @@ bz_addons_dialog_new (BzEntryGroup *group)
       NULL);
 
   if (groups == NULL || g_list_model_get_n_items (groups) == 0)
-      adw_navigation_view_replace (self->navigation_view,
-                                  (AdwNavigationPage *[]) { adw_navigation_view_find_page (self->navigation_view, "empty") },
-                                   1);
+    adw_navigation_view_replace (self->navigation_view,
+                                 (AdwNavigationPage *[]) { adw_navigation_view_find_page (self->navigation_view, "empty") },
+                                 1);
   else if (g_list_model_get_n_items (groups) == 1)
     {
       g_autoptr (BzEntryGroup) single   = g_list_model_get_item (groups, 0);
@@ -481,50 +486,6 @@ on_visible_page_tag_changed (AdwNavigationView *nav_view,
                              BzAddonsDialog    *self)
 {
   g_idle_add_once ((GSourceOnceFunc) animate_to_size, self);
-}
-
-static char *
-get_install_stack_page (gpointer object,
-                        int      installable,
-                        int      removable)
-{
-  if (removable > 0)
-    return g_strdup ("open");
-  else if (installable > 0)
-    return g_strdup ("install");
-  else
-    return g_strdup ("empty");
-}
-
-static void
-install_cb (GtkButton      *button,
-            BzAddonsDialog *self)
-{
-  if (self->selected_group == NULL)
-    return;
-  gtk_widget_activate_action (GTK_WIDGET (self), "window.install-group", "(sb)",
-                              bz_entry_group_get_id (self->selected_group), TRUE);
-}
-
-static void
-remove_cb (GtkButton      *button,
-           BzAddonsDialog *self)
-{
-  if (self->selected_group == NULL)
-    return;
-  gtk_widget_activate_action (GTK_WIDGET (self), "window.remove-group", "(sb)",
-                              bz_entry_group_get_id (self->selected_group), TRUE);
-}
-
-static void
-run_cb (GtkButton      *button,
-        BzAddonsDialog *self)
-{
-  BzEntry *entry = NULL;
-  entry          = bz_result_get_object (self->parent_ui_entry);
-
-  gtk_widget_activate_action (GTK_WIDGET (self), "window.launch-group", "s",
-                              bz_entry_get_id (entry));
 }
 
 static DexFuture *

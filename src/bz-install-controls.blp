@@ -2,38 +2,38 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BzInstallControls: Box {
-  homogeneous: bind $invert_boolean(template.wide) as <bool>;
-  spacing: bind $choose(template.wide, 10, 8) as <int>;
   hexpand: bind $invert_boolean(template.wide) as <bool>;
-  valign: center;
 
   Stack {
     transition-type: crossfade;
-    visible-child-name: bind $get_visible_page(template.entry-group as <$BzEntryGroup>.installable, template.entry-group as <$BzEntryGroup>.removable, template.state as <$BzStateInfo>.available-updates) as <string>;
+    visible-child-name: bind try {
+                              $get_visible_page(template.entry-group as <$BzEntryGroup>.installable, template.entry-group as <$BzEntryGroup>.removable, template.state as <$BzStateInfo>.available-updates, template.tracker as <$BzTransactionEntryTracker>.active as <bool> ) as <string>,
+                              $get_visible_page(template.entry-group as <$BzEntryGroup>.installable, template.entry-group as <$BzEntryGroup>.removable, template.state as <$BzStateInfo>.available-updates, false ) as <string>
+                              };
     hexpand: bind $invert_boolean(template.wide) as <bool>;
-    hhomogeneous: false;
+    valign: center;
 
     StackPage install {
       name: "install";
 
-      child: Button install_button {
-        styles [
-          "suggested-action",
-          "pill",
-        ]
-
+      child: $BgeWdgtRenderer animated_button {
         margin-top: 3;
         margin-bottom: 3;
         margin-start: 3;
         margin-end: 3;
 
+        resource: "/io/github/kolunmi/Bazaar/bz-install-controls.wdgt";
+        reference: bind template.tracker as <$BzTransactionEntryTracker>;
+
+        state: bind try { $get_install_btn_state(
+                  template.tracker as <$BzTransactionEntryTracker>.active as <bool>,
+                  template.tracker as <$BzTransactionEntryTracker>.pending as <bool>,
+                  template.tracker as <$BzTransactionEntryTracker>.progress as <double>
+                ) as <string>, "inactive"};
+
         has-tooltip: true;
         hexpand: bind $invert_boolean(template.wide) as <bool>;
         halign: bind $choose(template.wide, 2, 0) as <int>;
-        sensitive: bind $invert_boolean($is_zero(template.entry-group as <$BzEntryGroup>.installable-and-available) as <bool>) as <bool>;
-        label: _("_Install");
-        use-underline: true;
-        clicked => $install_cb(template);
       };
     }
 
@@ -44,6 +44,7 @@ template $BzInstallControls: Box {
         spacing: bind $choose(template.wide, 10, 8) as <int>;
         homogeneous: bind $invert_boolean(template.wide) as <bool>;
         halign: bind $choose(template.wide, 2, 0) as <int>;
+        valign: center;
 
         margin-top: 3;
         margin-bottom: 3;
@@ -102,6 +103,7 @@ template $BzInstallControls: Box {
         spacing: bind $choose(template.wide, 10, 8) as <int>;
         homogeneous: bind $invert_boolean(template.wide) as <bool>;
         halign: bind $choose(template.wide, 2, 0) as <int>;
+        valign: center;
 
         margin-top: 3;
         margin-bottom: 3;

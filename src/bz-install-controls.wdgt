@@ -1,0 +1,100 @@
+defwidget "Install Button" {
+  reference state : "BzTransactionEntryTracker";
+  var progress : "gdouble";
+
+  var btn-install : "GtkButton";
+  var btn-cancel : "GtkButton";
+  var bg : "GtkFixed";
+
+  var stack : "GtkStack";
+
+  var x : "gdouble";
+  var w : "gdouble";
+  var b : "gdouble";
+  var opacity : "gdouble";
+
+  var final-x : "gdouble";
+  var final-y : "gdouble";
+  var final-w : "gdouble";
+  var final-h : "gdouble";
+
+  init {
+    set progress = #transition(state:progress, 1.1, 0.1, 10.0);
+    set stack = #child/GtkStack(""()
+      transition-type = crossfade;
+      transition-duration = 200;
+      %set btn-install = #child/GtkButton(""("pill" "suggested-action")
+        label = "Install";
+        margin-top = 4;
+        margin-bottom = 4;
+        margin-start = 4;
+        margin-end = 4;
+      );
+      %set btn-cancel = #child/GtkButton(""("pill" "install-button")
+        label = "Cancel";
+        margin-top = 4;
+        margin-bottom = 4;
+        margin-start = 4;
+        margin-end = 4;
+      );
+    );
+    allocate stack %width%, %height%, #();
+    set bg = #child/("" ("install-button" "install-button-indicator")
+      opacity = opacity;
+      can-target = false;
+    );
+    
+    set final-w = #eval(#(w)-2.0*#(b));
+    set final-h = #eval(#(%height%)-2.0*#(b));
+    set final-x = #eval(#(x)+#(b));
+    set final-y = b;
+    allocate bg final-w, final-h, #(translate(#GraphenePoint(final-x, final-y)););
+
+    snapshot {
+      do-child bg;
+      do-child stack;
+    }
+  }
+
+  state-default "inactive" {
+    set stack:visible-child = btn-install;
+
+    set x = #eval((#(%width%)-#(w))/2.0);
+    set w = #eval(#(b)*2.0);
+    set b = #eval(#(%height%)/3.0);
+    set opacity = 0.0;
+    
+    transition-spring x 1.0, 0.1, 10.0;
+    transition-spring w 1.0, 0.1, 10.0;
+    transition-spring b 1.0, 0.1, 10.0;
+    transition-spring opacity 1.0, 0.1, 50.0;
+  }
+  
+  state "pending" {
+    set stack:visible-child = btn-cancel;
+    
+    set x = #eval((0.5+0.5*sin(3.0*#(%tick%))) * (#(%width%)-#(w)));
+    set w = #eval(#(%width%)*0.8);
+    set b = #eval(#(%height%)*0.175);
+    set opacity = 1.0;
+
+    transition-spring x 1.0, 0.1, 50.0;
+    transition-spring w 1.0, 0.1, 50.0;
+    transition-spring b 1.0, 0.1, 50.0;
+    transition-spring opacity 1.0, 0.1, 50.0;
+  }
+
+  state "fraction" {
+    set stack:visible-child = btn-cancel;
+    
+    set x = 0.0;
+    set w = #eval(#(%height%)+(#(%width%)-#(%height%))*#(progress));
+    set b = #eval(#(%height%)*0.1);
+    set opacity = 1.0;
+
+    transition-spring x 1.1, 0.1, 100.0;
+    transition-spring w 1.1, 0.1, 100.0;
+    transition-spring b 1.1, 0.1, 100.0;
+    transition-spring opacity 1.1, 0.1, 10.0;
+  }
+}

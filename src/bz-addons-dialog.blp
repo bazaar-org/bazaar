@@ -262,56 +262,13 @@ template $BzAddonsDialog: Adw.Dialog {
                   styles ["dimmed"]
                 }
 
-                Stack {
-                  transition-type: crossfade;
+                $BzInstallControls {
                   halign: center;
                   margin-top: 6;
                   margin-bottom: 8;
-                  visible-child-name: bind $get_install_stack_page(template.selected-group as <$BzEntryGroup>.installable, template.selected-group as <$BzEntryGroup>.removable) as <string>;
-
-                  StackPage {
-                    name: "install";
-                    child: Button {
-                      margin-top: 6;
-                      margin-bottom: 6;
-                      margin-start: 6;
-                      margin-end: 6;
-                      styles ["pill", "suggested-action"]
-                      label: _("Install");
-                      sensitive: bind $invert_boolean($is_zero(template.selected-group as <$BzEntryGroup>.installable-and-available) as <bool>) as <bool>;
-                      clicked => $install_cb();
-                    };
-                  }
-
-                  StackPage {
-                    name: "open";
-                    child: Box {
-                      spacing: 8;
-                      margin-top: 6;
-                      margin-bottom: 6;
-                      margin-start: 6;
-                      margin-end: 6;
-
-                      Button {
-                        styles ["pill"]
-                        label: _("Open");
-                        sensitive: bind $invert_boolean($is_zero(template.selected-group as <$BzEntryGroup>.removable-and-available) as <bool>) as <bool>;
-                        clicked => $run_cb();
-                      }
-
-                      Button {
-                        styles ["pill", "destructive-action"]
-                        label: _("Remove");
-                        sensitive: bind $invert_boolean($is_zero(template.selected-group as <$BzEntryGroup>.removable-and-available) as <bool>) as <bool>;
-                        clicked => $remove_cb();
-                      }
-                    };
-                  }
-
-                  StackPage {
-                    name: "empty";
-                    child: Adw.Bin {};
-                  }
+                  wide: false;
+                  entry-group: bind template.selected-group;
+                  state: bind template.state;
                 }
 
                 Label {

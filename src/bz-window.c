@@ -423,6 +423,51 @@ action_remove_group (GtkWidget  *widget,
 }
 
 static void
+action_cancel_group (GtkWidget  *widget,
+                     const char *action_name,
+                     GVariant   *parameter)
+{
+  BzWindow             *self     = BZ_WINDOW (widget);
+  const char           *id       = NULL;
+  BzTransactionManager *manager  = NULL;
+  BzBackend            *backend  = NULL;
+  GListModel           *trackers = NULL;
+  guint                 n_items  = 0;
+
+  id      = g_variant_get_string (parameter, NULL);
+  manager = bz_state_info_get_transaction_manager (self->state);
+  if (manager == NULL)
+    return;
+
+  backend = bz_state_info_get_backend (self->state);
+  if (backend == NULL)
+    return;
+
+  trackers = bz_transaction_manager_get_all_trackers (manager);
+  n_items  = g_list_model_get_n_items (trackers);
+
+  for (guint i = 0; i < n_items; i++)
+    {
+      g_autoptr (BzTransactionEntryTracker) tracker = NULL;
+      BzEntry    *entry    = NULL;
+      const char *entry_id = NULL;
+
+      tracker  = g_list_model_get_item (trackers, i);
+      entry    = bz_transaction_entry_tracker_get_entry (tracker);
+      if (entry == NULL)
+        continue;
+
+      entry_id = bz_entry_get_id (entry);
+      if (g_strcmp0 (entry_id, id) == 0)
+        {
+          if (bz_backend_cancel_task_for_entry (backend, entry))
+            g_object_set (tracker, "status", BZ_TRANSACTION_ENTRY_STATUS_CANCELLED, NULL);
+          break;
+        }
+    }
+}
+
+static void
 action_show_group (GtkWidget  *widget,
                    const char *action_name,
                    GVariant   *parameter)
@@ -527,10 +572,10 @@ action_open_library (GtkWidget  *widget,
 static DexFuture *
 launch_group_fiber (BzEntryGroup *group)
 {
-  g_autoptr (GError) local_error = NULL;
-  g_autoptr (GListStore) store   = NULL;
-  GtkWidget   *window            = NULL;
-  BzStateInfo *state             = NULL;
+  g_autoptr (GError) local_error  = NULL;
+  g_autoptr (GListStore) store    = NULL;
+  GtkWidget   *window             = NULL;
+  BzStateInfo *state              = NULL;
 
   state  = bz_state_info_get_default ();
   window = GTK_WIDGET (gtk_application_get_active_window (
@@ -547,21 +592,40 @@ launch_group_fiber (BzEntryGroup *group)
 
   for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (store)); i++)
     {
-      g_autoptr (BzEntry) entry = NULL;
+      g_autoptr (BzEntry) entry    = NULL;
+      const char         *ref      = NULL;
+      gboolean            result   = FALSE;
 
       entry = g_list_model_get_item (G_LIST_MODEL (store), i);
-      if (BZ_IS_FLATPAK_ENTRY (entry) && bz_entry_is_installed (entry))
+
+      if (!BZ_IS_FLATPAK_ENTRY (entry) || !bz_entry_is_installed (entry))
+        continue;
+
+      ref = bz_flatpak_entry_get_addon_extension_of_ref (BZ_FLATPAK_ENTRY (entry));
+      if (ref != NULL)
         {
-          gboolean result = bz_flatpak_entry_launch (
-              BZ_FLATPAK_ENTRY (entry),
-              BZ_FLATPAK_INSTANCE (bz_state_info_get_backend (state)),
-              &local_error);
+          g_auto (GStrv)           parts   = NULL;
+          BzApplicationMapFactory *factory = NULL;
+          g_autoptr (BzEntryGroup) parent  = NULL;
 
-          if (!result && window != NULL)
-            bz_show_error_for_widget (window, _ ("Failed to launch application"), local_error->message);
-
-          return result ? dex_future_new_true () : dex_future_new_for_error (g_steal_pointer (&local_error));
+          parts = g_strsplit (ref, "/", -1);
+          if (parts[0] != NULL && parts[1] != NULL)
+            {
+              factory = bz_state_info_get_application_factory (state);
+              parent  = bz_application_map_factory_convert_one (
+                  factory, gtk_string_object_new (parts[1]));
+              if (parent != NULL)
+                return launch_group_fiber (parent);
+            }
         }
+
+      result = bz_flatpak_entry_launch (
+          BZ_FLATPAK_ENTRY (entry),
+          BZ_FLATPAK_INSTANCE (bz_state_info_get_backend (state)),
+          &local_error);
+      if (!result && window != NULL)
+        bz_show_error_for_widget (window, _ ("Failed to launch application"), local_error->message);
+      return result ? dex_future_new_true () : dex_future_new_for_error (g_steal_pointer (&local_error));
     }
 
   return dex_future_new_false ();
@@ -655,6 +719,7 @@ bz_window_class_init (BzWindowClass *klass)
 
   gtk_widget_class_install_action (widget_class, "window.install-group", "(sb)", action_install_group);
   gtk_widget_class_install_action (widget_class, "window.remove-group", "(sb)", action_remove_group);
+  gtk_widget_class_install_action (widget_class, "window.cancel-group", "s", action_cancel_group);
   gtk_widget_class_install_action (widget_class, "window.show-group", "s", action_show_group);
   gtk_widget_class_install_action (widget_class, "window.addons-group", "s", action_addons_group);
   gtk_widget_class_install_action (widget_class, "window.bulk-install", NULL, action_bulk_install);

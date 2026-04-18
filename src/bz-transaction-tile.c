@@ -212,6 +212,13 @@ is_completed (gpointer                 object,
 }
 
 static gboolean
+is_cancelled (gpointer                 object,
+              BzTransactionEntryStatus status)
+{
+  return status == BZ_TRANSACTION_ENTRY_STATUS_CANCELLED;
+}
+
+static gboolean
 is_both (gpointer object,
          gboolean first,
          gboolean second)
@@ -309,28 +316,19 @@ static void
 cancel_cb (BzTransactionTile *self,
            GtkButton         *button)
 {
-  gboolean                   result  = FALSE;
   BzTransactionEntryTracker *tracker = NULL;
   BzEntry                   *entry   = NULL;
-  BzStateInfo               *state   = NULL;
-  BzBackend                 *backend = NULL;
 
   tracker = bz_transaction_tile_get_tracker (self);
   if (tracker == NULL)
     return;
 
   entry = bz_transaction_entry_tracker_get_entry (tracker);
-  if (entry == NULL || !BZ_IS_FLATPAK_ENTRY (entry))
+  if (entry == NULL)
     return;
 
-  state   = bz_state_info_get_default ();
-  backend = bz_state_info_get_backend (state);
-  if (backend == NULL)
-    return;
-
-  result = bz_backend_cancel_task_for_entry (backend, entry);
-  if (result)
-    gtk_widget_set_sensitive (GTK_WIDGET (button), FALSE);
+  gtk_widget_activate_action (GTK_WIDGET (self), "window.cancel-group", "s",
+                              bz_entry_get_id (entry));
 }
 
 static void
@@ -405,6 +403,7 @@ bz_transaction_tile_class_init (BzTransactionTileClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, is_queued);
   gtk_widget_class_bind_template_callback (widget_class, is_ongoing);
   gtk_widget_class_bind_template_callback (widget_class, is_completed);
+  gtk_widget_class_bind_template_callback (widget_class, is_cancelled);
   gtk_widget_class_bind_template_callback (widget_class, is_both);
   gtk_widget_class_bind_template_callback (widget_class, run_cb);
   gtk_widget_class_bind_template_callback (widget_class, cancel_cb);
