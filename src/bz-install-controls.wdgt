@@ -2,122 +2,152 @@ defwidget "Install Button" {
   reference state : "BzTransactionEntryTracker";
   var progress : "gdouble";
 
-  var btn-install : "GtkButton";
-  var btn-cancel : "GtkButton";
-  var btn-cancelling : "GtkButton";
-  var bg : "GtkFixed";
-
+  var lbl-install : "GtkLabel";
+  var lbl-cancel : "GtkLabel";
+  var lbl-cancelling : "GtkLabel";
   var stack : "GtkStack";
+  var btn : "GtkButton";
+  var flag : "GtkFixed";
 
-  var x : "gdouble";
-  var w : "gdouble";
-  var b : "gdouble";
+  var start : "gdouble";
+  var end : "gdouble";
   var opacity : "gdouble";
 
-  var final-x : "gdouble";
-  var final-y : "gdouble";
-  var final-w : "gdouble";
-  var final-h : "gdouble";
+  var corner : "gdouble";
+  var outline : "GskPath";
+  var outline-measure : "GskPathMeasure";
+  var outline-width : "gdouble";
+  var outline-opacity : "gdouble";
 
   init {
     set progress = #transition(state:progress, 1.1, 0.1, 10.0);
-    set stack = #child/GtkStack(""()
+
+    set stack = #(
       transition-type = crossfade;
       transition-duration = 200;
-      %set btn-install = #child/GtkButton(""("pill" "suggested-action")
+      %set lbl-install = #child/GtkLabel(""()
         label = "Install";
-        margin-top = 4;
-        margin-bottom = 4;
-        margin-start = 4;
-        margin-end = 4;
       );
-      %set btn-cancel = #child/GtkButton(""("pill" "install-button")
+      %set lbl-cancel = #child/GtkLabel(""()
         label = "Cancel";
-        margin-top = 4;
-        margin-bottom = 4;
-        margin-start = 4;
-        margin-end = 4;
       );
-      %set btn-cancelling = #child/GtkButton(""("pill")
-        sensitive = false;
+      %set lbl-cancelling = #child/GtkLabel(""()
         label = "Cancelling";
-        margin-top = 4;
-        margin-bottom = 4;
-        margin-start = 4;
-        margin-end = 4;
       );
     );
     allocate stack %width%, %height%, #();
-    set bg = #child/("" ("install-button" "install-button-indicator")
-      opacity = opacity;
+    
+    set btn = #child/(""("pill")
+      child = stack;
+      margin-start = 4;
+      margin-end = 4;
+      margin-top = 4;
+      margin-bottom = 4;
+    );
+    allocate btn %width%, %height%, #();
+
+    set flag = #child/(""("install-button-indicator")
       can-target = false;
     );
-    
-    set final-w = #eval(#(w)-2.0*#(b));
-    set final-h = #eval(#(%height%)-2.0*#(b));
-    set final-x = #eval(#(x)+#(b));
-    set final-y = b;
-    allocate bg final-w, final-h, #(translate(#GraphenePoint(final-x, final-y)););
+    allocate flag %width%, %height%, #();
+
+    set corner = #eval(#(%height%)/2.0);
+    set outline = #GskPath(
+      move-to(#eval(#(%width%)/2.0), 0.0);
+      
+      rel-line-to(#eval(#(%width%)/2.0-#(corner)), 0.0);
+      rel-arc-to(corner, 0.0, corner, corner);
+
+      rel-line-to(0.0, #eval(#(%height%)-#(corner)*2.0));
+      rel-arc-to(0.0, corner, #eval(-#(corner)), corner);
+
+      rel-line-to(#eval(-(#(%width%)-#(corner)*2.0)), 0.0);
+      rel-arc-to(#eval(-#(corner)), 0.0, #eval(-#(corner)), #eval(-#(corner)));
+
+      rel-line-to(0.0, #eval(-(#(%height%)-#(corner)*2.0)));
+      rel-arc-to(0.0, #eval(-#(corner)), corner, #eval(-#(corner)));
+
+      rel-line-to(#eval(#(%width%)/2.0-#(corner)), 0.0);
+
+      close();
+    );
+    set outline-measure = #measure-path(outline);
 
     snapshot {
-      do-child bg;
-      do-child stack;
+      do-child btn;
+
+      with opacity(outline-opacity) {
+        with stroke(
+          #GskPath(
+            add-segment(
+              outline,
+              #path-point(outline-measure, #eval((#(start)%1.0)*#(#path-length(outline-measure)))),
+              #path-point(outline-measure, #eval((#(end)%1.0)*#(#path-length(outline-measure)))),
+            );
+          ),
+          #GskStroke(outline-width, butt, round, 0.0),
+        ) {
+          do-child flag;
+        }
+      }
     }
   }
 
   state-default "inactive" {
-    set stack:visible-child = btn-install;
+    set btn:sensitive = true;
+    set stack:visible-child = lbl-install;
 
-    set x = 0.0;
-    set w = %width%;
-    set b = 0.0;
-    set opacity = 0.0;
+    set start = 0.0;
+    set end = 0.001;
+    set outline-width = 5.0;
+    set outline-opacity = 0.0;
     
-    transition-spring x 1.0, 0.1, 10.0;
-    transition-spring w 1.0, 0.1, 10.0;
-    transition-spring b 1.0, 0.1, 10.0;
-    transition-spring opacity 1.0, 0.1, 50.0;
+    transition-spring start 1.0, 0.1, 5.0;
+    transition-spring end 1.0, 0.1, 5.0;
+    transition-spring outline-width 1.0, 0.1, 15.0;
+    transition-spring outline-opacity 1.0, 0.1, 100.0;
   }
   
   state "pending" {
-    set stack:visible-child = btn-cancel;
+    set btn:sensitive = true;
+    set stack:visible-child = lbl-cancel;
     
-    set x = #eval((0.5+0.5*sin(3.0*#(%tick%))) * (#(%width%)-#(w)));
-    set w = #eval(#(%width%)*0.7);
-    set b = #eval(#(%height%)*0.175);
-    set opacity = 1.0;
+    set start = #eval((#(%tick%)/3.0)%2.0);
+    set end = #eval((#(start)+0.2)%2.0);
+    set outline-width = 5.0;
+    set outline-opacity = 1.0;
 
-    transition-spring x 1.0, 0.1, 50.0;
-    transition-spring w 1.0, 0.1, 50.0;
-    transition-spring b 1.0, 0.1, 50.0;
-    transition-spring opacity 1.0, 0.1, 50.0;
+    transition-spring outline-width 1.0, 0.1, 10.0;
+    transition-spring outline-opacity 1.0, 0.1, 10.0;
   }
 
   state "fraction" {
-    set stack:visible-child = btn-cancel;
+    set btn:sensitive = true;
+    set stack:visible-child = lbl-cancel;
     
-    set x = 0.0;
-    set w = #eval(#(%height%)+(#(%width%)-#(%height%))*#(progress));
-    set b = #eval(#(%height%)*0.1);
-    set opacity = 1.0;
+    set start = 1.0;
+    set end = #eval(1.0+#(progress));
+    set outline-width = 5.0;
+    set outline-opacity = 1.0;
 
-    transition-spring x 1.1, 0.1, 100.0;
-    transition-spring w 1.1, 0.1, 100.0;
-    transition-spring b 1.1, 0.1, 100.0;
-    transition-spring opacity 1.1, 0.1, 10.0;
+    transition-spring start 1.0, 0.1, 100.0;
+    transition-spring end 1.0, 0.1, 100.0;
+    transition-spring outline-width 1.1, 0.1, 10.0;
+    transition-spring outline-opacity 1.1, 0.1, 10.0;
   }
 
   state "cancelling" {
-    set stack:visible-child = btn-cancelling;
+    set btn:sensitive = false;
+    set stack:visible-child = lbl-cancelling;
     
-    set x = #eval((#(%width%)-#(w))/2.0);
-    set w = #eval(#(%width%)*0.8);
-    set b = #eval(#(%height%)*0.175);
-    set opacity = 0.0;
+    set start = 0.0;
+    set end = 0.001;
+    set outline-width = 0.0;
+    set outline-opacity = 1.0;
 
-    transition-spring x 0.95, 0.25, 50.0;
-    transition-spring w 0.95, 0.25, 50.0;
-    transition-spring b 0.95, 0.25, 50.0;
-    transition-spring opacity 1.0, 1.0, 50.0;
+    transition-spring start 1.2, 0.5, 10.0;
+    transition-spring end 1.2, 0.5, 10.0;
+    transition-spring outline-width 1.0, 0.1, 10.0;
+    transition-spring outline-opacity 1.0, 0.1, 10.0;
   }
 }

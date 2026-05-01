@@ -83,6 +83,7 @@ enum
   PROP_0,
 
   PROP_MODEL,
+  PROP_ADDONS_MODEL,
   PROP_INSTALLED_VERSIONS,
   PROP_ID,
   PROP_TITLE,
@@ -173,6 +174,9 @@ bz_entry_group_get_property (GObject    *object,
     {
     case PROP_MODEL:
       g_value_set_object (value, bz_entry_group_get_model (self));
+      break;
+    case PROP_ADDONS_MODEL:
+      g_value_set_object (value, bz_entry_group_get_addon_group_ids (self));
       break;
     case PROP_INSTALLED_VERSIONS:
       g_value_set_object (value, bz_entry_group_get_installed_versions (self));
@@ -265,6 +269,7 @@ bz_entry_group_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_MODEL:
+    case PROP_ADDONS_MODEL:
     case PROP_ID:
     case PROP_TITLE:
     case PROP_DEVELOPER:
@@ -303,6 +308,13 @@ bz_entry_group_class_init (BzEntryGroupClass *klass)
   props[PROP_MODEL] =
       g_param_spec_object (
           "model",
+          NULL, NULL,
+          G_TYPE_LIST_MODEL,
+          G_PARAM_READABLE);
+
+  props[PROP_ADDONS_MODEL] =
+      g_param_spec_object (
+          "addons-model",
           NULL, NULL,
           G_TYPE_LIST_MODEL,
           G_PARAM_READABLE);

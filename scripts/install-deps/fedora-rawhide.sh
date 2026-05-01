@@ -6,6 +6,7 @@ DEPS=(
     cmake
     blueprint-compiler
     desktop-file-utils
+    python3-babel
 
     gtk4-devel
     libadwaita-devel
@@ -22,6 +23,7 @@ DEPS=(
     webkitgtk6.0-devel
     libsecret-devel
     libproxy-devel
+    malcontent-devel
 
     # lsp
     clangd

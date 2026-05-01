@@ -1,5 +1,25 @@
+:root {
+  --hc-border: color(srgb 0 0 0.023 / 50%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hc-border: color(srgb 1 1 1 / 50%);
+  }
+}
+
 .bz-monospace {
+    font-size: smaller;
     font-family: monospace;
+}
+
+.bz-small-button {
+    padding: 1px;
+    margin: 0;
+}
+.bz-small-button > * {
+    margin: 0;
+    padding: 0;
 }
 
 .bz-debug {
@@ -66,6 +86,18 @@
     background-color: var(--shade-color);
   }
 }
+
+@media (prefers-contrast: more) {
+  .search-box {
+    box-shadow: inset 0 0 0 1px var(--hc-border);
+  }
+
+  .search-box:focus-within {
+    box-shadow: none;
+    outline-color: var(--accent-color);
+  }
+}
+
 
 .search-box > text placeholder {
     opacity: 0.55;
@@ -204,6 +236,12 @@
     --accent-color : alpha(@window_fg_color,0.75);
 }
 
+@media (prefers-contrast: more) {
+  .circular-lozenge {
+    box-shadow: inset 0 0 0 1px;
+  }
+}
+
 .circular-lozenge.green,
 .lozenge.green {
 	color: @green_5;
@@ -291,26 +329,6 @@
   }
 }
 
-global-progress {
-  color: transparent;
-}
-
-global-progress > *:first-child > * {
-    background: var(--flag-gradient, var(--accent-bg-color));
-}
-
-global-progress image {
-  color: var(--window-fg-color);
-}
-
-.global-progress-button {
-	padding: 5px;
-}
-
-.global-progress-bg {
-    opacity: 0.5;
-}
-
 .lozenge {
 	  font-size: 18px;
 	  font-weight: bold;
@@ -363,6 +381,16 @@ button.context-tile:active .lozenge {
 .small-pill {
     padding: 2px 12px;
     border-radius: 99999px;
+}
+
+@media (prefers-contrast: more) {
+  .small-pill {
+    box-shadow: inset 0 0 0 1px;
+  }
+
+  .small-pill:focus-within {
+    box-shadow: none;
+  }
 }
 
 .medium-pill {
@@ -501,6 +529,17 @@ toggle-group.huge * {
 
   .sp-section .card:active {
     background: rgba(255, 255, 255, 0.75);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .card.category-tile, .card.app-tile {
+    box-shadow: inset 0 0 0 1px var(--hc-border);
+  }
+
+  .card.category-tile:focus-within, .card.app-tile :focus-within {
+    box-shadow: none;
+    outline-color: var(--accent-color);
   }
 }
 
@@ -897,19 +936,7 @@ curated-list-view list {
 }
 
 
-.install-button {
-    background-color: alpha(var(--accent-bg-color), 0.333);
-    color: var(--accent-color);
-}
-
-.install-button:hover {
-    background-color: alpha(var(--accent-bg-color), 0.5);
-}
-
-.install-button:active {
-    background-color: alpha(var(--accent-bg-color), 0.666);
-}
-
 .install-button-indicator {
+    background: var(--flag-gradient, var(--accent-bg-color));
     border-radius: 9999px;
 }

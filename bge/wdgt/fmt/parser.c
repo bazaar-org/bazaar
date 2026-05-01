@@ -615,50 +615,36 @@ parse_widget_block (const char  *p,
                 }
               else if (g_strcmp0 (token, STR_TRANSITION) == 0)
                 {
-                  g_autofree char *transition_value    = NULL;
-                  g_autofree char *transition_type     = NULL;
-                  g_autofree char *transition_seconds  = NULL;
-                  g_autoptr (GEnumClass) enum_class    = NULL;
-                  GEnumValue *enum_value               = NULL;
-                  g_autoptr (GVariant) seconds_variant = NULL;
-                  gdouble seconds                      = 0.0;
+                  g_autofree char *transition_value = NULL;
+                  guint            n_spec_values    = 0;
+                  g_auto (GStrv) spec_values        = NULL;
 
                   GET_TOKEN (&transition_value, TOKEN_PARSE_DEFAULT);
-                  GET_TOKEN (&transition_type, TOKEN_PARSE_DEFAULT);
-                  GET_TOKEN (&transition_seconds, TOKEN_PARSE_DEFAULT);
 
-                  enum_class = g_type_class_ref (BGE_TYPE_EASING);
-                  enum_value = g_enum_get_value_by_nick (enum_class, transition_type);
-                  if (enum_value == NULL)
-                    enum_value = g_enum_get_value_by_name (enum_class, transition_type);
-                  if (enum_value == NULL)
+                  p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+                                  (GType[]){ G_TYPE_DOUBLE, BGE_TYPE_EASING }, 2,
+                                  &spec_values, NULL, &n_spec_values, ARGS_PARSE_RIGHT_ASSIGN, &local_error);
+                  RETURN_ERROR_UNLESS (p != NULL);
+                  if (n_spec_values != 2)
                     {
                       g_set_error (
                           error,
                           G_IO_ERROR,
                           G_IO_ERROR_UNKNOWN,
-                          "'%s' not found in enum type %s",
-                          transition_type, g_type_name (BGE_TYPE_EASING));
+                          "transition spec needs 2 arguments "
+                          "(animation length in seconds, easing type), got %u",
+                          n_spec_values);
                       return NULL;
                     }
-
-                  seconds_variant = g_variant_parse (
-                      G_VARIANT_TYPE_DOUBLE,
-                      transition_seconds,
-                      NULL, NULL, &local_error);
-                  RETURN_ERROR_UNLESS (seconds_variant != NULL);
-                  seconds = g_variant_get_double (seconds_variant);
 
                   result = bge_wdgt_spec_transition_value (
                       spec,
                       state_name,
                       transition_value,
-                      seconds,
-                      enum_value->value,
+                      spec_values[0],
+                      spec_values[1],
                       &local_error);
                   RETURN_ERROR_UNLESS (result);
-
-                  GET_TOKEN_EXPECT (&transition_seconds, TOKEN_PARSE_DEFAULT, ";");
                 }
               else if (g_strcmp0 (token, STR_TRANSITION_SPRING) == 0)
                 {
@@ -1447,6 +1433,54 @@ ifelse_closure (gpointer      this,
     g_value_copy (&param_values[2], return_value);
 }
 
+static void
+measure_path_closure (gpointer      this,
+                      GValue       *return_value,
+                      guint         n_param_values,
+                      const GValue *param_values,
+                      gpointer      dest_type_ptr)
+{
+  GskPathMeasure *measure = NULL;
+
+  measure = gsk_path_measure_new (
+      g_value_get_boxed (param_values));
+  g_value_take_boxed (return_value, measure);
+}
+
+static void
+path_length_closure (gpointer      this,
+                     GValue       *return_value,
+                     guint         n_param_values,
+                     const GValue *param_values,
+                     gpointer      dest_type_ptr)
+{
+  gdouble length = 0.0;
+
+  length = gsk_path_measure_get_length (
+      g_value_get_boxed (param_values));
+  g_value_set_double (return_value, length);
+}
+
+static void
+path_point_closure (gpointer      this,
+                    GValue       *return_value,
+                    guint         n_param_values,
+                    const GValue *param_values,
+                    gpointer      dest_type_ptr)
+{
+  gboolean     result = FALSE;
+  GskPathPoint point  = { 0 };
+
+  result = gsk_path_measure_get_point (
+      g_value_get_boxed (&param_values[0]),
+      g_value_get_double (&param_values[1]),
+      &point);
+  if (!result)
+    return;
+
+  g_value_set_boxed (return_value, &point);
+}
+
 static const char *
 parse_args (const char        *p,
             BgeWdgtSpec       *spec,
@@ -1717,6 +1751,143 @@ parse_args (const char        *p,
               G_CALLBACK (ifelse_closure),
               (const char *const *) expr_values,
               (GType[]){ G_TYPE_BOOLEAN, type_hint, type_hint },
+              n_expr_values,
+              NULL, NULL,
+              &local_error);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
+      else if (g_strcmp0 (token, "#measure-path") == 0)
+        {
+          g_autofree char *key           = NULL;
+          guint            n_expr_values = 0;
+          g_auto (GStrv) expr_values     = NULL;
+          g_autofree GType *expr_types   = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+                          (GType[]){ GSK_TYPE_PATH }, 1,
+                          &expr_values, &expr_types, &n_expr_values,
+                          ARGS_PARSE_PARENS, &local_error);
+          RETURN_ERROR_UNLESS (p != NULL);
+
+          if (n_expr_values != 1)
+            {
+              g_set_error (
+                  error,
+                  G_IO_ERROR,
+                  G_IO_ERROR_UNKNOWN,
+                  "#measure-path() needs exactly 1 argument of type %s,"
+                  "got %u",
+                  g_type_name (GSK_TYPE_PATH),
+                  n_expr_values);
+              return NULL;
+            }
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_cclosure_source_value (
+              spec,
+              key,
+              GSK_TYPE_PATH_MEASURE,
+              _marshal_DIRECT__ARGS_DIRECT,
+              G_CALLBACK (measure_path_closure),
+              (const char *const *) expr_values,
+              (GType[]){ GSK_TYPE_PATH },
+              n_expr_values,
+              NULL, NULL,
+              &local_error);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
+      else if (g_strcmp0 (token, "#path-length") == 0)
+        {
+          g_autofree char *key           = NULL;
+          guint            n_expr_values = 0;
+          g_auto (GStrv) expr_values     = NULL;
+          g_autofree GType *expr_types   = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+                          (GType[]){ GSK_TYPE_PATH_MEASURE }, 1,
+                          &expr_values, &expr_types, &n_expr_values,
+                          ARGS_PARSE_PARENS, &local_error);
+          RETURN_ERROR_UNLESS (p != NULL);
+
+          if (n_expr_values != 1)
+            {
+              g_set_error (
+                  error,
+                  G_IO_ERROR,
+                  G_IO_ERROR_UNKNOWN,
+                  "#path-length() needs exactly 1 argument of type %s,"
+                  "got %u",
+                  g_type_name (GSK_TYPE_PATH_MEASURE),
+                  n_expr_values);
+              return NULL;
+            }
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_cclosure_source_value (
+              spec,
+              key,
+              G_TYPE_DOUBLE,
+              _marshal_DIRECT__ARGS_DIRECT,
+              G_CALLBACK (path_length_closure),
+              (const char *const *) expr_values,
+              (GType[]){ GSK_TYPE_PATH_MEASURE },
+              n_expr_values,
+              NULL, NULL,
+              &local_error);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
+      else if (g_strcmp0 (token, "#path-point") == 0)
+        {
+          g_autofree char *key           = NULL;
+          guint            n_expr_values = 0;
+          g_auto (GStrv) expr_values     = NULL;
+          g_autofree GType *expr_types   = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+                          (GType[]){ GSK_TYPE_PATH_MEASURE, G_TYPE_DOUBLE }, 2,
+                          &expr_values, &expr_types, &n_expr_values,
+                          ARGS_PARSE_PARENS, &local_error);
+          RETURN_ERROR_UNLESS (p != NULL);
+
+          if (n_expr_values != 2)
+            {
+              g_set_error (
+                  error,
+                  G_IO_ERROR,
+                  G_IO_ERROR_UNKNOWN,
+                  "#path-point() needs exactly 2 arguments "
+                  "of types %s and %s,"
+                  "got %u",
+                  g_type_name (GSK_TYPE_PATH_MEASURE),
+                  g_type_name (G_TYPE_DOUBLE),
+                  n_expr_values);
+              return NULL;
+            }
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_cclosure_source_value (
+              spec,
+              key,
+              GSK_TYPE_PATH_POINT,
+              _marshal_DIRECT__ARGS_DIRECT,
+              G_CALLBACK (path_point_closure),
+              (const char *const *) expr_values,
+              (GType[]){ GSK_TYPE_PATH_MEASURE, G_TYPE_DOUBLE },
               n_expr_values,
               NULL, NULL,
               &local_error);

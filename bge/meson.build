@@ -1,4 +1,4 @@
-api_version = meson.project_version()
+api_version = bz_version
 
 bge_sources = [
   'libbge.c',
@@ -15,9 +15,9 @@ bge_headers = [
 
 subdir('wdgt')
 
-version_split = meson.project_version().split('.')
+version_split = api_version.split('.')
 version_conf = configuration_data()
-version_conf.set('VERSION', meson.project_version())
+version_conf.set('VERSION', api_version)
 version_conf.set('MAJOR_VERSION', version_split[0])
 version_conf.set('MINOR_VERSION', version_split[1])
 version_conf.set('MICRO_VERSION', version_split[2])
@@ -59,7 +59,7 @@ pkg.generate(
     libraries: bge_lib,
          name: 'libbge',
      filebase: 'bge-' + api_version,
-      version: meson.project_version(),
+      version: api_version,
       subdirs: 'bge',
      requires: ['gtk4', 'md4c'],
   install_dir: get_option('libdir') / 'pkgconfig'

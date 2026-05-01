@@ -5,6 +5,9 @@ INSTR="$1"
 VERSION=0.7.16
 
 case "$INSTR" in
+    get-version)
+        echo "${VERSION}"
+        ;;
     get-vcs)
         VCS_VERSION="$(git -C "$MESON_SOURCE_ROOT" describe --always --dirty)"
         if [ -n "$VCS_VERSION" ]; then

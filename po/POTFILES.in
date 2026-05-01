@@ -22,7 +22,6 @@ src/bz-application.c
 src/bz-appstream-parser.c
 src/bz-async-texture.c
 src/bz-backend.c
-src/bz-comet-overlay.c
 src/bz-content-provider.c
 src/bz-context-tile.blp
 src/bz-context-tile.c

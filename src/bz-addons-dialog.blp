@@ -269,6 +269,7 @@ template $BzAddonsDialog: Adw.Dialog {
                   wide: false;
                   entry-group: bind template.selected-group;
                   state: bind template.state;
+                  settings: bind template.state as <$BzStateInfo>.settings;
                 }
 
                 Label {

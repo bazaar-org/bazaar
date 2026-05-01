@@ -99,11 +99,6 @@ bz_search_pill_list_init (BzSearchPillList *self)
        search regardless of what you put here, so don't worry about the string
        yielding poor search results. Focus on correctness and friendliness,
        etc */
-    N_ ("Steam"),
-    /* Translators: Search suggestion: the english text will be used for the
-       search regardless of what you put here, so don't worry about the string
-       yielding poor search results. Focus on correctness and friendliness,
-       etc */
     N_ ("Paint"),
     /* Translators: Search suggestion: the english text will be used for the
        search regardless of what you put here, so don't worry about the string
@@ -115,11 +110,6 @@ bz_search_pill_list_init (BzSearchPillList *self)
        yielding poor search results. Focus on correctness and friendliness,
        etc */
     N_ ("Torrent"),
-    /* Translators: Search suggestion: the english text will be used for the
-       search regardless of what you put here, so don't worry about the string
-       yielding poor search results. Focus on correctness and friendliness,
-       etc */
-    N_ ("Minecraft"),
     /* Translators: Search suggestion: the english text will be used for the
        search regardless of what you put here, so don't worry about the string
        yielding poor search results. Focus on correctness and friendliness,

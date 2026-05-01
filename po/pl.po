@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-11 18:48+0200\n"
-"PO-Revision-Date: 2026-04-11 19:20+0200\n"
+"POT-Creation-Date: 2026-04-23 22:52+0200\n"
+"PO-Revision-Date: 2026-04-24 19:48+0200\n"
 "Last-Translator: Marcel Mrówka <micro.mail88@gmail.com>\n"
 "Language-Team: Polish <>\n"
 "Language: pl\n"
@@ -71,9 +71,9 @@ msgstr "Zaloguj się do konta Flathub, aby zarządzać ulubionymi"
 msgid "Search apps directly from GNOME Shell"
 msgstr "Wyszukuj aplikacje prościutko z GNOME Shell"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30
-msgid "Adam Masciola"
-msgstr "Adam Masciola"
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:755
+msgid "The Bazaar Contributors"
+msgstr "Kontrybutorzy Bazaaru"
 
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:55
 msgid "The home page displaying Flathub apps"
@@ -105,13 +105,12 @@ msgstr "Zatrzymano otrzymywanie wystąpień"
 msgid "Uninstall"
 msgstr "Odinstaluj"
 
-#: src/bz-addon-tile.c:157 src/bz-addons-dialog.blp:280
-#: src/bz-favorites-tile.c:159
+#: src/bz-addon-tile.c:157 src/bz-favorites-tile.c:159
 msgid "Install"
 msgstr "Zainstaluj"
 
 #: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
-#: src/bz-addons-dialog.blp:70 src/bz-full-view.blp:636
+#: src/bz-addons-dialog.blp:70 src/bz-full-view.blp:627
 #: src/bz-installed-tile.blp:101
 msgid "Manage Add-Ons"
 msgstr "Zarządzaj dodatkami"
@@ -125,18 +124,18 @@ msgid ""
 "Your current filter preferences are hiding all known add-ons. Try adjusting "
 "them."
 msgstr ""
-"Twoje aktualne preferencje filtrowania ukrywają wszystkie znane dodatki. Sprób"
-"uj dostosować je."
+"Twoje aktualne preferencje filtrowania ukrywają wszystkie znane dodatki. "
+"Spróbuj dostosować je."
 
 #: src/bz-addons-dialog.blp:88
 msgid "Add-on Page"
 msgstr "Strona dodatków"
 
-#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:435
+#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:426
 msgid "Downloads/Month"
 msgstr "Pobrań/m-c"
 
-#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:470
+#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:461
 msgid "Stopped Receiving Core Updates"
 msgstr "Nie otrzymuje podstawowych aktualizacji"
 
@@ -148,30 +147,20 @@ msgstr ""
 "Ten dodatek wykorzystuje bibliotekę, która już nie otrzymuje aktualizacji "
 "lub poprawek zabezpieczeń. Może się stać niebezpieczny."
 
-#: src/bz-addons-dialog.blp:297 src/bz-rich-app-tile.blp:185
-#: src/bz-transaction-tile.blp:272
-msgid "Open"
-msgstr "Otwórz"
-
-#: src/bz-addons-dialog.blp:304 src/bz-install-controls.blp:141
-#: src/bz-installed-tile.blp:114
-msgid "Remove"
-msgstr "Usuń"
-
-#: src/bz-addons-dialog.c:325
+#: src/bz-addons-dialog.c:330
 #, c-format
 msgid "Add-on for %s"
 msgstr "Dodatki dla aplikacji %s"
 
-#: src/bz-addons-dialog.c:339 src/bz-full-view.c:579
+#: src/bz-addons-dialog.c:344 src/bz-full-view.c:568
 msgid "Show Less"
 msgstr "Pokaż mniej"
 
-#: src/bz-addons-dialog.c:339 src/bz-full-view.c:579
+#: src/bz-addons-dialog.c:344 src/bz-full-view.c:568
 msgid "Show More"
 msgstr "Pokaż więcej"
 
-#: src/bz-addons-dialog.c:389
+#: src/bz-addons-dialog.c:394
 msgid "Download Stats"
 msgstr "Statystyki pobrań"
 
@@ -555,51 +544,6 @@ msgstr "Aplikacja %s jest odpowiednia dla %s"
 msgid "%s • %s"
 msgstr "%s • %s"
 
-#: src/bz-all-apps-page.blp:13 src/bz-apps-page.blp:14 src/bz-full-view.blp:29
-#: src/bz-user-data-page.blp:15 src/bz-window.blp:239
-msgid "Main Menu"
-msgstr "Menu główne"
-
-#: src/bz-all-apps-page.blp:18 src/bz-apps-page.blp:18
-#: src/bz-user-data-page.blp:19 src/bz-window.blp:328
-msgid "_Donate to Bazaar ❤️"
-msgstr "Przekaż _darowiznę ❤️"
-
-#: src/bz-all-apps-page.blp:25 src/bz-apps-page.blp:25
-#: src/bz-user-data-page.blp:26 src/bz-window.blp:335
-msgid "_Refresh"
-msgstr "_Odśwież"
-
-#: src/bz-all-apps-page.blp:30 src/bz-apps-page.blp:30
-#: src/bz-user-data-page.blp:31 src/bz-window.blp:340
-msgid "_Preferences"
-msgstr "_Preferencje"
-
-#: src/bz-all-apps-page.blp:35 src/bz-apps-page.blp:35
-#: src/bz-user-data-page.blp:36 src/bz-window.blp:345
-msgid "_Login With Flathub"
-msgstr "Za_loguj się do Flathub"
-
-#: src/bz-all-apps-page.blp:41 src/bz-apps-page.blp:41
-#: src/bz-user-data-page.blp:42 src/bz-window.blp:351
-msgid "_Manage Leftover User Data"
-msgstr "Zarządzaj pozostały_mi danymi"
-
-#: src/bz-all-apps-page.blp:46 src/bz-apps-page.blp:46
-#: src/bz-user-data-page.blp:47 src/bz-window.blp:356
-msgid "_Keyboard Shortcuts"
-msgstr "Skróty _klawiszowe"
-
-#: src/bz-all-apps-page.blp:51 src/bz-apps-page.blp:51
-#: src/bz-user-data-page.blp:52 src/bz-window.blp:361
-msgid "_About Bazaar"
-msgstr "O _aplikacji Bazaar"
-
-#: src/bz-all-apps-page.blp:58 src/bz-apps-page.blp:58
-#: src/bz-user-data-page.blp:59 src/bz-window.blp:368
-msgid "_Quit Bazaar"
-msgstr "_Zamknij Bazaar"
-
 #: src/bz-app-permissions.c:160
 #, c-format
 msgid "System folder %s"
@@ -773,11 +717,11 @@ msgstr "Zweryfikowane"
 
 #. Translators: As in 'The app is installed'.
 #: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
-#: src/bz-releases-list.c:205
+#: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Zainstalowane"
 
-#: src/bz-apps-page.blp:142
+#: src/bz-apps-page.blp:86
 msgid "Show All"
 msgstr "Pokaż wszystkie"
 
@@ -791,42 +735,38 @@ msgstr "Wszystkie aplikacje dot. \"%s\""
 msgid "%d Applications"
 msgstr "%d aplikacji"
 
-#: src/bz-application.c:728
+#: src/bz-application.c:734
 msgctxt "About Dialog Developer Credit"
 msgid "Adam Masciola <kolunmi@posteo.net>"
 msgstr "Adam Masciola <kolunmi@posteo.net>"
 
-#: src/bz-application.c:729
+#: src/bz-application.c:735
 msgctxt "About Dialog Developer Credit"
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
-#: src/bz-application.c:749
-msgid "The Bazaar Contributors"
-msgstr "Kontrybutorzy Bazaaru"
-
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:752
+#: src/bz-application.c:758
 msgid "translator-credits"
 msgstr "Marcel Mrówka (Microwave) <micro.mail88@gmail.com>, 2025, 2026"
 
-#: src/bz-application.c:762
+#: src/bz-application.c:768
 msgid "Special Thanks"
 msgstr "Specjalne podziękowania"
 
-#: src/bz-application.c:820
+#: src/bz-application.c:826
 msgid "Logged Out Successfully!"
 msgstr "Wylogowano pomyślnie!"
 
-#: src/bz-application.c:943
+#: src/bz-application.c:964
 msgid "Performing setup…"
 msgstr "Konfigurowanie…"
 
-#: src/bz-application.c:1027
+#: src/bz-application.c:1048
 msgid "Set Up System Flathub?"
 msgstr "Skonfigurować Flathub systemowo?"
 
-#: src/bz-application.c:1030
+#: src/bz-application.c:1051
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -841,11 +781,11 @@ msgstr ""
 "Nadal możesz używać Bazaaru do przeglądania i usuwania już zainstalowanych "
 "aplikacji."
 
-#: src/bz-application.c:1037
+#: src/bz-application.c:1058
 msgid "Set Up Flathub?"
 msgstr "Skonfigurować Flathub?"
 
-#: src/bz-application.c:1040
+#: src/bz-application.c:1061
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -858,52 +798,52 @@ msgstr ""
 "Nadal możesz używać Bazaaru do przeglądania i usuwania już zainstalowanych "
 "aplikacji."
 
-#: src/bz-application.c:1046
+#: src/bz-application.c:1067
 msgid "Later"
 msgstr "Później"
 
-#: src/bz-application.c:1047
+#: src/bz-application.c:1068
 msgid "Set Up Flathub"
 msgstr "Skonfiguruj Flathub"
 
-#: src/bz-application.c:1336
+#: src/bz-application.c:1270 src/bz-application.c:1730
+msgid "Checking for updates…"
+msgstr "Sprawdzanie dostępności aktualizacji…"
+
+#: src/bz-application.c:1379
 msgid "A backend error occurred"
 msgstr "Wystąpił błąd w backendzie"
 
-#: src/bz-application.c:1532 src/bz-application.c:3483 src/bz-window.blp:70
+#: src/bz-application.c:1575 src/bz-application.c:3549 src/bz-window.blp:70
 msgid "Refreshing…"
 msgstr "Odświeżanie…"
 
-#: src/bz-application.c:1684 src/bz-application.c:3481
+#: src/bz-application.c:1727 src/bz-application.c:3547
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Ładowanie %d aplikacji…"
 
-#: src/bz-application.c:1687
-msgid "Checking for updates…"
-msgstr "Sprawdzanie dostępności aktualizacji…"
-
-#: src/bz-application.c:1750
+#: src/bz-application.c:1793
 msgid "Failed to open .flatpakref"
 msgstr "Otwieranie pliku .flatpakref nie powiodło się"
 
-#: src/bz-application.c:1806
+#: src/bz-application.c:1849
 msgid "An initialization error occurred"
 msgstr "Wystąpił błąd inicjalizacji"
 
-#: src/bz-application.c:2207
+#: src/bz-application.c:2272
 msgid "Failed to check for updates"
 msgstr "Sprawdzanie dostępności aktualizacji nie powiodło się"
 
-#: src/bz-application.c:3215
+#: src/bz-application.c:3267
 msgid "Could not find app"
 msgstr "Nie można znaleźć aplikacji"
 
-#: src/bz-application.c:3248
+#: src/bz-application.c:3300
 msgid "Failed to load metainfo"
 msgstr "Ładowanie metainfo się nie powiodło"
 
-#: src/bz-application.c:3485
+#: src/bz-application.c:3551
 msgid "Writing to cache…"
 msgstr "Zapisywanie do pamięci podręcznej…"
 
@@ -1090,8 +1030,8 @@ msgid "High Risk"
 msgstr "Wysokie ryzyko"
 
 #: src/bz-curated-view.blp:11 src/bz-favorites-page.blp:68
-#: src/bz-flathub-page.blp:19 src/bz-full-view.blp:62
-#: src/bz-library-page.blp:66 src/bz-user-data-page.blp:86
+#: src/bz-flathub-page.blp:19 src/bz-full-view.blp:53
+#: src/bz-library-page.blp:66 src/bz-user-data-page.blp:30
 msgid "Empty"
 msgstr "Puste"
 
@@ -1273,7 +1213,7 @@ msgid "Remove From Favorites"
 msgstr "Usuń z ulubionych"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:78
-#: src/bz-window.blp:386
+#: src/bz-window.blp:385
 msgid "Favorites"
 msgstr "Ulubione"
 
@@ -1281,11 +1221,11 @@ msgstr "Ulubione"
 msgid "Install All"
 msgstr "Zainstaluj wszystkie"
 
-#: src/bz-favorites-page.blp:34 src/bz-full-view.blp:45 src/bz-window.blp:255
+#: src/bz-favorites-page.blp:34 src/bz-full-view.blp:36 src/bz-window.blp:255
 msgid "Open App Library"
 msgstr "Otwórz bibliotekę aplikacji"
 
-#: src/bz-favorites-page.blp:56 src/bz-user-data-page.blp:75
+#: src/bz-favorites-page.blp:56 src/bz-user-data-page.blp:19
 msgid "Loading"
 msgstr "Ładowanie"
 
@@ -1304,10 +1244,6 @@ msgstr "Wstecz"
 #: src/bz-featured-carousel.blp:54
 msgid "Next"
 msgstr "Dalej"
-
-#: src/bz-featured-tile.blp:90
-msgid "App of the Day"
-msgstr "Aplikacja dnia"
 
 #: src/bz-flathub-category.c:93
 msgid "Editing"
@@ -1615,63 +1551,67 @@ msgstr ""
 msgid "Search Apps"
 msgstr "Wyszukuj aplikacji"
 
-#: src/bz-flathub-page.blp:255
+#: src/bz-flathub-page.blp:200
+msgid "App of the Day"
+msgstr "Aplikacja dnia"
+
+#: src/bz-flathub-page.blp:264
 msgid "On the Go"
 msgstr "W biegu"
 
-#: src/bz-flathub-page.blp:267
+#: src/bz-flathub-page.blp:276
 msgid "Apps for your Linux phones and tablets"
 msgstr "Aplikacje na twoje urządzenia mobilne z Linuxem"
 
-#: src/bz-flathub-page.blp:278 src/bz-flathub-page.blp:313
+#: src/bz-flathub-page.blp:287 src/bz-flathub-page.blp:322
 msgid "More Mobile Apps"
 msgstr "Więcej aplikacji mobilnych"
 
-#: src/bz-flathub-page.blp:369
+#: src/bz-flathub-page.blp:378
 msgid "We​ ♥​ Games"
 msgstr "My ♥ gry"
 
-#: src/bz-flathub-page.blp:382
+#: src/bz-flathub-page.blp:391
 msgid "Games and apps to run your favorite titles"
 msgstr "Gry i aplikacje do uruchamiania twoich ulubionych pozycji"
 
-#: src/bz-flathub-page.blp:416
+#: src/bz-flathub-page.blp:425
 msgid "More Games"
 msgstr "Więcej gier"
 
-#: src/bz-full-view.blp:66 src/bz-library-page.blp:77
+#: src/bz-full-view.blp:57 src/bz-library-page.blp:77
 #: src/bz-library-page.blp:81
 msgid "No Results"
 msgstr "Brak wyników"
 
-#: src/bz-full-view.blp:67
+#: src/bz-full-view.blp:58
 msgid "Try a different search query"
 msgstr "Spróbuj wyszukać coś innego"
 
-#: src/bz-full-view.blp:73
+#: src/bz-full-view.blp:64
 msgid "Content"
 msgstr "Zawartość"
 
-#: src/bz-full-view.blp:131
+#: src/bz-full-view.blp:122
 msgid "Installing .flatpak bundles is not yet supported"
 msgstr "Instalowanie pakietów .flatpak nie jest jeszcze wspierane"
 
-#: src/bz-full-view.blp:137
+#: src/bz-full-view.blp:128
 msgid ""
 "This is a local preview, some details may differ from the published listing"
 msgstr ""
-"To jest lokalny podgląd, niektóre szczegóły mogą się różnić od opublikowanej p"
-"ozycji"
+"To jest lokalny podgląd, niektóre szczegóły mogą się różnić od opublikowanej "
+"pozycji"
 
-#: src/bz-full-view.blp:140
+#: src/bz-full-view.blp:131
 msgid "Preview Store Appearance"
 msgstr "Wygląd podglądu sklepu"
 
-#: src/bz-full-view.blp:266
+#: src/bz-full-view.blp:257
 msgid "_Support"
 msgstr "We_sprzyj"
 
-#: src/bz-full-view.blp:484
+#: src/bz-full-view.blp:475
 msgid ""
 "This app uses a runtime that no longer receives updates or security fixes. "
 "It may become unsafe to use."
@@ -1679,19 +1619,19 @@ msgstr ""
 "Ta aplikacja wykorzystuje bibliotekę, która już nie otrzymuje aktualizacji "
 "lub poprawek zabezpieczeń. Może się stać niebezpieczna."
 
-#: src/bz-full-view.blp:571
+#: src/bz-full-view.blp:562
 msgid "Trash Data"
 msgstr "Przenieś dane do kosza"
 
-#: src/bz-full-view.blp:711
+#: src/bz-full-view.blp:702
 msgid "Tags:"
 msgstr "Identyfikatory:"
 
-#: src/bz-full-view.c:191
+#: src/bz-full-view.c:180
 msgid "No URL"
 msgstr "Brak adresu URL"
 
-#: src/bz-full-view.c:209
+#: src/bz-full-view.c:198
 msgid ""
 "This application has a FLOSS license, meaning the source code can be audited "
 "for safety."
@@ -1699,7 +1639,7 @@ msgstr ""
 "Ta aplikacja ma licencję FLOSS — oznacza to, że jej kod źródłowy może być "
 "audytowany pod kątem bezpieczeństwa."
 
-#: src/bz-full-view.c:210
+#: src/bz-full-view.c:199
 msgid ""
 "This application has a proprietary license, meaning the source code is "
 "developed privately and cannot be audited by an independent third party."
@@ -1707,35 +1647,35 @@ msgstr ""
 "Ta aplikacja ma licencję własnościową — oznacza to, że jej kod źródłowy jest "
 "tworzony prywatnie i niezależne osoby trzecie nie mogą go audytować."
 
-#: src/bz-full-view.c:217
+#: src/bz-full-view.c:206
 msgid "More Apps"
 msgstr "Więcej aplikacji"
 
-#: src/bz-full-view.c:218
+#: src/bz-full-view.c:207
 #, c-format
 msgid "More Apps by %s"
 msgstr "Więcej aplikacji od %s"
 
-#: src/bz-full-view.c:225
+#: src/bz-full-view.c:214
 msgid "Other Apps by this Developer"
 msgstr "Inne aplikacje od tego twórcy"
 
-#: src/bz-full-view.c:227 src/bz-full-view.c:326
+#: src/bz-full-view.c:216 src/bz-full-view.c:315
 #, c-format
 msgid "Other Apps by %s"
 msgstr "Inne aplikacje od %s"
 
-#: src/bz-full-view.c:236
+#: src/bz-full-view.c:225
 #, c-format
 msgid "%s is not installed, but it still has <b>%s</b> of data present."
 msgstr ""
 "Aplikacja %s nie jest zainstalowana, lecz nadal ma <b>%s</b> obecnych danych."
 
-#: src/bz-full-view.c:328
+#: src/bz-full-view.c:317
 msgid "Other Apps"
 msgstr "Inne aplikacje"
 
-#: src/bz-full-view.c:330
+#: src/bz-full-view.c:319
 #, c-format
 msgid "%d Application"
 msgid_plural "%d Applications"
@@ -1837,26 +1777,26 @@ msgstr "Aplikacja %s działa najlepiej na konkretnym sprzęcie"
 msgid "%s works on most devices"
 msgstr "Aplikacja %s działa na większości urządzeń"
 
-#: src/bz-install-controls.blp:34 src/bz-transaction-dialog.c:202
-msgid "_Install"
-msgstr "Za_instaluj"
-
-#: src/bz-install-controls.blp:60
+#: src/bz-install-controls.blp:62
 msgid "_Open"
 msgstr "_Otwórz"
 
-#: src/bz-install-controls.blp:75 src/bz-install-controls.blp:131
+#: src/bz-install-controls.blp:77 src/bz-install-controls.blp:134
 msgid "Uninstall Application"
 msgstr "Odinstaluj aplikację"
 
-#: src/bz-install-controls.blp:85 src/bz-transaction-dialog.c:231
+#: src/bz-install-controls.blp:87 src/bz-transaction-dialog.c:231
 msgid "_Remove"
 msgstr "_Usuń"
 
-#: src/bz-install-controls.blp:118 src/bz-updates-card.c:161
+#: src/bz-install-controls.blp:121 src/bz-updates-card.c:161
 #: src/bz-updates-card.c:180
 msgid "Update"
 msgstr "Aktualizuj"
+
+#: src/bz-install-controls.blp:144 src/bz-installed-tile.blp:114
+msgid "Remove"
+msgstr "Usuń"
 
 #: src/bz-library-page.blp:32
 msgid "Search installed apps"
@@ -2089,7 +2029,7 @@ msgid "Hide results that are not verified on Flathub"
 msgstr "Ukrywaj niezweryfikowane aplikacje"
 
 #: src/bz-preferences-dialog.blp:49
-msgid "Hide EOL Apps"
+msgid "Hide End-of-Life Apps"
 msgstr "Ukrywaj aplikacje z brakiem wsparcia"
 
 #: src/bz-preferences-dialog.blp:50
@@ -2272,22 +2212,26 @@ msgstr[2] "%d lat temu"
 msgid "%e %B %Y"
 msgstr "%e %B %Y"
 
-#: src/bz-releases-list.c:195
+#: src/bz-releases-list.c:196
 #, c-format
 msgid "Version %s"
 msgstr "Wersja %s"
 
-#: src/bz-releases-list.c:250
+#: src/bz-releases-list.c:251
 msgid "No details for this release"
 msgstr "Brak szczegółów dla tego wydania"
 
-#: src/bz-releases-list.c:262
+#: src/bz-releases-list.c:263
 msgid "Get More Information"
 msgstr "Dowiedz się więcej"
 
 #: src/bz-rich-app-tile.blp:157
 msgid "Get"
 msgstr "Pobierz"
+
+#: src/bz-rich-app-tile.blp:185 src/bz-transaction-tile.blp:296
+msgid "Open"
+msgstr "Otwórz"
 
 #: src/bz-safety-calculator.c:82
 msgid "Unknown Permissions"
@@ -2793,7 +2737,11 @@ msgstr "W_olne"
 msgid "Non-_EOL"
 msgstr "Wspi_erane"
 
-#: src/bz-search-filter-popover.blp:56
+#: src/bz-search-filter-popover.blp:52
+msgid "Filter out End-of-Life apps"
+msgstr "Odfiltruj aplikacje z brakiem wsparcia"
+
+#: src/bz-search-filter-popover.blp:57
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -2921,6 +2869,10 @@ msgstr "Może zainstalować dodatkowe współdzielone komponenty"
 msgid "_Cancel"
 msgstr "_Anuluj"
 
+#: src/bz-transaction-dialog.c:202
+msgid "_Install"
+msgstr "Za_instaluj"
+
 #: src/bz-transaction-dialog.c:219
 #, c-format
 msgid "Remove %s?"
@@ -3020,7 +2972,7 @@ msgstr "Dodatkowo, następująca liczba dodatków zostanie zainstalowana: %d."
 msgid "_Install All"
 msgstr "Za_instaluj wszystkie"
 
-#: src/bz-transaction-manager.c:766
+#: src/bz-transaction-manager.c:784
 #, c-format
 msgid "Finished in %.02f seconds"
 msgstr "Ukończono w %.02f sek."
@@ -3042,14 +2994,18 @@ msgid "Done"
 msgstr "Gotowe"
 
 #: src/bz-transaction-tile.blp:230
+msgid "Cancelled"
+msgstr "Anulowane"
+
+#: src/bz-transaction-tile.blp:254
 msgid "Error"
 msgstr "Bład"
 
-#: src/bz-transaction-tile.blp:286
+#: src/bz-transaction-tile.blp:310
 msgid "Cancel Transaction"
 msgstr "Anuluj transakcję"
 
-#: src/bz-transaction-tile.blp:410
+#: src/bz-transaction-tile.blp:434
 msgid "Show Error Info"
 msgstr "Pokaż szczegóły błędu"
 
@@ -3058,11 +3014,11 @@ msgstr "Pokaż szczegóły błędu"
 msgid "%s Freed"
 msgstr "Zwolniono %s"
 
-#: src/bz-transaction-tile.c:362 src/bz-transaction-tile.c:365
+#: src/bz-transaction-tile.c:360 src/bz-transaction-tile.c:363
 msgid "Transaction Error"
 msgstr "Błąd transakcji"
 
-#: src/bz-transaction.c:342
+#: src/bz-transaction.c:344
 msgid "Pending"
 msgstr "Oczekujące"
 
@@ -3082,11 +3038,11 @@ msgstr[2] "%u aktualizacji bibliotek"
 msgid "Manage Leftover User Data"
 msgstr "Zarządzaj pozostałymi danymi"
 
-#: src/bz-user-data-page.blp:89
+#: src/bz-user-data-page.blp:33
 msgid "No User Data Found"
 msgstr "Nie znaleziono pozostałych danych"
 
-#: src/bz-user-data-page.blp:94
+#: src/bz-user-data-page.blp:38
 msgid "User Data"
 msgstr "Dane użytkownika"
 
@@ -3104,12 +3060,16 @@ msgid "Curated"
 msgstr "Polecane"
 
 #: src/bz-window.blp:100
-msgid "Flathub"
-msgstr "Flathub"
+msgid "Explore"
+msgstr "Odkrywaj"
 
 #: src/bz-window.blp:220
 msgid "Refresh completed!"
 msgstr "Ukończono odświeżanie!"
+
+#: src/bz-window.blp:239
+msgid "Main Menu"
+msgstr "Menu główne"
 
 #: src/bz-window.blp:273
 msgid "You are running a new version of Bazaar!"
@@ -3126,7 +3086,39 @@ msgstr ""
 "Masz połączenie z internetem, ale przeglądasz wersję Flathuba, która została "
 "zapisana w pamięci twojego komputera"
 
-#: src/bz-window.blp:393
+#: src/bz-window.blp:327
+msgid "_Donate to Bazaar"
+msgstr "_Wesprzyj Bazaar"
+
+#: src/bz-window.blp:334
+msgid "_Refresh"
+msgstr "_Odśwież"
+
+#: src/bz-window.blp:339
+msgid "_Preferences"
+msgstr "_Preferencje"
+
+#: src/bz-window.blp:344
+msgid "_Login With Flathub"
+msgstr "Za_loguj się do Flathub"
+
+#: src/bz-window.blp:350
+msgid "_Manage Leftover User Data"
+msgstr "Zarządzaj pozostały_mi danymi"
+
+#: src/bz-window.blp:355
+msgid "_Keyboard Shortcuts"
+msgstr "Skróty _klawiszowe"
+
+#: src/bz-window.blp:360
+msgid "_About Bazaar"
+msgstr "O _aplikacji Bazaar"
+
+#: src/bz-window.blp:367
+msgid "_Quit Bazaar"
+msgstr "_Zamknij Bazaar"
+
+#: src/bz-window.blp:392
 msgid "Log Out"
 msgstr "Wyloguj się"
 
@@ -3136,15 +3128,15 @@ msgstr "Wyloguj się"
 msgid "Bazaar — %s"
 msgstr "Bazaar — %s"
 
-#: src/bz-window.c:544 src/bz-window.c:561
+#: src/bz-window.c:589 src/bz-window.c:627
 msgid "Failed to launch application"
 msgstr "Uruchomienie aplikacji się nie powiodło"
 
-#: src/bz-window.c:766
+#: src/bz-window.c:831
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Nie możesz usunąć Bazaaru z poziomu Bazaaru!"
 
-#: src/bz-window.c:1051 src/bz-window.c:1085
+#: src/bz-window.c:1116 src/bz-window.c:1150
 msgid "Can't do that right now!"
 msgstr "Nie możesz tego teraz zrobić!"
 
@@ -3192,6 +3184,18 @@ msgstr "Zamknij okno"
 msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Zamknij Bazaar"
+
+#~ msgid "Adam Masciola"
+#~ msgstr "Adam Masciola"
+
+#~ msgid "_Donate to Bazaar ❤️"
+#~ msgstr "Przekaż _darowiznę ❤️"
+
+#~ msgid "Hide EOL Apps"
+#~ msgstr "Ukrywaj aplikacje z brakiem wsparcia"
+
+#~ msgid "Flathub"
+#~ msgstr "Flathub"
 
 #~ msgid "Download & Install Application"
 #~ msgstr "Pobierz i zainstaluj aplikację"
@@ -3603,9 +3607,6 @@ msgstr "Zamknij Bazaar"
 
 #~ msgid "Verified by the original developers"
 #~ msgstr "Zweryfikowane przez oryginalnych twórców "
-
-#~ msgid "End of Life Apps"
-#~ msgstr "Aplikacje z brakiem wsparcia"
 
 #~ msgctxt "About Dialog Translator Credit"
 #~ msgid "Ahmed Najmawi"

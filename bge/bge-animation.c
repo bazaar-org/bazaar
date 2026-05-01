@@ -84,6 +84,10 @@ tick_cb (GtkWidget     *widget,
          GWeakRef      *wr);
 
 static void
+ensure_tick (BgeAnimation *self,
+             GtkWidget    *widget);
+
+static void
 destroy_spring_data (gpointer ptr);
 
 static void
@@ -153,18 +157,6 @@ constructed (GObject *object)
 {
   BgeAnimation *self = BGE_ANIMATION (object);
 
-  if (GTK_IS_WIDGET (self->widget))
-    {
-      GWeakRef *wr = NULL;
-
-      wr = g_new0 (typeof (*wr), 1);
-      g_weak_ref_init (wr, self);
-
-      self->tag = gtk_widget_add_tick_callback (
-          self->widget,
-          (GtkTickCallback) tick_cb,
-          wr, destroy_wr);
-    }
   g_weak_ref_init (&self->wr, self->widget);
   g_clear_object (&self->widget);
 }
@@ -333,6 +325,7 @@ bge_animation_add_spring (BgeAnimation        *self,
               data->clamp);
 
           cb (widget, key, from, user_data);
+          ensure_tick (self, widget);
         }
       else
         /* If we shouldn't animate, just invoke the callback at the final
@@ -526,6 +519,14 @@ tick_cb (GtkWidget     *widget,
     }
 
 #undef UPDATE
+
+  if (g_hash_table_size (self->data) == 0 &&
+      self->anonymous->len == 0)
+    {
+      gtk_widget_remove_tick_callback (widget, self->tag);
+      self->tag = 0;
+      return G_SOURCE_REMOVE;
+    }
 
   return G_SOURCE_CONTINUE;
 }
@@ -775,6 +776,24 @@ spring_calculate_duration (double   damping,
 }
 
 /* ///COPIED FROM LIBADWAITA */
+
+static void
+ensure_tick (BgeAnimation *self,
+             GtkWidget    *widget)
+{
+  GWeakRef *wr = NULL;
+
+  if (self->tag > 0)
+    return;
+
+  wr = g_new0 (typeof (*wr), 1);
+  g_weak_ref_init (wr, self);
+
+  self->tag = gtk_widget_add_tick_callback (
+      widget,
+      (GtkTickCallback) tick_cb,
+      wr, destroy_wr);
+}
 
 static void
 destroy_spring_data (gpointer ptr)

@@ -48,31 +48,30 @@ _marshal_BOXED__ARGS_DIRECT (GClosure                *closure,
 
 typedef enum
 {
-  VALUE_OBJECT = 0,
-  VALUE_ITERATOR,
-  VALUE_CONSTANT,
-  VALUE_COMPONENT,
-  VALUE_TRANSFORM,
-  VALUE_PATH,
+  VALUE_ALLOCATION_HEIGHT = 0,
+  VALUE_ALLOCATION_TRANSFORM,
+  VALUE_ALLOCATION_WIDTH,
+  VALUE_CHILD,
   VALUE_CLOSURE,
   VALUE_COERCION,
-  VALUE_TRACK_TRANSITION,
-  VALUE_SPECIAL,
-  VALUE_VARIABLE,
-  VALUE_REFERENCE_OBJECT,
-  VALUE_PROPERTY,
-  VALUE_CHILD,
-  VALUE_ALLOCATION_WIDTH,
-  VALUE_ALLOCATION_HEIGHT,
-  VALUE_ALLOCATION_TRANSFORM,
-  VALUE_MEASURE_MINIMUM_WIDTH,
-  VALUE_MEASURE_NATURAL_WIDTH,
-  VALUE_MEASURE_MINIMUM_HEIGHT,
-  VALUE_MEASURE_NATURAL_HEIGHT,
+  VALUE_COMPONENT,
+  VALUE_CONSTANT,
+  VALUE_ITERATOR,
   VALUE_MEASURE_FOR_SIZE,
-  VALUE_WIDGET_WIDTH,
-  VALUE_WIDGET_HEIGHT,
+  VALUE_MEASURE_MINIMUM_HEIGHT,
+  VALUE_MEASURE_MINIMUM_WIDTH,
+  VALUE_MEASURE_NATURAL_HEIGHT,
+  VALUE_MEASURE_NATURAL_WIDTH,
+  VALUE_OBJECT,
+  VALUE_PATH,
+  VALUE_PROPERTY,
+  VALUE_REFERENCE_OBJECT,
   VALUE_TICK_TIME,
+  VALUE_TRACK_TRANSITION,
+  VALUE_TRANSFORM,
+  VALUE_VARIABLE,
+  VALUE_WIDGET_HEIGHT,
+  VALUE_WIDGET_WIDTH,
 } ValueKind;
 
 typedef enum
@@ -135,8 +134,14 @@ BGE_DEFINE_DATA (
       ValueKind kind;
       union
       {
-        GValue     constant;
-        GPtrArray *component;
+        struct
+        {
+          GValue value;
+        } constant;
+        struct
+        {
+          GPtrArray *params;
+        } component;
         struct
         {
           ForeachData *context;
@@ -170,7 +175,6 @@ BGE_DEFINE_DATA (
             ValueData *stiffness;
           } spring;
         } track_transition;
-        BgeWdgtSpecialValue special;
         struct
         {
           ValueData *value;
@@ -215,16 +219,14 @@ deinit_value (gpointer ptr)
   g_clear_pointer (&value->name, g_free);
   switch (value->kind)
     {
-    case VALUE_OBJECT:
-      break;
     case VALUE_CONSTANT:
-      g_value_unset (&value->constant);
+      g_value_unset (&value->constant.value);
       break;
     case VALUE_ITERATOR:
       g_clear_pointer (&value->iterator.context, foreach_data_unref);
       break;
     case VALUE_COMPONENT:
-      g_clear_pointer (&value->component, g_ptr_array_unref);
+      g_clear_pointer (&value->component.params, g_ptr_array_unref);
       break;
     case VALUE_TRANSFORM:
       g_clear_pointer (&value->transform.next, value_data_unref);
@@ -248,12 +250,6 @@ deinit_value (gpointer ptr)
       g_clear_pointer (&value->track_transition.spring.mass, value_data_unref);
       g_clear_pointer (&value->track_transition.spring.stiffness, value_data_unref);
       break;
-    case VALUE_SPECIAL:
-      break;
-    case VALUE_VARIABLE:
-      break;
-    case VALUE_REFERENCE_OBJECT:
-      break;
     case VALUE_PROPERTY:
       g_clear_pointer (&value->property.object, value_data_unref);
       g_clear_pointer (&value->property.prop_name, g_free);
@@ -268,14 +264,17 @@ deinit_value (gpointer ptr)
     case VALUE_ALLOCATION_TRANSFORM:
       g_clear_pointer (&value->allocation.widget, value_data_unref);
       break;
-    case VALUE_MEASURE_MINIMUM_WIDTH:
-    case VALUE_MEASURE_NATURAL_WIDTH:
-    case VALUE_MEASURE_MINIMUM_HEIGHT:
-    case VALUE_MEASURE_NATURAL_HEIGHT:
     case VALUE_MEASURE_FOR_SIZE:
-    case VALUE_WIDGET_WIDTH:
-    case VALUE_WIDGET_HEIGHT:
+    case VALUE_MEASURE_MINIMUM_HEIGHT:
+    case VALUE_MEASURE_MINIMUM_WIDTH:
+    case VALUE_MEASURE_NATURAL_HEIGHT:
+    case VALUE_MEASURE_NATURAL_WIDTH:
+    case VALUE_OBJECT:
+    case VALUE_REFERENCE_OBJECT:
     case VALUE_TICK_TIME:
+    case VALUE_VARIABLE:
+    case VALUE_WIDGET_HEIGHT:
+    case VALUE_WIDGET_WIDTH:
       break;
     default:
       g_assert_not_reached ();
@@ -293,8 +292,8 @@ BGE_DEFINE_DATA (
       {
         struct
         {
-          double    seconds;
-          BgeEasing easing;
+          ValueData *seconds;
+          ValueData *easing;
         } ease;
         struct
         {
@@ -314,6 +313,8 @@ deinit_transition (gpointer ptr)
   switch (transition->kind)
     {
     case TRANSITION_EASE:
+      g_clear_pointer (&transition->ease.seconds, value_data_unref);
+      g_clear_pointer (&transition->ease.easing, value_data_unref);
       break;
     case TRANSITION_SPRING:
       g_clear_pointer (&transition->spring.damping_ratio, value_data_unref);
@@ -538,6 +539,14 @@ bge_wdgt_spec_class_init (BgeWdgtSpecClass *klass)
   g_type_ensure (GRAPHENE_TYPE_TRIANGLE);
   g_type_ensure (GRAPHENE_TYPE_EULER);
   g_type_ensure (GRAPHENE_TYPE_RAY);
+
+  g_type_ensure (GSK_TYPE_PATH);
+  g_type_ensure (GSK_TYPE_PATH_POINT);
+  g_type_ensure (GSK_TYPE_PATH_MEASURE);
+  g_type_ensure (GSK_TYPE_TRANSFORM);
+  g_type_ensure (GSK_TYPE_FILL_RULE);
+  g_type_ensure (GSK_TYPE_LINE_CAP);
+  g_type_ensure (GSK_TYPE_LINE_JOIN);
 
   /* Ensure GTK names are available for the parser */
   g_type_ensure (gtk_at_context_get_type ());
@@ -1093,7 +1102,7 @@ bge_wdgt_spec_add_constant_source_value (BgeWdgtSpec  *self,
   value->name = g_strdup (name);
   value->type = constant->g_type;
   value->kind = VALUE_CONSTANT;
-  g_value_copy (constant, g_value_init (&value->constant, constant->g_type));
+  g_value_copy (constant, g_value_init (&value->constant.value, constant->g_type));
 
   g_hash_table_replace (self->values, g_strdup (name), value_data_ref (value));
   return TRUE;
@@ -1189,11 +1198,11 @@ bge_wdgt_spec_add_component_source_value (BgeWdgtSpec       *self,
       return FALSE;
     }
 
-  value            = value_data_new ();
-  value->name      = g_strdup (name);
-  value->type      = type;
-  value->kind      = VALUE_COMPONENT;
-  value->component = g_ptr_array_new_with_free_func (value_data_unref);
+  value                   = value_data_new ();
+  value->name             = g_strdup (name);
+  value->type             = type;
+  value->kind             = VALUE_COMPONENT;
+  value->component.params = g_ptr_array_new_with_free_func (value_data_unref);
 
   for (guint i = 0; i < n_components; i++)
     {
@@ -1217,7 +1226,8 @@ bge_wdgt_spec_add_component_source_value (BgeWdgtSpec       *self,
           return FALSE;
         }
 
-      g_ptr_array_add (value->component, value_data_ref (value_data));
+      g_ptr_array_add (value->component.params,
+                       value_data_ref (value_data));
     }
 
   g_hash_table_replace (self->values, g_strdup (name), value_data_ref (value));
@@ -1886,63 +1896,6 @@ bge_wdgt_spec_add_track_transition_source_value (BgeWdgtSpec *self,
 }
 
 gboolean
-bge_wdgt_spec_add_special_source_value (BgeWdgtSpec        *self,
-                                        const char         *name,
-                                        BgeWdgtSpecialValue kind,
-                                        GError            **error)
-{
-  g_autoptr (ValueData) value = NULL;
-
-  g_return_val_if_fail (BGE_IS_WDGT_SPEC (self), FALSE);
-  g_return_val_if_fail (name != NULL, FALSE);
-
-  if (g_hash_table_contains (self->values, name))
-    {
-      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
-                   "value '%s' already exists", name);
-      return FALSE;
-    }
-
-  switch (kind)
-    {
-    case BGE_WDGT_SPECIAL_VALUE_MOTION_X:
-      if (self->special_values.motion_x != NULL)
-        value = value_data_ref (self->special_values.motion_x);
-      break;
-    case BGE_WDGT_SPECIAL_VALUE_MOTION_Y:
-      if (self->special_values.motion_y != NULL)
-        value = value_data_ref (self->special_values.motion_y);
-      break;
-    default:
-      g_critical ("Invalid special value specified");
-      return FALSE;
-    }
-
-  if (value == NULL)
-    {
-      value          = value_data_new ();
-      value->name    = g_strdup (name);
-      value->kind    = VALUE_SPECIAL;
-      value->special = kind;
-
-      switch (kind)
-        {
-        case BGE_WDGT_SPECIAL_VALUE_MOTION_X:
-          self->special_values.motion_x = value_data_ref (value);
-          break;
-        case BGE_WDGT_SPECIAL_VALUE_MOTION_Y:
-          self->special_values.motion_y = value_data_ref (value);
-          break;
-        default:
-          g_assert_not_reached ();
-        }
-    }
-
-  g_hash_table_replace (self->values, g_strdup (name), value_data_ref (value));
-  return TRUE;
-}
-
-gboolean
 bge_wdgt_spec_add_variable_value (BgeWdgtSpec *self,
                                   GType        type,
                                   const char  *name,
@@ -2375,12 +2328,6 @@ bge_wdgt_spec_set_value (BgeWdgtSpec *self,
                    "cannot assign to a constant source value");
       return FALSE;
     }
-  if (dest_data->kind == VALUE_SPECIAL)
-    {
-      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
-                   "cannot assign to a special source value");
-      return FALSE;
-    }
   if (dest_data->kind == VALUE_PROPERTY &&
       !(dest_data->property.pspec_flags & G_PARAM_WRITABLE))
     {
@@ -2413,35 +2360,35 @@ gboolean
 bge_wdgt_spec_transition_value (BgeWdgtSpec *self,
                                 const char  *state,
                                 const char  *value,
-                                double       seconds,
-                                BgeEasing    easing,
+                                const char  *seconds,
+                                const char  *easing,
                                 GError     **error)
 {
   StateData *state_data                 = NULL;
   ValueData *value_data                 = NULL;
+  ValueData *seconds_data               = NULL;
+  ValueData *easing_data                = NULL;
   g_autoptr (TransitionData) transition = NULL;
 
   g_return_val_if_fail (BGE_IS_WDGT_SPEC (self), FALSE);
   /* state is required for transitions */
   g_return_val_if_fail (state != NULL, FALSE);
   g_return_val_if_fail (value != NULL, FALSE);
-
-  if (seconds <= 0.0)
-    {
-      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
-                   "transition period must be greater than 0.0");
-      return FALSE;
-    }
+  g_return_val_if_fail (seconds != NULL, FALSE);
+  g_return_val_if_fail (easing != NULL, FALSE);
 
   state_data = g_hash_table_lookup (self->states, state);
-  value_data = g_hash_table_lookup (self->values, value);
-
   if (state_data == NULL)
     {
       g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
                    "state '%s' is undefined", state);
       return FALSE;
     }
+
+  value_data   = g_hash_table_lookup (self->values, value);
+  seconds_data = g_hash_table_lookup (self->values, seconds);
+  easing_data  = g_hash_table_lookup (self->values, easing);
+
   if (value_data == NULL)
     {
       g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
@@ -2457,10 +2404,39 @@ bge_wdgt_spec_transition_value (BgeWdgtSpec *self,
       return FALSE;
     }
 
+  if (seconds_data == NULL)
+    {
+      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
+                   "value '%s' is undefined", value);
+      return FALSE;
+    }
+  if (seconds_data->type != G_TYPE_DOUBLE)
+    {
+      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
+                   "transition ease seconds value must be a double, got %s",
+                   g_type_name (seconds_data->type));
+      return FALSE;
+    }
+
+  if (easing_data == NULL)
+    {
+      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
+                   "value '%s' is undefined", value);
+      return FALSE;
+    }
+  if (easing_data->type != BGE_TYPE_EASING)
+    {
+      g_set_error (error, G_IO_ERROR, G_IO_ERROR_UNKNOWN,
+                   "transition ease easing value must be of type %s, got %s",
+                   g_type_name (BGE_TYPE_EASING),
+                   g_type_name (easing_data->type));
+      return FALSE;
+    }
+
   transition               = transition_data_new ();
   transition->kind         = TRANSITION_EASE;
-  transition->ease.seconds = seconds;
-  transition->ease.easing  = easing;
+  transition->ease.seconds = value_data_ref (seconds_data);
+  transition->ease.easing  = value_data_ref (easing_data);
 
   g_hash_table_replace (
       state_data->transitions,
@@ -4246,7 +4222,7 @@ lookup_snapshot_push_instr (const char    *lookup_name,
      },
      gtk_snapshot_push_fill,
      snapshot_push_instr_fill,
-     2,
+     1,
      },
     {
      "stroke",
@@ -4258,7 +4234,7 @@ lookup_snapshot_push_instr (const char    *lookup_name,
      },
      gtk_snapshot_push_stroke,
      snapshot_push_instr_stroke,
-     2,
+     1,
      },
     {
      "shadow",
@@ -4272,7 +4248,7 @@ lookup_snapshot_push_instr (const char    *lookup_name,
      },
      gtk_snapshot_push_shadow,
      snapshot_push_instr_shadow,
-     2,
+     1,
      },
     {
      "blend",
@@ -5236,10 +5212,13 @@ BGE_DEFINE_DATA (
       GHashTable *expressions;
       GHashTable *transitions;
       GPtrArray  *snapshot_deps;
+      GHashTable *values_need_tick;
+      gboolean    needs_tick;
     },
     BGE_RELEASE_DATA (expressions, g_hash_table_unref);
     BGE_RELEASE_DATA (transitions, g_hash_table_unref);
-    BGE_RELEASE_DATA (snapshot_deps, g_ptr_array_unref))
+    BGE_RELEASE_DATA (snapshot_deps, g_ptr_array_unref);
+    BGE_RELEASE_DATA (transitions, g_hash_table_unref))
 
 struct _BgeWdgtRenderer
 {
@@ -5351,7 +5330,12 @@ BGE_DEFINE_DATA (
       double           value;
       double           elapsed;
       BgeWdgtNotifier *notifier;
-      SpringCache      spring;
+      struct
+      {
+        BgeEasing easing;
+        double    seconds;
+      } ease;
+      SpringCache spring;
     },
     BGE_RELEASE_DATA (notifier, g_object_unref))
 
@@ -5403,7 +5387,8 @@ static GtkExpression *
 ensure_expressions (BgeWdgtRenderer   *self,
                     ValueData         *value,
                     StateData         *state,
-                    StateInstanceData *instance);
+                    StateInstanceData *instance,
+                    gboolean          *value_needs_tick);
 
 static void
 set_value (BgeWdgtRenderer   *self,
@@ -5422,6 +5407,11 @@ static double
 resolve_value_double (BgeWdgtRenderer   *self,
                       ValueData         *value,
                       StateInstanceData *instance);
+
+static gint
+resolve_value_enum (BgeWdgtRenderer   *self,
+                    ValueData         *value,
+                    StateInstanceData *instance);
 
 static gpointer
 resolve_value_boxed_dup (BgeWdgtRenderer   *self,
@@ -5672,7 +5662,7 @@ bge_wdgt_renderer_size_allocate (GtkWidget *widget,
     }
 }
 
-static void
+static gboolean
 recurse_snapshot (BgeWdgtRenderer *self,
                   GtkSnapshot     *snapshot,
                   GPtrArray       *calls,
@@ -5681,6 +5671,7 @@ recurse_snapshot (BgeWdgtRenderer *self,
                   ForeachData     *parent_foreach,
                   gboolean         skip_foreach)
 {
+  gboolean             result           = FALSE;
   guint                start_idx        = 0;
   guint                n_iters          = 0;
   ForeachData         *next_foreach     = NULL;
@@ -5732,14 +5723,18 @@ recurse_snapshot (BgeWdgtRenderer *self,
       *idx = start_idx;
 
       if (next_foreach != NULL)
-        recurse_snapshot (
-            self,
-            snapshot,
-            calls,
-            idx,
-            next_foreach,
-            foreach_context,
-            skip_foreach);
+        {
+          result = recurse_snapshot (
+              self,
+              snapshot,
+              calls,
+              idx,
+              next_foreach,
+              foreach_context,
+              skip_foreach);
+          if (!result)
+            return FALSE;
+        }
 
       for (; *idx < calls->len; (*idx)++)
         {
@@ -5752,14 +5747,18 @@ recurse_snapshot (BgeWdgtRenderer *self,
               call->foreach_context == parent_foreach)
             break;
           else if (call->foreach_context != foreach_context)
-            recurse_snapshot (
-                self,
-                snapshot,
-                calls,
-                idx,
-                call->foreach_context,
-                foreach_context,
-                skip_foreach);
+            {
+              result = recurse_snapshot (
+                  self,
+                  snapshot,
+                  calls,
+                  idx,
+                  call->foreach_context,
+                  foreach_context,
+                  skip_foreach);
+              if (!result)
+                return FALSE;
+            }
           else if (!skip_foreach)
             {
               switch (call->kind)
@@ -5792,7 +5791,9 @@ recurse_snapshot (BgeWdgtRenderer *self,
 
                         value      = g_ptr_array_index (call->args, j);
                         expression = g_hash_table_lookup (self->active_instance->expressions, value);
-                        gtk_expression_evaluate (expression, self, &arg_values[j]);
+                        result     = gtk_expression_evaluate (expression, self, &arg_values[j]);
+                        if (!result)
+                          return FALSE;
                       }
                     for (guint j = 0; j < n_rest_values; j++)
                       {
@@ -5801,7 +5802,9 @@ recurse_snapshot (BgeWdgtRenderer *self,
 
                         value      = g_ptr_array_index (call->rest, j);
                         expression = g_hash_table_lookup (self->active_instance->expressions, value);
-                        gtk_expression_evaluate (expression, self, &rest_values[j]);
+                        result     = gtk_expression_evaluate (expression, self, &rest_values[j]);
+                        if (!result)
+                          return FALSE;
                       }
 
                     call->func (snapshot, arg_values, rest_values, n_rest_values);
@@ -5846,6 +5849,8 @@ recurse_snapshot (BgeWdgtRenderer *self,
             }
         }
     }
+
+  return TRUE;
 }
 
 static void
@@ -6004,7 +6009,7 @@ tick_cb (BgeWdgtRenderer *self,
           switch (transition->kind)
             {
             case TRANSITION_EASE:
-              if (elapsed <= transition->ease.seconds)
+              if (elapsed <= transition_instance->ease.seconds)
                 finished_all_state_transitions = FALSE;
               break;
             case TRANSITION_SPRING:
@@ -6022,6 +6027,16 @@ tick_cb (BgeWdgtRenderer *self,
     {
       g_clear_pointer (&self->last_state, state_data_unref);
       g_clear_pointer (&self->last_instance, state_instance_data_unref);
+    }
+
+  if ((self->active_instance == NULL ||
+       !self->active_instance->needs_tick) &&
+      self->track_transitions->len == 0 &&
+      finished_all_state_transitions)
+    {
+      gtk_widget_remove_tick_callback (GTK_WIDGET (self), self->tick);
+      self->tick = 0;
+      return G_SOURCE_REMOVE;
     }
 
   return G_SOURCE_CONTINUE;
@@ -6062,11 +6077,6 @@ bge_wdgt_renderer_init (BgeWdgtRenderer *self)
   self->widget_width_notifier     = g_object_new (BGE_TYPE_WDGT_NOTIFIER, NULL);
   self->widget_height_notifier    = g_object_new (BGE_TYPE_WDGT_NOTIFIER, NULL);
   self->tick_time_notifier        = g_object_new (BGE_TYPE_WDGT_NOTIFIER, NULL);
-
-  self->tick = gtk_widget_add_tick_callback (
-      GTK_WIDGET (self),
-      (GtkTickCallback) tick_cb,
-      NULL, NULL);
 }
 
 BgeWdgtRenderer *
@@ -6321,6 +6331,9 @@ regenerate (BgeWdgtRenderer *self)
           value_data_unref, transition_instance_data_unref);
       instance->snapshot_deps = g_ptr_array_new_with_free_func (
           (GDestroyNotify) gtk_expression_unref);
+      instance->values_need_tick = g_hash_table_new_full (
+          g_direct_hash, g_direct_equal,
+          value_data_unref, NULL);
 
       g_hash_table_replace (self->state_instances,
                             state_data_ref (state),
@@ -6362,7 +6375,7 @@ regenerate (BgeWdgtRenderer *self)
                   (gpointer *) &value))
             break;
 
-          expression = ensure_expressions (self, value, state, instance);
+          expression = ensure_expressions (self, value, state, instance, NULL);
         }
 
       for (guint i = 0; i < spec->anon_values->len; i++)
@@ -6371,7 +6384,7 @@ regenerate (BgeWdgtRenderer *self)
           g_autoptr (GtkExpression) expression = NULL;
 
           value      = g_ptr_array_index (spec->anon_values, i);
-          expression = ensure_expressions (self, value, state, instance);
+          expression = ensure_expressions (self, value, state, instance, NULL);
         }
 
       for (guint i = 0; i < spec->foreaches->len; i++)
@@ -6382,7 +6395,7 @@ regenerate (BgeWdgtRenderer *self)
 
           {
             g_autoptr (GtkExpression) expression =
-                ensure_expressions (self, data->model, state, instance);
+                ensure_expressions (self, data->model, state, instance, NULL);
           }
 
           g_hash_table_iter_init (&value_iter, data->values);
@@ -6398,7 +6411,7 @@ regenerate (BgeWdgtRenderer *self)
                       (gpointer *) &value))
                 break;
 
-              expression = ensure_expressions (self, value, state, instance);
+              expression = ensure_expressions (self, value, state, instance, NULL);
             }
         }
     }
@@ -6419,6 +6432,24 @@ regenerate (BgeWdgtRenderer *self)
 
       instance = g_hash_table_lookup (self->state_instances, state);
       g_assert (instance != NULL);
+
+      g_hash_table_iter_init (
+          &setters_iter,
+          state->setters);
+      for (;;)
+        {
+          ValueData *dest = NULL;
+          ValueData *src  = NULL;
+
+          if (!g_hash_table_iter_next (
+                  &setters_iter,
+                  (gpointer *) &dest,
+                  (gpointer *) &src))
+            break;
+
+          if (g_hash_table_contains (instance->values_need_tick, src))
+            instance->needs_tick = TRUE;
+        }
 
       if (state->snapshot != NULL)
         snapshot_state = state;
@@ -6460,6 +6491,9 @@ regenerate (BgeWdgtRenderer *self)
               if (found)
                 /* Ensure we don't duplicate deps */
                 continue;
+
+              if (g_hash_table_contains (instance->values_need_tick, arg))
+                instance->needs_tick = TRUE;
 
               g_ptr_array_add (instance->snapshot_deps,
                                gtk_expression_ref (expression));
@@ -6690,6 +6724,12 @@ apply_state (BgeWdgtRenderer *self)
 
   gtk_widget_queue_allocate (GTK_WIDGET (self));
   gtk_widget_queue_draw (GTK_WIDGET (self));
+
+  if (self->tick == 0)
+    self->tick = gtk_widget_add_tick_callback (
+        GTK_WIDGET (self),
+        (GtkTickCallback) tick_cb,
+        NULL, NULL);
 }
 
 static graphene_point_t *
@@ -6908,7 +6948,7 @@ expression_adjust_state_transition (BgeWdgtRenderer       *this,
   if (last_transition != NULL &&
       last_transition_instance != NULL &&
       last_transition->kind == TRANSITION_EASE &&
-      last_transition_instance->elapsed < last_transition->ease.seconds)
+      last_transition_instance->elapsed < last_transition_instance->ease.seconds)
     last_in = last_transition_instance->value;
   else
     {
@@ -6923,6 +6963,32 @@ expression_adjust_state_transition (BgeWdgtRenderer       *this,
 
   switch (transition->kind)
     {
+    case TRANSITION_EASE:
+      {
+        BgeEasing easing  = 0;
+        double    seconds = 0.0;
+
+        easing = resolve_value_enum (
+            this,
+            transition->ease.easing,
+            this->active_instance);
+        seconds = resolve_value_double (
+            this,
+            transition->ease.seconds,
+            this->active_instance);
+
+        if (elapsed >= seconds)
+          interpolated_number = in;
+        else
+          {
+            progress            = bge_easing_ease (easing, elapsed / seconds);
+            interpolated_number = last_in + progress * (in - last_in);
+          }
+
+        transition_instance->ease.easing  = easing;
+        transition_instance->ease.seconds = seconds;
+      }
+      break;
     case TRANSITION_SPRING:
       {
         double damping_ratio = 0.0;
@@ -6984,18 +7050,6 @@ expression_adjust_state_transition (BgeWdgtRenderer       *this,
               &transition_instance->spring.velocity);
       }
       break;
-    case TRANSITION_EASE:
-      {
-        if (elapsed >= transition->ease.seconds)
-          interpolated_number = in;
-        else
-          {
-            progress            = bge_easing_ease (transition->ease.easing,
-                                                   elapsed / transition->ease.seconds);
-            interpolated_number = last_in + progress * (in - last_in);
-          }
-      }
-      break;
     default:
       g_assert_not_reached ();
     }
@@ -7024,8 +7078,16 @@ expression_adjust_track_transition (BgeWdgtRenderer            *this,
 
   registered = g_ptr_array_find (this->track_transitions, data, &idx);
   if (!registered)
-    g_ptr_array_add (this->track_transitions,
-                     track_transition_closure_data_ref (data));
+    {
+      g_ptr_array_add (this->track_transitions,
+                       track_transition_closure_data_ref (data));
+
+      if (this->tick == 0)
+        this->tick = gtk_widget_add_tick_callback (
+            GTK_WIDGET (this),
+            (GtkTickCallback) tick_cb,
+            NULL, NULL);
+    }
 
   damping = damping_ratio *
             (/* critical damping */
@@ -7117,20 +7179,27 @@ static GtkExpression *
 ensure_expressions (BgeWdgtRenderer   *self,
                     ValueData         *value,
                     StateData         *state,
-                    StateInstanceData *instance)
+                    StateInstanceData *instance,
+                    gboolean          *value_needs_tick)
 {
   GtkExpression *cached                = NULL;
   g_autoptr (GtkExpression) expression = NULL;
   TransitionData *transition           = NULL;
+  gboolean        need_tick            = FALSE;
 
   cached = g_hash_table_lookup (instance->expressions, value);
   if (cached != NULL)
-    return gtk_expression_ref (cached);
+    {
+      if (value_needs_tick != NULL &&
+          g_hash_table_contains (instance->values_need_tick, value))
+        *value_needs_tick = TRUE;
+      return gtk_expression_ref (cached);
+    }
 
   switch (value->kind)
     {
     case VALUE_CONSTANT:
-      expression = gtk_constant_expression_new_for_value (&value->constant);
+      expression = gtk_constant_expression_new_for_value (&value->constant.value);
       break;
     case VALUE_OBJECT:
     case VALUE_CHILD:
@@ -7193,7 +7262,9 @@ ensure_expressions (BgeWdgtRenderer   *self,
             model_expression = ensure_expressions (
                 self,
                 value->iterator.context->model,
-                state, instance);
+                state,
+                instance,
+                &need_tick);
             expression = gtk_cclosure_expression_new (
                 value->type,
                 bge_marshal_OBJECT__OBJECT_UINT_DOUBLE,
@@ -7219,7 +7290,8 @@ ensure_expressions (BgeWdgtRenderer   *self,
           holds = g_hash_table_lookup (self->spec->init_state->setters, value);
 
         if (holds != NULL)
-          expression = ensure_expressions (self, holds, state, instance);
+          expression = ensure_expressions (
+              self, holds, state, instance, &need_tick);
         else
           {
             GValue empty_value = G_VALUE_INIT;
@@ -7304,12 +7376,14 @@ ensure_expressions (BgeWdgtRenderer   *self,
             G_CALLBACK (expression_get_tick_time),
             GSIZE_TO_POINTER (value->type),
             NULL);
+
+        need_tick = TRUE;
       }
       break;
     case VALUE_COERCION:
       {
         expression = ensure_expressions (
-            self, value->coercion.value, state, instance);
+            self, value->coercion.value, state, instance, &need_tick);
         expression = gtk_cclosure_expression_new (
             value->type,
             _marshal_DIRECT__ARGS_DIRECT,
@@ -7336,11 +7410,23 @@ ensure_expressions (BgeWdgtRenderer   *self,
             notifier_constant, notifier_props[NOTIFIER_PROP_VALUE]);
 
         damping_ratio_expression = ensure_expressions (
-            self, value->track_transition.spring.damping_ratio, state, instance);
+            self,
+            value->track_transition.spring.damping_ratio,
+            state,
+            instance,
+            &need_tick);
         mass_expression = ensure_expressions (
-            self, value->track_transition.spring.mass, state, instance);
+            self,
+            value->track_transition.spring.mass,
+            state,
+            instance,
+            &need_tick);
         stiffness_expression = ensure_expressions (
-            self, value->track_transition.spring.stiffness, state, instance);
+            self,
+            value->track_transition.spring.stiffness,
+            state,
+            instance,
+            &need_tick);
 
         closure_data           = track_transition_closure_data_new ();
         closure_data->value    = value_data_ref (value);
@@ -7348,7 +7434,11 @@ ensure_expressions (BgeWdgtRenderer   *self,
         closure_data->notifier = g_object_ref (notifier_object);
 
         expression = ensure_expressions (
-            self, value->track_transition.src, state, instance);
+            self,
+            value->track_transition.src,
+            state,
+            instance,
+            &need_tick);
         expression = gtk_cclosure_expression_new (
             value->type,
             bge_marshal_DOUBLE__DOUBLE_DOUBLE_DOUBLE_DOUBLE_DOUBLE,
@@ -7366,13 +7456,13 @@ ensure_expressions (BgeWdgtRenderer   *self,
 
         params = g_ptr_array_new ();
 
-        for (guint i = 0; i < value->component->len; i++)
+        for (guint i = 0; i < value->component.params->len; i++)
           {
             ValueData *member                     = NULL;
             g_autoptr (GtkExpression) member_expr = NULL;
 
-            member      = g_ptr_array_index (value->component, i);
-            member_expr = ensure_expressions (self, member, state, instance);
+            member      = g_ptr_array_index (value->component.params, i);
+            member_expr = ensure_expressions (self, member, state, instance, &need_tick);
             g_ptr_array_add (params, g_steal_pointer (&member_expr));
           }
 
@@ -7421,7 +7511,7 @@ ensure_expressions (BgeWdgtRenderer   *self,
 
         params = g_ptr_array_new ();
 
-        next_expr = ensure_expressions (self, value->transform.next, state, instance);
+        next_expr = ensure_expressions (self, value->transform.next, state, instance, &need_tick);
         g_ptr_array_add (params, g_steal_pointer (&next_expr));
 
         for (guint i = 0; i < value->transform.args->len; i++)
@@ -7430,7 +7520,7 @@ ensure_expressions (BgeWdgtRenderer   *self,
             g_autoptr (GtkExpression) arg_expr = NULL;
 
             arg      = g_ptr_array_index (value->transform.args, i);
-            arg_expr = ensure_expressions (self, arg, state, instance);
+            arg_expr = ensure_expressions (self, arg, state, instance, &need_tick);
             g_ptr_array_add (params, g_steal_pointer (&arg_expr));
           }
 
@@ -7463,7 +7553,7 @@ ensure_expressions (BgeWdgtRenderer   *self,
                 g_autoptr (GtkExpression) arg_expr = NULL;
 
                 arg      = g_ptr_array_index (args, j);
-                arg_expr = ensure_expressions (self, arg, state, instance);
+                arg_expr = ensure_expressions (self, arg, state, instance, &need_tick);
                 g_ptr_array_add (params, g_steal_pointer (&arg_expr));
               }
           }
@@ -7490,7 +7580,7 @@ ensure_expressions (BgeWdgtRenderer   *self,
             g_autoptr (GtkExpression) arg_expr = NULL;
 
             arg      = g_ptr_array_index (value->closure.args, i);
-            arg_expr = ensure_expressions (self, arg, state, instance);
+            arg_expr = ensure_expressions (self, arg, state, instance, &need_tick);
             g_ptr_array_add (params, g_steal_pointer (&arg_expr));
           }
 
@@ -7510,15 +7600,12 @@ ensure_expressions (BgeWdgtRenderer   *self,
 
         /* Mark subproperty values as dependencies as well */
         object_expression = ensure_expressions (
-            self, value->property.object, state, instance);
+            self, value->property.object, state, instance, &need_tick);
         expression = gtk_property_expression_new (
             value->property.object->type,
             g_steal_pointer (&object_expression),
             value->property.prop_name);
       }
-      break;
-    case VALUE_SPECIAL:
-      g_assert (FALSE);
       break;
     default:
       g_assert_not_reached ();
@@ -7541,7 +7628,7 @@ ensure_expressions (BgeWdgtRenderer   *self,
       switch (transition->kind)
         {
         case TRANSITION_EASE:
-          instance_data->elapsed = transition->ease.seconds;
+          instance_data->elapsed = G_MAXINT;
           break;
         case TRANSITION_SPRING:
           instance_data->spring.est_duration = -1.0;
@@ -7577,6 +7664,19 @@ ensure_expressions (BgeWdgtRenderer   *self,
       instance->expressions,
       value_data_ref (value),
       gtk_expression_ref (expression));
+
+  if (need_tick)
+    {
+      /* We need to track this so we know not to remove the animation tick
+         callback when transitions are not active */
+      g_hash_table_replace (
+          instance->values_need_tick,
+          value_data_ref (value),
+          NULL);
+      if (value_needs_tick != NULL)
+        *value_needs_tick = TRUE;
+    }
+
   return gtk_expression_ref (expression);
 }
 
@@ -7687,7 +7787,6 @@ set_value (BgeWdgtRenderer   *self,
                   case VALUE_PATH:
                   case VALUE_PROPERTY:
                   case VALUE_REFERENCE_OBJECT:
-                  case VALUE_SPECIAL:
                   case VALUE_TICK_TIME:
                   case VALUE_TRACK_TRANSITION:
                   case VALUE_TRANSFORM:
@@ -7745,7 +7844,6 @@ set_value (BgeWdgtRenderer   *self,
           case VALUE_PATH:
           case VALUE_PROPERTY:
           case VALUE_REFERENCE_OBJECT:
-          case VALUE_SPECIAL:
           case VALUE_TICK_TIME:
           case VALUE_TRACK_TRANSITION:
           case VALUE_TRANSFORM:
@@ -7771,7 +7869,6 @@ set_value (BgeWdgtRenderer   *self,
     case VALUE_OBJECT:
     case VALUE_PATH:
     case VALUE_REFERENCE_OBJECT:
-    case VALUE_SPECIAL:
     case VALUE_TICK_TIME:
     case VALUE_TRACK_TRANSITION:
     case VALUE_TRANSFORM:
@@ -7842,6 +7939,27 @@ resolve_value_double (BgeWdgtRenderer   *self,
       self,
       &resolved);
   ret = g_value_get_double (&resolved);
+  g_value_unset (&resolved);
+
+  return ret;
+}
+
+static gint
+resolve_value_enum (BgeWdgtRenderer   *self,
+                    ValueData         *value,
+                    StateInstanceData *instance)
+{
+  GtkExpression *expression = NULL;
+  GValue         resolved   = G_VALUE_INIT;
+  gint           ret        = 0;
+
+  expression = g_hash_table_lookup (instance->expressions, value);
+  g_assert (expression != NULL);
+  gtk_expression_evaluate (
+      expression,
+      self,
+      &resolved);
+  ret = g_value_get_enum (&resolved);
   g_value_unset (&resolved);
 
   return ret;
@@ -7937,39 +8055,79 @@ reset_setter (WatchSetterData *data)
       NULL);
 }
 
+static GHashTable *renderer_resource_cache = NULL;
+
+static void
+cache_weak_notify (char    *resource,
+                   GObject *where_the_object_was)
+{
+  g_hash_table_remove (renderer_resource_cache, resource);
+  g_free (resource);
+}
+
 static void
 wdgt_renderer_set_from_resource (BgeWdgtRenderer *self,
                                  const char      *resource)
 {
   g_autoptr (GError) local_error = NULL;
   g_autoptr (GBytes) bytes       = NULL;
+  BgeWdgtSpec  *cached           = NULL;
   gsize         buffer_size      = 0;
   gconstpointer buffer           = NULL;
   g_autoptr (BgeWdgtSpec) spec   = NULL;
 
-  bytes = g_resources_lookup_data (
-      resource,
-      G_RESOURCE_LOOKUP_FLAGS_NONE,
-      &local_error);
-  if (bytes == NULL)
+  if (g_once_init_enter_pointer (&renderer_resource_cache))
     {
-      g_critical ("failed to set renderer spec from resource: %s",
-                  local_error->message);
-      bge_wdgt_renderer_set_spec (self, NULL);
-      return;
+      GHashTable *tmp = NULL;
+
+      tmp = g_hash_table_new_full (
+          g_str_hash,
+          g_str_equal,
+          g_free,
+          NULL);
+      g_once_init_leave_pointer (&renderer_resource_cache, tmp);
     }
 
-  buffer = g_bytes_get_data (bytes, &buffer_size);
-  spec   = bge_wdgt_spec_new_for_string (buffer, &local_error);
-  if (spec == NULL)
+  cached = g_hash_table_lookup (
+      renderer_resource_cache,
+      resource);
+  if (cached == NULL)
     {
-      g_critical ("failed to set renderer spec from resource %s: %s",
-                  resource, local_error->message);
-      bge_wdgt_renderer_set_spec (self, NULL);
-      return;
+      bytes = g_resources_lookup_data (
+          resource,
+          G_RESOURCE_LOOKUP_FLAGS_NONE,
+          &local_error);
+      if (bytes == NULL)
+        {
+          g_critical ("failed to set renderer spec from resource: %s",
+                      local_error->message);
+          bge_wdgt_renderer_set_spec (self, NULL);
+          return;
+        }
+
+      buffer = g_bytes_get_data (bytes, &buffer_size);
+      spec   = bge_wdgt_spec_new_for_string (buffer, &local_error);
+      if (spec == NULL)
+        {
+          g_critical ("failed to set renderer spec from resource %s: %s",
+                      resource, local_error->message);
+          bge_wdgt_renderer_set_spec (self, NULL);
+          return;
+        }
+
+      g_hash_table_replace (
+          renderer_resource_cache,
+          g_strdup (resource),
+          spec);
+      g_object_weak_ref (
+          G_OBJECT (spec),
+          (GWeakNotify) cache_weak_notify,
+          g_strdup (resource));
+
+      cached = spec;
     }
 
-  bge_wdgt_renderer_set_spec (self, spec);
+  bge_wdgt_renderer_set_spec (self, cached);
 }
 
 static void

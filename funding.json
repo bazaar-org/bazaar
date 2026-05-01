@@ -7,10 +7,9 @@
     "name": "Adam Masciola",
     "email": "kolunmi@posteo.net",
     "phone": "",
-    "description": "",
+    "description": "Adam is the creator and lead programmer of Bazaar.",
     "webpageUrl": {
-      "url": "https://www.kolunmi.net/",
-      "wellKnown": "https://github.com/bazaar-org/bazaar/blob/main/.well-known/funding-manifest-urls"
+      "url": "https://www.kolunmi.net/"
     }
   },
   "projects": [
@@ -19,8 +18,7 @@
       "name": "Bazaar",
       "description": "Bazaar is a vertically-integrated App Store for Linux desktop applications, tightly integrating with Flatpak application packages and flathub.org, the central Flatpak repository. It provides a beautiful and high-performance frontend to these open standards and open infrastructure for Linux desktop apps.",
       "webpageUrl": {
-        "url": "https://usebazaar.org/",
-        "wellKnown": "https://github.com/bazaar-org/bazaar/blob/main/.well-known/funding-manifest-urls"
+        "url": "https://usebazaar.org/"
       },
       "repositoryUrl": {
         "url": "https://github.com/bazaar-org/bazaar",

@@ -32,291 +32,266 @@ template $BzWindow: Adw.ApplicationWindow {
   }
 
   content: Adw.ToolbarView {
-    content: $BzCometOverlay comet_overlay {
-      child: Adw.BreakpointBin split_breakpoint_bin {
-        width-request: 360;
-        height-request: 450;
+    content: Adw.BreakpointBin split_breakpoint_bin {
+      width-request: 360;
+      height-request: 450;
 
-        child: Adw.ToastOverlay toasts {
-          child: Adw.NavigationView navigation_view {
-            pop-on-escape: false;
+      child: Adw.ToastOverlay toasts {
+        child: Adw.NavigationView navigation_view {
+          pop-on-escape: false;
 
-            Adw.NavigationPage {
-              tag: "main";
-              title: _("Bazaar");
+          Adw.NavigationPage {
+            tag: "main";
+            title: _("Bazaar");
 
-              child: Adw.ToolbarView toolbar_view {
-                top-bar-style: flat;
-                bottom-bar-style: flat;
-                reveal-bottom-bars: false;
+            child: Adw.ToolbarView toolbar_view {
+              top-bar-style: flat;
+              bottom-bar-style: flat;
+              reveal-bottom-bars: false;
 
-                content: Stack main_stack {
-                  StackPage {
-                    name: "loading";
+              content: Stack main_stack {
+                StackPage {
+                  name: "loading";
 
-                    child: Box {
-                      halign: fill;
-                      valign: center;
-                      orientation: vertical;
-                      spacing: 6;
+                  child: Box {
+                    halign: fill;
+                    valign: center;
+                    orientation: vertical;
+                    spacing: 6;
 
-                      Adw.Spinner {
-                        width-request: 64;
-                        height-request: 64;
-                        margin-bottom: 18;
-                      }
-
-                      Label {
-                        label: _("Refreshing…");
-                        wrap: true;
-                        justify: center;
-                        margin-bottom: 24;
-
-                        styles [
-                          "title-3",
-                        ]
-                      }
-                    };
-                  }
-
-                  StackPage {
-                    name: "main";
-
-                    child: Adw.ViewStack main_view_stack {
-                      Adw.ViewStackPage {
-                        name: "browse";
-                        title: _("Curated");
-                        icon-name: "starred-symbolic";
-                        visible: bind template.state as <$BzStateInfo>.curated-provider as <$BzContentProvider>.has-inputs;
-
-                        child: $BzCuratedView browse {
-                          state: bind template.state as <$BzStateInfo>;
-                          browse-flathub => $browse_flathub_cb(template);
-                        };
-                      }
-
-                      Adw.ViewStackPage {
-                        name: "flathub";
-                        title: _("Explore");
-                        icon-name: "explore-symbolic";
-
-                        child: $BzFlathubPage {
-                          state: bind template.state as <$BzStateInfo>;
-                          open-search => $open_search_cb(template);
-                        };
-                      }
-
-                      Adw.ViewStackPage {
-                        name: "installed";
-                        // Translators: .
-                        title: _("Library");
-                        icon-name: "library-symbolic";
-                        badge-number: bind template.state as <$BzStateInfo>.available-updates as <Gio.ListStore>.n-items;
-                        needs-attention: bind template.state as <$BzStateInfo>.available-updates as <Gio.ListStore>.n-items;
-
-                        child: $BzLibraryPage library_page {
-                          state: bind template.state;
-                          transactions: bind template.state as <$BzStateInfo>.transaction-manager;
-                          model: bind template.state as <$BzStateInfo>.all-installed-entry-groups;
-                          update => $update_cb(template);
-                        };
-                      }
-
-                      Adw.ViewStackPage {
-                        name: "search";
-                        title: _("Search");
-                        icon-name: "system-search-symbolic";
-
-                        child: $BzSearchPage search_page {
-                          state: bind template.state;
-                        };
-                      }
-                    };
-                  }
-                };
-
-                [top]
-                Box {
-                  orientation: vertical;
-
-                  Adw.HeaderBar top_header_bar {
-                    [start]
-                    Box {
-                      styles [
-                        "bz-debug",
-                      ]
-
-                      orientation: horizontal;
-                      spacing: 6;
-                      visible: bind template.state as <$BzStateInfo>.debug-mode;
-
-                      Button {
-                        has-tooltip: true;
-                        tooltip-text: "Open Bazaar Inspector";
-                        icon-name: "bug-symbolic";
-                        action-name: "app.bazaar-inspector";
-                      }
+                    Adw.Spinner {
+                      width-request: 64;
+                      height-request: 64;
+                      margin-bottom: 18;
                     }
 
-                    [start]
-                    MenuButton {
-                      visible: bind template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.authenticated;
-                      menu-model: account_menu;
+                    Label {
+                      label: _("Refreshing…");
+                      wrap: true;
+                      justify: center;
+                      margin-bottom: 24;
 
                       styles [
-                        "circular",
-                        "flat",
+                        "title-3",
                       ]
-
-                      child: Adw.Avatar {
-                        size: 24;
-                        custom-image: bind template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.paintable;
-                      };
                     }
+                  };
+                }
 
-                    [start]
-                    Revealer {
-                      transition-type: crossfade;
-                      transition-duration: 750;
-                      reveal-child: bind $logical_or($invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>, status_popover.visible) as <bool>;
+                StackPage {
+                  name: "main";
 
-                      child: MenuButton {
-                        styles [
-                          "flat",
-                        ]
+                  child: Adw.ViewStack main_view_stack {
+                    Adw.ViewStackPage {
+                      name: "browse";
+                      title: _("Curated");
+                      icon-name: "starred-symbolic";
+                      visible: bind template.state as <$BzStateInfo>.curated-provider as <$BzContentProvider>.has-inputs;
 
-                        child: Box {
-                          Adw.Spinner {
-                            visible: bind status_popover_label.visible;
-                          }
-
-                          Image {
-                            visible: bind $invert_boolean(status_popover_label.visible) as <bool>;
-                            icon-name: "check-plain-symbolic";
-                          }
-                        };
-
-                        popover: Popover status_popover {
-                          has-arrow: true;
-                          position: right;
-
-                          child: Box {
-                            orientation: vertical;
-                            margin-top: 12;
-                            margin-bottom: 12;
-                            margin-start: 12;
-                            margin-end: 12;
-                            width-request: 300;
-
-                            Label status_popover_label {
-                              hexpand: true;
-                              visible: bind $invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>;
-                              label: bind template.state as <$BzStateInfo>.background-task-label;
-                            }
-
-                            Label {
-                              hexpand: true;
-                              visible: bind $invert_boolean(status_popover_label.visible) as <bool>;
-                              label: _("Refresh completed!");
-                            }
-                          };
-                        };
-                      };
-                    }
-
-                    [title]
-                    Adw.ViewSwitcher {
-                      stack: main_view_stack;
-                      policy: wide;
-                      sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
-                    }
-
-                    [end]
-                    MenuButton {
-                      primary: true;
-                      icon-name: "open-menu-symbolic";
-                      has-tooltip: true;
-                      tooltip-text: _("Main Menu");
-                      menu-model: primary_menu;
-                    }
-
-                    [end]
-                    Button progress_button {
-                      styles [
-                        "flat",
-                        "global-progress-button",
-                      ]
-
-                      can-focus: bind template.state as <$BzStateInfo>.transaction-manager as <$BzTransactionManager>.active;
-                      can-target: bind progress_button.can-focus;
-
-                      action-name: "window.open-library";
-                      has-tooltip: true;
-                      tooltip-text: _("Open App Library");
-
-                      child: $BzGlobalProgress {
-                        expand-size: 125;
+                      child: $BzCuratedView browse {
                         state: bind template.state as <$BzStateInfo>;
-                        active: bind template.state as <$BzStateInfo>.transaction-manager as <$BzTransactionManager>.active;
-                        pending: bind template.state as <$BzStateInfo>.transaction-manager as <$BzTransactionManager>.pending;
-                        settings: bind template.state as <$BzStateInfo>.settings;
+                        browse-flathub => $browse_flathub_cb(template);
                       };
                     }
-                  }
 
-                  Adw.Banner {
+                    Adw.ViewStackPage {
+                      name: "flathub";
+                      title: _("Explore");
+                      icon-name: "explore-symbolic";
+
+                      child: $BzFlathubPage {
+                        state: bind template.state as <$BzStateInfo>;
+                        open-search => $open_search_cb(template);
+                      };
+                    }
+
+                    Adw.ViewStackPage {
+                      name: "installed";
+                      // Translators: .
+                      title: _("Library");
+                      icon-name: "library-symbolic";
+                      badge-number: bind template.state as <$BzStateInfo>.available-updates as <Gio.ListStore>.n-items;
+                      needs-attention: bind template.state as <$BzStateInfo>.available-updates as <Gio.ListStore>.n-items;
+
+                      child: $BzLibraryPage library_page {
+                        state: bind template.state;
+                        transactions: bind template.state as <$BzStateInfo>.transaction-manager;
+                        model: bind template.state as <$BzStateInfo>.all-installed-entry-groups;
+                        update => $update_cb(template);
+                      };
+                    }
+
+                    Adw.ViewStackPage {
+                      name: "search";
+                      title: _("Search");
+                      icon-name: "system-search-symbolic";
+
+                      child: $BzSearchPage search_page {
+                        state: bind template.state;
+                      };
+                    }
+                  };
+                }
+              };
+
+              [top]
+              Box {
+                orientation: vertical;
+
+                Adw.HeaderBar top_header_bar {
+                  [start]
+                  Box {
                     styles [
-                      "bz-donations-banner",
+                      "bz-debug",
                     ]
 
-                    revealed: bind $invert_boolean(template.state as <$BzStateInfo>.donation-prompt-dismissed as <bool>) as <bool>;
-                    title: _("You are running a new version of Bazaar!");
-                    button-label: _("See What's New");
-                    action-name: "app.donate";
+                    orientation: horizontal;
+                    spacing: 6;
+                    visible: bind template.state as <$BzStateInfo>.debug-mode;
+
+                    Button {
+                      has-tooltip: true;
+                      tooltip-text: "Open Bazaar Inspector";
+                      icon-name: "bug-symbolic";
+                      action-name: "app.bazaar-inspector";
+                    }
                   }
 
-                  Adw.Banner {
-                    sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.syncing as <bool>) as <bool>;
-                    revealed: bind $logical_and($invert_boolean(template.state as <$BzStateInfo>.metered_connection as <bool>) as <bool>, $logical_and(template.state as <$BzStateInfo>.have_connection as <bool>, $invert_boolean(template.state as <$BzStateInfo>.online as <bool>) as <bool>) as <bool>) as <bool>;
-                    title: _("You have a network connection but are viewing a cached version of Flathub");
-                    button-label: _("Refresh Manually");
-                    button-clicked => $sync_cb(template);
+                  [start]
+                  MenuButton {
+                    visible: bind template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.authenticated;
+                    menu-model: account_menu;
+
+                    styles [
+                      "circular",
+                      "flat",
+                    ]
+
+                    child: Adw.Avatar {
+                      size: 24;
+                      custom-image: bind template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.paintable;
+                    };
+                  }
+
+                  [start]
+                  Revealer {
+                    transition-type: crossfade;
+                    transition-duration: 750;
+                    reveal-child: bind $logical_or($invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>, status_popover.visible) as <bool>;
+
+                    child: MenuButton {
+                      styles [
+                        "flat",
+                      ]
+
+                      child: Box {
+                        Adw.Spinner {
+                          visible: bind status_popover_label.visible;
+                        }
+
+                        Image {
+                          visible: bind $invert_boolean(status_popover_label.visible) as <bool>;
+                          icon-name: "check-plain-symbolic";
+                        }
+                      };
+
+                      popover: Popover status_popover {
+                        has-arrow: true;
+                        position: right;
+
+                        child: Box {
+                          orientation: vertical;
+                          margin-top: 12;
+                          margin-bottom: 12;
+                          margin-start: 12;
+                          margin-end: 12;
+                          width-request: 300;
+
+                          Label status_popover_label {
+                            hexpand: true;
+                            visible: bind $invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>;
+                            label: bind template.state as <$BzStateInfo>.background-task-label;
+                          }
+
+                          Label {
+                            hexpand: true;
+                            visible: bind $invert_boolean(status_popover_label.visible) as <bool>;
+                            label: _("Refresh completed!");
+                          }
+                        };
+                      };
+                    };
+                  }
+
+                  [title]
+                  Adw.ViewSwitcher {
+                    stack: main_view_stack;
+                    policy: wide;
+                    sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
+                  }
+
+                  [end]
+                  MenuButton {
+                    primary: true;
+                    icon-name: "open-menu-symbolic";
+                    has-tooltip: true;
+                    tooltip-text: _("Main Menu");
+                    menu-model: primary_menu;
                   }
                 }
 
-                [bottom]
-                Adw.ViewSwitcherBar {
-                  stack: main_view_stack;
-                  reveal: true;
-                  sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
+                Adw.Banner {
+                  styles [
+                    "bz-donations-banner",
+                  ]
+
+                  revealed: bind $invert_boolean(template.state as <$BzStateInfo>.donation-prompt-dismissed as <bool>) as <bool>;
+                  title: _("You are running a new version of Bazaar!");
+                  button-label: _("See What's New");
+                  action-name: "app.donate";
                 }
-              };
-            }
 
-            Adw.NavigationPage {
-              tag: "view";
-              title: bind full_view.entry-group as <$BzEntryGroup>.title as <string>;
+                Adw.Banner {
+                  sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.syncing as <bool>) as <bool>;
+                  revealed: bind $logical_and($invert_boolean(template.state as <$BzStateInfo>.metered_connection as <bool>) as <bool>, $logical_and(template.state as <$BzStateInfo>.have_connection as <bool>, $invert_boolean(template.state as <$BzStateInfo>.online as <bool>) as <bool>) as <bool>) as <bool>;
+                  title: _("You have a network connection but are viewing a cached version of Flathub");
+                  button-label: _("Refresh Manually");
+                  button-clicked => $sync_cb(template);
+                }
+              }
 
-              child: $BzFullView full_view {
-                state: bind template.state;
-                update => $update_cb(template);
-              };
-            }
-          };
-        };
-
-        Adw.Breakpoint {
-          condition ("max-width: 700px")
-
-          setters {
-            top_header_bar.title-widget: null;
-            toolbar_view.reveal-bottom-bars: true;
+              [bottom]
+              Adw.ViewSwitcherBar {
+                stack: main_view_stack;
+                reveal: true;
+                sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
+              }
+            };
           }
 
-          apply => $breakpoint_apply_cb(template);
-          unapply => $breakpoint_unapply_cb(template);
-        }
+          Adw.NavigationPage {
+            tag: "view";
+            title: bind full_view.entry-group as <$BzEntryGroup>.title as <string>;
+
+            child: $BzFullView full_view {
+              state: bind template.state;
+              update => $update_cb(template);
+            };
+          }
+        };
       };
+
+      Adw.Breakpoint {
+        condition ("max-width: 700px")
+
+        setters {
+          top_header_bar.title-widget: null;
+          toolbar_view.reveal-bottom-bars: true;
+        }
+
+        apply => $breakpoint_apply_cb(template);
+        unapply => $breakpoint_unapply_cb(template);
+      }
     };
   };
 }

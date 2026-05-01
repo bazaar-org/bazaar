@@ -28,6 +28,7 @@
 #include "bz-state-info.h"
 #include "bz-template-callbacks.h"
 #include "bz-util.h"
+#include "progress-bar-designs/common.h"
 
 struct _BzInstallControls
 {
@@ -35,13 +36,17 @@ struct _BzInstallControls
 
   BzEntryGroup              *group;
   BzStateInfo               *state;
+  GSettings                 *settings;
   gboolean                   wide;
   BzTransactionEntryTracker *tracker;
+
+  GtkWidget *install_button;
+  char      *install_btn_class;
+  char      *pride_class;
 
   /* Template widgets */
   GtkWidget *open_button;
   GtkWidget *animated_button;
-  GtkWidget *install_button;
 };
 
 G_DEFINE_FINAL_TYPE (BzInstallControls, bz_install_controls, GTK_TYPE_BOX)
@@ -52,6 +57,7 @@ enum
   PROP_WIDE,
   PROP_ENTRY_GROUP,
   PROP_STATE,
+  PROP_SETTINGS,
   PROP_TRACKER,
   LAST_PROP
 };
@@ -63,6 +69,14 @@ enum
   LAST_SIGNAL,
 };
 static guint signals[LAST_SIGNAL];
+
+static void
+pride_flag_changed (BzInstallControls *self,
+                    const char        *key,
+                    GSettings         *settings);
+
+static void
+ensure_draw_css (BzInstallControls *self);
 
 static void
 update_tracker (BzInstallControls *self)
@@ -112,25 +126,24 @@ on_all_trackers_changed (GListModel        *model,
 }
 
 static void
-cancel_cb (BzInstallControls *self,
-           GtkButton         *button)
+install_cancel_cb (BzInstallControls *self,
+                   GtkButton         *button)
 {
+  const char *state = NULL;
+
   if (self->group == NULL)
     return;
 
-  gtk_widget_activate_action (GTK_WIDGET (self), "window.cancel-group", "s",
-                              bz_entry_group_get_id (self->group));
-}
-
-static void
-install_cb (BzInstallControls *self,
-            GtkButton         *button)
-{
-  if (self->group == NULL)
+  state = bge_wdgt_renderer_get_state (BGE_WDGT_RENDERER (self->animated_button));
+  if (state == NULL)
     return;
 
-  gtk_widget_activate_action (GTK_WIDGET (self), "window.install-group", "(sb)",
-                              bz_entry_group_get_id (self->group), TRUE);
+  if (g_strcmp0 (state, "inactive") == 0)
+    gtk_widget_activate_action (GTK_WIDGET (self), "window.install-group", "(sb)",
+                                bz_entry_group_get_id (self->group), TRUE);
+  else
+    gtk_widget_activate_action (GTK_WIDGET (self), "window.cancel-group", "s",
+                                bz_entry_group_get_id (self->group));
 }
 
 static void
@@ -237,14 +250,50 @@ get_install_btn_state (gpointer                 object,
                        gboolean                 pending,
                        double                   progress)
 {
+  BzInstallControls *self  = BZ_INSTALL_CONTROLS (object);
+  g_autofree char   *state = NULL;
+  const char        *class = NULL;
+
   if ((active || pending) && status == BZ_TRANSACTION_ENTRY_STATUS_CANCELLED)
-    return g_strdup ("cancelling");
+    {
+      state = g_strdup ("cancelling");
+      class = NULL;
+    }
   else if (pending || status == BZ_TRANSACTION_ENTRY_STATUS_QUEUED)
-    return g_strdup ("pending");
+    {
+      state = g_strdup ("pending");
+      class = NULL;
+    }
   else if (!active || status == BZ_TRANSACTION_ENTRY_STATUS_DONE)
-    return g_strdup ("inactive");
+    {
+      state = g_strdup ("inactive");
+      class = "suggested-action";
+    }
   else
-    return g_strdup ("fraction");
+    {
+      state = g_strdup ("fraction");
+      class = NULL;
+    }
+
+  if (!(class != NULL &&
+        self->install_btn_class != NULL &&
+        g_strcmp0 (class, self->install_btn_class) == 0))
+    {
+      if (self->install_btn_class != NULL)
+        gtk_widget_remove_css_class (
+            self->install_button,
+            self->install_btn_class);
+      g_clear_pointer (&self->install_btn_class, g_free);
+      if (class != NULL)
+        {
+          gtk_widget_add_css_class (
+              self->install_button,
+              class);
+          self->install_btn_class = g_strdup (class);
+        }
+    }
+
+  return g_steal_pointer (&state);
 }
 
 static gboolean
@@ -294,9 +343,19 @@ bz_install_controls_dispose (GObject *object)
 {
   BzInstallControls *self = BZ_INSTALL_CONTROLS (object);
 
+  if (self->settings != NULL)
+    g_signal_handlers_disconnect_by_func (
+        self->settings,
+        pride_flag_changed,
+        self);
+
   g_clear_object (&self->group);
   g_clear_object (&self->state);
+  g_clear_object (&self->settings);
   g_clear_object (&self->tracker);
+  g_clear_object (&self->install_button);
+  g_clear_pointer (&self->install_btn_class, g_free);
+  g_clear_pointer (&self->pride_class, g_free);
 
   G_OBJECT_CLASS (bz_install_controls_parent_class)->dispose (object);
 }
@@ -323,6 +382,9 @@ bz_install_controls_get_property (GObject    *object,
     case PROP_TRACKER:
       g_value_set_object (value, self->tracker);
       break;
+    case PROP_SETTINGS:
+      g_value_set_object (value, self->settings);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -346,6 +408,32 @@ bz_install_controls_set_property (GObject      *object,
       break;
     case PROP_STATE:
       bz_install_controls_set_state (self, g_value_get_object (value));
+      break;
+    case PROP_SETTINGS:
+      {
+        if (self->settings != NULL)
+          g_signal_handlers_disconnect_by_func (
+              self->settings,
+              pride_flag_changed,
+              self);
+        g_clear_object (&self->settings);
+        self->settings = g_value_dup_object (value);
+
+        if (self->settings != NULL)
+          {
+            g_signal_connect_swapped (
+                self->settings,
+                "changed::global-progress-bar-theme",
+                G_CALLBACK (pride_flag_changed),
+                self);
+            g_signal_connect_swapped (
+                self->settings,
+                "changed::rotate-flag",
+                G_CALLBACK (pride_flag_changed),
+                self);
+          }
+        ensure_draw_css (self);
+      }
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -383,6 +471,13 @@ bz_install_controls_class_init (BzInstallControlsClass *klass)
           BZ_TYPE_STATE_INFO,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PROP_SETTINGS] =
+      g_param_spec_object (
+          "settings",
+          NULL, NULL,
+          G_TYPE_SETTINGS,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   props[PROP_TRACKER] =
       g_param_spec_object (
           "tracker",
@@ -416,7 +511,7 @@ bz_install_controls_class_init (BzInstallControlsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzInstallControls, open_button);
   gtk_widget_class_bind_template_child (widget_class, BzInstallControls, animated_button);
 
-  gtk_widget_class_bind_template_callback (widget_class, install_cb);
+  gtk_widget_class_bind_template_callback (widget_class, install_cancel_cb);
   gtk_widget_class_bind_template_callback (widget_class, remove_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_cb);
   gtk_widget_class_bind_template_callback (widget_class, update_cb);
@@ -428,23 +523,19 @@ bz_install_controls_class_init (BzInstallControlsClass *klass)
 static void
 bz_install_controls_init (BzInstallControls *self)
 {
-  g_autoptr (GtkWidget) btn_cancel = NULL;
-
   self->wide = TRUE;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->install_button = bge_wdgt_renderer_lookup_object (
-      BGE_WDGT_RENDERER (self->animated_button), "btn-install");
+      BGE_WDGT_RENDERER (self->animated_button), "btn");
+  gtk_widget_add_css_class (self->install_button, "pill");
   g_signal_connect_swapped (
       self->install_button, "clicked",
-      G_CALLBACK (install_cb), self);
+      G_CALLBACK (install_cancel_cb), self);
 
-  btn_cancel = bge_wdgt_renderer_lookup_object (
-      BGE_WDGT_RENDERER (self->animated_button), "btn-cancel");
-  g_signal_connect_swapped (
-      btn_cancel, "clicked",
-      G_CALLBACK (cancel_cb), self);
+  gtk_widget_add_css_class (self->install_button, "suggested-action");
+  self->install_btn_class = g_strdup ("suggested-action");
 }
 
 GtkWidget *
@@ -547,4 +638,50 @@ bz_install_controls_set_state (BzInstallControls *self,
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATE]);
   update_tracker (self);
+}
+
+static void
+pride_flag_changed (BzInstallControls *self,
+                    const char        *key,
+                    GSettings         *settings)
+{
+  ensure_draw_css (self);
+}
+
+static void
+ensure_draw_css (BzInstallControls *self)
+{
+  if (self->settings != NULL)
+    {
+      g_autofree char *id       = NULL;
+      g_autofree char *final_id = NULL;
+      g_autofree char *class    = NULL;
+      gboolean         rotate   = FALSE;
+
+      id     = g_settings_get_string (self->settings, "global-progress-bar-theme");
+      rotate = g_settings_get_boolean (self->settings, "rotate-flag");
+
+      if (rotate && g_strcmp0 (id, "accent-color") != 0)
+        final_id = g_strdup_printf ("%s-horizontal", id);
+      else
+        final_id = g_strdup (id);
+
+      class = bz_dup_css_class_for_pride_id (final_id);
+
+      if (self->pride_class != NULL &&
+          g_strcmp0 (self->pride_class, class) == 0)
+        return;
+
+      if (self->pride_class != NULL)
+        gtk_widget_remove_css_class (self->animated_button, self->pride_class);
+      g_clear_pointer (&self->pride_class, g_free);
+      gtk_widget_add_css_class (self->animated_button, class);
+      self->pride_class = g_steal_pointer (&class);
+    }
+  else
+    {
+      if (self->pride_class != NULL)
+        gtk_widget_remove_css_class (self->animated_button, self->pride_class);
+      g_clear_pointer (&self->pride_class, g_free);
+    }
 }
