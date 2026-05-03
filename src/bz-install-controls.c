@@ -40,6 +40,8 @@ struct _BzInstallControls
   gboolean                   wide;
   BzTransactionEntryTracker *tracker;
 
+  GListModel *all_trackers;
+
   GtkWidget *install_button;
   char      *install_btn_class;
   char      *pride_class;
@@ -349,6 +351,12 @@ bz_install_controls_dispose (GObject *object)
         pride_flag_changed,
         self);
 
+  if (self->all_trackers != NULL)
+    g_signal_handlers_disconnect_by_func (
+        self->all_trackers,
+        on_all_trackers_changed,
+        self);
+
   g_clear_object (&self->group);
   g_clear_object (&self->state);
   g_clear_object (&self->settings);
@@ -356,6 +364,7 @@ bz_install_controls_dispose (GObject *object)
   g_clear_object (&self->install_button);
   g_clear_pointer (&self->install_btn_class, g_free);
   g_clear_pointer (&self->pride_class, g_free);
+  g_clear_object (&self->all_trackers);
 
   G_OBJECT_CLASS (bz_install_controls_parent_class)->dispose (object);
 }
@@ -609,30 +618,23 @@ bz_install_controls_set_state (BzInstallControls *self,
 {
   g_return_if_fail (BZ_IS_INSTALL_CONTROLS (self));
 
-  if (self->state != NULL)
+  if (self->all_trackers != NULL)
     {
-      BzTransactionManager *old_mgr = NULL;
-      g_autoptr (GListModel) all    = NULL;
-
-      old_mgr = bz_state_info_get_transaction_manager (self->state);
-      if (old_mgr != NULL)
-        g_object_get (old_mgr, "all-trackers", &all, NULL);
-      if (all != NULL)
-        g_signal_handlers_disconnect_by_func (all, on_all_trackers_changed, self);
+      g_signal_handlers_disconnect_by_func (self->all_trackers, on_all_trackers_changed, self);
+      g_clear_object (&self->all_trackers);
     }
 
   g_set_object (&self->state, state);
 
   if (state != NULL)
     {
-      BzTransactionManager *mgr  = NULL;
-      g_autoptr (GListModel) all = NULL;
+      BzTransactionManager *mgr = NULL;
 
       mgr = bz_state_info_get_transaction_manager (state);
       if (mgr != NULL)
-        g_object_get (mgr, "all-trackers", &all, NULL);
-      if (all != NULL)
-        g_signal_connect (all, "items-changed",
+        g_object_get (mgr, "all-trackers", &self->all_trackers, NULL);
+      if (self->all_trackers != NULL)
+        g_signal_connect (self->all_trackers, "items-changed",
                           G_CALLBACK (on_all_trackers_changed), self);
     }
 
