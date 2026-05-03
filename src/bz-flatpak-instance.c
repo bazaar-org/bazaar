@@ -264,6 +264,20 @@ static void
 transaction_progress_changed (FlatpakTransactionProgress *object,
                               TransactionOperationData   *data);
 
+BZ_DEFINE_DATA (
+    transaction_operation_done,
+    TransactionOperationDone,
+    {
+      TransactionData             *parent;
+      FlatpakTransaction          *transaction;
+      FlatpakTransactionOperation *operation;
+    },
+    BZ_RELEASE_DATA (parent, transaction_data_unref);
+    BZ_RELEASE_DATA (transaction, g_object_unref);
+    BZ_RELEASE_DATA (operation, g_object_unref));
+static DexFuture *
+transaction_operation_done_fiber (TransactionOperationDoneData *data);
+
 static void
 installation_event (BzFlatpakInstance *self,
                     GFile             *file,
@@ -1045,7 +1059,6 @@ load_local_ref_fiber (LoadLocalRefData *data)
     /* This is a bundle ref */
     {
       g_autoptr (FlatpakBundleRef) bref        = NULL;
-      g_autoptr (GFile) resolved_file          = NULL;
       const char          *name                = NULL;
       const char          *origin              = NULL;
       FlatpakInstallation *add_to_installation = NULL;
@@ -1062,38 +1075,7 @@ load_local_ref_fiber (LoadLocalRefData *data)
             "Cannot load '%s' as a flatpak bundle: URI is not a local file",
             uri);
 
-#ifdef SANDBOXED_LIBFLATPAK
-      {
-        g_autofree char *basename   = NULL;
-        g_autofree char *module_dir = NULL;
-        g_autofree char *staging    = NULL;
-        g_autofree char *dest       = NULL;
-
-        basename   = g_path_get_basename (path);
-        module_dir = bz_dup_module_dir ();
-        staging    = g_build_filename (module_dir, "bundle-staging", NULL);
-        g_mkdir_with_parents (staging, 0755);
-        dest = g_build_filename (staging, basename, NULL);
-
-        resolved_file = g_file_new_for_path (dest);
-
-        result = g_file_copy (
-            file, resolved_file,
-            G_FILE_COPY_OVERWRITE | G_FILE_COPY_NOFOLLOW_SYMLINKS,
-            NULL, NULL, NULL,
-            &local_error);
-        if (!result)
-          return dex_future_new_reject (
-              BZ_FLATPAK_ERROR,
-              BZ_FLATPAK_ERROR_IO_MISBEHAVIOR,
-              "Failed to copy bundle from %s to %s : %s",
-              path, dest, local_error->message);
-      }
-#else
-      resolved_file = g_object_ref (file);
-#endif
-
-      bref = flatpak_bundle_ref_new (resolved_file, &local_error);
+      bref = flatpak_bundle_ref_new (file, &local_error);
       if (bref == NULL)
         return dex_future_new_reject (
             BZ_FLATPAK_ERROR,
@@ -2589,24 +2571,15 @@ transaction_operation_done (FlatpakTransaction          *transaction,
                             gint                         result,
                             TransactionData             *data)
 {
-  g_autoptr (BzFlatpakInstance) self                = NULL;
-  g_autoptr (BzBackendTransactionOpPayload) payload = NULL;
-  FlatpakTransactionOperationType op_type           = 0;
-  BzBackendNotificationKind       notif_kind        = 0;
-  const char                     *origin            = NULL;
-  const char                     *ref               = NULL;
-  gboolean                        is_user           = FALSE;
-  g_autofree char                *unique_id         = NULL;
-  g_autoptr (BzBackendNotification) notif           = NULL;
-  const char          *version                      = NULL;
-  FlatpakInstallation *installation                 = NULL;
-  g_autoptr (FlatpakInstalledRef) iref              = NULL;
-  g_autoptr (GError) local_error                    = NULL;
-  g_autoptr (FlatpakRef) parsed_ref                 = NULL;
+  g_autoptr (GMutexLocker) locker                      = NULL;
+  g_autoptr (BzFlatpakInstance) self                   = NULL;
+  g_autoptr (BzBackendTransactionOpPayload) payload    = NULL;
+  g_autoptr (TransactionOperationDoneData) future_data = NULL;
+  g_autoptr (DexFuture) future                         = NULL;
 
   bz_weak_get_or_return (self, data->self);
+  locker = g_mutex_locker_new (&data->mutex);
 
-  g_mutex_lock (&data->mutex);
   g_hash_table_replace (
       data->op_to_progress_hash,
       g_object_ref (operation),
@@ -2619,76 +2592,23 @@ transaction_operation_done (FlatpakTransaction          *transaction,
         dex_channel_send (
             data->channel,
             dex_future_new_for_object (payload)));
-  g_mutex_unlock (&data->mutex);
 
   if (result == FLATPAK_TRANSACTION_RESULT_NO_CHANGE)
     return;
 
-  op_type = flatpak_transaction_operation_get_operation_type (operation);
-  switch (op_type)
-    {
-    case FLATPAK_TRANSACTION_OPERATION_INSTALL:
-    case FLATPAK_TRANSACTION_OPERATION_INSTALL_BUNDLE:
-      notif_kind = BZ_BACKEND_NOTIFICATION_KIND_INSTALL_DONE;
-      break;
-    case FLATPAK_TRANSACTION_OPERATION_UPDATE:
-      notif_kind = BZ_BACKEND_NOTIFICATION_KIND_UPDATE_DONE;
-      break;
-    case FLATPAK_TRANSACTION_OPERATION_UNINSTALL:
-      notif_kind = BZ_BACKEND_NOTIFICATION_KIND_REMOVE_DONE;
-      break;
-    case FLATPAK_TRANSACTION_OPERATION_LAST_TYPE:
-    default:
-      g_assert_not_reached ();
-    }
+  future_data              = transaction_operation_done_data_new ();
+  future_data->parent      = transaction_data_ref (data);
+  future_data->transaction = g_object_ref (transaction);
+  future_data->operation   = g_object_ref (operation);
 
-  if (op_type != FLATPAK_TRANSACTION_OPERATION_INSTALL_BUNDLE)
-    origin = flatpak_transaction_operation_get_remote (operation);
-  ref     = flatpak_transaction_operation_get_ref (operation);
-  is_user = flatpak_transaction_get_installation (transaction) == self->user_interactive;
+  future = dex_scheduler_spawn (
+      self->scheduler,
+      bz_get_dex_stack_size (),
+      (DexFiberFunc) transaction_operation_done_fiber,
+      transaction_operation_done_data_ref (future_data),
+      transaction_operation_done_data_unref);
 
-  unique_id = bz_flatpak_ref_parts_format_unique (origin, ref, is_user);
-
-  if (notif_kind == BZ_BACKEND_NOTIFICATION_KIND_INSTALL_DONE ||
-      notif_kind == BZ_BACKEND_NOTIFICATION_KIND_UPDATE_DONE)
-    {
-      installation = flatpak_transaction_get_installation (transaction);
-
-      parsed_ref = flatpak_ref_parse (ref, &local_error);
-      if (parsed_ref != NULL)
-        {
-          iref = flatpak_installation_get_installed_ref (
-              installation,
-              flatpak_ref_get_kind (parsed_ref),
-              flatpak_ref_get_name (parsed_ref),
-              flatpak_ref_get_arch (parsed_ref),
-              flatpak_ref_get_branch (parsed_ref),
-              NULL,
-              &local_error);
-
-          if (iref != NULL)
-            version = flatpak_installed_ref_get_appdata_version (iref);
-          else if (local_error != NULL)
-            {
-              g_warning ("Failed to get installed ref for version: %s", local_error->message);
-              g_clear_error (&local_error);
-            }
-        }
-      else if (local_error != NULL)
-        {
-          g_warning ("Failed to parse ref for version: %s", local_error->message);
-          g_clear_error (&local_error);
-        }
-    }
-
-  notif = bz_backend_notification_new ();
-  bz_backend_notification_set_kind (notif, notif_kind);
-  bz_backend_notification_set_unique_id (notif, unique_id);
-
-  if (version != NULL && *version != '\0')
-    bz_backend_notification_set_version (notif, version);
-
-  send_notif_all (self, notif, TRUE);
+  g_ptr_array_add (data->send_futures, g_steal_pointer (&future));
 }
 
 static gboolean
@@ -2838,6 +2758,140 @@ transaction_progress_changed (FlatpakTransactionProgress *progress,
           dex_future_new_for_object (payload)));
 
   g_mutex_unlock (&parent->mutex);
+}
+
+static DexFuture *
+transaction_operation_done_fiber (TransactionOperationDoneData *data)
+{
+  g_autoptr (BzFlatpakInstance) self           = NULL;
+  FlatpakTransaction          *transaction     = data->transaction;
+  FlatpakTransactionOperation *operation       = data->operation;
+  g_autoptr (GError) local_error               = NULL;
+  FlatpakTransactionOperationType op_type      = 0;
+  BzBackendNotificationKind       notif_kind   = 0;
+  const char                     *origin       = NULL;
+  const char                     *ref          = NULL;
+  gboolean                        is_user      = FALSE;
+  g_autofree char                *unique_id    = NULL;
+  const char                     *version      = NULL;
+  FlatpakInstallation            *installation = NULL;
+  g_autoptr (FlatpakInstalledRef) iref         = NULL;
+  g_autoptr (FlatpakRef) parsed_ref            = NULL;
+
+  bz_weak_get_or_return_reject (self, data->parent->self);
+
+  op_type = flatpak_transaction_operation_get_operation_type (operation);
+  switch (op_type)
+    {
+    case FLATPAK_TRANSACTION_OPERATION_INSTALL:
+    case FLATPAK_TRANSACTION_OPERATION_INSTALL_BUNDLE:
+      notif_kind = BZ_BACKEND_NOTIFICATION_KIND_INSTALL_DONE;
+      break;
+    case FLATPAK_TRANSACTION_OPERATION_UPDATE:
+      notif_kind = BZ_BACKEND_NOTIFICATION_KIND_UPDATE_DONE;
+      break;
+    case FLATPAK_TRANSACTION_OPERATION_UNINSTALL:
+      notif_kind = BZ_BACKEND_NOTIFICATION_KIND_REMOVE_DONE;
+      break;
+    case FLATPAK_TRANSACTION_OPERATION_LAST_TYPE:
+    default:
+      g_assert_not_reached ();
+    }
+
+  installation = flatpak_transaction_get_installation (transaction);
+
+  origin  = flatpak_transaction_operation_get_remote (operation);
+  ref     = flatpak_transaction_operation_get_ref (operation);
+  is_user = installation == self->user_interactive;
+
+  unique_id = bz_flatpak_ref_parts_format_unique (origin, ref, is_user);
+
+  if (op_type == FLATPAK_TRANSACTION_OPERATION_INSTALL_BUNDLE)
+    {
+      g_autoptr (FlatpakRemote) remote = NULL;
+
+      {
+        g_autoptr (BzBackendNotification) notif = NULL;
+
+        notif = bz_backend_notification_new ();
+        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_INVALIDATE_REMOTES);
+
+        send_notif_all (self, notif, TRUE);
+      }
+
+      remote = flatpak_installation_get_remote_by_name (
+          installation, origin, NULL, NULL);
+      if (remote != NULL)
+        {
+          {
+            g_autoptr (BzBackendNotification) notif = NULL;
+
+            notif = bz_backend_notification_new ();
+            bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_START);
+            bz_backend_notification_set_remote_name (notif, origin);
+
+            send_notif_all (self, notif, TRUE);
+          }
+          dex_await (
+              retrieve_refs_for_noenumerable_remote (
+                  self, NULL, origin, installation, remote),
+              NULL);
+          {
+            g_autoptr (BzBackendNotification) notif = NULL;
+
+            notif = bz_backend_notification_new ();
+            bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_FINISH);
+            bz_backend_notification_set_remote_name (notif, origin);
+
+            send_notif_all (self, notif, TRUE);
+          }
+        }
+    }
+
+  if (notif_kind == BZ_BACKEND_NOTIFICATION_KIND_INSTALL_DONE ||
+      notif_kind == BZ_BACKEND_NOTIFICATION_KIND_UPDATE_DONE)
+    {
+      parsed_ref = flatpak_ref_parse (ref, &local_error);
+      if (parsed_ref != NULL)
+        {
+          iref = flatpak_installation_get_installed_ref (
+              installation,
+              flatpak_ref_get_kind (parsed_ref),
+              flatpak_ref_get_name (parsed_ref),
+              flatpak_ref_get_arch (parsed_ref),
+              flatpak_ref_get_branch (parsed_ref),
+              NULL,
+              &local_error);
+
+          if (iref != NULL)
+            version = flatpak_installed_ref_get_appdata_version (iref);
+          else if (local_error != NULL)
+            {
+              g_warning ("Failed to get installed ref for version: %s", local_error->message);
+              g_clear_error (&local_error);
+            }
+        }
+      else if (local_error != NULL)
+        {
+          g_warning ("Failed to parse ref for version: %s", local_error->message);
+          g_clear_error (&local_error);
+        }
+    }
+
+  {
+    g_autoptr (BzBackendNotification) notif = NULL;
+
+    notif = bz_backend_notification_new ();
+    bz_backend_notification_set_kind (notif, notif_kind);
+    bz_backend_notification_set_unique_id (notif, unique_id);
+
+    if (version != NULL && *version != '\0')
+      bz_backend_notification_set_version (notif, version);
+
+    send_notif_all (self, notif, TRUE);
+  }
+
+  return dex_future_new_true ();
 }
 
 static void

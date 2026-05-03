@@ -1251,7 +1251,7 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
 
           entry = g_value_dup_object (value);
           if (BZ_IS_FLATPAK_ENTRY (entry) &&
-              bz_flatpak_entry_get_bundle_path (BZ_FLATPAK_ENTRY (entry)))
+              bz_flatpak_entry_get_bundle_path (BZ_FLATPAK_ENTRY (entry)) != NULL)
             /* refrain from restoring bundle entries */
             continue;
 
@@ -2037,9 +2037,7 @@ ensure_group_and_add (BzApplication *self,
 
   group = g_hash_table_lookup (self->ids_to_groups, id);
   if (group != NULL)
-    {
-      bz_entry_group_add (group, entry, eol_runtime, ignore_eol);
-    }
+    bz_entry_group_add (group, entry, eol_runtime, ignore_eol);
   else
     {
       g_autoptr (BzEntryGroup) new_group = NULL;
@@ -3235,11 +3233,46 @@ static void
 open_flatpakref_take (BzApplication *self,
                       GFile         *file)
 {
+  g_autoptr (GError) local_error      = NULL;
+  gboolean         result             = FALSE;
   g_autofree char *path               = NULL;
   g_autoptr (OpenFlatpakrefData) data = NULL;
 
   path = g_file_get_path (file);
-  g_info ("Loading flatpakref at %s...", path);
+  if (path != NULL)
+    /* We must do this synchronously so we don't lose access to a portal file */
+    {
+      g_autofree char *basename   = NULL;
+      g_autofree char *module_dir = NULL;
+      g_autofree char *staging    = NULL;
+      g_autofree char *dest       = NULL;
+      g_autoptr (GFile) copied    = NULL;
+
+      basename   = g_file_get_basename (file);
+      module_dir = bz_dup_module_dir ();
+      staging    = g_build_filename (module_dir, "bundle-staging", NULL);
+      g_mkdir_with_parents (staging, 0755);
+      dest   = g_build_filename (staging, basename, NULL);
+      copied = g_file_new_for_path (dest);
+
+      result = g_file_copy (
+          file, copied,
+          G_FILE_COPY_OVERWRITE | G_FILE_COPY_NOFOLLOW_SYMLINKS,
+          NULL, NULL, NULL,
+          &local_error);
+      if (result)
+        {
+          g_clear_object (&file);
+          file = g_steal_pointer (&copied);
+        }
+      else
+        {
+          g_warning ("Failed to copy bundle to %s : %s",
+                     dest, local_error->message);
+          g_clear_error (&local_error);
+          g_clear_object (&copied);
+        }
+    }
 
   data       = open_flatpakref_data_new ();
   data->self = bz_track_weak (self);

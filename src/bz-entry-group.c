@@ -1145,12 +1145,7 @@ bz_entry_group_add (BzEntryGroup *self,
         }
       else
         {
-          gboolean is_installed_ref = FALSE;
-
-          if (BZ_IS_FLATPAK_ENTRY (entry))
-            is_installed_ref = bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry));
-
-          if (!is_installed_ref)
+          if (bz_entry_is_reinstallable (entry))
             {
               self->installable++;
               if (!bz_entry_is_holding (entry))
@@ -1163,7 +1158,7 @@ bz_entry_group_add (BzEntryGroup *self,
         }
     }
 
-  if (!is_addon && is_searchable && !self->searchable)
+  if (!is_addon && is_searchable)
     self->searchable = TRUE;
 }
 
@@ -1206,27 +1201,23 @@ installed_changed (BzEntryGroup *self,
                    BzEntry      *entry)
 {
   g_autoptr (GMutexLocker) locker = NULL;
-  gboolean    is_installed_ref    = FALSE;
+  gboolean    reinstallable       = FALSE;
   const char *unique_id           = NULL;
   const char *version             = NULL;
   guint       index               = 0;
 
   locker = g_mutex_locker_new (&self->mutex);
 
-  if (BZ_IS_FLATPAK_ENTRY (entry))
-    is_installed_ref = bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry));
-
-  unique_id = bz_entry_get_unique_id (entry);
-  version   = bz_entry_get_installed_version (entry);
-  index     = gtk_string_list_find (self->unique_ids, unique_id);
+  reinstallable = bz_entry_is_reinstallable (entry);
+  unique_id     = bz_entry_get_unique_id (entry);
+  version       = bz_entry_get_installed_version (entry);
+  index         = gtk_string_list_find (self->unique_ids, unique_id);
 
   if (index != G_MAXUINT)
-    {
-      gtk_string_list_splice (self->installed_versions, index, 1,
-                              (const char *const[]){
-                                  version != NULL ? version : "",
-                                  NULL });
-    }
+    gtk_string_list_splice (self->installed_versions, index, 1,
+                            (const char *const[]){
+                                version != NULL ? version : "",
+                                NULL });
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLED_VERSIONS]);
 
@@ -1247,22 +1238,22 @@ installed_changed (BzEntryGroup *self,
   else
     {
       self->removable--;
-      if (!is_installed_ref)
+      if (reinstallable)
         self->installable++;
 
       if (!bz_entry_is_holding (entry))
         {
           self->removable_available--;
-          if (!is_installed_ref)
+          if (reinstallable)
             self->installable_available++;
 
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
-          if (!is_installed_ref)
+          if (reinstallable)
             g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
         }
 
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
-      if (!is_installed_ref)
+      if (reinstallable)
         g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
     }
 

@@ -414,6 +414,7 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
   g_autoptr (GdkPaintable) icon_paintable  = NULL;
   g_autoptr (BzAppPermissions) permissions = NULL;
   gboolean searchable                      = FALSE;
+  gboolean reinstallable                   = FALSE;
 
   g_return_val_if_fail (FLATPAK_IS_REF (ref), NULL);
   g_return_val_if_fail (FLATPAK_IS_REMOTE_REF (ref) || FLATPAK_IS_BUNDLE_REF (ref) || FLATPAK_IS_INSTALLED_REF (ref), NULL);
@@ -662,7 +663,8 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
   if (permissions == NULL)
     return NULL;
 
-  searchable = !FLATPAK_IS_INSTALLED_REF (ref);
+  searchable    = !FLATPAK_IS_INSTALLED_REF (ref);
+  reinstallable = !FLATPAK_IS_INSTALLED_REF (ref);
 
   g_object_set (
       self,
@@ -678,6 +680,7 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
       "icon-paintable", icon_paintable,
       "permissions", permissions,
       "searchable", searchable,
+      "reinstallable", reinstallable,
       NULL);
 
   return g_steal_pointer (&self);

@@ -24,8 +24,8 @@
 #include <gtk/gtk.h>
 #include <libdex.h>
 
-#include "bz-repository.h"
 #include "bz-category-flags.h"
+#include "bz-repository.h"
 
 G_BEGIN_DECLS
 
@@ -96,6 +96,9 @@ bz_entry_set_installed_version (BzEntry    *self,
 void
 bz_entry_set_installed (BzEntry *self,
                         gboolean installed);
+
+gboolean
+bz_entry_is_reinstallable (BzEntry *self);
 
 gboolean
 bz_entry_is_searchable (BzEntry *self);
