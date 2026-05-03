@@ -292,7 +292,8 @@ bz_rich_app_tile_set_group (BzRichAppTile *self,
       title    = bz_entry_group_get_title (self->group);
       verified = bz_entry_group_get_is_verified (self->group);
 
-      removable_at_start = bz_entry_group_get_removable (self->group) != 0;
+      removable_at_start = bz_entry_group_get_removable (self->group) != 0 ||
+                           bz_entry_group_get_is_gnome_extension (self->group);
       if (self->removable_at_start != removable_at_start)
         {
           self->removable_at_start = removable_at_start;

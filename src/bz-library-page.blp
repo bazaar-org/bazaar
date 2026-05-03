@@ -142,6 +142,37 @@ template $BzLibraryPage: Adw.Bin {
                   };
                 }
 
+               Revealer {
+                  reveal-child: bind $invert_boolean($is_zero($count_ext_updates(template.state as <$BzStateInfo>.gnome-extension-infos) as <int>) as <bool>) as <bool>;
+                  transition-type: slide_down;
+
+                  child: ListBox {
+                    margin-start: 4;
+                    margin-end: 4;
+                    margin-top: 12;
+                    selection-mode: none;
+
+                    styles [
+                      "boxed-list",
+                    ]
+
+                    Adw.ActionRow {
+                      title: bind $format_ext_update_count($count_ext_updates(template.state as <$BzStateInfo>.gnome-extension-infos) as <int>) as <string>;
+
+                      Button {
+                        label: _("Log Out");
+                        valign: center;
+
+                        styles [
+                          "suggested-action",
+                        ]
+
+                        action-name: "window.logout";
+                      }
+                    }
+                  };
+                }
+
                 Revealer {
                   reveal-child: bind $invert_boolean($is_zero(template.state as <$BzStateInfo>.transaction-manager as <$BzTransactionManager>.install-trackers as <FilterListModel>.n-items) as <bool>) as <bool>;
                   transition-type: slide_down;
@@ -311,6 +342,101 @@ template $BzLibraryPage: Adw.Bin {
                     };
                   }
                 };
+              }
+
+              Box {
+                orientation: vertical;
+                margin-top: 15;
+                margin-bottom: 15;
+
+                Label {
+                  label: _("Shell Extensions");
+                  xalign: 0;
+                  margin-start: 12;
+                  margin-bottom: 6;
+                  visible: bind $invert_boolean($is_zero(user_ext_model.n-items) as <bool>) as <bool>;
+
+                  styles [
+                    "heading",
+                    "h4",
+                  ]
+                }
+
+                ListView {
+                  styles [
+                    "navigation-sidebar",
+                    "installed-list-view",
+                    "installed-section"
+                  ]
+
+                  visible: bind $invert_boolean($is_zero(user_ext_model.n-items) as <bool>) as <bool>;
+
+                  model: NoSelection {
+                    model: FilterListModel user_ext_model {
+                      filter: CustomFilter user_ext_filter {};
+                      model: bind template.state as <$BzStateInfo>.gnome-extension-infos;
+                    };
+                  };
+
+                  factory: BuilderListItemFactory {
+                    template ListItem {
+                      activatable: false;
+                      selectable: false;
+                      focusable: false;
+
+                      child: $BzGnomeExtensionTile tile {
+                        activatable: bind $invert_boolean($is_null(tile.group) as <bool>) as <bool>;
+                        info: bind template.item as <$BzGnomeExtensionInfo>;
+                        activated => $tile_activated_cb();
+                      };
+                    }
+                  };
+                }
+
+                Label {
+                  label: _("System Shell Extensions");
+                  xalign: 0;
+                  margin-start: 12;
+                  margin-top: 12;
+                  margin-bottom: 6;
+                  visible: bind $invert_boolean($is_zero(system_ext_model.n-items) as <bool>) as <bool>;
+
+                  styles [
+                    "heading",
+                    "h4",
+                  ]
+                }
+
+                ListView {
+                  styles [
+                    "navigation-sidebar",
+                    "installed-list-view",
+                    "installed-section"
+                  ]
+
+                  visible: bind $invert_boolean($is_zero(system_ext_model.n-items) as <bool>) as <bool>;
+
+                  model: NoSelection system_ext_model {
+                    model: FilterListModel {
+                      filter: CustomFilter system_ext_filter {};
+                      model: bind template.state as <$BzStateInfo>.gnome-extension-infos;
+                    };
+                  };
+
+                  factory: BuilderListItemFactory {
+                    template ListItem {
+                      activatable: false;
+                      selectable: false;
+                      focusable: false;
+
+                      child: $BzGnomeExtensionTile tile {
+                        activatable: bind $invert_boolean($is_null(tile.group) as <bool>) as <bool>;
+                        info: bind template.item as <$BzGnomeExtensionInfo>;
+                        activated => $tile_activated_cb();
+                      };
+                    }
+                  };
+                }
               }
             };
           };

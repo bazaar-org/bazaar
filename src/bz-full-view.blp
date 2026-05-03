@@ -97,7 +97,7 @@ template $BzFullView: Adw.Bin {
 
                   Adw.Banner {
                     title: _("Installing .flatpak bundles is not yet supported");
-                    visible: bind template.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.is-bundle as <bool>;
+                    visible: bind try { template.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.is-bundle as <bool>, false };
                     revealed: true;
                   }
 
@@ -140,7 +140,7 @@ template $BzFullView: Adw.Bin {
                           valign: center;
                           halign: center;
                           pixel-size: 128;
-                          icon-name: "application-x-executable";
+                          icon-name: bind $choose_string($entry_is_gnome_extension(template.ui-entry as <$BzResult>.object as <$BzEntry>) as <bool>, "system-component-addon", "application-x-executable") as <string>;
                           visible: bind $is_null(template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>;
 
                           styles [
@@ -267,11 +267,11 @@ template $BzFullView: Adw.Bin {
                           homogeneous: true;
 
                           $BzContextTile download_size_tile {
-                            label: bind $get_size_label(
+                            label: bind  try {$get_size_label(
                               $is_zero(template.entry-group as <$BzEntryGroup>.removable) as <bool>,
                               template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.installed,
                               template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.size,
-                            ) as <string>;
+                            ) as <string>, $get_size_label($is_zero(template.entry-group as <$BzEntryGroup>.removable) as <bool>, false, 0) as <string>};
                             has-tooltip: true;
                             tooltip-text: bind $format_size_tooltip(template.ui-entry as <$BzResult>.object as <$BzEntry>.size) as <string>;
                             lozenge-style: "grey";
@@ -397,21 +397,36 @@ template $BzFullView: Adw.Bin {
                             };
                           }
 
-                          $BzContextTile {
-                            can-target: bind $invert_boolean($is_null(template.ui-entry) as <bool>) as <bool>;
-                            sensitive: bind $invert_boolean($is_null(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <bool>) as <bool>;
-                            clicked => $dl_stats_cb(template);
-                            label: _("Downloads/Month");
-                            has-tooltip: bind $invert_boolean($is_null(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <bool>) as <bool>;
-                            tooltip-text: bind $format_recent_downloads_tooltip(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <string>;
-                            lozenge-style: "grey";
+                          Box {
+                            $BzContextTile {
+                              visible: bind $invert_boolean($entry_is_gnome_extension(template.ui-entry as <$BzResult>.object as <$BzEntry>) as <bool>) as <bool>;
+                              can-target: bind $invert_boolean($is_null(template.ui-entry) as <bool>) as <bool>;
+                              sensitive: bind $invert_boolean($is_null(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <bool>) as <bool>;
+                              clicked => $dl_stats_cb(template);
+                              label: _("Downloads/Month");
+                              has-tooltip: bind $invert_boolean($is_null(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <bool>) as <bool>;
+                              tooltip-text: bind $format_recent_downloads_tooltip(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <string>;
+                              lozenge-style: "grey";
+                              lozenge-child: Label {
+                                justify: center;
+                                label: bind $format_recent_downloads(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <string>;
+                                halign: center;
+                                use-markup: true;
+                              };
+                            }
 
-                            lozenge-child: Label {
-                              justify: center;
-                              label: bind $format_recent_downloads(template.ui-entry as <$BzResult>.object as <$BzEntry>.recent-downloads) as <string>;
-                              halign: center;
-                              use-markup: true;
-                            };
+                            $BzContextTile {
+                              visible: bind $entry_is_gnome_extension(template.ui-entry as <$BzResult>.object as <$BzEntry>) as <bool>;
+                              label: _("Total Downloads");
+                              can-target: false;
+                              lozenge-style: "grey";
+                              lozenge-child: Label {
+                                justify: center;
+                                label: bind $format_recent_downloads(template.ui-entry as <$BzResult>.object as <$BzGnomeExtensionEntry>.downloads) as <string>;
+                                halign: center;
+                                use-markup: true;
+                              };
+                            }
                           }
                         }
                       }

@@ -1,0 +1,139 @@
+using Gtk 4.0;
+
+template $BzGnomeExtensionTile: $BzListTile {
+  accessibility {
+    labelled-by: title_label;
+  }
+
+  child: Box {
+    orientation: horizontal;
+    spacing: 10;
+
+    Image icon_image {
+      margin-start: 10;
+      margin-top: 10;
+      margin-bottom: 10;
+      height-request: 64;
+      width-request: 64;
+      pixel-size: 64;
+      visible: bind $invert_boolean($is_null(icon_image.paintable) as <bool>) as <bool>;
+      paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
+      icon-name: "system-component-addon";
+
+      styles [
+        "icon-dropshadow",
+      ]
+    }
+
+    Image fallback_icon {
+      margin-start: 10;
+      margin-top: 10;
+      margin-bottom: 10;
+      height-request: 64;
+      width-request: 64;
+      pixel-size: 64;
+      icon-name: "system-component-addon";
+      visible: bind $is_null(icon_image.paintable) as <bool>;
+
+      styles [
+        "icon-dropshadow",
+      ]
+    }
+
+    Box {
+      orientation: vertical;
+      valign: center;
+      spacing: 4;
+
+      Label title_label {
+        xalign: 0.0;
+        ellipsize: end;
+        single-line-mode: true;
+        label: bind try { template.group as <$BzEntryGroup>.title, template.info as <$BzGnomeExtensionInfo>.name };
+      }
+
+      Label {
+        xalign: 0.0;
+        ellipsize: end;
+        single-line-mode: true;
+        label: bind template.info as <$BzGnomeExtensionInfo>.uuid;
+
+        styles [
+          "dim-label",
+          "caption",
+        ]
+      }
+    }
+
+    Box {
+      hexpand: true;
+      halign: end;
+      margin-end: 8;
+      valign: center;
+      spacing: 4;
+
+      Image {
+        icon-name: "circle-crossed-symbolic";
+        tooltip-text: _("This extension is not comptabile with your current version of GNOME.");
+        visible: bind $is_outdated(template.state, template.info as <$BzGnomeExtensionInfo>.shell-versions) as <bool>;
+        margin-end: 4;
+
+        styles [
+          "error",
+        ]
+      }
+
+      Button settings_button {
+        styles [
+          "flat",
+        ]
+
+        tooltip-text: _("Extension Settings");
+        valign: center;
+        icon-name: "settings-symbolic";
+        visible: bind template.info as <$BzGnomeExtensionInfo>.has-prefs;
+        clicked => $settings_cb() swapped;
+      }
+
+      Button remove_button {
+        styles [
+          "flat",
+        ]
+
+        tooltip-text: _("Uninstall");
+        valign: center;
+        icon-name: "user-trash-symbolic";
+        visible: bind $invert_boolean(
+          $logical_or(
+            $is_null(template.group) as <bool>,
+            template.info as <$BzGnomeExtensionInfo>.is-system as <bool>
+            ) as <bool>
+        ) as <bool>;
+        clicked => $remove_cb() swapped;
+      }
+
+      Switch {
+        valign: center;
+        active: bind template.info as <$BzGnomeExtensionInfo>.enabled;
+        sensitive: bind template.info as <$BzGnomeExtensionInfo>.can-change;
+        state-set => $toggle_cb() swapped;
+        margin-end: 4;
+      }
+
+      Box {
+        width-request: 18;
+
+        Image {
+          pixel-size: 14;
+          icon-name: "go-next-symbolic";
+          visible: bind $invert_boolean($is_null(template.group) as <bool>) as <bool>;
+          margin-end: 4;
+
+          styles [
+            "dimmed",
+          ]
+        }
+      }
+    }
+  };
+}

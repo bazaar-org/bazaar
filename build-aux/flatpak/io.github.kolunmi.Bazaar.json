@@ -24,7 +24,8 @@
         "--filesystem=/var/tmp",
         "--filesystem=~/.var/app",
         "--system-talk-name=org.freedesktop.Accounts",
-        "--talk-name=org.freedesktop.impl.portal.PermissionStore"
+        "--talk-name=org.gnome.Shell.Extensions",
+	"--talk-name=org.gnome.SessionManager"
     ],
     "cleanup": [
         "/share/zsh",

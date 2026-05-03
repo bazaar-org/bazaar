@@ -155,6 +155,15 @@ choose (gpointer object,
 }
 
 static char *
+choose_string (gpointer    object,
+               gboolean    condition,
+               const char *if_true,
+               const char *if_false)
+{
+  return g_strdup (condition ? if_true : if_false);
+}
+
+static char *
 format_int (gpointer object,
             gint     integer)
 {
@@ -197,6 +206,7 @@ bz_widget_class_bind_all_util_callbacks (GtkWidgetClass *widget_class)
   gtk_widget_class_bind_template_callback (widget_class, is_longer);
   gtk_widget_class_bind_template_callback (widget_class, bool_to_string);
   gtk_widget_class_bind_template_callback (widget_class, choose);
+  gtk_widget_class_bind_template_callback (widget_class, choose_string);
   gtk_widget_class_bind_template_callback (widget_class, format_int);
   gtk_widget_class_bind_template_callback (widget_class, format_uint);
   gtk_widget_class_bind_template_callback (widget_class, format_double);

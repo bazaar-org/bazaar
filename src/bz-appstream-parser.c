@@ -10,11 +10,12 @@
 #include "bz-appstream-parser.h"
 #include "bz-async-texture.h"
 #include "bz-category-flags.h"
+#include "bz-flatpak-entry.h"
 #include "bz-io.h"
 #include "bz-release.h"
 #include "bz-url.h"
+#include "bz-util.h"
 #include "bz-verification-status.h"
-#include "bz-flatpak-entry.h"
 
 static guint
 parse_control_value (const char *value)
@@ -77,8 +78,10 @@ proxy_screenshot_url (const char *url, gboolean high_quality)
 
   for (char *p = encoded_url; *p; p++)
     {
-      if (*p == '+') *p = '-';
-      if (*p == '/') *p = '_';
+      if (*p == '+')
+        *p = '-';
+      if (*p == '/')
+        *p = '_';
     }
 
   return g_strdup_printf (
@@ -144,8 +147,8 @@ find_screenshot (GPtrArray  *images,
     {
       g_autoptr (GFile) screenshot_file = NULL;
       g_autoptr (GFile) cache_file      = NULL;
-      g_autofree char  *proxied_url     = NULL;
-      BzAsyncTexture *texture           = NULL;
+      g_autofree char *proxied_url      = NULL;
+      BzAsyncTexture  *texture          = NULL;
 
       proxied_url     = proxy_screenshot_url (best_url, match_highest);
       screenshot_file = g_file_new_for_uri (proxied_url);
@@ -216,7 +219,7 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
   g_autoptr (AsContentRating) content_rating           = NULL;
   GPtrArray *as_keywords                               = NULL;
   g_autoptr (GListStore) keywords                      = NULL;
-  GPtrArray *as_categories                             = NULL;
+  GPtrArray      *as_categories                        = NULL;
   BzCategoryFlags categories                           = BZ_CATEGORY_FLAGS_NONE;
   g_autoptr (BzVerificationStatus) verification_status = NULL;
 
@@ -632,7 +635,7 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
         {
           const char *name = NULL;
 
-          name = g_ptr_array_index (as_categories, i);
+          name       = g_ptr_array_index (as_categories, i);
           categories = bz_category_flags_add (categories, name);
         }
     }
@@ -724,13 +727,13 @@ bz_appstream_parser_entry_from_metainfo (GFile   *metainfo_file,
                                          GError **error)
 {
   g_autoptr (AsMetadata) mdata  = as_metadata_new ();
-  AsComponent *component        = NULL;
+  AsComponent     *component    = NULL;
   g_autofree char *xml_contents = NULL;
   g_autofree char *xml_path     = NULL;
   g_autofree char *xml_dir      = NULL;
   g_autofree char *module_dir   = NULL;
   g_autofree char *checksum     = NULL;
-  gsize xml_length              = 0;
+  gsize            xml_length   = 0;
   g_autoptr (BzEntry) entry     = NULL;
 
   g_return_val_if_fail (G_IS_FILE (metainfo_file), NULL);
@@ -784,4 +787,58 @@ bz_appstream_parser_entry_from_metainfo (GFile   *metainfo_file,
     }
 
   return g_steal_pointer (&entry);
+}
+
+AsComponent *
+bz_parse_component_for_node (XbNode  *node,
+                             GError **error)
+{
+  g_autofree char *component_xml  = NULL;
+  g_autoptr (AsMetadata) metadata = NULL;
+  AsComponent *component          = NULL;
+  gboolean     result             = FALSE;
+
+  component_xml = xb_node_export (node, XB_NODE_EXPORT_FLAG_NONE, error);
+  if (component_xml == NULL)
+    return NULL;
+
+  metadata = as_metadata_new ();
+  result   = as_metadata_parse_data (
+      metadata,
+      component_xml,
+      -1,
+      AS_FORMAT_KIND_XML,
+      error);
+  if (!result)
+    return NULL;
+
+  component = as_metadata_get_component (metadata);
+  return bz_object_maybe_ref (component);
+}
+
+GBytes *
+bz_decompress_gz_bytes (GBytes       *compressed,
+                        GCancellable *cancellable,
+                        GError      **error)
+{
+  g_autoptr (GZlibDecompressor) decompressor = NULL;
+  g_autoptr (GInputStream) mem_stream        = NULL;
+  g_autoptr (GInputStream) conv_stream       = NULL;
+  g_autoptr (GOutputStream) output           = NULL;
+  gssize bytes_spliced                       = 0;
+
+  decompressor = g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
+  mem_stream   = g_memory_input_stream_new_from_bytes (compressed);
+  conv_stream  = g_converter_input_stream_new (mem_stream, G_CONVERTER (decompressor));
+  output       = g_memory_output_stream_new_resizable ();
+
+  bytes_spliced = g_output_stream_splice (
+      output, conv_stream,
+      G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE | G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
+      cancellable,
+      error);
+  if (bytes_spliced < 0)
+    return NULL;
+
+  return g_memory_output_stream_steal_as_bytes (G_MEMORY_OUTPUT_STREAM (output));
 }

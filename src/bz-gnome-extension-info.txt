@@ -1,0 +1,18 @@
+prefix=bz
+name=gnome_extension_info
+parent-prefix=g
+parent-name=object
+author=AUTOGEN
+include="gio/gio.h"
+
+property=uuid char G_TYPE_STRING string
+property=name char G_TYPE_STRING string
+property=version double G_TYPE_DOUBLE double
+property=state double G_TYPE_DOUBLE double
+property=enabled gboolean G_TYPE_BOOLEAN boolean
+property=error char G_TYPE_STRING string
+property=has_prefs gboolean G_TYPE_BOOLEAN boolean
+property=has_update gboolean G_TYPE_BOOLEAN boolean
+property=can_change gboolean G_TYPE_BOOLEAN boolean
+property=is_system gboolean G_TYPE_BOOLEAN boolean
+property=shell_versions GListModel G_TYPE_LIST_MODEL object

@@ -61,7 +61,7 @@ template $BzInstallControls: Box {
           hexpand: bind $invert_boolean(template.wide) as <bool>;
           label: _("_Open");
           use-underline: true;
-          sensitive: bind $invert_boolean($is_zero(template.entry-group as <$BzEntryGroup>.removable-and-available) as <bool>) as <bool>;
+          sensitive: bind $invert_boolean($logical_or($is_zero(template.entry-group as <$BzEntryGroup>.removable-and-available) as <bool>, template.entry-group as <$BzEntryGroup>.is-gnome-extension as <bool>) as <bool>) as <bool>;
           clicked => $run_cb(template);
         }
 

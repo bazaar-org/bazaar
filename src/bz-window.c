@@ -654,6 +654,79 @@ action_launch_group (GtkWidget  *widget,
 }
 
 static void
+call_shell_extensions_method (const char *method,
+                              GVariant   *parameters)
+{
+  g_autoptr (GDBusProxy) proxy   = NULL;
+  g_autoptr (GError) local_error = NULL;
+
+  proxy = g_dbus_proxy_new_for_bus_sync (
+      G_BUS_TYPE_SESSION, G_DBUS_PROXY_FLAGS_NONE, NULL,
+      "org.gnome.Shell.Extensions",
+      "/org/gnome/Shell/Extensions",
+      "org.gnome.Shell.Extensions",
+      NULL, &local_error);
+  if (proxy == NULL)
+    {
+      g_warning ("Failed to get shell extensions proxy: %s", local_error->message);
+      return;
+    }
+
+  g_dbus_proxy_call (proxy, method, parameters,
+                     G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
+}
+
+static void
+action_open_extension_prefs (GtkWidget  *widget,
+                             const char *action_name,
+                             GVariant   *parameter)
+{
+  call_shell_extensions_method ("LaunchExtensionPrefs", g_variant_new ("(s)", g_variant_get_string (parameter, NULL)));
+}
+
+static void
+action_toggle_extension (GtkWidget  *widget,
+                         const char *action_name,
+                         GVariant   *parameter)
+{
+  const char *uuid   = NULL;
+  gboolean    enable = FALSE;
+
+  g_variant_get (parameter, "(&sb)", &uuid, &enable);
+
+  call_shell_extensions_method (enable ? "EnableExtension" : "DisableExtension", g_variant_new ("(s)", uuid));
+}
+
+static void
+action_logout (GtkWidget  *widget,
+               const char *action_name,
+               GVariant   *parameter)
+{
+  g_autoptr (GDBusProxy) proxy   = NULL;
+  g_autoptr (GError) local_error = NULL;
+
+  proxy = g_dbus_proxy_new_for_bus_sync (
+      G_BUS_TYPE_SESSION,
+      G_DBUS_PROXY_FLAGS_NONE,
+      NULL,
+      "org.gnome.SessionManager",
+      "/org/gnome/SessionManager",
+      "org.gnome.SessionManager",
+      NULL,
+      &local_error);
+  if (proxy == NULL)
+    {
+      g_warning ("Failed to connect to session manager: %s", local_error->message);
+      return;
+    }
+
+  g_dbus_proxy_call_sync (proxy, "Logout",
+                          g_variant_new ("(u)", 0),
+                          G_DBUS_CALL_FLAGS_NONE,
+                          -1, NULL, NULL);
+}
+
+static void
 bz_window_class_init (BzWindowClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -718,6 +791,10 @@ bz_window_class_init (BzWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "window.addons-group", "s", action_addons_group);
   gtk_widget_class_install_action (widget_class, "window.bulk-install", NULL, action_bulk_install);
   gtk_widget_class_install_action (widget_class, "window.launch-group", "s", action_launch_group);
+
+  gtk_widget_class_install_action (widget_class, "window.open-extension-prefs", "s", action_open_extension_prefs);
+  gtk_widget_class_install_action (widget_class, "window.toggle-extension", "(sb)", action_toggle_extension);
+  gtk_widget_class_install_action (widget_class, "window.logout", NULL, action_logout);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_d, GDK_CONTROL_MASK, "window.open-library", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_w, GDK_CONTROL_MASK, "window.close", NULL);

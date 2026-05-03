@@ -55,6 +55,12 @@ BzBackend *
 bz_transaction_manager_get_backend (BzTransactionManager *self);
 
 void
+bz_transaction_manager_set_gnome_ext_backend (BzTransactionManager *self,
+                                              BzBackend            *backend);
+BzBackend *
+bz_transaction_manager_get_gnome_ext_backend (BzTransactionManager *self);
+
+void
 bz_transaction_manager_set_paused (BzTransactionManager *self,
                                    gboolean              paused);
 

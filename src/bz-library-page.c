@@ -21,6 +21,8 @@
 #include <glib/gi18n.h>
 
 #include "bz-entry-group.h"
+#include "bz-gnome-extension-info.h"
+#include "bz-gnome-extension-tile.h"
 #include "bz-installed-tile.h"
 #include "bz-library-page.h"
 #include "bz-section-view.h"
@@ -43,6 +45,8 @@ struct _BzLibraryPage
   GtkScrolledWindow  *scroll;
   GtkFilterListModel *filter_model;
   GtkCustomFilter    *filter;
+  GtkCustomFilter    *user_ext_filter;
+  GtkCustomFilter    *system_ext_filter;
   GtkListView        *list_view;
   GtkSortListModel   *sort_model;
   GtkCustomSorter    *sorter;
@@ -94,6 +98,14 @@ set_page_idle_cb (BzLibraryPage *self);
 static gboolean
 filter (BzEntryGroup  *group,
         BzLibraryPage *self);
+
+static gboolean
+filter_user_extensions (BzGnomeExtensionInfo *info,
+                        gpointer              user_data);
+
+static gboolean
+filter_system_extensions (BzGnomeExtensionInfo *info,
+                          gpointer              user_data);
 
 static void
 bz_library_page_dispose (GObject *object)
@@ -196,9 +208,45 @@ format_update_count (gpointer    object,
                           n_updates);
 }
 
+static int
+count_ext_updates (GtkWidget  *widget,
+                   GListModel *infos)
+{
+  int   count   = 0;
+  guint n_items = 0;
+
+  if (infos == NULL)
+    return 0;
+
+  n_items = g_list_model_get_n_items (infos);
+  for (guint i = 0; i < n_items; i++)
+    {
+      g_autoptr (BzGnomeExtensionInfo) info = NULL;
+      gboolean has_update                   = FALSE;
+
+      info = g_list_model_get_item (infos, i);
+
+      g_object_get (info, "has-update", &has_update, NULL);
+      if (has_update)
+        count++;
+    }
+
+  return count;
+}
+
 static char *
-format_install_count (gpointer  object,
-                      gint      n_items)
+format_ext_update_count (GtkWidget *widget,
+                         int        count)
+{
+  return g_strdup_printf (ngettext ("%d extension will be updated on next login",
+                                    "%d extensions will be updated on next login",
+                                    count),
+                          count);
+}
+
+static char *
+format_install_count (gpointer object,
+                      gint     n_items)
 {
   return g_strdup_printf (ngettext ("%u Installed App",
                                     "%u Installed Apps",
@@ -221,6 +269,10 @@ tile_activated_cb (BzListTile *tile)
   if (BZ_IS_INSTALLED_TILE (tile))
     {
       group = bz_installed_tile_get_group (BZ_INSTALLED_TILE (tile));
+    }
+  else if (BZ_IS_GNOME_EXTENSION_TILE (tile))
+    {
+      group = bz_gnome_extension_tile_get_group (BZ_GNOME_EXTENSION_TILE (tile));
     }
   else if (BZ_IS_TRANSACTION_TILE (tile))
     {
@@ -318,8 +370,8 @@ sort_func (BzEntryGroup  *a,
       size_a = bz_entry_group_get_installed_size (a);
       size_b = bz_entry_group_get_installed_size (b);
 
-      return size_a > size_b ? -1 :
-             size_a < size_b ?  1 : 0;
+      return size_a > size_b ? -1 : size_a < size_b ? 1
+                                                    : 0;
     }
 
   return g_utf8_collate (bz_entry_group_get_title (a),
@@ -391,6 +443,7 @@ bz_library_page_class_init (BzLibraryPageClass *klass)
   g_type_ensure (BZ_TYPE_SECTION_VIEW);
   g_type_ensure (BZ_TYPE_ENTRY_GROUP);
   g_type_ensure (BZ_TYPE_INSTALLED_TILE);
+  g_type_ensure (BZ_TYPE_GNOME_EXTENSION_TILE);
   g_type_ensure (BZ_TYPE_TRANSACTION_TILE);
   g_type_ensure (BZ_TYPE_UPDATES_CARD);
 
@@ -402,6 +455,8 @@ bz_library_page_class_init (BzLibraryPageClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, scroll);
   gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, filter_model);
   gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, filter);
+  gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, user_ext_filter);
+  gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, system_ext_filter);
   gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, list_view);
   gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, sort_model);
   gtk_widget_class_bind_template_child (widget_class, BzLibraryPage, sorter);
@@ -413,6 +468,8 @@ bz_library_page_class_init (BzLibraryPageClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, tile_activated_cb);
   gtk_widget_class_bind_template_callback (widget_class, reset_search_cb);
   gtk_widget_class_bind_template_callback (widget_class, search_text_changed);
+  gtk_widget_class_bind_template_callback (widget_class, count_ext_updates);
+  gtk_widget_class_bind_template_callback (widget_class, format_ext_update_count);
   gtk_widget_class_bind_template_callback (widget_class, n_filtered_items_changed);
   gtk_widget_class_bind_template_callback (widget_class, clear_tasks_cb);
   gtk_widget_class_bind_template_callback (widget_class, updates_card_update_cb);
@@ -430,6 +487,15 @@ bz_library_page_init (BzLibraryPage *self)
   gtk_custom_sorter_set_sort_func (
       self->sorter, (GCompareDataFunc) sort_func,
       self, NULL);
+  gtk_custom_filter_set_filter_func (
+      self->user_ext_filter,
+      (GtkCustomFilterFunc) filter_user_extensions,
+      NULL, NULL);
+
+  gtk_custom_filter_set_filter_func (
+      self->system_ext_filter,
+      (GtkCustomFilterFunc) filter_system_extensions,
+      NULL, NULL);
 }
 
 GtkWidget *
@@ -633,4 +699,18 @@ filter (BzEntryGroup  *group,
            strcasestr (title, text) != NULL;
   else
     return TRUE;
+}
+
+static gboolean
+filter_user_extensions (BzGnomeExtensionInfo *info,
+                        gpointer              user_data)
+{
+  return !bz_gnome_extension_info_get_is_system (info);
+}
+
+static gboolean
+filter_system_extensions (BzGnomeExtensionInfo *info,
+                          gpointer              user_data)
+{
+  return bz_gnome_extension_info_get_is_system (info);
 }

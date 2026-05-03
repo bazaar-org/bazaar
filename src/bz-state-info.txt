@@ -62,3 +62,5 @@ property=txt_blocklists_provider BzContentProvider BZ_TYPE_CONTENT_PROVIDER obje
 property=user_icon_theme GtkIconTheme GTK_TYPE_ICON_THEME object
 property=parental_blocked_ids GListModel G_TYPE_LIST_MODEL object
 property=parental_age_rating int G_TYPE_INT int
+property=gnome_extension_infos GListModel G_TYPE_LIST_MODEL object
+property=shell_version char G_TYPE_STRING string

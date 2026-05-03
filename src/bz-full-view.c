@@ -28,8 +28,8 @@
 #include "bz-app-tile.h"
 #include "bz-apps-page.h"
 #include "bz-appstream-description-render.h"
-#include "bz-context-tile.h"
 #include "bz-context-tile-callbacks.h"
+#include "bz-context-tile.h"
 #include "bz-developer-badge.h"
 #include "bz-dynamic-list-view.h"
 #include "bz-entry-inspector.h"
@@ -38,6 +38,7 @@
 #include "bz-favorite-button.h"
 #include "bz-flatpak-entry.h"
 #include "bz-full-view.h"
+#include "bz-gnome-extension-entry.h"
 #include "bz-hardware-support-dialog.h"
 #include "bz-install-controls.h"
 #include "bz-license-dialog.h"
@@ -163,6 +164,15 @@ bz_full_view_set_property (GObject      *object,
 }
 
 static gboolean
+entry_is_gnome_extension (gpointer object,
+                          BzEntry *entry)
+{
+  if (entry == NULL)
+    return FALSE;
+  return BZ_IS_GNOME_EXTENSION_ENTRY (entry);
+}
+
+static gboolean
 is_scrolled_down (gpointer object,
                   double   value)
 {
@@ -277,8 +287,9 @@ get_developer_apps_entries (gpointer object, GtkStringList *app_ids, BzEntry *en
 static int
 get_dev_apps_max_children_per_line (gpointer object, GListModel *model)
 {
-    if (!model) return 3;
-    return g_list_model_get_n_items (model) > 2 ? 3 : 2;
+  if (!model)
+    return 3;
+  return g_list_model_get_n_items (model) > 2 ? 3 : 2;
 }
 
 static void
@@ -410,9 +421,9 @@ static void
 dl_stats_cb (BzFullView *self,
              GtkButton  *button)
 {
-  AdwDialog         *dialog   = NULL;
-  AdwBreakpointBin  *bin      = NULL;
-  BzEntry           *ui_entry = NULL;
+  AdwDialog        *dialog   = NULL;
+  AdwBreakpointBin *bin      = NULL;
+  BzEntry          *ui_entry = NULL;
 
   if (self->group == NULL)
     return;
@@ -683,6 +694,7 @@ bz_full_view_class_init (BzFullViewClass *klass)
   g_type_ensure (BZ_TYPE_FADING_CLAMP);
   g_type_ensure (BZ_TYPE_FAVORITE_BUTTON);
   g_type_ensure (BZ_TYPE_FLATPAK_ENTRY);
+  g_type_ensure (BZ_TYPE_GNOME_EXTENSION_ENTRY);
   g_type_ensure (BZ_TYPE_HARDWARE_SUPPORT_DIALOG);
   g_type_ensure (BZ_TYPE_INSTALL_CONTROLS);
   g_type_ensure (BZ_TYPE_SECTION_VIEW);
@@ -699,6 +711,7 @@ bz_full_view_class_init (BzFullViewClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzFullView, main_scroll);
   gtk_widget_class_bind_template_child (widget_class, BzFullView, shadow_overlay);
   gtk_widget_class_bind_template_child (widget_class, BzFullView, description_toggle);
+  gtk_widget_class_bind_template_callback (widget_class, entry_is_gnome_extension);
   gtk_widget_class_bind_template_callback (widget_class, is_scrolled_down);
   gtk_widget_class_bind_template_callback (widget_class, age_rating_cb);
   gtk_widget_class_bind_template_callback (widget_class, format_as_link);

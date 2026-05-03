@@ -27,6 +27,7 @@
 #include "bz-backend-transaction-op-payload.h"
 #include "bz-backend-transaction-op-progress-payload.h"
 #include "bz-env.h"
+#include "bz-gnome-extension-entry.h"
 #include "bz-marshalers.h"
 #include "bz-transaction-manager.h"
 #include "bz-util.h"
@@ -63,6 +64,7 @@ struct _BzTransactionManager
 
   BzMainConfig *config;
   BzBackend    *backend;
+  BzBackend    *gnome_ext_backend;
 
   gboolean    paused;
   GListStore *transactions;
@@ -87,6 +89,7 @@ enum
 
   PROP_CONFIG,
   PROP_BACKEND,
+  PROP_GNOME_EXT_BACKEND,
   PROP_PAUSED,
   PROP_TRANSACTIONS,
   PROP_HAS_TRANSACTIONS,
@@ -131,6 +134,7 @@ bz_transaction_manager_dispose (GObject *object)
 
   g_clear_object (&self->config);
   g_clear_object (&self->backend);
+  g_clear_object (&self->gnome_ext_backend);
   g_clear_object (&self->transactions);
   g_queue_clear_full (&self->queue, queued_schedule_data_unref);
   g_clear_pointer (&self->current, queued_schedule_data_unref);
@@ -154,6 +158,9 @@ bz_transaction_manager_get_property (GObject    *object,
       break;
     case PROP_BACKEND:
       g_value_set_object (value, bz_transaction_manager_get_backend (self));
+      break;
+    case PROP_GNOME_EXT_BACKEND:
+      g_value_set_object (value, bz_transaction_manager_get_gnome_ext_backend (self));
       break;
     case PROP_PAUSED:
       g_value_set_boolean (value, bz_transaction_manager_get_paused (self));
@@ -202,6 +209,9 @@ bz_transaction_manager_set_property (GObject      *object,
       break;
     case PROP_BACKEND:
       bz_transaction_manager_set_backend (self, g_value_get_object (value));
+      break;
+    case PROP_GNOME_EXT_BACKEND:
+      bz_transaction_manager_set_gnome_ext_backend (self, g_value_get_object (value));
       break;
     case PROP_PAUSED:
       bz_transaction_manager_set_paused (self, g_value_get_boolean (value));
@@ -283,6 +293,13 @@ bz_transaction_manager_class_init (BzTransactionManagerClass *klass)
   props[PROP_BACKEND] =
       g_param_spec_object (
           "backend",
+          NULL, NULL,
+          BZ_TYPE_BACKEND,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_GNOME_EXT_BACKEND] =
+      g_param_spec_object (
+          "gnome-ext-backend",
           NULL, NULL,
           BZ_TYPE_BACKEND,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
@@ -461,6 +478,27 @@ bz_transaction_manager_get_backend (BzTransactionManager *self)
 }
 
 void
+bz_transaction_manager_set_gnome_ext_backend (BzTransactionManager *self,
+                                              BzBackend            *backend)
+{
+  g_return_if_fail (BZ_IS_TRANSACTION_MANAGER (self));
+  g_return_if_fail (backend == NULL || BZ_IS_BACKEND (backend));
+
+  g_clear_object (&self->gnome_ext_backend);
+  if (backend != NULL)
+    self->gnome_ext_backend = g_object_ref (backend);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_GNOME_EXT_BACKEND]);
+}
+
+BzBackend *
+bz_transaction_manager_get_gnome_ext_backend (BzTransactionManager *self)
+{
+  g_return_val_if_fail (BZ_IS_TRANSACTION_MANAGER (self), NULL);
+  return self->gnome_ext_backend;
+}
+
+void
 bz_transaction_manager_set_paused (BzTransactionManager *self,
                                    gboolean              paused)
 {
@@ -633,6 +671,7 @@ transaction_fiber (QueuedScheduleData *data)
   g_autoptr (DexFuture) future          = NULL;
   g_autoptr (GHashTable) op_set         = NULL;
   g_autoptr (GHashTable) pending_set    = NULL;
+  BzBackend     *chosen_backend         = NULL;
   GHashTableIter iter                   = { 0 };
 
   bz_weak_get_or_return_reject (self, data->self);
@@ -652,9 +691,30 @@ transaction_fiber (QueuedScheduleData *data)
   store = g_list_store_new (BZ_TYPE_TRANSACTION);
   g_list_store_append (store, transaction);
 
+  {
+    GListModel *installs            = NULL;
+    GListModel *removals            = NULL;
+    g_autoptr (BzEntry) first_entry = NULL;
+
+    installs = bz_transaction_get_installs (transaction);
+    removals = bz_transaction_get_removals (transaction);
+
+    if (installs != NULL && g_list_model_get_n_items (installs) > 0)
+      first_entry = g_list_model_get_item (installs, 0);
+    else if (removals != NULL && g_list_model_get_n_items (removals) > 0)
+      first_entry = g_list_model_get_item (removals, 0);
+
+    if (first_entry != NULL &&
+        self->gnome_ext_backend != NULL &&
+        BZ_IS_GNOME_EXTENSION_ENTRY (first_entry))
+      chosen_backend = self->gnome_ext_backend;
+    else
+      chosen_backend = self->backend;
+  }
+
   channel = dex_channel_new (0);
   future  = bz_backend_merge_and_schedule_transactions (
-      self->backend,
+      chosen_backend,
       G_LIST_MODEL (store),
       channel,
       dex_promise_get_cancellable (promise));

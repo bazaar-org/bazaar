@@ -2527,6 +2527,15 @@ query_flathub_fiber (QueryFlathubData *data)
         JsonObject *per_country      = NULL;
         g_autoptr (GListStore) store = NULL;
 
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          {
+            g_debug ("No data for property %s for %s from flathub",
+                     props[prop]->name, id);
+            return dex_future_new_for_error (
+                g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+                             "Unexpected JSON response format"));
+          }
+
         per_country = json_object_get_object_member (
             json_node_get_object (node),
             "installs_per_country");
@@ -2546,6 +2555,13 @@ query_flathub_fiber (QueryFlathubData *data)
       {
         int recent_downloads = 0;
 
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          {
+            g_debug ("No data for property %s for %s from flathub",
+                     props[prop]->name, id);
+            return dex_future_new_for_int (0);
+          }
+
         if (json_object_has_member (json_node_get_object (node), "installs_last_month"))
           recent_downloads = json_object_get_int_member (json_node_get_object (node), "installs_last_month");
 
@@ -2555,6 +2571,13 @@ query_flathub_fiber (QueryFlathubData *data)
     case PROP_TOTAL_DOWNLOADS:
       {
         int total_downloads = 0;
+
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          {
+            g_debug ("No data for property %s for %s from flathub",
+                     props[prop]->name, id);
+            return dex_future_new_for_int (0);
+          }
 
         if (json_object_has_member (json_node_get_object (node), "installs_total"))
           total_downloads = json_object_get_int_member (json_node_get_object (node), "installs_total");
@@ -2568,6 +2591,15 @@ query_flathub_fiber (QueryFlathubData *data)
         JsonObject *response_obj          = NULL;
         JsonArray  *apps_array            = NULL;
         g_autoptr (GtkStringList) app_ids = NULL;
+
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          {
+            g_debug ("No data for property %s for %s from flathub",
+                     props[prop]->name, id);
+            return dex_future_new_for_error (
+                g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+                             "Unexpected JSON response format"));
+          }
 
         response_obj = json_node_get_object (node);
         apps_array   = json_object_get_array_member (response_obj, "hits");
@@ -2588,6 +2620,14 @@ query_flathub_fiber (QueryFlathubData *data)
     case PROP_FAVORITES_COUNT:
       {
         int favorites_count = 0;
+
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          {
+            g_debug ("No data for property %s for %s from flathub",
+                     props[prop]->name, id);
+            return dex_future_new_for_int (0);
+          }
+
         if (json_object_has_member (json_node_get_object (node), "favorites_count"))
           favorites_count = json_object_get_int_member (json_node_get_object (node), "favorites_count");
 

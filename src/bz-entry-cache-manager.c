@@ -29,6 +29,7 @@
 #include "bz-entry-cache-manager.h"
 #include "bz-env.h"
 #include "bz-flatpak-entry.h"
+#include "bz-gnome-extension-entry.h"
 #include "bz-io.h"
 #include "bz-serializable.h"
 #include "bz-util.h"
@@ -406,12 +407,12 @@ write_task_fiber (WriteTaskData *data)
   gboolean result                         = FALSE;
   g_autoptr (GError) ret_error            = NULL;
 
-  if (!BZ_IS_FLATPAK_ENTRY (entry))
+  if (!BZ_IS_SERIALIZABLE (entry))
     return dex_future_new_reject (
         BZ_ENTRY_CACHE_ERROR,
         BZ_ENTRY_CACHE_ERROR_CACHE_FAILED,
         "Entry with unique ID checksum '%s' cannot be "
-        "cached because it is not a flatpak entry",
+        "cached because it is not serializable",
         unique_id_checksum);
 
   /* Rate limit to reduce competition for resources
@@ -486,6 +487,8 @@ write_task_fiber (WriteTaskData *data)
                                &living->gate);
   {
     builder = g_variant_builder_new (G_VARIANT_TYPE_VARDICT);
+    g_variant_builder_add (builder, "{sv}", "entry-type-name",
+                           g_variant_new_string (G_OBJECT_TYPE_NAME (entry)));
     bz_serializable_serialize (BZ_SERIALIZABLE (entry), builder);
     variant    = g_variant_builder_end (builder);
     bytes      = g_variant_get_data_as_bytes (variant);
@@ -600,7 +603,7 @@ read_task_fiber (ReadTaskData *data)
   g_autoptr (GFile) file               = NULL;
   g_autoptr (GBytes) bytes             = NULL;
   g_autoptr (GVariant) variant         = NULL;
-  g_autoptr (BzFlatpakEntry) entry     = NULL;
+  g_autoptr (BzEntry) entry            = NULL;
   gboolean result                      = FALSE;
   g_autoptr (GError) ret_error         = NULL;
 
@@ -707,7 +710,23 @@ read_task_fiber (ReadTaskData *data)
       goto done;
     }
 
-  entry  = g_object_new (BZ_TYPE_FLATPAK_ENTRY, NULL);
+  {
+    g_autoptr (GVariant) type_variant = NULL;
+    const char *type_name             = NULL;
+    GType       entry_gtype           = G_TYPE_INVALID;
+
+    type_variant = g_variant_lookup_value (variant, "entry-type-name", G_VARIANT_TYPE_STRING);
+    if (type_variant != NULL)
+      type_name = g_variant_get_string (type_variant, NULL);
+
+    if (g_strcmp0 (type_name, "BzGnomeExtensionEntry") == 0)
+      entry_gtype = BZ_TYPE_GNOME_EXTENSION_ENTRY;
+    else
+      entry_gtype = BZ_TYPE_FLATPAK_ENTRY;
+
+    entry = g_object_new (entry_gtype, NULL);
+  }
+
   result = bz_serializable_deserialize (BZ_SERIALIZABLE (entry), variant, &local_error);
   if (!result)
     {

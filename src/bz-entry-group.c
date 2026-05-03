@@ -24,6 +24,7 @@
 #include "bz-entry-group.h"
 #include "bz-env.h"
 #include "bz-flatpak-entry.h"
+#include "bz-gnome-extension-entry.h"
 #include "bz-io.h"
 #include "bz-util.h"
 
@@ -45,6 +46,7 @@ struct _BzEntryGroup
   char           *dark_accent_color;
   gboolean        is_flathub;
   gboolean        is_verified;
+  gboolean        is_gnome_extension;
   char           *search_tokens;
   char           *eol;
   guint64         installed_size;
@@ -95,6 +97,7 @@ enum
   PROP_DARK_ACCENT_COLOR,
   PROP_IS_FLATHUB,
   PROP_IS_VERIFIED,
+  PROP_IS_GNOME_EXTENSION,
   PROP_SEARCH_TOKENS,
   PROP_UI_ENTRY,
   PROP_EOL,
@@ -211,6 +214,9 @@ bz_entry_group_get_property (GObject    *object,
     case PROP_IS_VERIFIED:
       g_value_set_boolean (value, bz_entry_group_get_is_verified (self));
       break;
+    case PROP_IS_GNOME_EXTENSION:
+      g_value_set_boolean (value, self->is_gnome_extension);
+      break;
     case PROP_SEARCH_TOKENS:
       g_value_set_boxed (value, bz_entry_group_get_search_tokens (self));
       break;
@@ -280,6 +286,7 @@ bz_entry_group_set_property (GObject      *object,
     case PROP_DARK_ACCENT_COLOR:
     case PROP_IS_FLATHUB:
     case PROP_IS_VERIFIED:
+    case PROP_IS_GNOME_EXTENSION:
     case PROP_SEARCH_TOKENS:
     case PROP_EOL:
     case PROP_UI_ENTRY:
@@ -384,6 +391,12 @@ bz_entry_group_class_init (BzEntryGroupClass *klass)
   props[PROP_IS_VERIFIED] =
       g_param_spec_boolean (
           "is-verified",
+          NULL, NULL, FALSE,
+          G_PARAM_READABLE);
+
+  props[PROP_IS_GNOME_EXTENSION] =
+      g_param_spec_boolean (
+          "is-gnome-extension",
           NULL, NULL, FALSE,
           G_PARAM_READABLE);
 
@@ -681,6 +694,13 @@ bz_entry_group_get_is_verified (BzEntryGroup *self)
   return self->is_verified;
 }
 
+gboolean
+bz_entry_group_get_is_gnome_extension (BzEntryGroup *self)
+{
+  g_return_val_if_fail (BZ_IS_ENTRY_GROUP (self), FALSE);
+  return self->is_gnome_extension;
+}
+
 const char *
 bz_entry_group_get_search_tokens (BzEntryGroup *self)
 {
@@ -970,6 +990,8 @@ bz_entry_group_add (BzEntryGroup *self,
       is_searchable      = bz_entry_is_searchable (entry);
       if (addons != NULL)
         n_addons = g_list_model_get_n_items (addons);
+      if (BZ_IS_GNOME_EXTENSION_ENTRY (entry))
+        self->is_gnome_extension = TRUE;
     }
 
   usefulness = bz_entry_calc_usefulness (entry);
@@ -982,8 +1004,8 @@ bz_entry_group_add (BzEntryGroup *self,
           gtk_string_list_remove (self->unique_ids, existing);
           gtk_string_list_remove (self->installed_versions, existing);
         }
-      gtk_string_list_splice (self->unique_ids, 0, 0, (const char *const[]){ unique_id, NULL });
-      gtk_string_list_splice (self->installed_versions, 0, 0, (const char *const[]){ installed_version != NULL ? installed_version : "", NULL });
+      gtk_string_list_splice (self->unique_ids, 0, 0, (const char *const[]) { unique_id, NULL });
+      gtk_string_list_splice (self->installed_versions, 0, 0, (const char *const[]) { installed_version != NULL ? installed_version : "", NULL });
 
       if (title != NULL)
         {
@@ -1223,7 +1245,7 @@ installed_changed (BzEntryGroup *self,
   if (index != G_MAXUINT)
     {
       gtk_string_list_splice (self->installed_versions, index, 1,
-                              (const char *const[]){
+                              (const char *const[]) {
                                   version != NULL ? version : "",
                                   NULL });
     }

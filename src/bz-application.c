@@ -44,6 +44,8 @@
 #include "bz-flathub-state.h"
 #include "bz-flatpak-entry.h"
 #include "bz-flatpak-instance.h"
+#include "bz-gnome-extension-info.h"
+#include "bz-gnome-extension-instance.h"
 #include "bz-gnome-shell-search-provider.h"
 #include "bz-hash-table-object.h"
 #include "bz-inspector.h"
@@ -79,6 +81,7 @@ struct _BzApplication
   BzFlathubState             *flathub;
   BzFlathubState             *tmp_flathub;
   BzFlatpakInstance          *flatpak;
+  BzGnomeExtensionInstance   *gnome_ext;
   BzGnomeShellSearchProvider *gs_search;
   BzInternalConfig           *internal_config;
   BzMainConfig               *config;
@@ -104,6 +107,7 @@ struct _BzApplication
   GListStore                 *groups;
   GListStore                 *installed_apps;
   GListStore                 *search_biases_backing;
+  GListStore                 *gnome_ext_infos;
   GNetworkMonitor            *network;
   GPtrArray                  *blocklist_regexes;
   GPtrArray                  *txt_blocked_id_sets;
@@ -146,9 +150,12 @@ BZ_DEFINE_DATA (
     {
       GWeakRef              *self;
       BzBackendNotification *notif;
+      DexChannel            *channel;
+      gboolean               is_gnome_ext;
     },
     BZ_RELEASE_DATA (self, bz_weak_release);
-    BZ_RELEASE_DATA (notif, g_object_unref))
+    BZ_RELEASE_DATA (notif, g_object_unref);
+    BZ_RELEASE_DATA (channel, dex_unref))
 
 BZ_DEFINE_DATA (
     cache_write_back,
@@ -223,9 +230,20 @@ static DexFuture *
 sync_finally (DexFuture *future,
               GWeakRef  *wr);
 
+BZ_DEFINE_DATA (
+    watch_notifs,
+    WatchNotifs,
+    {
+      GWeakRef   *self;
+      DexChannel *channel;
+      gboolean    is_gnome_ext;
+    },
+    BZ_RELEASE_DATA (self, bz_weak_release);
+    BZ_RELEASE_DATA (channel, dex_unref))
+
 static DexFuture *
-watch_backend_notifs_then_loop_cb (DexFuture *future,
-                                   GWeakRef  *wr);
+watch_backend_notifs_then_loop_cb (DexFuture       *future,
+                                   WatchNotifsData *data);
 
 static BzEntryGroup *
 ensure_group_and_add (BzApplication *self,
@@ -392,6 +410,7 @@ bz_application_dispose (GObject *object)
   g_clear_object (&self->network);
   g_clear_object (&self->search_biases);
   g_clear_object (&self->search_biases_backing);
+  g_clear_object (&self->gnome_ext_infos);
   g_clear_object (&self->search_engine);
   g_clear_object (&self->settings);
   g_clear_object (&self->state);
@@ -889,27 +908,27 @@ bz_application_init (BzApplication *self)
   gtk_application_set_accels_for_action (
       GTK_APPLICATION (self),
       "app.quit",
-      (const char *[]){ "<primary>q", NULL });
+      (const char *[]) { "<primary>q", NULL });
   gtk_application_set_accels_for_action (
       GTK_APPLICATION (self),
       "app.preferences",
-      (const char *[]){ "<primary>comma", NULL });
+      (const char *[]) { "<primary>comma", NULL });
   gtk_application_set_accels_for_action (
       GTK_APPLICATION (self),
       "app.sync-remotes",
-      (const char *[]){ "<primary>r", NULL });
+      (const char *[]) { "<primary>r", NULL });
   gtk_application_set_accels_for_action (
       GTK_APPLICATION (self),
       "app.search('')",
-      (const char *[]){ "<primary>f", NULL });
+      (const char *[]) { "<primary>f", NULL });
   gtk_application_set_accels_for_action (
       GTK_APPLICATION (self),
       "app.bazaar-inspector",
-      (const char *[]){ "<primary><alt><shift>i", NULL });
+      (const char *[]) { "<primary><alt><shift>i", NULL });
   gtk_application_set_accels_for_action (
       GTK_APPLICATION (self),
       "app.toggle-debug-mode",
-      (const char *[]){ "<primary><alt>d", NULL });
+      (const char *[]) { "<primary><alt>d", NULL });
 }
 
 BzStateInfo *
@@ -928,7 +947,6 @@ bz_state_info_get_default (void)
           g_autoptr (BzStateInfo) tmp = NULL;
 
           tmp = bz_state_info_new ();
-          state_info_set_icon_themes (tmp);
 
           g_once_init_leave_pointer (
               &fallback_state,
@@ -944,6 +962,21 @@ bz_state_info_get_default (void)
   return self->state;
 }
 
+static GListStore *
+gnome_ext_hash_table_to_list_store (GHashTable *ids)
+{
+  GListStore    *store = g_list_store_new (BZ_TYPE_GNOME_EXTENSION_INFO);
+  GHashTableIter iter  = { 0 };
+  const char    *uuid  = NULL;
+  gpointer       val   = NULL;
+
+  g_hash_table_iter_init (&iter, ids);
+  while (g_hash_table_iter_next (&iter, (gpointer *) &uuid, &val))
+    g_list_store_append (store, BZ_GNOME_EXTENSION_INFO (val));
+
+  return store;
+}
+
 static DexFuture *
 init_fiber (GWeakRef *wr)
 {
@@ -956,6 +989,7 @@ init_fiber (GWeakRef *wr)
   gboolean         result               = FALSE;
   g_autofree char *flathub_cache        = NULL;
   g_autoptr (GFile) flathub_cache_file  = NULL;
+  const char *current_desktop           = NULL;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -1023,6 +1057,50 @@ init_fiber (GWeakRef *wr)
     return dex_future_new_for_error (g_steal_pointer (&local_error));
   bz_transaction_manager_set_backend (self->transactions, BZ_BACKEND (self->flatpak));
   bz_state_info_set_backend (self->state, BZ_BACKEND (self->flatpak));
+
+  current_desktop = g_getenv ("XDG_CURRENT_DESKTOP");
+  if (current_desktop != NULL && strstr (current_desktop, "GNOME") != NULL)
+    {
+      self->gnome_ext = dex_await_object (
+          bz_gnome_extension_instance_new (),
+          &local_error);
+      if (self->gnome_ext == NULL)
+        {
+          g_warning ("Failed to initialize GNOME extensions backend: %s",
+                     local_error->message);
+          g_clear_error (&local_error);
+        }
+      else
+        {
+          g_autofree char *shell_version = bz_gnome_extension_instance_dup_shell_version (self->gnome_ext);
+          if (shell_version != NULL)
+            bz_state_info_set_shell_version (self->state, shell_version);
+        }
+    }
+
+  bz_transaction_manager_set_gnome_ext_backend (self->transactions, BZ_BACKEND (self->gnome_ext));
+
+  if (self->gnome_ext != NULL)
+    {
+      g_autoptr (GError) ext_error   = NULL;
+      g_autoptr (GHashTable) ext_ids = NULL;
+
+      ext_ids = dex_await_boxed (
+          bz_backend_retrieve_install_ids (BZ_BACKEND (self->gnome_ext), NULL),
+          &ext_error);
+      if (ext_ids == NULL)
+        {
+          g_warning ("Unable to enumerate installed GNOME extensions: %s",
+                     ext_error->message);
+          g_clear_error (&ext_error);
+          self->gnome_ext_infos = g_list_store_new (BZ_TYPE_GNOME_EXTENSION_INFO);
+        }
+      else
+        self->gnome_ext_infos = gnome_ext_hash_table_to_list_store (ext_ids);
+
+      bz_state_info_set_gnome_extension_infos (
+          self->state, G_LIST_MODEL (self->gnome_ext_infos));
+    }
 
   has_flathub = dex_await_boolean (
       bz_flatpak_instance_has_flathub (self->flatpak, NULL),
@@ -1566,133 +1644,256 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
           break;
         case BZ_BACKEND_NOTIFICATION_KIND_EXTERNAL_CHANGE:
           {
-            g_autoptr (GHashTable) installed_set = NULL;
-            g_autoptr (GPtrArray) diff_reads     = NULL;
-            GHashTableIter old_iter              = { 0 };
-            GHashTableIter new_iter              = { 0 };
-            g_autoptr (GPtrArray) diff_writes    = NULL;
-
             bz_state_info_set_background_task_label (self->state, _ ("Refreshing…"));
 
-            installed_set = dex_await_boxed (
-                bz_backend_retrieve_install_ids (
-                    BZ_BACKEND (self->flatpak), NULL),
-                &local_error);
-            if (installed_set == NULL)
+            if (data->is_gnome_ext)
               {
-                g_warning ("Failed to enumerate installed entries: %s", local_error->message);
-                finish_with_background_task_label (self);
-                break;
-              }
+                g_autoptr (GHashTable) new_ids = NULL;
+                GHashTableIter iter            = { 0 };
+                const char    *uuid            = NULL;
+                gpointer       val             = NULL;
 
-            diff_reads = g_ptr_array_new_with_free_func (dex_unref);
-
-            g_hash_table_iter_init (&old_iter, self->installed_set);
-            for (;;)
-              {
-                char *unique_id = NULL;
-
-                if (!g_hash_table_iter_next (
-                        &old_iter, (gpointer *) &unique_id, NULL))
-                  break;
-
-                if (!g_hash_table_contains (installed_set, unique_id))
-                  g_ptr_array_add (
-                      diff_reads,
-                      bz_entry_cache_manager_get (self->cache, unique_id));
-              }
-
-            g_hash_table_iter_init (&new_iter, installed_set);
-            for (;;)
-              {
-                char *unique_id = NULL;
-
-                if (!g_hash_table_iter_next (
-                        &new_iter, (gpointer *) &unique_id, NULL))
-                  break;
-
-                if (!g_hash_table_contains (self->installed_set, unique_id))
-                  g_ptr_array_add (
-                      diff_reads,
-                      bz_entry_cache_manager_get (self->cache, unique_id));
-              }
-
-            if (diff_reads->len > 0)
-              {
-                dex_await (dex_future_allv (
-                               (DexFuture *const *) diff_reads->pdata,
-                               diff_reads->len),
-                           NULL);
-
-                diff_writes = g_ptr_array_new_with_free_func (dex_unref);
-                for (guint i = 0; i < diff_reads->len; i++)
+                new_ids = dex_await_boxed (
+                    bz_backend_retrieve_install_ids (
+                        BZ_BACKEND (self->gnome_ext), NULL),
+                    &local_error);
+                if (new_ids == NULL)
                   {
-                    DexFuture *future = NULL;
+                    g_warning ("Failed to re-enumerate GNOME extensions: %s",
+                               local_error->message);
+                    g_clear_error (&local_error);
+                    finish_with_background_task_label (self);
+                    break;
+                  }
 
-                    future = g_ptr_array_index (diff_reads, i);
-                    if (dex_future_is_resolved (future))
+                for (guint i = g_list_model_get_n_items (G_LIST_MODEL (self->gnome_ext_infos)); i > 0; i--)
+                  {
+                    g_autoptr (BzGnomeExtensionInfo) info = g_list_model_get_item (
+                        G_LIST_MODEL (self->gnome_ext_infos), i - 1);
+                    const char *old_uuid = bz_gnome_extension_info_get_uuid (info);
+
+                    if (!g_hash_table_contains (new_ids, old_uuid))
                       {
-                        BzEntry      *entry     = NULL;
-                        const char   *id        = NULL;
-                        const char   *unique_id = NULL;
-                        BzEntryGroup *group     = NULL;
-                        gboolean      installed = FALSE;
-                        const char   *version   = NULL;
+                        g_autoptr (BzEntry) entry = dex_await_object (
+                            bz_entry_cache_manager_get (self->cache, old_uuid), NULL);
 
-                        entry = g_value_get_object (dex_future_get_value (future, NULL));
-                        id    = bz_entry_get_id (entry);
-                        group = g_hash_table_lookup (self->ids_to_groups, id);
-                        if (group != NULL)
-                          bz_entry_group_connect_living (group, entry);
-
-                        unique_id = bz_entry_get_unique_id (entry);
-                        installed = g_hash_table_contains (installed_set, unique_id);
-
-                        version = g_hash_table_lookup (installed_set, unique_id);
-                        if (installed && version != NULL && *version != '\0')
-                          bz_entry_set_installed_version (entry, version);
-
-                        bz_entry_set_installed (entry, installed);
-
-                        if (group != NULL)
+                        if (entry != NULL)
                           {
-                            gboolean found    = FALSE;
-                            guint    position = 0;
+                            BzEntryGroup *group    = NULL;
+                            guint         position = 0;
 
-                            found = g_list_store_find (self->installed_apps, group, &position);
-                            if (installed && !found)
-                              g_list_store_insert_sorted (
-                                  self->installed_apps, group,
-                                  (GCompareDataFunc) cmp_group, NULL);
-                            else if (!installed && found &&
-                                     bz_entry_group_get_removable (group) == 0)
+                            bz_entry_set_installed (entry, FALSE);
+                            bz_entry_set_installed_version (entry, NULL);
+
+                            group = g_hash_table_lookup (self->ids_to_groups, bz_entry_get_id (entry));
+                            if (group != NULL &&
+                                !bz_entry_group_get_removable (group) &&
+                                g_list_store_find (self->installed_apps, group, &position))
                               g_list_store_remove (self->installed_apps, position);
                           }
 
-                        g_ptr_array_add (
-                            diff_writes,
-                            bz_entry_cache_manager_add (self->cache, entry));
+                        g_list_store_remove (self->gnome_ext_infos, i - 1);
                       }
                   }
 
-                dex_await (dex_future_allv (
-                               (DexFuture *const *) diff_writes->pdata,
-                               diff_writes->len),
-                           NULL);
-              }
-            g_clear_pointer (&self->installed_set, g_hash_table_unref);
-            self->installed_set = g_steal_pointer (&installed_set);
+                g_hash_table_iter_init (&iter, new_ids);
+                while (g_hash_table_iter_next (&iter, (gpointer *) &uuid, &val))
+                  {
+                    BzGnomeExtensionInfo *new_info = BZ_GNOME_EXTENSION_INFO (val);
+                    guint                 n        = g_list_model_get_n_items (G_LIST_MODEL (self->gnome_ext_infos));
+                    guint                 pos      = n;
 
-            fiber_check_for_updates (self);
-            finish_with_background_task_label (self);
+                    for (guint i = 0; i < n; i++)
+                      {
+                        g_autoptr (BzGnomeExtensionInfo) info = g_list_model_get_item (
+                            G_LIST_MODEL (self->gnome_ext_infos), i);
+                        if (g_strcmp0 (bz_gnome_extension_info_get_uuid (info), uuid) == 0)
+                          {
+                            pos = i;
+                            break;
+                          }
+                      }
+
+                    if (pos < n)
+                      {
+                        g_autoptr (BzGnomeExtensionInfo) existing = g_list_model_get_item (
+                            G_LIST_MODEL (self->gnome_ext_infos), pos);
+
+                        g_object_freeze_notify (G_OBJECT (existing));
+                        g_object_set (existing,
+                                      "name", bz_gnome_extension_info_get_name (new_info),
+                                      "version", bz_gnome_extension_info_get_version (new_info),
+                                      "state", bz_gnome_extension_info_get_state (new_info),
+                                      "enabled", bz_gnome_extension_info_get_enabled (new_info),
+                                      "error", bz_gnome_extension_info_get_error (new_info),
+                                      "has-prefs", bz_gnome_extension_info_get_has_prefs (new_info),
+                                      "has-update", bz_gnome_extension_info_get_has_update (new_info),
+                                      "can-change", bz_gnome_extension_info_get_can_change (new_info),
+                                      "is-system", bz_gnome_extension_info_get_is_system (new_info),
+                                      NULL);
+                        g_object_thaw_notify (G_OBJECT (existing));
+                      }
+                    else
+                      {
+                        g_autoptr (BzEntry) entry = dex_await_object (
+                            bz_entry_cache_manager_get (self->cache, uuid), NULL);
+
+                        g_list_store_append (self->gnome_ext_infos, new_info);
+
+                        if (entry != NULL)
+                          {
+                            BzEntryGroup *group    = NULL;
+                            guint         position = 0;
+
+                            bz_entry_set_installed (entry, TRUE);
+
+                            group = g_hash_table_lookup (self->ids_to_groups, bz_entry_get_id (entry));
+                            if (group != NULL &&
+                                !g_list_store_find (self->installed_apps, group, &position))
+                              g_list_store_insert_sorted (self->installed_apps, group,
+                                                          (GCompareDataFunc) cmp_group, NULL);
+                          }
+                      }
+                  }
+
+                bz_state_info_set_gnome_extension_infos (
+                    self->state, G_LIST_MODEL (self->gnome_ext_infos));
+
+                finish_with_background_task_label (self);
+              }
+            else
+              {
+                g_autoptr (GHashTable) installed_set = NULL;
+                g_autoptr (GPtrArray) diff_reads     = NULL;
+                GHashTableIter old_iter              = { 0 };
+                GHashTableIter new_iter              = { 0 };
+                g_autoptr (GPtrArray) diff_writes    = NULL;
+
+                installed_set = dex_await_boxed (
+                    bz_backend_retrieve_install_ids (
+                        BZ_BACKEND (self->flatpak), NULL),
+                    &local_error);
+                if (installed_set == NULL)
+                  {
+                    g_warning ("Failed to enumerate installed entries: %s",
+                               local_error->message);
+                    finish_with_background_task_label (self);
+                    break;
+                  }
+
+                diff_reads = g_ptr_array_new_with_free_func (dex_unref);
+
+                g_hash_table_iter_init (&old_iter, self->installed_set);
+                for (;;)
+                  {
+                    char *unique_id = NULL;
+
+                    if (!g_hash_table_iter_next (
+                            &old_iter, (gpointer *) &unique_id, NULL))
+                      break;
+
+                    if (!g_hash_table_contains (installed_set, unique_id))
+                      g_ptr_array_add (
+                          diff_reads,
+                          bz_entry_cache_manager_get (self->cache, unique_id));
+                  }
+
+                g_hash_table_iter_init (&new_iter, installed_set);
+                for (;;)
+                  {
+                    char *unique_id = NULL;
+
+                    if (!g_hash_table_iter_next (
+                            &new_iter, (gpointer *) &unique_id, NULL))
+                      break;
+
+                    if (!g_hash_table_contains (self->installed_set, unique_id))
+                      g_ptr_array_add (
+                          diff_reads,
+                          bz_entry_cache_manager_get (self->cache, unique_id));
+                  }
+
+                if (diff_reads->len > 0)
+                  {
+                    dex_await (dex_future_allv (
+                                   (DexFuture *const *) diff_reads->pdata,
+                                   diff_reads->len),
+                               NULL);
+
+                    diff_writes = g_ptr_array_new_with_free_func (dex_unref);
+                    for (guint i = 0; i < diff_reads->len; i++)
+                      {
+                        DexFuture *future = NULL;
+
+                        future = g_ptr_array_index (diff_reads, i);
+                        if (dex_future_is_resolved (future))
+                          {
+                            BzEntry      *entry     = NULL;
+                            const char   *id        = NULL;
+                            const char   *unique_id = NULL;
+                            BzEntryGroup *group     = NULL;
+                            gboolean      installed = FALSE;
+                            const char   *version   = NULL;
+
+                            entry = g_value_get_object (dex_future_get_value (future, NULL));
+                            id    = bz_entry_get_id (entry);
+                            group = g_hash_table_lookup (self->ids_to_groups, id);
+                            if (group != NULL)
+                              bz_entry_group_connect_living (group, entry);
+
+                            unique_id = bz_entry_get_unique_id (entry);
+                            installed = g_hash_table_contains (installed_set, unique_id);
+
+                            version = g_hash_table_lookup (installed_set, unique_id);
+                            if (installed && version != NULL && *version != '\0')
+                              bz_entry_set_installed_version (entry, version);
+
+                            bz_entry_set_installed (entry, installed);
+
+                            if (group != NULL)
+                              {
+                                gboolean found    = FALSE;
+                                guint    position = 0;
+
+                                found = g_list_store_find (
+                                    self->installed_apps, group, &position);
+                                if (installed && !found)
+                                  g_list_store_insert_sorted (
+                                      self->installed_apps, group,
+                                      (GCompareDataFunc) cmp_group, NULL);
+                                else if (!installed && found &&
+                                         bz_entry_group_get_removable (group) == 0)
+                                  g_list_store_remove (self->installed_apps, position);
+                              }
+
+                            g_ptr_array_add (
+                                diff_writes,
+                                bz_entry_cache_manager_add (self->cache, entry));
+                          }
+                      }
+
+                    dex_await (dex_future_allv (
+                                   (DexFuture *const *) diff_writes->pdata,
+                                   diff_writes->len),
+                               NULL);
+                  }
+
+                g_clear_pointer (&self->installed_set, g_hash_table_unref);
+                self->installed_set = g_steal_pointer (&installed_set);
+
+                fiber_check_for_updates (self);
+                finish_with_background_task_label (self);
+              }
           }
+          break;
+
           break;
         default:
           g_assert_not_reached ();
         }
 
       dex_clear (&read_future);
-      read_future = dex_channel_receive (self->flatpak_notifs);
+      read_future = dex_channel_receive (data->channel);
 
       if (!dex_future_is_pending (reread_timeout))
         break;
@@ -1812,11 +2013,40 @@ init_fiber_finally (DexFuture *future,
 
       self->flatpak_notifs = bz_backend_create_notification_channel (
           BZ_BACKEND (self->flatpak));
-      self->notif_watch = dex_future_then_loop (
-          dex_channel_receive (self->flatpak_notifs),
-          (DexFutureCallback) watch_backend_notifs_then_loop_cb,
-          bz_track_weak (self),
-          bz_weak_release);
+
+      {
+        g_autoptr (WatchNotifsData) wd = watch_notifs_data_new ();
+        wd->self                       = bz_track_weak (self);
+        wd->channel                    = dex_ref (self->flatpak_notifs);
+
+        self->notif_watch = dex_future_then_loop (
+            dex_channel_receive (self->flatpak_notifs),
+            (DexFutureCallback) watch_backend_notifs_then_loop_cb,
+            watch_notifs_data_ref (wd),
+            watch_notifs_data_unref);
+      }
+
+      if (self->gnome_ext != NULL)
+        {
+          g_autoptr (DexChannel) ext_channel = NULL;
+          g_autoptr (WatchNotifsData) wd     = watch_notifs_data_new ();
+
+          ext_channel = bz_backend_create_notification_channel (
+              BZ_BACKEND (self->gnome_ext));
+
+          wd->self         = bz_track_weak (self);
+          wd->channel      = dex_ref (ext_channel);
+          wd->is_gnome_ext = TRUE;
+
+          dex_future_disown (dex_future_then_loop (
+              dex_channel_receive (ext_channel),
+              (DexFutureCallback) watch_backend_notifs_then_loop_cb,
+              watch_notifs_data_ref (wd),
+              watch_notifs_data_unref));
+
+          dex_future_disown (bz_backend_retrieve_remote_entries (
+              BZ_BACKEND (self->gnome_ext), NULL));
+        }
 
       sync_future = make_sync_future (self);
       sync_future = dex_future_finally (
@@ -1962,31 +2192,32 @@ sync_finally (DexFuture *future,
 }
 
 static DexFuture *
-watch_backend_notifs_then_loop_cb (DexFuture *future,
-                                   GWeakRef  *wr)
+watch_backend_notifs_then_loop_cb (DexFuture       *future,
+                                   WatchNotifsData *data)
 {
-  g_autoptr (BzApplication) self        = NULL;
-  g_autoptr (GError) local_error        = NULL;
-  const GValue          *value          = NULL;
-  BzBackendNotification *notif          = NULL;
-  g_autoptr (RespondToFlatpakData) data = NULL;
-  g_autoptr (DexFuture) ret_future      = NULL;
+  g_autoptr (BzApplication) self         = NULL;
+  const GValue          *value           = NULL;
+  BzBackendNotification *notif           = NULL;
+  g_autoptr (RespondToFlatpakData) rdata = NULL;
+  g_autoptr (DexFuture) ret_future       = NULL;
 
-  bz_weak_get_or_return_reject (self, wr);
+  bz_weak_get_or_return_reject (self, data->self);
 
   value = dex_future_get_value (future, NULL);
   g_assert (value != NULL);
   notif = g_value_get_object (value);
 
-  data        = respond_to_flatpak_data_new ();
-  data->self  = bz_track_weak (self);
-  data->notif = g_object_ref (notif);
+  rdata               = respond_to_flatpak_data_new ();
+  rdata->self         = bz_track_weak (self);
+  rdata->notif        = g_object_ref (notif);
+  rdata->channel      = dex_ref (data->channel);
+  rdata->is_gnome_ext = data->is_gnome_ext;
 
   ret_future = dex_scheduler_spawn (
       dex_scheduler_get_default (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) respond_to_flatpak_fiber,
-      respond_to_flatpak_data_ref (data),
+      respond_to_flatpak_data_ref (rdata),
       respond_to_flatpak_data_unref);
   return g_steal_pointer (&ret_future);
 }
@@ -2040,6 +2271,7 @@ fiber_replace_entry (BzApplication *self,
   const char *flatpak_id         = NULL;
   const char *version            = NULL;
   GHashTable *name_to_addons     = NULL;
+  gboolean    is_flatpak         = FALSE;
 
   id                 = bz_entry_get_id (entry);
   unique_id          = bz_entry_get_unique_id (entry);
@@ -2049,8 +2281,18 @@ fiber_replace_entry (BzApplication *self,
       unique_id_checksum == NULL)
     return;
 
-  user           = bz_flatpak_entry_is_user (BZ_FLATPAK_ENTRY (entry));
-  name_to_addons = user ? self->usr_name_to_addons : self->sys_name_to_addons;
+  is_flatpak = BZ_IS_FLATPAK_ENTRY (entry);
+
+  if (is_flatpak)
+    {
+      user           = bz_flatpak_entry_is_user (BZ_FLATPAK_ENTRY (entry));
+      name_to_addons = user ? self->usr_name_to_addons : self->sys_name_to_addons;
+      flatpak_id     = bz_flatpak_entry_get_flatpak_id (BZ_FLATPAK_ENTRY (entry));
+    }
+  else
+    {
+      name_to_addons = self->sys_name_to_addons;
+    }
 
   installed = g_hash_table_contains (self->installed_set, unique_id);
   bz_entry_set_installed (entry, installed);
@@ -2059,7 +2301,6 @@ fiber_replace_entry (BzApplication *self,
   if (version != NULL && *version != '\0')
     bz_entry_set_installed_version (entry, version);
 
-  flatpak_id = bz_flatpak_entry_get_flatpak_id (BZ_FLATPAK_ENTRY (entry));
   if (flatpak_id != NULL)
     {
       GPtrArray *addons = NULL;
@@ -2092,19 +2333,21 @@ fiber_replace_entry (BzApplication *self,
       if (self->ignore_eol_set != NULL)
         ignore_eol = g_hash_table_contains (self->ignore_eol_set, id);
 
-      runtime_name = bz_flatpak_entry_get_application_runtime (BZ_FLATPAK_ENTRY (entry));
-      if (!ignore_eol &&
-          runtime_name != NULL)
+      if (is_flatpak)
         {
-          char *runtime_checksum = NULL;
+          runtime_name = bz_flatpak_entry_get_application_runtime (BZ_FLATPAK_ENTRY (entry));
+          if (!ignore_eol && runtime_name != NULL)
+            {
+              char *runtime_checksum = NULL;
 
-          runtime_checksum = g_hash_table_lookup (self->eol_runtimes, runtime_name);
-          if (runtime_checksum != NULL)
-            eol_runtime = dex_await_object (
-                bz_entry_cache_manager_get_by_checksum (
-                    self->cache,
-                    runtime_checksum),
-                NULL);
+              runtime_checksum = g_hash_table_lookup (self->eol_runtimes, runtime_name);
+              if (runtime_checksum != NULL)
+                eol_runtime = dex_await_object (
+                    bz_entry_cache_manager_get_by_checksum (
+                        self->cache,
+                        runtime_checksum),
+                    NULL);
+            }
         }
 
       group = ensure_group_and_add (self, id, entry, eol_runtime, ignore_eol, installed);
@@ -2122,7 +2365,8 @@ fiber_replace_entry (BzApplication *self,
         }
     }
 
-  if (flatpak_id != NULL &&
+  if (is_flatpak &&
+      flatpak_id != NULL &&
       bz_entry_is_of_kinds (entry, BZ_ENTRY_KIND_RUNTIME) &&
       g_str_has_prefix (flatpak_id, "runtime/"))
     {
@@ -2141,7 +2385,8 @@ fiber_replace_entry (BzApplication *self,
         g_hash_table_remove (self->eol_runtimes, stripped);
     }
 
-  if (bz_entry_is_of_kinds (entry, BZ_ENTRY_KIND_ADDON) &&
+  if (is_flatpak &&
+      bz_entry_is_of_kinds (entry, BZ_ENTRY_KIND_ADDON) &&
       strstr (id, ".Debug") == NULL &&
       strstr (id, ".Locale") == NULL)
     {
@@ -2215,6 +2460,9 @@ fiber_check_for_updates (BzApplication *self)
 
   g_debug ("Checking for updates...");
   bz_state_info_set_checking_for_updates (self->state, TRUE);
+
+  if (self->gnome_ext != NULL)
+    bz_gnome_extension_instance_check_for_updates (self->gnome_ext);
 
   update_ids = dex_await_boxed (
       bz_backend_retrieve_update_ids (BZ_BACKEND (self->flatpak), NULL),

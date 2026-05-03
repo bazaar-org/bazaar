@@ -79,7 +79,8 @@ create_entry_radio_button (BzEntry    *entry,
 static GPtrArray *
 create_entry_radio_buttons (AdwAlertDialog *alert,
                             GListStore     *store,
-                            gboolean        remove)
+                            gboolean        remove,
+                            gboolean        show_user_data)
 {
   g_autoptr (GPtrArray) radios = NULL;
   GtkWidget *container         = NULL;
@@ -139,7 +140,7 @@ create_entry_radio_buttons (AdwAlertDialog *alert,
         }
     }
 
-  if (remove)
+  if (remove && show_user_data)
     {
       GtkWidget *listbox         = NULL;
       GtkWidget *keep_data_row   = NULL;
@@ -320,6 +321,7 @@ show_dialog_fiber (ShowDialogData *data)
   BzHighRiskGroup risk_groups                  = BZ_HIGH_RISK_GROUP_NONE;
   guint           n_total_entries              = 0;
   gboolean        confirmed                    = 0;
+  gboolean        show_user_data               = TRUE;
 
   result = bz_transaction_dialog_result_new ();
 
@@ -357,6 +359,9 @@ show_dialog_fiber (ShowDialogData *data)
       check_entry = g_object_ref (data->entry);
     }
 
+  if (check_entry != NULL && !BZ_IS_FLATPAK_ENTRY (check_entry))
+    show_user_data = FALSE;
+
   if (!data->remove && check_entry != NULL)
     risk_groups = get_entry_high_risk_groups (check_entry);
 
@@ -387,7 +392,7 @@ show_dialog_fiber (ShowDialogData *data)
   else
     configure_install_dialog (ADW_ALERT_DIALOG (alert), title, id, n_total_entries > 1);
 
-  radios = create_entry_radio_buttons (ADW_ALERT_DIALOG (alert), store, data->remove);
+  radios = create_entry_radio_buttons (ADW_ALERT_DIALOG (alert), store, data->remove, show_user_data);
 
   if (!data->remove && data->auto_confirm && radios->len <= 1)
     {
@@ -410,7 +415,7 @@ show_dialog_fiber (ShowDialogData *data)
       if (dialog_response == NULL)
         return dex_future_new_for_error (g_steal_pointer (&local_error));
 
-      if (data->remove && radios->len >= 2)
+      if (data->remove && show_user_data && radios->len >= 2)
         {
           GtkCheckButton *delete_radio = g_ptr_array_index (radios, radios->len - 1);
           bz_transaction_dialog_result_set_delete_user_data (result, gtk_check_button_get_active (delete_radio));

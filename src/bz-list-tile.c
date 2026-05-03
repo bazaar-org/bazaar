@@ -23,13 +23,16 @@
 typedef struct
 {
   GtkWidget *child;
+  gboolean   activatable;
 } BzListTilePrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (BzListTile, bz_list_tile, GTK_TYPE_WIDGET)
 
-enum {
+enum
+{
   PROP_0,
   PROP_CHILD,
+  PROP_ACTIVATABLE,
   LAST_PROP
 };
 
@@ -41,7 +44,9 @@ enum
   LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0, };
+static guint signals[LAST_SIGNAL] = {
+  0,
+};
 
 static void
 on_gesture_click_released (BzListTile      *self,
@@ -56,12 +61,16 @@ bz_list_tile_get_property (GObject    *object,
                            GValue     *value,
                            GParamSpec *pspec)
 {
-  BzListTile *self = BZ_LIST_TILE (object);
+  BzListTile        *self = BZ_LIST_TILE (object);
+  BzListTilePrivate *priv = bz_list_tile_get_instance_private (self);
 
   switch (prop_id)
     {
     case PROP_CHILD:
       g_value_set_object (value, bz_list_tile_get_child (self));
+      break;
+    case PROP_ACTIVATABLE:
+      g_value_set_boolean (value, priv->activatable);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -74,12 +83,20 @@ bz_list_tile_set_property (GObject      *object,
                            const GValue *value,
                            GParamSpec   *pspec)
 {
-  BzListTile *self = BZ_LIST_TILE (object);
+  BzListTile        *self = BZ_LIST_TILE (object);
+  BzListTilePrivate *priv = bz_list_tile_get_instance_private (self);
 
   switch (prop_id)
     {
     case PROP_CHILD:
       bz_list_tile_set_child (self, g_value_get_object (value));
+      break;
+    case PROP_ACTIVATABLE:
+      priv->activatable = g_value_get_boolean (value);
+      if (priv->activatable)
+        gtk_widget_add_css_class (GTK_WIDGET (self), "activatable");
+      else
+        gtk_widget_remove_css_class (GTK_WIDGET (self), "activatable");
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -89,7 +106,7 @@ bz_list_tile_set_property (GObject      *object,
 static void
 bz_list_tile_dispose (GObject *object)
 {
-  BzListTile *self = BZ_LIST_TILE (object);
+  BzListTile        *self = BZ_LIST_TILE (object);
   BzListTilePrivate *priv = bz_list_tile_get_instance_private (self);
 
   g_clear_pointer (&priv->child, gtk_widget_unparent);
@@ -105,7 +122,7 @@ bz_list_tile_class_init (BzListTileClass *klass)
 
   object_class->get_property = bz_list_tile_get_property;
   object_class->set_property = bz_list_tile_set_property;
-  object_class->dispose = bz_list_tile_dispose;
+  object_class->dispose      = bz_list_tile_dispose;
 
   /**
    * BzListTile:child:
@@ -113,9 +130,19 @@ bz_list_tile_class_init (BzListTileClass *klass)
    * The child widget.
    */
   props[PROP_CHILD] =
-    g_param_spec_object ("child", NULL, NULL,
-                         GTK_TYPE_WIDGET,
-                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      g_param_spec_object ("child", NULL, NULL,
+                           GTK_TYPE_WIDGET,
+                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * BzListTile:activatable:
+   *
+   * Whether the tile responds to click and emits the activated signal.
+   */
+  props[PROP_ACTIVATABLE] =
+      g_param_spec_boolean ("activatable", NULL, NULL,
+                            TRUE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -162,7 +189,10 @@ bz_list_tile_class_init (BzListTileClass *klass)
 static void
 bz_list_tile_init (BzListTile *self)
 {
-  GtkGesture *gesture_click;
+  BzListTilePrivate *priv = bz_list_tile_get_instance_private (self);
+  GtkGesture        *gesture_click;
+
+  priv->activatable = TRUE;
 
   gtk_widget_add_css_class (GTK_WIDGET (self), "card");
   gtk_widget_add_css_class (GTK_WIDGET (self), "activatable");
@@ -239,6 +269,14 @@ on_gesture_click_released (BzListTile      *self,
                            gdouble          y,
                            GtkGestureClick *gesture)
 {
+  BzListTilePrivate *priv = bz_list_tile_get_instance_private (self);
+
+  if (!priv->activatable)
+    {
+      gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_DENIED);
+      return;
+    }
+
   if (gtk_widget_contains (GTK_WIDGET (self), x, y))
     {
       gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);

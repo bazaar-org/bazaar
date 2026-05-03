@@ -26,6 +26,7 @@
 
 #include "config.h"
 
+#include "bz-appstream-parser.h"
 #include "bz-backend-notification.h"
 #include "bz-backend-transaction-op-payload.h"
 #include "bz-backend-transaction-op-progress-payload.h"
@@ -313,15 +314,6 @@ static gint
 cmp_rref (FlatpakRemoteRef *a,
           FlatpakRemoteRef *b,
           GHashTable       *hash);
-
-static AsComponent *
-parse_component_for_node (XbNode  *node,
-                          GError **error);
-
-static GBytes *
-decompress_appstream_gz (GBytes       *appstream_gz,
-                         GCancellable *cancellable,
-                         GError      **error);
 
 static XbSilo *
 build_silo (XbBuilderSource *source,
@@ -1047,7 +1039,7 @@ load_local_ref_fiber (LoadLocalRefData *data)
       appstream_gz = flatpak_bundle_ref_get_appstream (bref);
       if (appstream_gz != NULL)
         {
-          appstream = decompress_appstream_gz (appstream_gz, NULL, &local_error);
+          appstream = bz_decompress_gz_bytes (appstream_gz, NULL, &local_error);
           if (appstream == NULL)
             {
               g_warning ("Failed to decompress AppStream data: %s", local_error->message);
@@ -1383,7 +1375,7 @@ retrieve_refs_for_enumerable_remote (RetrieveRefsForRemoteData *data,
       const char  *id             = NULL;
 
       component_node = g_ptr_array_index (children, i);
-      component      = parse_component_for_node (component_node, &local_error);
+      component      = bz_parse_component_for_node (component_node, &local_error);
 
       if (component == NULL)
         {
@@ -1533,7 +1525,7 @@ retrieve_refs_for_noenumerable_remote (RetrieveRefsForRemoteData *data,
           g_autoptr (XbSilo) silo            = NULL;
           g_autoptr (GError) appstream_error = NULL;
 
-          appstream = decompress_appstream_gz (appstream_gz, cancellable, &appstream_error);
+          appstream = bz_decompress_gz_bytes (appstream_gz, cancellable, &appstream_error);
           if (appstream == NULL)
             {
               g_info ("Could not decompress appstream for installed ref: %s",
@@ -2793,58 +2785,6 @@ cmp_rref (FlatpakRemoteRef *a,
   return 0;
 }
 
-static AsComponent *
-parse_component_for_node (XbNode  *node,
-                          GError **error)
-{
-  g_autofree char *component_xml  = NULL;
-  g_autoptr (AsMetadata) metadata = NULL;
-  AsComponent *component          = NULL;
-  gboolean     result             = FALSE;
-
-  component_xml = xb_node_export (node, XB_NODE_EXPORT_FLAG_NONE, error);
-  if (component_xml == NULL)
-    return NULL;
-
-  metadata = as_metadata_new ();
-  result   = as_metadata_parse_data (
-      metadata,
-      component_xml,
-      -1,
-      AS_FORMAT_KIND_XML,
-      error);
-  if (!result)
-    return NULL;
-
-  component = as_metadata_get_component (metadata);
-  return bz_object_maybe_ref (component);
-}
-
-static GBytes *
-decompress_appstream_gz (GBytes       *appstream_gz,
-                         GCancellable *cancellable,
-                         GError      **error)
-{
-  g_autoptr (GZlibDecompressor) decompressor = NULL;
-  g_autoptr (GInputStream) stream_gz         = NULL;
-  g_autoptr (GInputStream) stream_data       = NULL;
-  g_autoptr (GBytes) appstream               = NULL;
-
-  decompressor = g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
-  stream_gz    = g_memory_input_stream_new_from_bytes (appstream_gz);
-  stream_data  = g_converter_input_stream_new (stream_gz, G_CONVERTER (decompressor));
-
-  appstream = g_input_stream_read_bytes (
-      stream_data,
-      0x100000, /* 1MB */
-      cancellable,
-      error);
-  if (appstream == NULL)
-    return NULL;
-
-  return g_steal_pointer (&appstream);
-}
-
 static XbSilo *
 build_silo (XbBuilderSource *source,
             GCancellable    *cancellable,
@@ -2883,7 +2823,7 @@ extract_first_component_for_silo (XbSilo  *silo,
   if (children == NULL || children->len == 0)
     return NULL;
 
-  return parse_component_for_node (
+  return bz_parse_component_for_node (
       g_ptr_array_index (children, 0),
       error);
 }

@@ -23,6 +23,7 @@
 #include "bz-entry.h"
 #include <appstream.h>
 #include <glib-object.h>
+#include <xmlb.h>
 
 G_BEGIN_DECLS
 
@@ -40,5 +41,14 @@ BzEntry *
 bz_appstream_parser_entry_from_metainfo (GFile   *metainfo_file,
                                          GFile   *icon_file,
                                          GError **error);
+
+AsComponent *
+bz_parse_component_for_node (XbNode  *node,
+                             GError **error);
+
+GBytes *
+bz_decompress_gz_bytes (GBytes       *compressed,
+                        GCancellable *cancellable,
+                        GError      **error);
 
 G_END_DECLS

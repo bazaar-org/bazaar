@@ -43,6 +43,7 @@
     <file preprocess="xml-stripblanks">bz-flathub-page.ui</file>
     <file preprocess="xml-stripblanks">bz-full-view.ui</file>
     <file preprocess="xml-stripblanks">bz-hardware-support-dialog.ui</file>
+    <file preprocess="xml-stripblanks">bz-gnome-extension-tile.ui</file>
     <file preprocess="xml-stripblanks">bz-inspector.ui</file>
     <file preprocess="xml-stripblanks">bz-install-controls.ui</file>
     <file preprocess="xml-stripblanks">bz-library-page.ui</file>
@@ -76,6 +77,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/bug-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/check-plain-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/circle-filled-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/circle-crossed-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/code-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/community-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/connected-squares-x-symbolic.svg</file>
@@ -126,6 +128,7 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/sad-computer-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/school-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/server-pick-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/settings-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/share-alt-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/sidebar-show-symbolic.svg</file>
@@ -206,6 +209,7 @@
     <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.gnome.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.kde.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.google.svg</file>
+    <file preprocess="xml-stripblanks">icons/system-component-addon.svg</file>
 
     <file>bz-install-controls.wdgt</file>
 
