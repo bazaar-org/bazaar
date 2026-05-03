@@ -1436,23 +1436,6 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
             update_labels = TRUE;
           }
           break;
-        case BZ_BACKEND_NOTIFICATION_KIND_INVALIDATE_REMOTES:
-          {
-            g_autoptr (GListModel) repos = NULL;
-
-            repos = dex_await_object (
-                bz_backend_list_repositories (BZ_BACKEND (self->flatpak), NULL),
-                &local_error);
-
-            if (repos != NULL)
-              bz_state_info_set_repositories (self->state, repos);
-            else
-              {
-                g_warning ("Failed to enumerate repositories: %s", local_error->message);
-                g_clear_error (&local_error);
-              }
-          }
-          break;
         case BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_START:
           {
             const char *remote_name = NULL;
@@ -1605,8 +1588,10 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
               }
           }
           break;
+        case BZ_BACKEND_NOTIFICATION_KIND_INVALIDATE_REMOTES:
         case BZ_BACKEND_NOTIFICATION_KIND_EXTERNAL_CHANGE:
           {
+            g_autoptr (GListModel) repos         = NULL;
             g_autoptr (GHashTable) installed_set = NULL;
             g_autoptr (GPtrArray) diff_reads     = NULL;
             GHashTableIter old_iter              = { 0 };
@@ -1614,6 +1599,18 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
             g_autoptr (GPtrArray) diff_writes    = NULL;
 
             bz_state_info_set_background_task_label (self->state, _ ("Refreshing…"));
+
+            repos = dex_await_object (
+                bz_backend_list_repositories (BZ_BACKEND (self->flatpak), NULL),
+                &local_error);
+
+            if (repos != NULL)
+              bz_state_info_set_repositories (self->state, repos);
+            else
+              {
+                g_warning ("Failed to enumerate repositories: %s", local_error->message);
+                g_clear_error (&local_error);
+              }
 
             installed_set = dex_await_boxed (
                 bz_backend_retrieve_install_ids (
