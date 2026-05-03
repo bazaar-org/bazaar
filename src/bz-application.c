@@ -33,6 +33,7 @@
 #include "bz-appstream-parser.h"
 #include "bz-auth-state.h"
 #include "bz-backend-notification.h"
+#include "bz-bundle-install-dialog.h"
 #include "bz-content-provider.h"
 #include "bz-donations-dialog.h"
 #include "bz-download-worker.h"
@@ -1824,6 +1825,33 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
           GTK_WIDGET (window),
           _ ("Failed to open file"),
           local_error->message);
+
+      return dex_future_new_for_error (g_steal_pointer (&local_error));
+    }
+
+  if (G_VALUE_HOLDS_OBJECT (value))
+    {
+      GtkWindow             *window     = NULL;
+      BzEntry               *entry      = NULL;
+      BzBundleInstallDialog *install_ui = NULL;
+      AdwDialog             *dialog     = NULL;
+
+      window = gtk_application_get_active_window (GTK_APPLICATION (self));
+      if (window == NULL)
+        window = new_window (self);
+
+      entry      = g_value_get_object (value);
+      install_ui = g_object_new (
+          BZ_TYPE_BUNDLE_INSTALL_DIALOG,
+          "state", self->state,
+          "entry", entry,
+          NULL);
+
+      dialog = adw_dialog_new ();
+      adw_dialog_set_follows_content_size (dialog, TRUE);
+      adw_dialog_set_child (dialog, GTK_WIDGET (install_ui));
+
+      adw_dialog_present (dialog, GTK_WIDGET (window));
     }
 
   return dex_future_new_true ();

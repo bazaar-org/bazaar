@@ -1263,35 +1263,7 @@ load_local_ref_fiber (LoadLocalRefData *data)
             path,
             local_error->message);
 
-      {
-        g_autoptr (BzBackendNotification) notif = NULL;
-
-        notif = bz_backend_notification_new ();
-        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_TELL_INCOMING);
-        bz_backend_notification_set_n_incoming (notif, 1);
-
-        send_notif_all (self, notif, TRUE);
-      }
-      {
-        g_autoptr (BzBackendNotification) notif = NULL;
-
-        notif = bz_backend_notification_new ();
-        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REPLACE_ENTRY);
-        bz_backend_notification_set_entry (notif, BZ_ENTRY (entry));
-
-        send_notif_all (self, notif, TRUE);
-      }
-      {
-        g_autoptr (BzBackendNotification) notif = NULL;
-
-        notif = bz_backend_notification_new ();
-        bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_PRESENT_ID);
-        bz_backend_notification_set_generic_id (notif, bz_entry_get_id (BZ_ENTRY (entry)));
-
-        send_notif_all (self, notif, TRUE);
-      }
-
-      return dex_future_new_for_string (name);
+      return dex_future_new_for_object (entry);
     }
 }
 

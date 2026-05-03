@@ -1,0 +1,50 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $BzBundleInstallDialog: Adw.BreakpointBin {
+  width-request: 360;
+  height-request: 450;
+  child: Adw.ToolbarView {
+    bottom-bar-style: raised_border;
+
+    [top]
+    Adw.HeaderBar {
+      title-widget: Label {
+        label: _("Bundle Installation");
+      };
+    }
+
+    content: Box {
+      orientation: vertical;
+      spacing: 5;
+
+      Image {
+        paintable: bind template.entry as <$BzEntry>.icon-paintable;
+        pixel-size: 128;
+      }
+      Label {
+        label: bind template.entry as <$BzEntry>.title;
+        wrap: true;
+      }
+      Label {
+        label: bind template.entry as <$BzEntry>.developer;
+        wrap: true;
+      }
+      Label {
+        label: bind template.entry as <$BzEntry>.description;
+        wrap: true;
+      }
+
+      Button install_btn {
+        styles [
+          "suggested-action",
+        ]
+        label: _("Install Bundle");
+        clicked => $install_cb(template);
+      }
+
+      Label status_lbl {
+      }
+    };
+  };
+}
