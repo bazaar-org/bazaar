@@ -33,6 +33,7 @@
 #include "bz-appstream-parser.h"
 #include "bz-auth-state.h"
 #include "bz-backend-notification.h"
+#include "bz-bundle-install-dialog.h"
 #include "bz-content-provider.h"
 #include "bz-donations-dialog.h"
 #include "bz-download-worker.h"
@@ -1246,7 +1247,17 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
       future = g_ptr_array_index (futures, i);
       value  = dex_future_get_value (future, &local_error);
       if (value != NULL)
-        g_ptr_array_add (entries, g_value_dup_object (value));
+        {
+          g_autoptr (BzEntry) entry = NULL;
+
+          entry = g_value_dup_object (value);
+          if (BZ_IS_FLATPAK_ENTRY (entry) &&
+              bz_flatpak_entry_get_bundle_path (BZ_FLATPAK_ENTRY (entry)) != NULL)
+            /* refrain from restoring bundle entries */
+            continue;
+
+          g_ptr_array_add (entries, g_steal_pointer (&entry));
+        }
       else
         {
           g_warning ("Unable to retrieve cached entry: %s", local_error->message);
@@ -1363,6 +1374,17 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
       kind  = bz_backend_notification_get_kind (notif);
       switch (kind)
         {
+        case BZ_BACKEND_NOTIFICATION_KIND_PRESENT_ID:
+          {
+            const char *id = NULL;
+
+            id = bz_backend_notification_get_generic_id (notif);
+            if (id == NULL)
+              break;
+
+            open_generic_id (self, id);
+          }
+          break;
         case BZ_BACKEND_NOTIFICATION_KIND_ERROR:
           {
             const char *error  = NULL;
@@ -1542,11 +1564,13 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
                 }
                 break;
               case BZ_BACKEND_NOTIFICATION_KIND_ERROR:
-              case BZ_BACKEND_NOTIFICATION_KIND_TELL_INCOMING:
-              case BZ_BACKEND_NOTIFICATION_KIND_REPLACE_ENTRY:
-              case BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_START:
-              case BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_FINISH:
               case BZ_BACKEND_NOTIFICATION_KIND_EXTERNAL_CHANGE:
+              case BZ_BACKEND_NOTIFICATION_KIND_INVALIDATE_REMOTES:
+              case BZ_BACKEND_NOTIFICATION_KIND_PRESENT_ID:
+              case BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_FINISH:
+              case BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_START:
+              case BZ_BACKEND_NOTIFICATION_KIND_REPLACE_ENTRY:
+              case BZ_BACKEND_NOTIFICATION_KIND_TELL_INCOMING:
               default:
                 g_assert_not_reached ();
               };
@@ -1564,8 +1588,10 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
               }
           }
           break;
+        case BZ_BACKEND_NOTIFICATION_KIND_INVALIDATE_REMOTES:
         case BZ_BACKEND_NOTIFICATION_KIND_EXTERNAL_CHANGE:
           {
+            g_autoptr (GListModel) repos         = NULL;
             g_autoptr (GHashTable) installed_set = NULL;
             g_autoptr (GPtrArray) diff_reads     = NULL;
             GHashTableIter old_iter              = { 0 };
@@ -1573,6 +1599,18 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
             g_autoptr (GPtrArray) diff_writes    = NULL;
 
             bz_state_info_set_background_task_label (self->state, _ ("Refreshing…"));
+
+            repos = dex_await_object (
+                bz_backend_list_repositories (BZ_BACKEND (self->flatpak), NULL),
+                &local_error);
+
+            if (repos != NULL)
+              bz_state_info_set_repositories (self->state, repos);
+            else
+              {
+                g_warning ("Failed to enumerate repositories: %s", local_error->message);
+                g_clear_error (&local_error);
+              }
 
             installed_set = dex_await_boxed (
                 bz_backend_retrieve_install_ids (
@@ -1763,7 +1801,6 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
   GFile *file                    = data->file;
   g_autoptr (GError) local_error = NULL;
   g_autoptr (DexFuture) future   = NULL;
-  GtkWindow    *window           = NULL;
   const GValue *value            = NULL;
 
   bz_weak_get_or_return_reject (self, data->self);
@@ -1772,25 +1809,47 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
   future = bz_backend_load_local_package (BZ_BACKEND (self->flatpak), file, NULL);
   dex_await (dex_ref (future), NULL);
 
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
-
   value = dex_future_get_value (future, &local_error);
-  if (value != NULL)
+  if (value == NULL)
     {
-      if (G_VALUE_HOLDS_OBJECT (value))
-        {
-          BzEntry *entry = NULL;
+      GtkWindow *window = NULL;
 
-          entry = g_value_get_object (value);
-          bz_window_show_entry (BZ_WINDOW (window), entry);
-        }
-      else
-        open_generic_id (self, g_value_get_string (value));
+      window = gtk_application_get_active_window (GTK_APPLICATION (self));
+      if (window == NULL)
+        window = new_window (self);
+
+      bz_show_error_for_widget (
+          GTK_WIDGET (window),
+          _ ("Failed to open file"),
+          local_error->message);
+
+      return dex_future_new_for_error (g_steal_pointer (&local_error));
     }
-  else
-    bz_show_error_for_widget (GTK_WIDGET (window), _ ("Failed to open .flatpakref"), local_error->message);
+
+  if (G_VALUE_HOLDS_OBJECT (value))
+    {
+      GtkWindow             *window     = NULL;
+      BzEntry               *entry      = NULL;
+      BzBundleInstallDialog *install_ui = NULL;
+      AdwDialog             *dialog     = NULL;
+
+      window = gtk_application_get_active_window (GTK_APPLICATION (self));
+      if (window == NULL)
+        window = new_window (self);
+
+      entry      = g_value_get_object (value);
+      install_ui = g_object_new (
+          BZ_TYPE_BUNDLE_INSTALL_DIALOG,
+          "state", self->state,
+          "entry", entry,
+          NULL);
+
+      dialog = adw_dialog_new ();
+      adw_dialog_set_follows_content_size (dialog, TRUE);
+      adw_dialog_set_child (dialog, GTK_WIDGET (install_ui));
+
+      adw_dialog_present (dialog, GTK_WIDGET (window));
+    }
 
   return dex_future_new_true ();
 }
@@ -2003,9 +2062,7 @@ ensure_group_and_add (BzApplication *self,
 
   group = g_hash_table_lookup (self->ids_to_groups, id);
   if (group != NULL)
-    {
-      bz_entry_group_add (group, entry, eol_runtime, ignore_eol);
-    }
+    bz_entry_group_add (group, entry, eol_runtime, ignore_eol);
   else
     {
       g_autoptr (BzEntryGroup) new_group = NULL;
@@ -3201,11 +3258,46 @@ static void
 open_flatpakref_take (BzApplication *self,
                       GFile         *file)
 {
+  g_autoptr (GError) local_error      = NULL;
+  gboolean         result             = FALSE;
   g_autofree char *path               = NULL;
   g_autoptr (OpenFlatpakrefData) data = NULL;
 
   path = g_file_get_path (file);
-  g_info ("Loading flatpakref at %s...", path);
+  if (path != NULL)
+    /* We must do this synchronously so we don't lose access to a portal file */
+    {
+      g_autofree char *basename   = NULL;
+      g_autofree char *module_dir = NULL;
+      g_autofree char *staging    = NULL;
+      g_autofree char *dest       = NULL;
+      g_autoptr (GFile) copied    = NULL;
+
+      basename   = g_file_get_basename (file);
+      module_dir = bz_dup_module_dir ();
+      staging    = g_build_filename (module_dir, "bundle-staging", NULL);
+      g_mkdir_with_parents (staging, 0755);
+      dest   = g_build_filename (staging, basename, NULL);
+      copied = g_file_new_for_path (dest);
+
+      result = g_file_copy (
+          file, copied,
+          G_FILE_COPY_OVERWRITE | G_FILE_COPY_NOFOLLOW_SYMLINKS,
+          NULL, NULL, NULL,
+          &local_error);
+      if (result)
+        {
+          g_clear_object (&file);
+          file = g_steal_pointer (&copied);
+        }
+      else
+        {
+          g_warning ("Failed to copy bundle to %s : %s",
+                     dest, local_error->message);
+          g_clear_error (&local_error);
+          g_clear_object (&copied);
+        }
+    }
 
   data       = open_flatpakref_data_new ();
   data->self = bz_track_weak (self);

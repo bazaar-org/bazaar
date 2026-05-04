@@ -23,9 +23,18 @@
 
 #include "bz-entry-group.h"
 #include "bz-env.h"
-#include "bz-flatpak-entry.h"
 #include "bz-io.h"
 #include "bz-util.h"
+
+typedef enum
+{
+  ENTRY_INSTALLABLE           = 1 << 0,
+  ENTRY_INSTALLABLE_AVAILABLE = 1 << 1,
+  ENTRY_UPDATABLE             = 1 << 2,
+  ENTRY_UPDATABLE_AVAILABLE   = 1 << 3,
+  ENTRY_REMOVABLE             = 1 << 4,
+  ENTRY_REMOVABLE_AVAILABLE   = 1 << 5,
+} EntryStateFlags;
 
 struct _BzEntryGroup
 {
@@ -33,8 +42,10 @@ struct _BzEntryGroup
 
   BzApplicationMapFactory *factory;
 
-  GtkStringList  *unique_ids;
-  GtkStringList  *installed_versions;
+  GtkStringList *unique_ids;
+  GtkStringList *installed_versions;
+  GArray        *state_flags;
+
   char           *id;
   char           *title;
   char           *developer;
@@ -142,8 +153,11 @@ bz_entry_group_dispose (GObject *object)
   dex_clear (&self->user_data_size_future);
   dex_clear (&self->reap_user_data_future);
   g_clear_object (&self->factory);
+
   g_clear_object (&self->unique_ids);
   g_clear_object (&self->installed_versions);
+  g_clear_pointer (&self->state_flags, g_array_unref);
+
   g_clear_pointer (&self->id, g_free);
   g_clear_pointer (&self->title, g_free);
   g_clear_pointer (&self->developer, g_free);
@@ -491,7 +505,9 @@ bz_entry_group_init (BzEntryGroup *self)
 {
   self->unique_ids         = gtk_string_list_new (NULL);
   self->installed_versions = gtk_string_list_new (NULL);
-  self->max_usefulness     = -1;
+  self->state_flags        = g_array_new (FALSE, TRUE, sizeof (gint32));
+
+  self->max_usefulness = -1;
   g_weak_ref_init (&self->ui_entry, NULL);
   self->standalone_ui_entry = NULL;
   g_mutex_init (&self->mutex);
@@ -910,6 +926,7 @@ bz_entry_group_add (BzEntryGroup *self,
   gboolean         is_searchable      = FALSE;
   AsContentRating *content_rating     = NULL;
   gboolean         is_addon           = FALSE;
+  gint32           state_flags        = 0;
 
   g_return_if_fail (BZ_IS_ENTRY_GROUP (self));
   g_return_if_fail (BZ_IS_ENTRY (entry));
@@ -1131,39 +1148,60 @@ bz_entry_group_add (BzEntryGroup *self,
         }
     }
 
-  if (existing == G_MAXUINT)
+  if (existing != G_MAXUINT)
     {
-      if (bz_entry_is_installed (entry))
-        {
-          self->removable++;
-          if (!bz_entry_is_holding (entry))
-            {
-              self->removable_available++;
-              g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
-            }
-          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
-        }
-      else
-        {
-          gboolean is_installed_ref = FALSE;
+      gint32 previous_state_flags = 0;
 
-          if (BZ_IS_FLATPAK_ENTRY (entry))
-            is_installed_ref = bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry));
+      /* revert the old state if we are replacing */
 
-          if (!is_installed_ref)
-            {
-              self->installable++;
-              if (!bz_entry_is_holding (entry))
-                {
-                  self->installable_available++;
-                  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
-                }
-              g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
-            }
-        }
+      previous_state_flags = g_array_index (self->state_flags, gint32, existing);
+      if (previous_state_flags & ENTRY_INSTALLABLE)
+        self->installable--;
+      if (previous_state_flags & ENTRY_INSTALLABLE_AVAILABLE)
+        self->installable_available--;
+      if (previous_state_flags & ENTRY_UPDATABLE)
+        self->updatable--;
+      if (previous_state_flags & ENTRY_UPDATABLE_AVAILABLE)
+        self->updatable_available--;
+      if (previous_state_flags & ENTRY_REMOVABLE)
+        self->removable--;
+      if (previous_state_flags & ENTRY_REMOVABLE_AVAILABLE)
+        self->removable_available--;
     }
 
-  if (!is_addon && is_searchable && !self->searchable)
+  if (bz_entry_is_installed (entry))
+    {
+      self->removable++;
+      state_flags |= ENTRY_REMOVABLE;
+      if (!bz_entry_is_holding (entry))
+        {
+          self->removable_available++;
+          state_flags |= ENTRY_REMOVABLE_AVAILABLE;
+          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
+        }
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
+    }
+  else
+    {
+      if (bz_entry_is_reinstallable (entry))
+        {
+          self->installable++;
+          state_flags |= ENTRY_INSTALLABLE;
+          if (!bz_entry_is_holding (entry))
+            {
+              self->installable_available++;
+              state_flags |= ENTRY_INSTALLABLE_AVAILABLE;
+              g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
+            }
+          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
+        }
+    }
+  if (existing != G_MAXUINT)
+    g_array_index (self->state_flags, gint32, existing) = state_flags;
+  else
+    g_array_append_val (self->state_flags, state_flags);
+
+  if (!is_addon && is_searchable)
     self->searchable = TRUE;
 }
 
@@ -1206,38 +1244,56 @@ installed_changed (BzEntryGroup *self,
                    BzEntry      *entry)
 {
   g_autoptr (GMutexLocker) locker = NULL;
-  gboolean    is_installed_ref    = FALSE;
+  gboolean    reinstallable       = FALSE;
   const char *unique_id           = NULL;
   const char *version             = NULL;
   guint       index               = 0;
+  gint32      state_flags         = 0;
 
   locker = g_mutex_locker_new (&self->mutex);
 
-  if (BZ_IS_FLATPAK_ENTRY (entry))
-    is_installed_ref = bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry));
+  reinstallable = bz_entry_is_reinstallable (entry);
+  unique_id     = bz_entry_get_unique_id (entry);
+  version       = bz_entry_get_installed_version (entry);
+  index         = gtk_string_list_find (self->unique_ids, unique_id);
+  if (index == G_MAXUINT)
+    return;
+  state_flags = g_array_index (self->state_flags, gint32, index);
 
-  unique_id = bz_entry_get_unique_id (entry);
-  version   = bz_entry_get_installed_version (entry);
-  index     = gtk_string_list_find (self->unique_ids, unique_id);
-
-  if (index != G_MAXUINT)
-    {
-      gtk_string_list_splice (self->installed_versions, index, 1,
-                              (const char *const[]){
-                                  version != NULL ? version : "",
-                                  NULL });
-    }
-
+  gtk_string_list_splice (self->installed_versions, index, 1,
+                          (const char *const[]){
+                              version != NULL ? version : "",
+                              NULL });
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLED_VERSIONS]);
 
   if (bz_entry_is_installed (entry))
     {
-      self->installable--;
-      self->removable++;
+      if (state_flags & ENTRY_INSTALLABLE)
+        {
+          self->installable--;
+          state_flags &= ~ENTRY_INSTALLABLE;
+        }
+
+      if (!(state_flags & ENTRY_REMOVABLE))
+        {
+          self->removable++;
+          state_flags |= ENTRY_REMOVABLE;
+        }
+
       if (!bz_entry_is_holding (entry))
         {
-          self->installable_available--;
-          self->removable_available++;
+          if (state_flags & ENTRY_INSTALLABLE_AVAILABLE)
+            {
+              self->installable_available--;
+              state_flags &= ~ENTRY_INSTALLABLE_AVAILABLE;
+            }
+
+          if (!(state_flags & ENTRY_REMOVABLE_AVAILABLE))
+            {
+              self->removable_available++;
+              state_flags |= ENTRY_REMOVABLE_AVAILABLE;
+            }
+
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
         }
@@ -1246,25 +1302,48 @@ installed_changed (BzEntryGroup *self,
     }
   else
     {
-      self->removable--;
-      if (!is_installed_ref)
-        self->installable++;
+      if (state_flags & ENTRY_REMOVABLE)
+        {
+          self->removable--;
+          state_flags &= ~ENTRY_REMOVABLE;
+        }
+
+      if (reinstallable)
+        {
+          if (!(state_flags & ENTRY_INSTALLABLE))
+            {
+              self->installable++;
+              state_flags |= ENTRY_INSTALLABLE;
+            }
+        }
 
       if (!bz_entry_is_holding (entry))
         {
-          self->removable_available--;
-          if (!is_installed_ref)
-            self->installable_available++;
+          if (state_flags & ENTRY_REMOVABLE_AVAILABLE)
+            {
+              self->removable_available--;
+              state_flags &= ~ENTRY_REMOVABLE_AVAILABLE;
+            }
+
+          if (reinstallable)
+            {
+              if (!(state_flags & ENTRY_INSTALLABLE_AVAILABLE))
+                {
+                  self->installable_available++;
+                  state_flags |= ENTRY_INSTALLABLE_AVAILABLE;
+                }
+            }
 
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
-          if (!is_installed_ref)
+          if (reinstallable)
             g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
         }
 
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
-      if (!is_installed_ref)
+      if (reinstallable)
         g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
     }
+  g_array_index (self->state_flags, gint32, index) = state_flags;
 
   dex_clear (&self->user_data_size_future);
   self->user_data_size = 0;
@@ -1277,23 +1356,60 @@ holding_changed (BzEntryGroup *self,
                  BzEntry      *entry)
 {
   g_autoptr (GMutexLocker) locker = NULL;
+  gboolean    reinstallable       = FALSE;
+  const char *unique_id           = NULL;
+  guint       index               = 0;
+  gint32      state_flags         = 0;
 
   locker = g_mutex_locker_new (&self->mutex);
+
+  reinstallable = bz_entry_is_reinstallable (entry);
+
+  unique_id = bz_entry_get_unique_id (entry);
+  index     = gtk_string_list_find (self->unique_ids, unique_id);
+  if (index == G_MAXUINT)
+    return;
+  state_flags = g_array_index (self->state_flags, gint32, index);
 
   if (bz_entry_is_holding (entry))
     {
       if (bz_entry_is_installed (entry))
-        self->removable_available--;
+        {
+          if (state_flags & ENTRY_REMOVABLE_AVAILABLE)
+            {
+              self->removable_available--;
+              state_flags &= ~ENTRY_REMOVABLE_AVAILABLE;
+            }
+        }
       else
-        self->installable_available--;
+        {
+          if (state_flags & ENTRY_INSTALLABLE_AVAILABLE)
+            {
+              self->installable_available--;
+              state_flags &= ~ENTRY_INSTALLABLE_AVAILABLE;
+            }
+        }
     }
   else
     {
       if (bz_entry_is_installed (entry))
-        self->removable_available++;
-      else
-        self->installable_available++;
+        {
+          if (!(state_flags & ENTRY_REMOVABLE_AVAILABLE))
+            {
+              self->removable_available++;
+              state_flags |= ENTRY_REMOVABLE_AVAILABLE;
+            }
+        }
+      else if (reinstallable)
+        {
+          if (!(state_flags & ENTRY_INSTALLABLE_AVAILABLE))
+            {
+              self->installable_available++;
+              state_flags |= ENTRY_INSTALLABLE_AVAILABLE;
+            }
+        }
     }
+  g_array_index (self->state_flags, gint32, index) = state_flags;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);

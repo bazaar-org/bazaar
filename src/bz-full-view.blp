@@ -95,11 +95,11 @@ template $BzFullView: Adw.Bin {
                   margin-bottom: 15;
                   spacing: 20;
 
-                  Adw.Banner {
-                    title: _("Installing .flatpak bundles is not yet supported");
-                    visible: bind template.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.is-bundle as <bool>;
-                    revealed: true;
-                  }
+                  // Adw.Banner {
+                  //   title: _("Installing .flatpak bundles is not yet supported");
+                  //   visible: bind template.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.is-bundle as <bool>;
+                  //   revealed: true;
+                  // }
 
                   Adw.Banner {
                     title: _("This is a local preview, some details may differ from the published listing");

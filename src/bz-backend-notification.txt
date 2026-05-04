@@ -4,7 +4,7 @@ parent-prefix=g
 parent-name=object
 author=AUTOGEN
 
-enum=bz backend_notification_kind error tell_incoming replace_entry remote_sync_start remote_sync_finish install_done update_done remove_done external_change
+enum=bz backend_notification_kind error tell_incoming replace_entry invalidate_remotes remote_sync_start remote_sync_finish install_done update_done remove_done external_change present_id
 
 include="bz-entry.h"
 
@@ -14,4 +14,5 @@ property=n_incoming int G_TYPE_INT int
 property=entry BzEntry BZ_TYPE_ENTRY object
 property=version char G_TYPE_STRING string
 property=remote_name char G_TYPE_STRING string
+property=generic_id char G_TYPE_STRING string
 property=unique_id char G_TYPE_STRING string
