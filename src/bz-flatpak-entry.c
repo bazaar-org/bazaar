@@ -93,6 +93,9 @@ static void
 clear_entry (BzFlatpakEntry *self);
 
 static void
+apply_icon_theme (BzFlatpakEntry *self);
+
+static void
 bz_flatpak_entry_dispose (GObject *object)
 {
   BzFlatpakEntry *self = BZ_FLATPAK_ENTRY (object);
@@ -348,6 +351,9 @@ bz_flatpak_entry_real_deserialize (BzSerializable *serializable,
         self->addon_extension_of_ref = g_variant_dup_string (value, NULL);
     }
 
+  if (self->is_installed_ref)
+    apply_icon_theme (self);
+
   return bz_entry_deserialize (BZ_ENTRY (self), import, error);
 }
 
@@ -595,34 +601,7 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
             }
         }
       else if (FLATPAK_IS_INSTALLED_REF (ref))
-        {
-          BzStateInfo      *state     = NULL;
-          const char       *icon_name = NULL;
-          GtkIconTheme     *theme     = NULL;
-          GtkIconPaintable *paintable = NULL;
-
-          state     = bz_state_info_get_default ();
-          icon_name = flatpak_ref_get_name (ref);
-
-          theme = user
-                      ? bz_state_info_get_user_icon_theme (state)
-                      : bz_state_info_get_system_icon_theme (state);
-
-          if (theme != NULL)
-            {
-              paintable = gtk_icon_theme_lookup_icon (
-                  theme,
-                  icon_name,
-                  NULL,
-                  128,
-                  1,
-                  GTK_TEXT_DIR_NONE,
-                  0);
-
-              if (paintable != NULL)
-                icon_paintable = (GdkPaintable *) g_steal_pointer (&paintable);
-            }
-        }
+        apply_icon_theme (self);
     }
 
   g_object_get (self, "title", &title, NULL);
@@ -874,4 +853,41 @@ clear_entry (BzFlatpakEntry *self)
   g_clear_pointer (&self->addon_extension_of_ref, g_free);
   g_clear_pointer (&self->bundle_path, g_free);
   g_clear_object (&self->runtime_result);
+}
+
+static void
+apply_icon_theme (BzFlatpakEntry *self)
+{
+  FlatpakRef   *ref       = NULL;
+  BzStateInfo  *state     = NULL;
+  const char   *icon_name = NULL;
+  GtkIconTheme *theme     = NULL;
+
+  ref = bz_flatpak_entry_get_ref (self);
+
+  state     = bz_state_info_get_default ();
+  icon_name = flatpak_ref_get_name (ref);
+  theme     = self->user
+                  ? bz_state_info_get_user_icon_theme (state)
+                  : bz_state_info_get_system_icon_theme (state);
+
+  if (theme != NULL)
+    {
+      g_autoptr (GtkIconPaintable) paintable = NULL;
+
+      paintable = gtk_icon_theme_lookup_icon (
+          theme,
+          icon_name,
+          NULL,
+          128,
+          1,
+          GTK_TEXT_DIR_NONE,
+          0);
+
+      if (paintable != NULL)
+        g_object_set (
+            self,
+            "icon-paintable", paintable,
+            NULL);
+    }
 }

@@ -929,7 +929,7 @@ bz_state_info_get_default (void)
           g_autoptr (BzStateInfo) tmp = NULL;
 
           tmp = bz_state_info_new ();
-          state_info_set_icon_themes (tmp);
+          // state_info_set_icon_themes (tmp);
 
           g_once_init_leave_pointer (
               &fallback_state,
