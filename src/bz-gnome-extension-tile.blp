@@ -74,7 +74,7 @@ template $BzGnomeExtensionTile: $BzListTile {
 
       Image {
         icon-name: "circle-crossed-symbolic";
-        tooltip-text: _("This extension is not comptabile with your current version of GNOME.");
+        tooltip-text: _("This extension is not compatible with your current version of GNOME.");
         visible: bind $is_outdated(template.state, template.info as <$BzGnomeExtensionInfo>.shell-versions) as <bool>;
         margin-end: 4;
 
