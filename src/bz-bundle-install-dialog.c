@@ -32,8 +32,17 @@ struct _BzBundleInstallDialog
   BzStateInfo *state;
   BzEntry     *entry;
 
-  GtkButton *install_btn;
-  GtkLabel  *status_lbl;
+  GtkStack    *main_stack;
+  AdwCarousel *carousel;
+  GtkWidget   *page_info;
+  GtkWidget   *page_progress;
+  GtkWidget   *page_finish;
+
+  GtkButton      *install_btn;
+  GtkProgressBar *progress_bar;
+  AdwStatusPage  *error_status;
+
+  guint pulse_source_id;
 };
 
 G_DEFINE_FINAL_TYPE (BzBundleInstallDialog, bz_bundle_install_dialog, ADW_TYPE_BREAKPOINT_BIN);
@@ -56,6 +65,12 @@ static void
 bz_bundle_install_dialog_dispose (GObject *object)
 {
   BzBundleInstallDialog *self = BZ_BUNDLE_INSTALL_DIALOG (object);
+
+  if (self->pulse_source_id != 0)
+    {
+      g_source_remove (self->pulse_source_id);
+      self->pulse_source_id = 0;
+    }
 
   g_clear_pointer (&self->state, g_object_unref);
   g_clear_pointer (&self->entry, g_object_unref);
@@ -105,6 +120,14 @@ bz_bundle_install_dialog_set_property (GObject      *object,
     }
 }
 
+static gboolean
+pulse_progress_bar (gpointer user_data)
+{
+  BzBundleInstallDialog *self = BZ_BUNDLE_INSTALL_DIALOG (user_data);
+  gtk_progress_bar_pulse (self->progress_bar);
+  return G_SOURCE_CONTINUE;
+}
+
 static void
 install_cb (BzBundleInstallDialog *self,
             GtkButton             *button)
@@ -114,12 +137,46 @@ install_cb (BzBundleInstallDialog *self,
     return;
 
   gtk_widget_set_sensitive (GTK_WIDGET (self->install_btn), FALSE);
+
+  adw_carousel_scroll_to (self->carousel, self->page_progress, TRUE);
+
+  self->pulse_source_id = g_timeout_add (80, pulse_progress_bar, self);
+
   dex_future_disown (dex_scheduler_spawn (
       dex_scheduler_get_default (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) install_fiber,
       bz_track_weak (self),
       bz_weak_release));
+}
+
+static void
+run_cb (BzBundleInstallDialog *self,
+        GtkButton             *button)
+{
+  const char *id = NULL;
+
+  if (self->entry == NULL)
+    return;
+
+  id = bz_entry_get_id (self->entry);
+  gtk_widget_activate_action (GTK_WIDGET (self), "window.launch-group",
+                              "s", id);
+}
+
+static void
+show_cb (BzBundleInstallDialog *self,
+         GtkButton             *button)
+{
+  const char *id = NULL;
+
+  if (self->entry == NULL)
+    return;
+
+  id = bz_entry_get_id (self->entry);
+  adw_dialog_close (ADW_DIALOG (gtk_widget_get_ancestor (GTK_WIDGET (self), ADW_TYPE_DIALOG)));
+  gtk_widget_activate_action (GTK_WIDGET (self), "window.show-group",
+                              "s", id);
 }
 
 static void
@@ -151,9 +208,17 @@ bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-bundle-install-dialog.ui");
   bz_widget_class_bind_all_util_callbacks (widget_class);
 
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, main_stack);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, carousel);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_info);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_progress);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_finish);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, install_btn);
-  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, status_lbl);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, progress_bar);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, error_status);
   gtk_widget_class_bind_template_callback (widget_class, install_cb);
+  gtk_widget_class_bind_template_callback (widget_class, run_cb);
+  gtk_widget_class_bind_template_callback (widget_class, show_cb);
 }
 
 static void
@@ -237,21 +302,25 @@ install_fiber (GWeakRef *wr)
 
   ts_manager = g_object_ref (bz_state_info_get_transaction_manager (self->state));
 
-  gtk_label_set_label (self->status_lbl, _ ("Installing"));
   dex_await (
       bz_transaction_manager_add (
           ts_manager, transaction),
       &local_error);
 
+  if (self->pulse_source_id != 0)
+    {
+      g_source_remove (self->pulse_source_id);
+      self->pulse_source_id = 0;
+    }
+
   if (local_error != NULL)
     {
-      gtk_widget_add_css_class (GTK_WIDGET (self->status_lbl), "error");
-      gtk_label_set_label (self->status_lbl, local_error->message);
+      adw_status_page_set_description (self->error_status, local_error->message);
+      gtk_stack_set_visible_child_name (self->main_stack, "error");
     }
   else
     {
-      gtk_widget_add_css_class (GTK_WIDGET (self->status_lbl), "success");
-      gtk_label_set_label (self->status_lbl, _ ("Installed!"));
+      adw_carousel_scroll_to (self->carousel, self->page_finish, TRUE);
     }
 
   return dex_future_new_true ();

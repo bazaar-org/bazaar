@@ -2,49 +2,191 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BzBundleInstallDialog: Adw.BreakpointBin {
-  width-request: 360;
-  height-request: 450;
   child: Adw.ToolbarView {
-    bottom-bar-style: raised_border;
-
     [top]
     Adw.HeaderBar {
       title-widget: Label {
         label: _("Bundle Installation");
       };
+      show-title: false;
     }
 
-    content: Box {
-      orientation: vertical;
-      spacing: 5;
+    content: Stack main_stack {
+      StackPage {
+        name: "carousel";
+        child: Adw.Carousel carousel {
+          interactive: false;
+          spacing: 64;
 
-      Image {
-        paintable: bind template.entry as <$BzEntry>.icon-paintable;
-        pixel-size: 128;
-      }
-      Label {
-        label: bind template.entry as <$BzEntry>.title;
-        wrap: true;
-      }
-      Label {
-        label: bind template.entry as <$BzEntry>.developer;
-        wrap: true;
-      }
-      Label {
-        label: bind template.entry as <$BzEntry>.description;
-        wrap: true;
+          Box page_info {
+            orientation: vertical;
+            spacing: 5;
+            valign: center;
+            halign: fill;
+            margin-top: 24;
+            margin-bottom: 24;
+            margin-start: 24;
+            margin-end: 24;
+
+            Image {
+              paintable: bind template.entry as <$BzEntry>.icon-paintable;
+              pixel-size: 128;
+              margin-bottom: 12;
+            }
+
+            Label {
+              label: bind template.entry as <$BzEntry>.title;
+              wrap: true;
+              wrap-mode: word_char;
+              halign: center;
+              styles ["title-3"]
+            }
+
+            Label {
+              label: bind template.entry as <$BzEntry>.developer;
+              wrap: true;
+              wrap-mode: word_char;
+              halign: center;
+              styles ["dim-label"]
+            }
+
+            Box {
+              orientation: vertical;
+              spacing: 8;
+              margin-top: 24;
+              halign: center;
+              visible: bind $invert_boolean(template.entry as <$BzEntry>.installed) as <bool>;
+
+              Button install_btn {
+                styles ["suggested-action", "pill"]
+                halign: fill;
+                label: _("Install");
+                clicked => $install_cb(template);
+              }
+            }
+
+            Box {
+              orientation: vertical;
+              spacing: 8;
+              margin-top: 24;
+              halign: center;
+              visible: bind template.entry as <$BzEntry>.installed;
+
+              Label {
+                label: _("Already Installed");
+                styles ["dim-label", "caption"]
+              }
+
+              Button {
+                styles ["suggested-action", "pill"]
+                halign: fill;
+                label: _("Open");
+                clicked => $run_cb(template);
+              }
+
+              Button {
+                styles ["pill"]
+                halign: fill;
+                label: _("Show in Store");
+                clicked => $show_cb(template);
+              }
+            }
+          }
+
+          Box page_progress {
+            orientation: vertical;
+            spacing: 12;
+            valign: center;
+            halign: fill;
+            margin-top: 24;
+            margin-bottom: 24;
+            margin-start: 48;
+            margin-end: 48;
+
+            Image {
+              paintable: bind template.entry as <$BzEntry>.icon-paintable;
+              pixel-size: 128;
+              margin-bottom: 12;
+            }
+
+            Label {
+              label: bind template.entry as <$BzEntry>.title;
+              wrap: true;
+              wrap-mode: word_char;
+              halign: center;
+              styles ["title-3"]
+            }
+
+            ProgressBar progress_bar {
+              margin-top: 16;
+              pulse-step: 0.05;
+              width-request: 250;
+            }
+          }
+
+          Box page_finish {
+            orientation: vertical;
+            spacing: 8;
+            valign: center;
+            halign: fill;
+            margin-top: 24;
+            margin-bottom: 24;
+            margin-start: 24;
+            margin-end: 24;
+
+            Image {
+              paintable: bind template.entry as <$BzEntry>.icon-paintable;
+              pixel-size: 128;
+              margin-bottom: 12;
+            }
+
+            Label {
+              label: bind template.entry as <$BzEntry>.title;
+              wrap: true;
+              wrap-mode: word_char;
+              halign: center;
+              styles ["title-3"]
+            }
+
+            Label {
+              label: _("Successfully Installed!");
+              halign: center;
+              margin-bottom: 16;
+              margin-top: 8;
+              styles ["dim-label"]
+            }
+
+            Box {
+              width-request: 40;
+              orientation: vertical;
+              spacing: 8;
+              margin-top: 8;
+              halign: center;
+
+              Button open_btn {
+                styles ["suggested-action", "pill"]
+                halign: fill;
+                label: _("Open");
+                clicked => $run_cb(template);
+              }
+
+              Button show_in_store_btn {
+                styles ["pill"]
+                halign: fill;
+                label: _("Show in Store");
+                clicked => $show_cb(template);
+              }
+            }
+          }
+        };
       }
 
-      Button install_btn {
-        styles [
-          "suggested-action",
-        ]
-        halign: center;
-        label: _("Install Bundle");
-        clicked => $install_cb(template);
-      }
-
-      Label status_lbl {
+      StackPage {
+        name: "error";
+        child: Adw.StatusPage error_status {
+          icon-name: "sad-computer-symbolic";
+          title: _("Installation Failed");
+        };
       }
     };
   };

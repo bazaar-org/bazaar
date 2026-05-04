@@ -1832,12 +1832,24 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
       BzEntry               *entry      = NULL;
       BzBundleInstallDialog *install_ui = NULL;
       AdwDialog             *dialog     = NULL;
+      const char            *id         = NULL;
 
       window = gtk_application_get_active_window (GTK_APPLICATION (self));
       if (window == NULL)
         window = new_window (self);
 
-      entry      = g_value_get_object (value);
+      entry = g_value_get_object (value);
+      id    = bz_entry_get_id (entry);
+
+      if (id != NULL)
+        {
+          BzEntryGroup *group = NULL;
+
+          group = g_hash_table_lookup (self->ids_to_groups, id);
+          if (group != NULL && bz_entry_group_get_removable (group) > 0)
+            bz_entry_set_installed (entry, TRUE);
+        }
+
       install_ui = g_object_new (
           BZ_TYPE_BUNDLE_INSTALL_DIALOG,
           "state", self->state,
@@ -1845,7 +1857,8 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
           NULL);
 
       dialog = adw_dialog_new ();
-      adw_dialog_set_follows_content_size (dialog, TRUE);
+      adw_dialog_set_content_width (dialog, 400);
+      adw_dialog_set_content_height (dialog, 450);
       adw_dialog_set_child (dialog, GTK_WIDGET (install_ui));
 
       adw_dialog_present (dialog, GTK_WIDGET (window));
