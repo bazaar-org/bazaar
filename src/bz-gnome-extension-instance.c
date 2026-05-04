@@ -43,6 +43,8 @@
 #define SHELL_EXTENSIONS_PATH  "/org/gnome/Shell/Extensions"
 #define SHELL_EXTENSIONS_IFACE "org.gnome.Shell.Extensions"
 
+#pragma GCC diagnostic ignored "-Wunused-result"
+
 struct _BzGnomeExtensionInstance
 {
   GObject parent_instance;
@@ -162,7 +164,9 @@ static DexChannel *
 bz_gnome_extension_instance_create_notification_channel (BzBackend *backend)
 {
   BzGnomeExtensionInstance *self = BZ_GNOME_EXTENSION_INSTANCE (backend);
-  g_autoptr (DexChannel) channel = dex_channel_new (0);
+  g_autoptr (DexChannel) channel = NULL;
+
+  channel = dex_channel_new (0);
 
   g_mutex_lock (&self->notif_mutex);
   g_ptr_array_add (self->notif_channels, dex_ref (channel));
@@ -176,8 +180,9 @@ bz_gnome_extension_instance_retrieve_remote_entries (BzBackend    *backend,
                                                      GCancellable *cancellable)
 {
   BzGnomeExtensionInstance *self      = BZ_GNOME_EXTENSION_INSTANCE (backend);
-  g_autoptr (GnomeExtGatherData) data = gnome_ext_gather_data_new ();
+  g_autoptr (GnomeExtGatherData) data = NULL;
 
+  data              = gnome_ext_gather_data_new ();
   data->self        = bz_track_weak (self);
   data->cancellable = bz_object_maybe_ref (cancellable);
 
@@ -194,8 +199,9 @@ bz_gnome_extension_instance_retrieve_install_ids (BzBackend    *backend,
                                                   GCancellable *cancellable)
 {
   BzGnomeExtensionInstance *self        = BZ_GNOME_EXTENSION_INSTANCE (backend);
-  g_autoptr (GnomeExtInstallsData) data = gnome_ext_installs_data_new ();
+  g_autoptr (GnomeExtInstallsData) data = NULL;
 
+  data              = gnome_ext_installs_data_new ();
   data->self        = bz_track_weak (self);
   data->cancellable = bz_object_maybe_ref (cancellable);
 
@@ -219,8 +225,9 @@ bz_gnome_extension_instance_schedule_transaction (BzBackend    *backend,
                                                   GCancellable *cancellable)
 {
   BzGnomeExtensionInstance *self           = BZ_GNOME_EXTENSION_INSTANCE (backend);
-  g_autoptr (GnomeExtTransactionData) data = gnome_ext_transaction_data_new ();
+  g_autoptr (GnomeExtTransactionData) data = NULL;
 
+  data              = gnome_ext_transaction_data_new ();
   data->self        = bz_track_weak (self);
   data->cancellable = bz_object_maybe_ref (cancellable);
   data->channel     = bz_dex_maybe_ref (channel);
@@ -272,8 +279,9 @@ backend_iface_init (BzBackendInterface *iface)
 DexFuture *
 bz_gnome_extension_instance_new (void)
 {
-  g_autoptr (GnomeExtInitData) data = gnome_ext_init_data_new ();
+  g_autoptr (GnomeExtInitData) data = NULL;
 
+  data       = gnome_ext_init_data_new ();
   data->self = g_object_new (BZ_TYPE_GNOME_EXTENSION_INSTANCE, NULL);
 
   return dex_scheduler_spawn (
@@ -346,9 +354,9 @@ retrieve_installs_fiber (GnomeExtInstallsData *data)
   g_autoptr (GVariant) result               = NULL;
   g_autoptr (GVariant) extensions           = NULL;
   g_autoptr (GHashTable) ids                = NULL;
-  GVariantIter iter;
-  const char  *uuid     = NULL;
-  GVariant    *info_val = NULL;
+  GVariantIter iter                         = { 0 };
+  const char  *uuid                         = NULL;
+  GVariant    *info_val                     = NULL;
 
   bz_weak_get_or_return_reject (self, data->self);
 
@@ -383,7 +391,7 @@ retrieve_installs_fiber (GnomeExtInstallsData *data)
   while (g_variant_iter_next (&iter, "{&s@a{sv}}", &uuid, &info_val))
     {
       g_autoptr (GVariant) ext_info         = info_val;
-      g_autoptr (BzGnomeExtensionInfo) obj  = bz_gnome_extension_info_new ();
+      g_autoptr (BzGnomeExtensionInfo) obj  = NULL;
       g_autoptr (GListStore) shell_versions = NULL;
       g_autoptr (GVariant) sv_variant       = NULL;
       double      version                   = 0.0;
@@ -396,6 +404,8 @@ retrieve_installs_fiber (GnomeExtInstallsData *data)
       const char *error                     = "";
       const char *name                      = "";
       const char *path                      = "";
+
+      obj = bz_gnome_extension_info_new ();
 
       g_variant_lookup (ext_info, "version", "d", &version);
       g_variant_lookup (ext_info, "state", "d", &state);
@@ -518,7 +528,9 @@ gather_fiber (GnomeExtGatherData *data)
     return dex_future_new_true ();
 
   {
-    g_autoptr (BzBackendNotification) notif = bz_backend_notification_new ();
+    g_autoptr (BzBackendNotification) notif = NULL;
+
+    notif = bz_backend_notification_new ();
     bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_TELL_INCOMING);
     bz_backend_notification_set_n_incoming (notif, (int) children->len);
     send_notif_all (self, notif, TRUE);
@@ -568,7 +580,9 @@ gather_fiber (GnomeExtGatherData *data)
     }
 
   {
-    g_autoptr (BzBackendNotification) notif = bz_backend_notification_new ();
+    g_autoptr (BzBackendNotification) notif = NULL;
+
+    notif = bz_backend_notification_new ();
     bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REMOTE_SYNC_FINISH);
     bz_backend_notification_set_remote_name (notif, "gnome-extensions");
     send_notif_all (self, notif, TRUE);
@@ -615,11 +629,14 @@ transaction_fiber (GnomeExtTransactionData *data)
   for (guint i = 0; i < data->installs->len; i++)
     {
       BzGnomeExtensionEntry *entry                 = g_ptr_array_index (data->installs, i);
-      const char            *uuid                  = bz_gnome_extension_entry_get_uuid (entry);
-      const char            *unique_id             = bz_entry_get_unique_id (BZ_ENTRY (entry));
+      const char            *uuid                  = NULL;
+      const char            *unique_id             = NULL;
       g_autoptr (BzBackendTransactionOpPayload) op = NULL;
       g_autoptr (GVariant) result                  = NULL;
       g_autoptr (GError) op_error                  = NULL;
+
+      uuid      = bz_gnome_extension_entry_get_uuid (entry);
+      unique_id = bz_entry_get_unique_id (BZ_ENTRY (entry));
 
       if (data->channel != NULL)
         {
@@ -652,7 +669,9 @@ transaction_fiber (GnomeExtTransactionData *data)
 
           if (g_strcmp0 (status, "successful") == 0)
             {
-              g_autoptr (BzBackendNotification) notif = bz_backend_notification_new ();
+              g_autoptr (BzBackendNotification) notif = NULL;
+
+              notif = bz_backend_notification_new ();
               bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_INSTALL_DONE);
               bz_backend_notification_set_unique_id (notif, unique_id);
               send_notif_all (self, notif, TRUE);
@@ -675,11 +694,14 @@ transaction_fiber (GnomeExtTransactionData *data)
   for (guint i = 0; i < data->removals->len; i++)
     {
       BzGnomeExtensionEntry *entry                 = g_ptr_array_index (data->removals, i);
-      const char            *uuid                  = bz_gnome_extension_entry_get_uuid (entry);
-      const char            *unique_id             = bz_entry_get_unique_id (BZ_ENTRY (entry));
+      const char            *uuid                  = NULL;
+      const char            *unique_id             = NULL;
       g_autoptr (BzBackendTransactionOpPayload) op = NULL;
       g_autoptr (GVariant) result                  = NULL;
       g_autoptr (GError) op_error                  = NULL;
+
+      uuid      = bz_gnome_extension_entry_get_uuid (entry);
+      unique_id = bz_entry_get_unique_id (BZ_ENTRY (entry));
 
       if (data->channel != NULL)
         {
@@ -712,7 +734,9 @@ transaction_fiber (GnomeExtTransactionData *data)
 
           if (ok)
             {
-              g_autoptr (BzBackendNotification) notif = bz_backend_notification_new ();
+              g_autoptr (BzBackendNotification) notif = NULL;
+
+              notif = bz_backend_notification_new ();
               bz_backend_notification_set_kind (notif, BZ_BACKEND_NOTIFICATION_KIND_REMOVE_DONE);
               bz_backend_notification_set_unique_id (notif, unique_id);
               send_notif_all (self, notif, TRUE);

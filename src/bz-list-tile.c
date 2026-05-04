@@ -162,7 +162,7 @@ bz_list_tile_class_init (BzListTileClass *klass)
 
   {
     g_autoptr (GtkShortcutAction) activate_action = NULL;
-    const guint activate_keyvals[] = {
+    const guint activate_keyvals[]                = {
       GDK_KEY_space,
       GDK_KEY_KP_Space,
       GDK_KEY_Return,

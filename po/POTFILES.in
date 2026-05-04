@@ -67,6 +67,8 @@ src/bz-flatpak-instance.c
 src/bz-full-view.blp
 src/bz-full-view.c
 src/bz-global-net.c
+src/bz-gnome-extension-tile.c
+src/bz-gnome-extension-tile.blp
 src/bz-gnome-shell-search-provider.c
 src/bz-group-tile-css-watcher.c
 src/bz-hardware-support-dialog.blp

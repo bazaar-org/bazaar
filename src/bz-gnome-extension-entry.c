@@ -168,10 +168,15 @@ bz_gnome_extension_entry_new_from_component (AsComponent *component,
   custom = as_component_get_custom (component);
   if (custom != NULL)
     {
-      const char *pk_str        = g_hash_table_lookup (custom, "GnomeExtensions::pk");
-      const char *uuid_str      = g_hash_table_lookup (custom, "GnomeExtensions::uuid");
-      const char *downloads_str = g_hash_table_lookup (custom, "GnomeExtensions::downloads");
-      const char *size_str      = g_hash_table_lookup (custom, "GnomeExtensions::size");
+      const char *pk_str        = NULL;
+      const char *uuid_str      = NULL;
+      const char *downloads_str = NULL;
+      const char *size_str      = NULL;
+
+      pk_str        = g_hash_table_lookup (custom, "GnomeExtensions::pk");
+      uuid_str      = g_hash_table_lookup (custom, "GnomeExtensions::uuid");
+      downloads_str = g_hash_table_lookup (custom, "GnomeExtensions::downloads");
+      size_str      = g_hash_table_lookup (custom, "GnomeExtensions::size");
 
       if (pk_str != NULL)
         pk = (int) g_ascii_strtoll (pk_str, NULL, 10);
