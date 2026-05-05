@@ -66,12 +66,7 @@ bz_bundle_install_dialog_dispose (GObject *object)
 {
   BzBundleInstallDialog *self = BZ_BUNDLE_INSTALL_DIALOG (object);
 
-  if (self->pulse_source_id != 0)
-    {
-      g_source_remove (self->pulse_source_id);
-      self->pulse_source_id = 0;
-    }
-
+  g_clear_handle_id (&self->pulse_source_id, g_source_remove);
   g_clear_pointer (&self->state, g_object_unref);
   g_clear_pointer (&self->entry, g_object_unref);
 
@@ -307,21 +302,14 @@ install_fiber (GWeakRef *wr)
           ts_manager, transaction),
       &local_error);
 
-  if (self->pulse_source_id != 0)
-    {
-      g_source_remove (self->pulse_source_id);
-      self->pulse_source_id = 0;
-    }
-
+  g_clear_handle_id (&self->pulse_source_id, g_source_remove);
   if (local_error != NULL)
     {
       adw_status_page_set_description (self->error_status, local_error->message);
       gtk_stack_set_visible_child_name (self->main_stack, "error");
     }
   else
-    {
-      adw_carousel_scroll_to (self->carousel, self->page_finish, TRUE);
-    }
+    adw_carousel_scroll_to (self->carousel, self->page_finish, TRUE);
 
   return dex_future_new_true ();
 }
