@@ -42,8 +42,7 @@ should_skip_entry (BzEntry *entry,
   if (bz_entry_is_holding (entry))
     return TRUE;
 
-  if (!remove && BZ_IS_FLATPAK_ENTRY (entry) &&
-      bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry)))
+  if (!remove && !bz_entry_is_reinstallable (entry))
     return TRUE;
 
   is_installed = bz_entry_is_installed (entry);
@@ -339,8 +338,7 @@ show_dialog_fiber (ShowDialogData *data)
           g_autoptr (BzEntry) entry = NULL;
 
           entry = g_list_model_get_item (G_LIST_MODEL (store), i - 1);
-          if (BZ_IS_FLATPAK_ENTRY (entry) &&
-              bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry)) &&
+          if (!bz_entry_is_reinstallable (entry) &&
               (!data->remove || !bz_entry_is_installed (entry)))
             g_list_store_remove (store, i - 1);
         }

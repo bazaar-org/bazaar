@@ -31,6 +31,7 @@ template $BzLibraryPage: Adw.Bin {
             max-length: 50;
             placeholder-text: _("Search installed apps");
             notify::text => $search_text_changed(template);
+            activate => $search_text_activate(template);
           }
 
           Button clear_button {

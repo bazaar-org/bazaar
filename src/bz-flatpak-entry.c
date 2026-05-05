@@ -53,6 +53,7 @@ struct _BzFlatpakEntry
   char     *application_command;
   char     *runtime_name;
   char     *addon_extension_of_ref;
+  char     *bundle_path;
   BzResult *runtime_result;
 
   FlatpakRef *ref;
@@ -74,6 +75,7 @@ enum
   PROP_USER,
   PROP_FLATPAK_NAME,
   PROP_IS_BUNDLE,
+  PROP_BUNDLE_PATH,
   PROP_FLATPAK_ID,
   PROP_FLATPAK_VERSION,
   PROP_APPLICATION_NAME,
@@ -89,6 +91,9 @@ static GParamSpec *props[LAST_PROP] = { 0 };
 
 static void
 clear_entry (BzFlatpakEntry *self);
+
+static void
+apply_icon_theme (BzFlatpakEntry *self);
 
 static void
 bz_flatpak_entry_dispose (GObject *object)
@@ -128,6 +133,9 @@ bz_flatpak_entry_get_property (GObject    *object,
       break;
     case PROP_IS_BUNDLE:
       g_value_set_boolean (value, self->is_bundle);
+      break;
+    case PROP_BUNDLE_PATH:
+      g_value_set_string (value, self->bundle_path);
       break;
     case PROP_APPLICATION_RUNTIME:
       g_value_set_string (value, self->application_runtime);
@@ -169,6 +177,7 @@ bz_flatpak_entry_set_property (GObject      *object,
     case PROP_APPLICATION_COMMAND:
     case PROP_RUNTIME_NAME:
     case PROP_ADDON_OF_REF:
+    case PROP_BUNDLE_PATH:
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -221,6 +230,12 @@ bz_flatpak_entry_class_init (BzFlatpakEntryClass *klass)
           FALSE,
           G_PARAM_READABLE);
 
+  props[PROP_BUNDLE_PATH] =
+      g_param_spec_string (
+          "bundle-path",
+          NULL, NULL, NULL,
+          G_PARAM_READABLE);
+
   props[PROP_APPLICATION_RUNTIME] =
       g_param_spec_string (
           "application-runtime",
@@ -267,7 +282,10 @@ bz_flatpak_entry_real_serialize (BzSerializable  *serializable,
   BzFlatpakEntry *self = BZ_FLATPAK_ENTRY (serializable);
 
   g_variant_builder_add (builder, "{sv}", "user", g_variant_new_boolean (self->user));
+  g_variant_builder_add (builder, "{sv}", "is-bundle", g_variant_new_boolean (self->is_bundle));
   g_variant_builder_add (builder, "{sv}", "is-installed-ref", g_variant_new_boolean (self->is_installed_ref));
+  if (self->bundle_path != NULL)
+    g_variant_builder_add (builder, "{sv}", "bundle-path", g_variant_new_string (self->bundle_path));
   if (self->flatpak_name != NULL)
     g_variant_builder_add (builder, "{sv}", "flatpak-name", g_variant_new_string (self->flatpak_name));
   if (self->flatpak_id != NULL)
@@ -309,8 +327,12 @@ bz_flatpak_entry_real_deserialize (BzSerializable *serializable,
 
       if (g_strcmp0 (key, "user") == 0)
         self->user = g_variant_get_boolean (value);
+      else if (g_strcmp0 (key, "is-bundle") == 0)
+        self->is_bundle = g_variant_get_boolean (value);
       else if (g_strcmp0 (key, "is-installed-ref") == 0)
         self->is_installed_ref = g_variant_get_boolean (value);
+      else if (g_strcmp0 (key, "bundle-path") == 0)
+        self->bundle_path = g_variant_dup_string (value, NULL);
       else if (g_strcmp0 (key, "flatpak-name") == 0)
         self->flatpak_name = g_variant_dup_string (value, NULL);
       else if (g_strcmp0 (key, "flatpak-id") == 0)
@@ -328,6 +350,9 @@ bz_flatpak_entry_real_deserialize (BzSerializable *serializable,
       else if (g_strcmp0 (key, "addon-extension-of-ref") == 0)
         self->addon_extension_of_ref = g_variant_dup_string (value, NULL);
     }
+
+  if (self->is_installed_ref)
+    apply_icon_theme (self);
 
   return bz_entry_deserialize (BZ_ENTRY (self), import, error);
 }
@@ -395,6 +420,7 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
   g_autoptr (GdkPaintable) icon_paintable  = NULL;
   g_autoptr (BzAppPermissions) permissions = NULL;
   gboolean searchable                      = FALSE;
+  gboolean reinstallable                   = FALSE;
 
   g_return_val_if_fail (FLATPAK_IS_REF (ref), NULL);
   g_return_val_if_fail (FLATPAK_IS_REMOTE_REF (ref) || FLATPAK_IS_BUNDLE_REF (ref) || FLATPAK_IS_INSTALLED_REF (ref), NULL);
@@ -405,6 +431,15 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
   self->is_bundle        = FLATPAK_IS_BUNDLE_REF (ref);
   self->is_installed_ref = FLATPAK_IS_INSTALLED_REF (ref);
   self->ref              = g_object_ref (ref);
+
+  if (FLATPAK_IS_BUNDLE_REF (ref))
+    {
+      GFile *file = NULL;
+
+      file = flatpak_bundle_ref_get_file (FLATPAK_BUNDLE_REF (ref));
+      if (file != NULL)
+        self->bundle_path = g_file_get_path (file);
+    }
 
   key_file = g_key_file_new ();
   if (FLATPAK_IS_REMOTE_REF (ref))
@@ -566,34 +601,7 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
             }
         }
       else if (FLATPAK_IS_INSTALLED_REF (ref))
-        {
-          BzStateInfo      *state     = NULL;
-          const char       *icon_name = NULL;
-          GtkIconTheme     *theme     = NULL;
-          GtkIconPaintable *paintable = NULL;
-
-          state     = bz_state_info_get_default ();
-          icon_name = flatpak_ref_get_name (ref);
-
-          theme = user
-                      ? bz_state_info_get_user_icon_theme (state)
-                      : bz_state_info_get_system_icon_theme (state);
-
-          if (theme != NULL)
-            {
-              paintable = gtk_icon_theme_lookup_icon (
-                  theme,
-                  icon_name,
-                  NULL,
-                  128,
-                  1,
-                  GTK_TEXT_DIR_NONE,
-                  0);
-
-              if (paintable != NULL)
-                icon_paintable = (GdkPaintable *) g_steal_pointer (&paintable);
-            }
-        }
+        apply_icon_theme (self);
     }
 
   g_object_get (self, "title", &title, NULL);
@@ -634,7 +642,8 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
   if (permissions == NULL)
     return NULL;
 
-  searchable = !FLATPAK_IS_INSTALLED_REF (ref);
+  searchable    = !FLATPAK_IS_INSTALLED_REF (ref);
+  reinstallable = !FLATPAK_IS_INSTALLED_REF (ref);
 
   g_object_set (
       self,
@@ -650,6 +659,7 @@ bz_flatpak_entry_new_for_ref (FlatpakRef    *ref,
       "icon-paintable", icon_paintable,
       "permissions", permissions,
       "searchable", searchable,
+      "reinstallable", reinstallable,
       NULL);
 
   return g_steal_pointer (&self);
@@ -663,7 +673,8 @@ bz_flatpak_ref_parts_format_unique (const char *origin,
   return g_strdup_printf (
       "FLATPAK-%s::%s::%s",
       user ? "USER" : "SYSTEM",
-      origin, fmt);
+      origin != NULL ? origin : "bundle",
+      fmt);
 }
 
 char *
@@ -677,8 +688,6 @@ bz_flatpak_ref_format_unique (FlatpakRef *ref,
 
   if (FLATPAK_IS_REMOTE_REF (ref))
     origin = flatpak_remote_ref_get_remote_name (FLATPAK_REMOTE_REF (ref));
-  else if (FLATPAK_IS_BUNDLE_REF (ref))
-    origin = flatpak_bundle_ref_get_origin (FLATPAK_BUNDLE_REF (ref));
   else if (FLATPAK_IS_INSTALLED_REF (ref))
     origin = flatpak_installed_ref_get_origin (FLATPAK_INSTALLED_REF (ref));
 
@@ -780,6 +789,13 @@ bz_flatpak_entry_is_installed_ref (BzFlatpakEntry *self)
   return self->is_installed_ref;
 }
 
+const char *
+bz_flatpak_entry_get_bundle_path (BzFlatpakEntry *self)
+{
+  g_return_val_if_fail (BZ_IS_FLATPAK_ENTRY (self), NULL);
+  return self->bundle_path;
+}
+
 gboolean
 bz_flatpak_entry_launch (BzFlatpakEntry    *self,
                          BzFlatpakInstance *flatpak,
@@ -835,5 +851,43 @@ clear_entry (BzFlatpakEntry *self)
   g_clear_pointer (&self->application_command, g_free);
   g_clear_pointer (&self->runtime_name, g_free);
   g_clear_pointer (&self->addon_extension_of_ref, g_free);
+  g_clear_pointer (&self->bundle_path, g_free);
   g_clear_object (&self->runtime_result);
+}
+
+static void
+apply_icon_theme (BzFlatpakEntry *self)
+{
+  FlatpakRef   *ref       = NULL;
+  BzStateInfo  *state     = NULL;
+  const char   *icon_name = NULL;
+  GtkIconTheme *theme     = NULL;
+
+  ref = bz_flatpak_entry_get_ref (self);
+
+  state     = bz_state_info_get_default ();
+  icon_name = flatpak_ref_get_name (ref);
+  theme     = self->user
+                  ? bz_state_info_get_user_icon_theme (state)
+                  : bz_state_info_get_system_icon_theme (state);
+
+  if (theme != NULL)
+    {
+      g_autoptr (GtkIconPaintable) paintable = NULL;
+
+      paintable = gtk_icon_theme_lookup_icon (
+          theme,
+          icon_name,
+          NULL,
+          128,
+          1,
+          GTK_TEXT_DIR_NONE,
+          0);
+
+      if (paintable != NULL)
+        g_object_set (
+            self,
+            "icon-paintable", paintable,
+            NULL);
+    }
 }

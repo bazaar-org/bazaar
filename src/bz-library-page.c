@@ -301,11 +301,24 @@ tile_activated_cb (BzListTile *tile)
 static void
 search_text_changed (BzLibraryPage *self,
                      GParamSpec    *pspec,
-                     GtkEntry      *entry)
+                     GtkText       *entry)
 {
   gtk_filter_changed (GTK_FILTER (self->filter),
                       GTK_FILTER_CHANGE_DIFFERENT);
   set_page (self);
+}
+
+static void
+search_text_activate (BzLibraryPage *self,
+                      GtkText       *entry)
+{
+  const char *text = NULL;
+
+  text = gtk_editable_get_text (GTK_EDITABLE (self->search_bar));
+  if (text != NULL && *text != '\0')
+    gtk_widget_activate_action (GTK_WIDGET (self), "app.search", "s", text);
+
+  gtk_editable_set_text (GTK_EDITABLE (self->search_bar), "");
 }
 
 static void
@@ -370,8 +383,10 @@ sort_func (BzEntryGroup  *a,
       size_a = bz_entry_group_get_installed_size (a);
       size_b = bz_entry_group_get_installed_size (b);
 
-      return size_a > size_b ? -1 : size_a < size_b ? 1
-                                                    : 0;
+      return size_a > size_b
+                 ? -1
+             : size_a < size_b ? 1
+                               : 0;
     }
 
   return g_utf8_collate (bz_entry_group_get_title (a),
@@ -470,6 +485,7 @@ bz_library_page_class_init (BzLibraryPageClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, search_text_changed);
   gtk_widget_class_bind_template_callback (widget_class, count_ext_updates);
   gtk_widget_class_bind_template_callback (widget_class, format_ext_update_count);
+  gtk_widget_class_bind_template_callback (widget_class, search_text_activate);
   gtk_widget_class_bind_template_callback (widget_class, n_filtered_items_changed);
   gtk_widget_class_bind_template_callback (widget_class, clear_tasks_cb);
   gtk_widget_class_bind_template_callback (widget_class, updates_card_update_cb);
