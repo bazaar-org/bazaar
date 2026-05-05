@@ -93,14 +93,15 @@ struct _BzApplication
   DexChannel                 *flatpak_notifs;
   DexFuture                  *notif_watch;
   DexFuture                  *sync;
+  DexPromise                 *first_window_opened;
   DexPromise                 *ready_to_open_files;
   GHashTable                 *eol_runtimes;
   GHashTable                 *ids_to_groups;
   GHashTable                 *ignore_eol_set;
   GHashTable                 *installed_set;
   GHashTable                 *sys_name_to_addons;
-  GHashTable                 *usr_name_to_addons;
   GHashTable                 *sys_ref_to_addon_group_ids;
+  GHashTable                 *usr_name_to_addons;
   GHashTable                 *usr_ref_to_addon_group_ids;
   GListStore                 *groups;
   GListStore                 *installed_apps;
@@ -367,6 +368,7 @@ bz_application_dispose (GObject *object)
   dex_clear (&self->flatpak_notifs);
   dex_clear (&self->notif_watch);
   dex_clear (&self->ready_to_open_files);
+  dex_clear (&self->first_window_opened);
   dex_clear (&self->sync);
   g_clear_handle_id (&self->periodic_timeout_source, g_source_remove);
   g_clear_object (&self->appid_filter);
@@ -1035,49 +1037,50 @@ init_fiber (GWeakRef *wr)
     {
       GtkWindow       *window   = NULL;
       g_autofree char *response = NULL;
+      AdwDialog       *alert    = NULL;
+
+      dex_await (DEX_FUTURE (self->first_window_opened), NULL);
 
       window = gtk_application_get_active_window (GTK_APPLICATION (self));
-      if (window != NULL)
-        {
-          AdwDialog *alert = NULL;
+      if (window == NULL)
+        window = new_window (self);
 
-          alert = adw_alert_dialog_new (NULL, NULL);
+      alert = adw_alert_dialog_new (NULL, NULL);
 
 #ifdef SANDBOXED_LIBFLATPAK
-          adw_alert_dialog_format_heading (
-              ADW_ALERT_DIALOG (alert),
-              _ ("Set Up System Flathub?"));
-          adw_alert_dialog_format_body (
-              ADW_ALERT_DIALOG (alert),
-              _ ("The system Flathub remote is not set up. Bazaar requires "
-                 "Flathub to be configured on the system Flatpak installation "
-                 "to browse and install applications.\n\n"
-                 "You can still use Bazaar to browse and remove already installed apps."));
+      adw_alert_dialog_format_heading (
+          ADW_ALERT_DIALOG (alert),
+          _ ("Set Up System Flathub?"));
+      adw_alert_dialog_format_body (
+          ADW_ALERT_DIALOG (alert),
+          _ ("The system Flathub remote is not set up. Bazaar requires "
+             "Flathub to be configured on the system Flatpak installation "
+             "to browse and install applications.\n\n"
+             "You can still use Bazaar to browse and remove already installed apps."));
 #else
-          adw_alert_dialog_format_heading (
-              ADW_ALERT_DIALOG (alert),
-              _ ("Set Up Flathub?"));
-          adw_alert_dialog_format_body (
-              ADW_ALERT_DIALOG (alert),
-              _ ("Flathub is not set up on this system. "
-                 "You will not be able to browse and install applications in Bazaar if its unavailable.\n\n"
-                 "You can still use Bazaar to browse and remove already installed apps."));
+      adw_alert_dialog_format_heading (
+          ADW_ALERT_DIALOG (alert),
+          _ ("Set Up Flathub?"));
+      adw_alert_dialog_format_body (
+          ADW_ALERT_DIALOG (alert),
+          _ ("Flathub is not set up on this system. "
+             "You will not be able to browse and install applications in Bazaar if its unavailable.\n\n"
+             "You can still use Bazaar to browse and remove already installed apps."));
 #endif
-          adw_alert_dialog_add_responses (
-              ADW_ALERT_DIALOG (alert),
-              "later", _ ("Later"),
-              "add", _ ("Set Up Flathub"),
-              NULL);
-          adw_alert_dialog_set_response_appearance (
-              ADW_ALERT_DIALOG (alert), "add", ADW_RESPONSE_SUGGESTED);
-          adw_alert_dialog_set_default_response (ADW_ALERT_DIALOG (alert), "add");
-          adw_alert_dialog_set_close_response (ADW_ALERT_DIALOG (alert), "later");
+      adw_alert_dialog_add_responses (
+          ADW_ALERT_DIALOG (alert),
+          "later", _ ("Later"),
+          "add", _ ("Set Up Flathub"),
+          NULL);
+      adw_alert_dialog_set_response_appearance (
+          ADW_ALERT_DIALOG (alert), "add", ADW_RESPONSE_SUGGESTED);
+      adw_alert_dialog_set_default_response (ADW_ALERT_DIALOG (alert), "add");
+      adw_alert_dialog_set_close_response (ADW_ALERT_DIALOG (alert), "later");
 
-          adw_dialog_present (alert, GTK_WIDGET (window));
-          response = dex_await_string (
-              bz_make_alert_dialog_future (ADW_ALERT_DIALOG (alert)),
-              NULL);
-        }
+      adw_dialog_present (alert, GTK_WIDGET (window));
+      response = dex_await_string (
+          bz_make_alert_dialog_future (ADW_ALERT_DIALOG (alert)),
+          NULL);
 
       if (response != NULL &&
           g_strcmp0 (response, "add") == 0)
@@ -2885,6 +2888,7 @@ init_service_struct (BzApplication *self,
 
   self->init_timer          = g_timer_new ();
   self->ready_to_open_files = dex_promise_new ();
+  self->first_window_opened = dex_promise_new ();
 
   if (self->config != NULL &&
       bz_main_config_get_yaml_blocklist_paths (self->config) != NULL)
@@ -3223,6 +3227,9 @@ new_window (BzApplication *self)
 
   gtk_window_set_default_size (GTK_WINDOW (window), width, height);
   gtk_window_present (GTK_WINDOW (window));
+
+  if (dex_future_is_pending (DEX_FUTURE (self->first_window_opened)))
+    dex_promise_resolve_boolean (self->first_window_opened, TRUE);
 
   return GTK_WINDOW (window);
 }
