@@ -956,6 +956,7 @@ init_fiber (GWeakRef *wr)
   g_autoptr (GFile) root_cache_dir_file = NULL;
   g_autoptr (GListModel) repos          = NULL;
   gboolean         has_flathub          = FALSE;
+  gboolean         cache_has_flathub    = FALSE;
   gboolean         result               = FALSE;
   g_autofree char *flathub_cache        = NULL;
   g_autoptr (GFile) flathub_cache_file  = NULL;
@@ -1128,7 +1129,7 @@ init_fiber (GWeakRef *wr)
     }
 
   /* Revive old cache from previous Bazaar process */
-  dex_await (
+  cache_has_flathub = dex_await_boolean (
       dex_scheduler_spawn (
           dex_scheduler_get_default (),
           bz_get_dex_stack_size (),
@@ -1169,8 +1170,8 @@ init_fiber (GWeakRef *wr)
                   bz_flathub_state_set_map_factory (self->flathub, self->application_factory);
                   bz_state_info_set_flathub (self->state, self->flathub);
 
-                  bz_state_info_set_busy (self->state, FALSE);
-                  dex_promise_resolve_boolean (self->ready_to_open_files, TRUE);
+                  if (cache_has_flathub)
+                    bz_state_info_set_busy (self->state, FALSE);
                 }
               else
                 {
@@ -1205,6 +1206,7 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
   g_autoptr (GPtrArray) futures     = NULL;
   GHashTableIter iter               = { 0 };
   g_autoptr (GPtrArray) entries     = NULL;
+  gboolean has_flathub_entry        = FALSE;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -1259,6 +1261,11 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
             /* refrain from restoring bundle entries */
             continue;
 
+          if (!has_flathub_entry &&
+              BZ_IS_FLATPAK_ENTRY (entry) &&
+              g_strcmp0 (bz_entry_get_remote_repo_name (entry), "flathub") == 0)
+            has_flathub_entry = TRUE;
+
           g_ptr_array_add (entries, g_steal_pointer (&entry));
         }
       else
@@ -1285,7 +1292,7 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
   fiber_check_for_updates (self);
   finish_with_background_task_label (self);
 
-  return dex_future_new_true ();
+  return dex_future_new_for_boolean (has_flathub_entry);
 }
 
 static DexFuture *
