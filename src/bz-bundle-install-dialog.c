@@ -20,10 +20,14 @@
 
 #include <glib/gi18n.h>
 
+#include "bz-app-permissions.h"
 #include "bz-bundle-install-dialog.h"
 #include "bz-env.h"
 #include "bz-template-callbacks.h"
+#include "bz-safety-calculator.h"
 #include "bz-util.h"
+#include "bz-context-tile-callbacks.h"
+#include "bz-release.h"
 
 struct _BzBundleInstallDialog
 {
@@ -38,9 +42,9 @@ struct _BzBundleInstallDialog
   GtkWidget   *page_progress;
   GtkWidget   *page_finish;
 
-  GtkButton      *install_btn;
   GtkProgressBar *progress_bar;
   AdwStatusPage  *error_status;
+  GtkImage *safety_icon;
 
   guint pulse_source_id;
 };
@@ -123,6 +127,108 @@ pulse_progress_bar (gpointer user_data)
   return G_SOURCE_CONTINUE;
 }
 
+static char *
+get_version (gpointer    object,
+             GListModel *version_history)
+{
+  g_autoptr (BzRelease) release = NULL;
+
+  if (version_history == NULL ||
+      g_list_model_get_n_items (version_history) == 0)
+    return NULL;
+
+  release = g_list_model_get_item (version_history, 0);
+  return g_strdup (bz_release_get_version (release));
+}
+
+static char *
+get_disk_title (gpointer object,
+                guint64  installed_size)
+{
+  g_autofree char *size_str = NULL;
+
+  if (installed_size == 0)
+    return g_strdup (_("Unknown install size"));
+
+  size_str = g_format_size (installed_size);
+  return g_strdup_printf (_("About %s to install"), size_str);
+}
+
+static char *
+get_safety_subtitle (gpointer object,
+                     BzEntry *entry)
+{
+  g_autoptr (GListModel) model   = NULL;
+  g_autoptr (GString)    result  = NULL;
+  guint                  n_items = 0;
+  guint                  n_picked = 0;
+  guint                  n_total  = 0;
+
+  if (entry == NULL)
+    return g_strdup (_("N/A"));
+
+  model   = bz_safety_calculator_analyze_entry (entry);
+  n_items = g_list_model_get_n_items (model);
+  result  = g_string_new (NULL);
+
+  for (guint i = 0; i < n_items; i++)
+    {
+      g_autoptr (BzSafetyRow) row = g_list_model_get_item (model, i);
+      BzImportance importance     = BZ_IMPORTANCE_UNIMPORTANT;
+      g_autofree char *title      = NULL;
+
+      g_object_get (row, "importance", &importance, "title", &title, NULL);
+
+      if (importance <= BZ_IMPORTANCE_UNIMPORTANT || title == NULL)
+        continue;
+
+      n_total++;
+
+      if (n_picked < 2)
+        {
+          if (n_picked > 0)
+            g_string_append (result, ", ");
+          g_string_append (result, title);
+          n_picked++;
+        }
+    }
+
+  if (n_picked == 0)
+    return g_strdup (_("No special permissions"));
+
+  if (n_total > 2)
+    g_string_append (result, ", …");
+
+  return g_string_free (g_steal_pointer (&result), FALSE);
+}
+
+static char *
+get_safety_icon_name (gpointer object,
+                      BzEntry *entry)
+{
+  BzImportance importance;
+
+  if (entry == NULL)
+    return g_strdup ("app-safety-unknown-symbolic");
+
+  importance = bz_safety_calculator_calculate_rating (entry);
+
+  switch (importance)
+    {
+    case BZ_IMPORTANCE_UNIMPORTANT:
+      return g_strdup ("app-safety-ok-symbolic");
+    case BZ_IMPORTANCE_NEUTRAL:
+      return g_strdup ("permissions-sandboxed-symbolic");
+    case BZ_IMPORTANCE_INFORMATION:
+    case BZ_IMPORTANCE_WARNING:
+      return g_strdup ("permissions-warning-symbolic");
+    case BZ_IMPORTANCE_IMPORTANT:
+      return g_strdup ("app-safety-unsafe-symbolic");
+    default:
+      return g_strdup ("app-safety-unknown-symbolic");
+    }
+}
+
 static void
 install_cb (BzBundleInstallDialog *self,
             GtkButton             *button)
@@ -130,8 +236,6 @@ install_cb (BzBundleInstallDialog *self,
   if (self->entry == NULL ||
       self->state == NULL)
     return;
-
-  gtk_widget_set_sensitive (GTK_WIDGET (self->install_btn), FALSE);
 
   adw_carousel_scroll_to (self->carousel, self->page_progress, TRUE);
 
@@ -175,6 +279,20 @@ show_cb (BzBundleInstallDialog *self,
 }
 
 static void
+size_cb (BzBundleInstallDialog *self,
+         AdwActionRow          *row)
+{
+  /* TODO */
+}
+
+static void
+permission_cb (BzBundleInstallDialog *self,
+               AdwActionRow          *row)
+{
+  /* TODO */
+}
+
+static void
 bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -202,24 +320,43 @@ bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-bundle-install-dialog.ui");
   bz_widget_class_bind_all_util_callbacks (widget_class);
+  bz_widget_class_bind_all_context_tile_callbacks (widget_class);
 
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, main_stack);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, carousel);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_info);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_progress);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_finish);
-  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, install_btn);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, progress_bar);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, error_status);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, safety_icon);
   gtk_widget_class_bind_template_callback (widget_class, install_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_cb);
   gtk_widget_class_bind_template_callback (widget_class, show_cb);
+  gtk_widget_class_bind_template_callback (widget_class, size_cb);
+  gtk_widget_class_bind_template_callback (widget_class, permission_cb);
+  gtk_widget_class_bind_template_callback (widget_class, get_version);
+  gtk_widget_class_bind_template_callback (widget_class, get_disk_title);
+  gtk_widget_class_bind_template_callback (widget_class, get_safety_subtitle);
+  gtk_widget_class_bind_template_callback (widget_class, get_safety_icon_name);
 }
 
 static void
 bz_bundle_install_dialog_init (BzBundleInstallDialog *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+}
+
+static void
+bz_bundle_install_dialog_update_visible_page (BzBundleInstallDialog *self)
+{
+  if (self->entry == NULL)
+    return;
+
+  if (bz_entry_is_installed (self->entry))
+    gtk_stack_set_visible_child_name (self->main_stack, "installed");
+  else
+    gtk_stack_set_visible_child_name (self->main_stack, "carousel");
 }
 
 BzBundleInstallDialog *
@@ -263,6 +400,9 @@ void
 bz_bundle_install_dialog_set_entry (BzBundleInstallDialog *self,
                                     BzEntry               *entry)
 {
+  BzImportance importance = 0;
+  const char  *style      = NULL;
+
   g_return_if_fail (BZ_IS_BUNDLE_INSTALL_DIALOG (self));
   g_return_if_fail (entry == NULL || BZ_IS_ENTRY (entry));
 
@@ -272,6 +412,15 @@ bz_bundle_install_dialog_set_entry (BzBundleInstallDialog *self,
   g_clear_pointer (&self->entry, g_object_unref);
   if (entry != NULL)
     self->entry = g_object_ref (entry);
+
+  bz_bundle_install_dialog_update_visible_page (self);
+
+  if (self->entry != NULL)
+    {
+      importance = bz_safety_calculator_calculate_rating (self->entry);
+      style      = bz_safety_style_for_importance (importance);
+      gtk_widget_add_css_class (GTK_WIDGET (self->safety_icon), style);
+    }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENTRY]);
 }

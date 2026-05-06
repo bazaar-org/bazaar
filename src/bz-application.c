@@ -1847,8 +1847,8 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
           NULL);
 
       dialog = adw_dialog_new ();
-      adw_dialog_set_content_width (dialog, 400);
-      adw_dialog_set_content_height (dialog, 450);
+      adw_dialog_set_content_width (dialog, 500);
+      adw_dialog_set_content_height (dialog, -1);
       adw_dialog_set_child (dialog, GTK_WIDGET (install_ui));
 
       adw_dialog_present (dialog, GTK_WIDGET (window));
