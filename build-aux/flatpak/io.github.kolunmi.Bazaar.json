@@ -73,8 +73,8 @@
                         {
                             "type": "git",
                             "url": "https://github.com/mity/md4c.git",
-                            "commit": "729e6b8b320caa96328968ab27d7db2235e4fb47",
-                            "tag": "release-0.5.2",
+                            "commit": "472c417005c2c71b8617de4f7b8d6b30411d78f4",
+                            "tag": "release-0.5.3",
                             "x-checker-data": {
                                 "type": "git",
                                 "tag-pattern": "^release-([\\d.]+)$"
@@ -146,8 +146,8 @@
                         {
                             "type": "git",
                             "url": "https://github.com/flatpak/flatpak",
-                            "commit": "9b21874f1a175a9b7c79175a221fa043e202ca73",
-                            "tag": "1.17.6",
+                            "commit": "b4c53a4cfffd5dd471589249e35be6ab9e08b6a5",
+                            "tag": "1.17.7",
                             "x-checker-data": {
                                 "type": "git",
                                 "url-template": "$version",
@@ -361,8 +361,8 @@
                 {
                     "type": "git",
                     "url": "https://github.com/containers/bubblewrap",
-                    "commit": "124c4cdf4321f63ef17a1cb0ce8f9dd45bd7adbe",
-                    "tag": "v0.11.1",
+                    "commit": "1b80120ef26a28e065e67f89bfef873f13bdd317",
+                    "tag": "v0.11.2",
                     "x-checker-data": {
                         "type": "git",
                         "url-template": "$version"
