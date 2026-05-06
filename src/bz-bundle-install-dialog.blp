@@ -28,9 +28,18 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
             margin-start: 24;
             margin-end: 24;
 
-            Image {
+            Image icon {
               paintable: bind template.entry as <$BzEntry>.icon-paintable;
+              visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
+              use-fallback: true;
               pixel-size: 128;
+              margin-bottom: 12;
+            }
+
+            Image {
+              icon-name: "application-x-executable";
+              pixel-size: 128;
+              visible: bind $invert_boolean(icon.visible) as <bool>;
               margin-bottom: 12;
             }
 
@@ -103,11 +112,20 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
             margin-start: 48;
             margin-end: 48;
 
-            Image {
+            Image loading_icon{
               paintable: bind template.entry as <$BzEntry>.icon-paintable;
+              visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
               pixel-size: 128;
               margin-bottom: 12;
             }
+
+            Image {
+              icon-name: "application-x-executable";
+              pixel-size: 128;
+              visible: bind $invert_boolean(loading_icon.visible) as <bool>;
+              margin-bottom: 12;
+            }
+
 
             Label {
               label: bind template.entry as <$BzEntry>.title;
@@ -134,9 +152,17 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
             margin-start: 24;
             margin-end: 24;
 
-            Image {
+            Image end_icon {
               paintable: bind template.entry as <$BzEntry>.icon-paintable;
+              visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
               pixel-size: 128;
+              margin-bottom: 12;
+            }
+
+            Image {
+              icon-name: "application-x-executable";
+              pixel-size: 128;
+              visible: bind $invert_boolean(end_icon.visible) as <bool>;
               margin-bottom: 12;
             }
 
