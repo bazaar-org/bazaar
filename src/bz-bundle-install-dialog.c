@@ -222,10 +222,9 @@ get_safety_icon_name (gpointer object,
   switch (importance)
     {
     case BZ_IMPORTANCE_UNIMPORTANT:
-      return g_strdup ("app-safety-ok-symbolic");
     case BZ_IMPORTANCE_NEUTRAL:
-      return g_strdup ("permissions-sandboxed-symbolic");
     case BZ_IMPORTANCE_INFORMATION:
+      return g_strdup ("app-safety-ok-symbolic");
     case BZ_IMPORTANCE_WARNING:
       return g_strdup ("permissions-warning-symbolic");
     case BZ_IMPORTANCE_IMPORTANT:
