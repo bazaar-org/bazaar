@@ -28,6 +28,11 @@
 #include "bz-util.h"
 #include "bz-context-tile-callbacks.h"
 #include "bz-release.h"
+#include "bz-app-size-dialog.h"
+#include "bz-application-map-factory.h"
+#include "bz-application.h"
+#include "bz-safety-dialog.h"
+#include "bz-state-info.h"
 
 struct _BzBundleInstallDialog
 {
@@ -36,6 +41,7 @@ struct _BzBundleInstallDialog
   BzStateInfo *state;
   BzEntry     *entry;
 
+  AdwNavigationView *nav_view;
   GtkStack    *main_stack;
   AdwCarousel *carousel;
   GtkWidget   *page_info;
@@ -279,17 +285,16 @@ show_cb (BzBundleInstallDialog *self,
 }
 
 static void
-size_cb (BzBundleInstallDialog *self,
-         AdwActionRow          *row)
+permission_cb (AdwActionRow          *row,
+               BzBundleInstallDialog *self)
 {
-  /* TODO */
-}
+  AdwNavigationPage *page = NULL;
 
-static void
-permission_cb (BzBundleInstallDialog *self,
-               AdwActionRow          *row)
-{
-  /* TODO */
+  if (self->entry == NULL)
+    return;
+
+  page = bz_safety_dialog_page_new (self->entry);
+  adw_navigation_view_push (self->nav_view, page);
 }
 
 static void
@@ -322,6 +327,7 @@ bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
   bz_widget_class_bind_all_util_callbacks (widget_class);
   bz_widget_class_bind_all_context_tile_callbacks (widget_class);
 
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, nav_view);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, main_stack);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, carousel);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, page_info);
@@ -333,7 +339,6 @@ bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, install_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_cb);
   gtk_widget_class_bind_template_callback (widget_class, show_cb);
-  gtk_widget_class_bind_template_callback (widget_class, size_cb);
   gtk_widget_class_bind_template_callback (widget_class, permission_cb);
   gtk_widget_class_bind_template_callback (widget_class, get_version);
   gtk_widget_class_bind_template_callback (widget_class, get_disk_title);

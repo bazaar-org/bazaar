@@ -2,71 +2,261 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BzBundleInstallDialog: Adw.BreakpointBin {
-  child: Adw.ToolbarView {
-    [top]
-    Adw.HeaderBar {
-      title-widget: Label {
-        label: _("Bundle Installation");
-      };
+  child: Adw.NavigationView nav_view {
+    Adw.NavigationPage {
+      tag: "main";
+      title: _("Bundle Installation");
 
-      show-title: false;
-    }
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Label {
+            label: _("Bundle Installation");
+          };
 
-    content: Stack main_stack {
-      StackPage {
-        name: "carousel";
+          show-title: false;
+        }
 
-        child: Adw.Carousel carousel {
-          interactive: false;
-          spacing: 64;
+        content: Stack main_stack {
+          StackPage {
+            name: "carousel";
 
-          Box page_info {
-            orientation: vertical;
-            spacing: 16;
-            valign: center;
-            halign: fill;
-            margin-top: 24;
-            margin-bottom: 24;
-            margin-start: 24;
-            margin-end: 24;
+            child: Adw.Carousel carousel {
+              interactive: false;
+              spacing: 64;
 
-            Box {
-              orientation: horizontal;
-              spacing: 16;
-              halign: fill;
-              valign: start;
-
-              Image icon {
-                paintable: bind template.entry as <$BzEntry>.icon-paintable;
-                visible: bind $invert_boolean(
-                  $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
-                ) as <bool>;
-                use-fallback: true;
-                pixel-size: 96;
-                halign: start;
-                valign: center;
-              }
-
-              Image {
-                icon-name: "application-x-executable";
-                pixel-size: 96;
-                visible: bind $invert_boolean(icon.visible) as <bool>;
-                halign: start;
-                valign: center;
-              }
-
-              Box {
+              Box page_info {
                 orientation: vertical;
-                spacing: 2;
+                spacing: 16;
                 valign: center;
-                hexpand: true;
+                halign: fill;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 24;
+                margin-end: 24;
+
+                Box {
+                  orientation: horizontal;
+                  spacing: 16;
+                  halign: fill;
+                  valign: start;
+
+                  Image icon {
+                    paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                    visible: bind $invert_boolean(
+                      $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                    ) as <bool>;
+                    use-fallback: true;
+                    pixel-size: 96;
+                    halign: start;
+                    valign: center;
+                  }
+
+                  Image {
+                    icon-name: "application-x-executable";
+                    pixel-size: 96;
+                    visible: bind $invert_boolean(icon.visible) as <bool>;
+                    halign: start;
+                    valign: center;
+                  }
+
+                  Box {
+                    orientation: vertical;
+                    spacing: 2;
+                    valign: center;
+                    hexpand: true;
+
+                    Label {
+                      label: bind template.entry as <$BzEntry>.title;
+                      wrap: true;
+                      wrap-mode: word_char;
+                      halign: fill;
+                      xalign: 0;
+
+                      styles [
+                        "title-3",
+                      ]
+                    }
+
+                    Label {
+                      label: bind template.entry as <$BzEntry>.developer;
+                      wrap: true;
+                      wrap-mode: word_char;
+                      halign: fill;
+                      xalign: 0;
+                      visible: bind $not($is_empty_string(template.entry as <$BzEntry>.developer) as <bool>) as <bool>;
+
+                      styles [
+                        "dim-label",
+                      ]
+                    }
+
+                    Label {
+                      label: bind $get_version(template.entry as <$BzEntry>.version-history);
+                      visible: bind $not(
+                        $is_empty_string($get_version(template.entry as <$BzEntry>.version-history) as <string>) as <bool>
+                      ) as <bool>;
+                      halign: start;
+
+                      styles [
+                        "dim-label",
+                        "caption",
+                      ]
+                    }
+                  }
+
+                  Button {
+                    styles [
+                      "suggested-action",
+                      "pill",
+                    ]
+
+                    valign: center;
+                    halign: end;
+                    label: _("Install");
+                    clicked => $install_cb(template);
+                  }
+                }
+
+                Adw.PreferencesGroup {
+                  margin-top: 12;
+
+                  Adw.ActionRow {
+                    [prefix]
+                    Image {
+                      icon-name: "drive-harddisk-symbolic";
+                      valign: center;
+
+                      styles [
+                        "circular-lozenge",
+                        "grey",
+                      ]
+                    }
+
+                    title: bind $get_disk_title(template.entry as <$BzEntry>.installed-size);
+                    subtitle: _("Additional dependencies may take extra space");
+                  }
+
+                  Adw.ActionRow {
+                    [prefix]
+                    Image safety_icon {
+                      icon-name: bind $get_safety_icon_name(template.entry as <$BzEntry>);
+                      valign: center;
+
+                      styles [
+                        "circular-lozenge",
+                      ]
+                    }
+
+                    [suffix]
+                    Image {
+                      icon-name: "go-next-symbolic";
+                    }
+
+                    title: bind $get_safety_rating_label(template.entry);
+                    subtitle: bind $get_safety_subtitle(template.entry);
+                    subtitle-lines: 1;
+                    activatable: true;
+                    activated => $permission_cb();
+                  }
+                }
+
+                Label {
+                  label: _(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
+                  );
+                  wrap: true;
+                  wrap-mode: word_char;
+                  halign: start;
+
+                  styles [
+                    "body",
+                  ]
+                }
+
+                Adw.PreferencesGroup {
+                  Adw.ActionRow {
+                    title: _("Placeholder Row");
+                    activatable: true;
+                  }
+                }
+              }
+
+              Box page_progress {
+                orientation: vertical;
+                spacing: 12;
+                valign: center;
+                halign: fill;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 48;
+                margin-end: 48;
+
+                Image loading_icon {
+                  paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                  visible: bind $invert_boolean(
+                    $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                  ) as <bool>;
+                  pixel-size: 128;
+                  margin-bottom: 12;
+                }
+
+                Image {
+                  icon-name: "application-x-executable";
+                  pixel-size: 128;
+                  visible: bind $invert_boolean(loading_icon.visible) as <bool>;
+                  margin-bottom: 12;
+                }
 
                 Label {
                   label: bind template.entry as <$BzEntry>.title;
                   wrap: true;
                   wrap-mode: word_char;
-                  halign: fill;
-                  xalign: 0;
+                  halign: center;
+
+                  styles [
+                    "title-3",
+                  ]
+                }
+
+                ProgressBar progress_bar {
+                  margin-top: 16;
+                  pulse-step: 0.05;
+                  width-request: 250;
+                }
+              }
+
+              Box page_finish {
+                orientation: vertical;
+                spacing: 8;
+                valign: center;
+                halign: fill;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 24;
+                margin-end: 24;
+
+                Image end_icon {
+                  paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                  visible: bind $invert_boolean(
+                    $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                  ) as <bool>;
+                  pixel-size: 128;
+                  margin-bottom: 12;
+                }
+
+                Image {
+                  icon-name: "application-x-executable";
+                  pixel-size: 128;
+                  visible: bind $invert_boolean(end_icon.visible) as <bool>;
+                  margin-bottom: 12;
+                }
+
+                Label {
+                  label: bind template.entry as <$BzEntry>.title;
+                  wrap: true;
+                  wrap-mode: word_char;
+                  halign: center;
 
                   styles [
                     "title-3",
@@ -74,317 +264,139 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                 }
 
                 Label {
-                  label: bind template.entry as <$BzEntry>.developer;
-                  wrap: true;
-                  wrap-mode: word_char;
-                  halign: fill;
-                  xalign: 0;
-                  visible: bind $not($is_empty_string(template.entry as <$BzEntry>.developer) as <bool>) as <bool>;
+                  label: _("Successfully Installed!");
+                  halign: center;
+                  margin-bottom: 16;
+                  margin-top: 8;
 
                   styles [
                     "dim-label",
                   ]
                 }
 
-                Label {
-                  label: bind $get_version(template.entry as <$BzEntry>.version-history);
-                  visible: bind $not($is_empty_string($get_version(template.entry as <$BzEntry>.version-history) as <string>) as <bool>) as <bool>;
-                  halign: start;
-                  styles ["dim-label", "caption"]
+                Box {
+                  width-request: 40;
+                  orientation: vertical;
+                  spacing: 8;
+                  margin-top: 8;
+                  halign: center;
+
+                  Button open_btn {
+                    styles [
+                      "suggested-action",
+                      "pill",
+                    ]
+
+                    halign: fill;
+                    label: _("Open");
+                    clicked => $run_cb(template);
+                  }
+
+                  Button show_in_store_btn {
+                    styles [
+                      "pill",
+                    ]
+
+                    halign: fill;
+                    label: _("Show in Store");
+                    clicked => $show_cb(template);
+                  }
                 }
               }
-
-              Button {
-                styles [
-                  "suggested-action",
-                  "pill",
-                ]
-
-                valign: center;
-                halign: end;
-                label: _("Install");
-                clicked => $install_cb(template);
-              }
-            }
-
-            Adw.PreferencesGroup {
-              margin-top: 12;
-
-              Adw.ActionRow {
-                [prefix]
-                Image {
-                  icon-name: "drive-harddisk-symbolic";
-                  valign: center;
-
-                  styles [
-                    "circular-lozenge",
-                    "grey",
-                  ]
-                }
-
-                [suffix]
-                Image {
-                  icon-name: "go-next-symbolic";
-                }
-
-                title: bind $get_disk_title(template.entry as <$BzEntry>.installed-size);
-                subtitle: _("Additional dependencies may take extra space");
-                activatable: true;
-                activated => $size_cb();
-              }
-
-              Adw.ActionRow {
-                [prefix]
-                Image safety_icon {
-                  icon-name: bind $get_safety_icon_name(template.entry as <$BzEntry>);
-                  valign: center;
-
-                  styles [
-                    "circular-lozenge",
-                  ]
-                }
-
-                [suffix]
-                Image {
-                  icon-name: "go-next-symbolic";
-                }
-
-                title: bind $get_safety_rating_label(template.entry);
-                subtitle: bind $get_safety_subtitle(template.entry);
-                subtitle-lines: 1;
-                activatable: true;
-                activated => $permission_cb();
-              }
-            }
-
-            Label {
-              label: _(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-              );
-              wrap: true;
-              wrap-mode: word_char;
-              halign: start;
-
-              styles [
-                "body",
-              ]
-            }
-
-            Adw.PreferencesGroup {
-              Adw.ActionRow {
-                title: _("Placeholder Row");
-                activatable: true;
-              }
-            }
+            };
           }
 
-          Box page_progress {
-            orientation: vertical;
-            spacing: 12;
-            valign: center;
-            halign: fill;
-            margin-top: 24;
-            margin-bottom: 24;
-            margin-start: 48;
-            margin-end: 48;
+          StackPage {
+            name: "installed";
 
-            Image loading_icon {
-              paintable: bind template.entry as <$BzEntry>.icon-paintable;
-              visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-              pixel-size: 128;
-              margin-bottom: 12;
-            }
-
-            Image {
-              icon-name: "application-x-executable";
-              pixel-size: 128;
-              visible: bind $invert_boolean(loading_icon.visible) as <bool>;
-              margin-bottom: 12;
-            }
-
-            Label {
-              label: bind template.entry as <$BzEntry>.title;
-              wrap: true;
-              wrap-mode: word_char;
-              halign: center;
-
-              styles [
-                "title-3",
-              ]
-            }
-
-            ProgressBar progress_bar {
-              margin-top: 16;
-              pulse-step: 0.05;
-              width-request: 250;
-            }
-          }
-
-          Box page_finish {
-            orientation: vertical;
-            spacing: 8;
-            valign: center;
-            halign: fill;
-            margin-top: 24;
-            margin-bottom: 24;
-            margin-start: 24;
-            margin-end: 24;
-
-            Image end_icon {
-              paintable: bind template.entry as <$BzEntry>.icon-paintable;
-              visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-              pixel-size: 128;
-              margin-bottom: 12;
-            }
-
-            Image {
-              icon-name: "application-x-executable";
-              pixel-size: 128;
-              visible: bind $invert_boolean(end_icon.visible) as <bool>;
-              margin-bottom: 12;
-            }
-
-            Label {
-              label: bind template.entry as <$BzEntry>.title;
-              wrap: true;
-              wrap-mode: word_char;
-              halign: center;
-
-              styles [
-                "title-3",
-              ]
-            }
-
-            Label {
-              label: _("Successfully Installed!");
-              halign: center;
-              margin-bottom: 16;
-              margin-top: 8;
-
-              styles [
-                "dim-label",
-              ]
-            }
-
-            Box {
-              width-request: 40;
+            child: Box {
               orientation: vertical;
               spacing: 8;
-              margin-top: 8;
-              halign: center;
+              valign: center;
+              halign: fill;
+              margin-top: 24;
+              margin-bottom: 24;
+              margin-start: 24;
+              margin-end: 24;
 
-              Button open_btn {
-                styles [
-                  "suggested-action",
-                  "pill",
-                ]
-
-                halign: fill;
-                label: _("Open");
-                clicked => $run_cb(template);
+              Image installed_icon {
+                paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                visible: bind $invert_boolean(
+                  $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                ) as <bool>;
+                pixel-size: 128;
+                margin-bottom: 12;
               }
 
-              Button show_in_store_btn {
+              Image {
+                icon-name: "application-x-executable";
+                pixel-size: 128;
+                visible: bind $invert_boolean(installed_icon.visible) as <bool>;
+                margin-bottom: 12;
+              }
+
+              Label {
+                label: bind template.entry as <$BzEntry>.title;
+                wrap: true;
+                wrap-mode: word_char;
+                halign: center;
+
                 styles [
-                  "pill",
+                  "title-3",
+                ]
+              }
+
+              Label {
+                label: _("Already Installed");
+
+                styles [
+                  "dim-label",
+                  "caption",
                 ]
 
-                halign: fill;
-                label: _("Show in Store");
-                clicked => $show_cb(template);
+                halign: center;
               }
-            }
+
+              Box {
+                orientation: vertical;
+                spacing: 8;
+                margin-top: 24;
+                halign: center;
+
+                Button {
+                  styles [
+                    "suggested-action",
+                    "pill",
+                  ]
+
+                  halign: fill;
+                  label: _("Open");
+                  clicked => $run_cb(template);
+                }
+
+                Button {
+                  styles [
+                    "pill",
+                  ]
+
+                  halign: fill;
+                  label: _("Show in Store");
+                  clicked => $show_cb(template);
+                }
+              }
+            };
+          }
+
+          StackPage {
+            name: "error";
+
+            child: Adw.StatusPage error_status {
+              icon-name: "sad-computer-symbolic";
+              title: _("Installation Failed");
+            };
           }
         };
-      }
-
-      StackPage {
-        name: "installed";
-
-        child: Box {
-          orientation: vertical;
-          spacing: 8;
-          valign: center;
-          halign: fill;
-          margin-top: 24;
-          margin-bottom: 24;
-          margin-start: 24;
-          margin-end: 24;
-
-          Image installed_icon {
-            paintable: bind template.entry as <$BzEntry>.icon-paintable;
-            visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-            pixel-size: 128;
-            margin-bottom: 12;
-          }
-
-          Image {
-            icon-name: "application-x-executable";
-            pixel-size: 128;
-            visible: bind $invert_boolean(installed_icon.visible) as <bool>;
-            margin-bottom: 12;
-          }
-
-          Label {
-            label: bind template.entry as <$BzEntry>.title;
-            wrap: true;
-            wrap-mode: word_char;
-            halign: center;
-
-            styles [
-              "title-3",
-            ]
-          }
-
-          Label {
-            label: _("Already Installed");
-
-            styles [
-              "dim-label",
-              "caption",
-            ]
-
-            halign: center;
-          }
-
-          Box {
-            orientation: vertical;
-            spacing: 8;
-            margin-top: 24;
-            halign: center;
-
-            Button {
-              styles [
-                "suggested-action",
-                "pill",
-              ]
-
-              halign: fill;
-              label: _("Open");
-              clicked => $run_cb(template);
-            }
-
-            Button {
-              styles [
-                "pill",
-              ]
-
-              halign: fill;
-              label: _("Show in Store");
-              clicked => $show_cb(template);
-            }
-          }
-        };
-      }
-
-      StackPage {
-        name: "error";
-
-        child: Adw.StatusPage error_status {
-          icon-name: "sad-computer-symbolic";
-          title: _("Installation Failed");
-        };
-      }
-    };
+      };
+    }
   };
 }
