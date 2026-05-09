@@ -1,0 +1,267 @@
+defwidget "Transact Icon" {
+  reference info : "BzTransactIconInfo";
+  var progress : "gdouble";
+
+  var icon-scale : "gdouble";
+
+  var flag : "GtkFixed";
+  var icon : "GtkPicture";
+
+  var start : "gdouble";
+  var end : "gdouble";
+
+  var path : "GskPath";
+  var path-measure : "GskPathMeasure";
+  var path-width : "gdouble";
+  var path-opacity : "gdouble";
+
+  var t-x : "gdouble";
+  var t-y : "gdouble";
+  var tr-x : "gdouble";
+  var tr-y : "gdouble";
+  var r-x : "gdouble";
+  var r-y : "gdouble";
+  var br-x : "gdouble";
+  var br-y : "gdouble";
+  var b-x : "gdouble";
+  var b-y : "gdouble";
+  var bl-x : "gdouble";
+  var bl-y : "gdouble";
+  var l-x : "gdouble";
+  var l-y : "gdouble";
+  var tl-x : "gdouble";
+  var tl-y : "gdouble";
+
+  var f-t-x : "gdouble";
+  var f-t-y : "gdouble";
+  var f-tr-x : "gdouble";
+  var f-tr-y : "gdouble";
+  var f-r-x : "gdouble";
+  var f-r-y : "gdouble";
+  var f-br-x : "gdouble";
+  var f-br-y : "gdouble";
+  var f-b-x : "gdouble";
+  var f-b-y : "gdouble";
+  var f-bl-x : "gdouble";
+  var f-bl-y : "gdouble";
+  var f-l-x : "gdouble";
+  var f-l-y : "gdouble";
+  var f-tl-x : "gdouble";
+  var f-tl-y : "gdouble";
+
+  init {
+    set progress = #transition(info:tracker:progress, 1.1, 0.1, 10.0);
+
+    set flag = #child/(""("transact-icon-flag") can-target = false;);
+    allocate flag #eval(#(%width%)+#(path-width)*2.0),
+                  #eval(#(%height%)+#(path-width)*2.0),
+                  #(translate(#GraphenePoint(#eval(-#(path-width)), #eval(-#(path-width)))););
+
+    set icon = #child/(""("icon-dropshadow")
+      paintable = info:paintable;
+    );
+    allocate icon %width%, %height%, #();
+
+    set f-t-x  = #eval(#(%width%)*#(t-x)  );
+    set f-t-y  = #eval(#(%height%)*#(t-y) );
+    set f-tr-x = #eval(#(%width%)*#(tr-x) );
+    set f-tr-y = #eval(#(%height%)*#(tr-y));
+    set f-r-x  = #eval(#(%width%)*#(r-x)  );
+    set f-r-y  = #eval(#(%height%)*#(r-y) );
+    set f-br-x = #eval(#(%width%)*#(br-x) );
+    set f-br-y = #eval(#(%height%)*#(br-y));
+    set f-b-x  = #eval(#(%width%)*#(b-x)  );
+    set f-b-y  = #eval(#(%height%)*#(b-y) );
+    set f-bl-x = #eval(#(%width%)*#(bl-x) );
+    set f-bl-y = #eval(#(%height%)*#(bl-y));
+    set f-l-x  = #eval(#(%width%)*#(l-x)  );
+    set f-l-y  = #eval(#(%height%)*#(l-y) );
+    set f-tl-x = #eval(#(%width%)*#(tl-x) );
+    set f-tl-y = #eval(#(%height%)*#(tl-y));
+
+    set path = #GskPath(
+      move-to(f-t-x, f-t-y);
+
+      arc-to(f-tr-x, f-tr-y, f-r-x, f-r-y);
+      arc-to(f-br-x, f-br-y, f-b-x, f-b-y);
+      arc-to(f-bl-x, f-bl-y, f-l-x, f-l-y);
+      arc-to(f-tl-x, f-tl-y, f-t-x, f-t-y);
+
+      close();
+    );
+    set path-measure = #measure-path(path);
+
+    snapshot {
+      save {
+        move translate(#GraphenePoint(#eval((#(%width%)/2.0)*(1.0-#(icon-scale))),
+                                      #eval((#(%height%)/2.0)*(1.0-#(icon-scale)))));
+        move scale(icon-scale, icon-scale);
+        do-child icon;
+      }
+      with opacity(path-opacity) {
+        with stroke(
+          #GskPath(
+            add-segment(
+              path,
+              #path-point(path-measure, #eval((#(start)%1.0)*#(#path-length(path-measure)))),
+              #path-point(path-measure, #eval((#(end)%1.0)*#(#path-length(path-measure)))),
+            );
+          ),
+          #GskStroke(path-width, round, round, 0.0),
+        ) {
+          do-child flag;
+        }
+      }
+    }
+  }
+
+  state-default "inactive" {
+    set icon-scale = 1.0;
+    transition-spring icon-scale 1.0, 0.1, 15.0;
+    
+    set start = 0.0;
+    set end = 1.0;
+    transition-spring start 1.0, 0.1, 5.0;
+    transition-spring end 1.0, 0.1, 5.0;
+    
+    set path-opacity = 0.0;
+    transition-spring path-opacity 1.0, 0.1, 50.0;
+
+    set path-width = 5.0;
+    transition-spring path-width 1.0, 0.1, 5.0;
+
+    set t-x  = 0.5;
+    set t-y  = 0.0;
+    set tr-x = 1.0;
+    set tr-y = 0.0;
+    set r-x  = 1.0;
+    set r-y  = 0.5;
+    set br-x = 1.0;
+    set br-y = 1.0;
+    set b-x  = 0.5;
+    set b-y  = 1.0;
+    set bl-x = 0.0;
+    set bl-y = 1.0;
+    set l-x  = 0.0;
+    set l-y  = 0.5;
+    set tl-x = 0.0;
+    set tl-y = 0.0;
+
+    transition-spring t-x  1.0, 0.1, 10.0;
+    transition-spring t-y  1.0, 0.1, 10.0;
+    transition-spring tr-x 1.0, 0.1, 10.0;
+    transition-spring tr-y 1.0, 0.1, 10.0;
+    transition-spring r-x  1.0, 0.1, 10.0;
+    transition-spring r-y  1.0, 0.1, 10.0;
+    transition-spring br-x 1.0, 0.1, 10.0;
+    transition-spring br-y 1.0, 0.1, 10.0;
+    transition-spring b-x  1.0, 0.1, 10.0;
+    transition-spring b-y  1.0, 0.1, 10.0;
+    transition-spring bl-x 1.0, 0.1, 10.0;
+    transition-spring bl-y 1.0, 0.1, 10.0;
+    transition-spring l-x  1.0, 0.1, 10.0;
+    transition-spring l-y  1.0, 0.1, 10.0;
+    transition-spring tl-x 1.0, 0.1, 10.0;
+    transition-spring tl-y 1.0, 0.1, 10.0;
+  }
+  
+  state "pending" {
+    set icon-scale = 0.5;
+    transition-spring icon-scale 1.0, 0.1, 15.0;
+    
+    set start = 0.0;
+    set end = 1.0;
+    transition-spring start 1.0, 0.1, 5.0;
+    transition-spring end 1.0, 0.1, 5.0;
+    
+    set path-opacity = 1.0;
+    transition-spring path-opacity 1.0, 0.1, 5.0;
+
+    set path-width = 2.0;
+    transition-spring path-width 1.0, 0.1, 5.0;
+    
+    set t-x  = #eval(0.5+sin(#(%tick%))*0.1);
+    set t-y  = 0.0;
+    set tr-x = r-x;
+    set tr-y = t-y;
+    set r-x  = 1.0;
+    set r-y  = #eval(0.5+cos(#(%tick%))*0.1);
+    set br-x = r-x;
+    set br-y = b-y;
+    set b-x  = #eval(0.5+sin(#(%tick%))*0.1);
+    set b-y  = 1.0;
+    set bl-x = l-x;
+    set bl-y = b-y;
+    set l-x  = 0.0;
+    set l-y  = #eval(0.5+cos(#(%tick%))*0.1);
+    set tl-x = l-x;
+    set tl-y = t-y;
+
+    transition-spring t-x  1.0, 0.1, 10.0;
+    transition-spring t-y  1.0, 0.1, 10.0;
+    transition-spring tr-x 1.0, 0.1, 10.0;
+    transition-spring tr-y 1.0, 0.1, 10.0;
+    transition-spring r-x  1.0, 0.1, 10.0;
+    transition-spring r-y  1.0, 0.1, 10.0;
+    transition-spring br-x 1.0, 0.1, 10.0;
+    transition-spring br-y 1.0, 0.1, 10.0;
+    transition-spring b-x  1.0, 0.1, 10.0;
+    transition-spring b-y  1.0, 0.1, 10.0;
+    transition-spring bl-x 1.0, 0.1, 10.0;
+    transition-spring bl-y 1.0, 0.1, 10.0;
+    transition-spring l-x  1.0, 0.1, 10.0;
+    transition-spring l-y  1.0, 0.1, 10.0;
+    transition-spring tl-x 1.0, 0.1, 10.0;
+    transition-spring tl-y 1.0, 0.1, 10.0;
+  }
+
+  state "fraction" {
+    set icon-scale = 0.6;
+    transition-spring icon-scale 1.0, 0.1, 15.0;
+    
+    set start = 0.0;
+    set end = progress;
+    transition-spring start 1.0, 0.1, 5.0;
+    transition-spring end 1.0, 0.1, 5.0;
+    
+    set path-opacity = 1.0;
+    transition-spring path-opacity 1.0, 0.1, 5.0;
+
+    set path-width = 4.0;
+    transition-spring path-width 1.0, 0.1, 5.0;
+
+    set t-x  = 0.5;
+    set t-y  = 0.0;
+    set tr-x = 1.0;
+    set tr-y = 0.0;
+    set r-x  = 1.0;
+    set r-y  = 0.5;
+    set br-x = 1.0;
+    set br-y = 1.0;
+    set b-x  = 0.5;
+    set b-y  = 1.0;
+    set bl-x = 0.0;
+    set bl-y = 1.0;
+    set l-x  = 0.0;
+    set l-y  = 0.5;
+    set tl-x = 0.0;
+    set tl-y = 0.0;
+
+    transition-spring t-x  1.0, 0.1, 10.0;
+    transition-spring t-y  1.0, 0.1, 10.0;
+    transition-spring tr-x 1.0, 0.1, 10.0;
+    transition-spring tr-y 1.0, 0.1, 10.0;
+    transition-spring r-x  1.0, 0.1, 10.0;
+    transition-spring r-y  1.0, 0.1, 10.0;
+    transition-spring br-x 1.0, 0.1, 10.0;
+    transition-spring br-y 1.0, 0.1, 10.0;
+    transition-spring b-x  1.0, 0.1, 10.0;
+    transition-spring b-y  1.0, 0.1, 10.0;
+    transition-spring bl-x 1.0, 0.1, 10.0;
+    transition-spring bl-y 1.0, 0.1, 10.0;
+    transition-spring l-x  1.0, 0.1, 10.0;
+    transition-spring l-y  1.0, 0.1, 10.0;
+    transition-spring tl-x 1.0, 0.1, 10.0;
+    transition-spring tl-y 1.0, 0.1, 10.0;
+  }
+}

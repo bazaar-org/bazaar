@@ -209,6 +209,7 @@
     <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.google.svg</file>
 
     <file>bz-install-controls.wdgt</file>
+    <file>bz-transact-icon.wdgt</file>
 
   </gresource>
 </gresources>

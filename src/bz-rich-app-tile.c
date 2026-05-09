@@ -19,9 +19,11 @@
  */
 
 #include "bz-rich-app-tile.h"
+#include "bz-application.h"
 #include "bz-entry.h"
 #include "bz-rounded-picture.h"
 #include "bz-themed-entry-group-rect.h"
+#include "bz-transact-icon.h"
 #include "bz-util.h"
 
 #include <glib/gi18n.h>
@@ -34,7 +36,8 @@ struct _BzRichAppTile
   DexFuture    *ui_entry_resolve;
   gboolean      removable_at_start;
 
-  GtkWidget *picture_box;
+  GtkWidget          *picture_box;
+  BzTransactIconInfo *transact_icon_info;
 };
 
 G_DEFINE_FINAL_TYPE (BzRichAppTile, bz_rich_app_tile, BZ_TYPE_LIST_TILE);
@@ -236,6 +239,7 @@ bz_rich_app_tile_class_init (BzRichAppTileClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
+  g_type_ensure (BZ_TYPE_TRANSACT_ICON);
   g_type_ensure (BZ_TYPE_LIST_TILE);
   g_type_ensure (BZ_TYPE_ROUNDED_PICTURE);
   g_type_ensure (BZ_TYPE_THEMED_ENTRY_GROUP_RECT);
@@ -249,6 +253,7 @@ bz_rich_app_tile_class_init (BzRichAppTileClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, remove_button_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_button_clicked_cb);
   gtk_widget_class_bind_template_child (widget_class, BzRichAppTile, picture_box);
+  gtk_widget_class_bind_template_child (widget_class, BzRichAppTile, transact_icon_info);
 
   gtk_widget_class_set_accessible_role (widget_class, GTK_ACCESSIBLE_ROLE_BUTTON);
 }
@@ -257,6 +262,11 @@ static void
 bz_rich_app_tile_init (BzRichAppTile *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  /* This is bad; should get state from rich app tile */
+  bz_transact_icon_info_set_state (
+      self->transact_icon_info,
+      bz_state_info_get_default ());
 }
 
 GtkWidget *
