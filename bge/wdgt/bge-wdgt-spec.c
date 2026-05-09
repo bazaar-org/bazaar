@@ -5825,17 +5825,18 @@ set_value (BgeWdgtRenderer   *self,
 
         if (dest_obj != NULL)
           {
-            GValue src_resolved = G_VALUE_INIT;
+            gboolean resolved     = FALSE;
+            GValue   src_resolved = G_VALUE_INIT;
 
-            gtk_expression_evaluate (
+            resolved = gtk_expression_evaluate (
                 src_expression,
                 self,
                 &src_resolved);
-
-            g_object_set_property (
-                dest_obj,
-                dest->property.prop_name,
-                &src_resolved);
+            if (resolved)
+              g_object_set_property (
+                  dest_obj,
+                  dest->property.prop_name,
+                  &src_resolved);
             g_value_unset (&src_resolved);
           }
 
