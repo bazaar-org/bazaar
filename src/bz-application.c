@@ -45,6 +45,7 @@
 #include "bz-flathub-state.h"
 #include "bz-flatpak-entry.h"
 #include "bz-flatpak-instance.h"
+#include "bz-flatpak-bundle-result.h"
 #include "bz-gnome-shell-search-provider.h"
 #include "bz-hash-table-object.h"
 #include "bz-inspector.h"
@@ -1832,14 +1833,24 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
 
   if (G_VALUE_HOLDS_OBJECT (value))
     {
-      GtkWindow             *window     = get_or_create_window (self);
-      BzEntry               *entry      = NULL;
-      BzBundleInstallDialog *install_ui = NULL;
-      AdwDialog             *dialog     = NULL;
-      const char            *id         = NULL;
+      GtkWindow             *window        = NULL;
+      BzEntry               *entry         = NULL;
+      BzFlatpakRepo         *repo          = NULL;
+      BzBundleInstallDialog *install_ui    = NULL;
+      BzFlatpakBundleResult *bundle_result = NULL;
+      AdwDialog             *dialog        = NULL;
+      const char            *id            = NULL;
 
-      entry = g_value_get_object (value);
-      id    = bz_entry_get_id (entry);
+      window = get_or_create_window (self);
+
+      if (adw_application_window_get_visible_dialog (ADW_APPLICATION_WINDOW (window)) != NULL)
+        window = new_window (self);
+
+      bundle_result = BZ_FLATPAK_BUNDLE_RESULT (g_value_get_object (value));
+      entry         = BZ_ENTRY (bz_flatpak_bundle_result_get_entry (bundle_result));
+      repo          = bz_flatpak_bundle_result_get_runtime_repo (bundle_result);
+
+      id = bz_entry_get_id (entry);
 
       if (id != NULL)
         {
@@ -1852,8 +1863,9 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
 
       install_ui = g_object_new (
           BZ_TYPE_BUNDLE_INSTALL_DIALOG,
-          "state", self->state,
-          "entry", entry,
+          "state",        self->state,
+          "entry",        entry,
+          "runtime-repo", repo,
           NULL);
 
       dialog = adw_dialog_new ();

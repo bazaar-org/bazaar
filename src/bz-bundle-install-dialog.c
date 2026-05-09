@@ -21,36 +21,40 @@
 #include <glib/gi18n.h>
 
 #include "bz-app-permissions.h"
-#include "bz-bundle-install-dialog.h"
-#include "bz-env.h"
-#include "bz-template-callbacks.h"
-#include "bz-safety-calculator.h"
-#include "bz-util.h"
-#include "bz-context-tile-callbacks.h"
-#include "bz-release.h"
 #include "bz-app-size-dialog.h"
 #include "bz-application-map-factory.h"
 #include "bz-application.h"
+#include "bz-async-texture.h"
+#include "bz-bundle-install-dialog.h"
+#include "bz-context-tile-callbacks.h"
+#include "bz-env.h"
+#include "bz-flatpak-repo.h"
+#include "bz-release.h"
+#include "bz-safety-calculator.h"
 #include "bz-safety-dialog.h"
 #include "bz-state-info.h"
+#include "bz-template-callbacks.h"
+#include "bz-util.h"
 
 struct _BzBundleInstallDialog
 {
   AdwBreakpointBin parent_instance;
 
-  BzStateInfo *state;
-  BzEntry     *entry;
+  BzStateInfo   *state;
+  BzEntry       *entry;
+  BzFlatpakRepo *runtime_repo;
 
   AdwNavigationView *nav_view;
-  GtkStack    *main_stack;
-  AdwCarousel *carousel;
-  GtkWidget   *page_info;
-  GtkWidget   *page_progress;
-  GtkWidget   *page_finish;
+  GtkStack          *main_stack;
+  AdwCarousel       *carousel;
+  GtkWidget         *page_info;
+  GtkWidget         *page_progress;
+  GtkWidget         *page_finish;
 
   GtkProgressBar *progress_bar;
   AdwStatusPage  *error_status;
-  GtkImage *safety_icon;
+  GtkImage       *safety_icon;
+  GtkImage       *bundle_image;
 
   guint pulse_source_id;
 };
@@ -63,6 +67,7 @@ enum
 
   PROP_STATE,
   PROP_ENTRY,
+  PROP_RUNTIME_REPO,
 
   LAST_PROP
 };
@@ -79,6 +84,7 @@ bz_bundle_install_dialog_dispose (GObject *object)
   g_clear_handle_id (&self->pulse_source_id, g_source_remove);
   g_clear_pointer (&self->state, g_object_unref);
   g_clear_pointer (&self->entry, g_object_unref);
+  g_clear_pointer (&self->runtime_repo, g_object_unref);
 
   G_OBJECT_CLASS (bz_bundle_install_dialog_parent_class)->dispose (object);
 }
@@ -98,6 +104,9 @@ bz_bundle_install_dialog_get_property (GObject    *object,
       break;
     case PROP_ENTRY:
       g_value_set_object (value, bz_bundle_install_dialog_get_entry (self));
+      break;
+    case PROP_RUNTIME_REPO:
+      g_value_set_object (value, bz_bundle_install_dialog_get_runtime_repo (self));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -119,6 +128,9 @@ bz_bundle_install_dialog_set_property (GObject      *object,
       break;
     case PROP_ENTRY:
       bz_bundle_install_dialog_set_entry (self, g_value_get_object (value));
+      break;
+    case PROP_RUNTIME_REPO:
+      bz_bundle_install_dialog_set_runtime_repo (self, g_value_get_object (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -154,24 +166,24 @@ get_disk_title (gpointer object,
   g_autofree char *size_str = NULL;
 
   if (installed_size == 0)
-    return g_strdup (_("Unknown install size"));
+    return g_strdup (_ ("Unknown install size"));
 
   size_str = g_format_size (installed_size);
-  return g_strdup_printf (_("About %s to install"), size_str);
+  return g_strdup_printf (_ ("About %s to install"), size_str);
 }
 
 static char *
 get_safety_subtitle (gpointer object,
                      BzEntry *entry)
 {
-  g_autoptr (GListModel) model   = NULL;
-  g_autoptr (GString)    result  = NULL;
-  guint                  n_items = 0;
-  guint                  n_picked = 0;
-  guint                  n_total  = 0;
+  g_autoptr (GListModel) model = NULL;
+  g_autoptr (GString) result   = NULL;
+  guint n_items                = 0;
+  guint n_picked               = 0;
+  guint n_total                = 0;
 
   if (entry == NULL)
-    return g_strdup (_("N/A"));
+    return g_strdup (_ ("N/A"));
 
   model   = bz_safety_calculator_analyze_entry (entry);
   n_items = g_list_model_get_n_items (model);
@@ -180,7 +192,7 @@ get_safety_subtitle (gpointer object,
   for (guint i = 0; i < n_items; i++)
     {
       g_autoptr (BzSafetyRow) row = g_list_model_get_item (model, i);
-      BzImportance importance     = BZ_IMPORTANCE_UNIMPORTANT;
+      BzImportance     importance = BZ_IMPORTANCE_UNIMPORTANT;
       g_autofree char *title      = NULL;
 
       g_object_get (row, "importance", &importance, "title", &title, NULL);
@@ -200,7 +212,7 @@ get_safety_subtitle (gpointer object,
     }
 
   if (n_picked == 0)
-    return g_strdup (_("No special permissions"));
+    return g_strdup (_ ("No special permissions"));
 
   if (n_total > 2)
     g_string_append (result, ", …");
@@ -232,6 +244,35 @@ get_safety_icon_name (gpointer object,
     default:
       return g_strdup ("app-safety-unknown-symbolic");
     }
+}
+
+static char *
+format_url (gpointer    object,
+            const char *url)
+{
+  g_autoptr (GUri) uri = NULL;
+  const char *host     = NULL;
+
+  if (url == NULL ||
+      (uri = g_uri_parse (url, G_URI_FLAGS_NONE, NULL)) == NULL ||
+      (host = g_uri_get_host (uri)) == NULL)
+    return g_strdup (url);
+
+  return g_strdup (host);
+}
+
+static GtkAlign
+get_header_halign (gpointer       object,
+                   BzFlatpakRepo *runtime_repo)
+{
+  return runtime_repo != NULL ? GTK_ALIGN_FILL : GTK_ALIGN_CENTER;
+}
+
+static GtkOrientation
+get_header_orientation (gpointer       object,
+                        BzFlatpakRepo *runtime_repo)
+{
+  return runtime_repo != NULL ? GTK_ORIENTATION_HORIZONTAL : GTK_ORIENTATION_VERTICAL;
 }
 
 static void
@@ -297,6 +338,16 @@ permission_cb (AdwActionRow          *row,
 }
 
 static void
+repo_cb (AdwActionRow          *row,
+         BzBundleInstallDialog *self)
+{
+  if (self->runtime_repo != NULL)
+    gtk_uri_launcher_launch (
+        gtk_uri_launcher_new (bz_flatpak_repo_get_homepage (self->runtime_repo)),
+        NULL, NULL, NULL, NULL);
+}
+
+static void
 bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -320,6 +371,13 @@ bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
           BZ_TYPE_ENTRY,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PROP_RUNTIME_REPO] =
+      g_param_spec_object (
+          "runtime-repo",
+          NULL, NULL,
+          BZ_TYPE_FLATPAK_REPO,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-bundle-install-dialog.ui");
@@ -335,14 +393,19 @@ bz_bundle_install_dialog_class_init (BzBundleInstallDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, progress_bar);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, error_status);
   gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, safety_icon);
+  gtk_widget_class_bind_template_child (widget_class, BzBundleInstallDialog, bundle_image);
   gtk_widget_class_bind_template_callback (widget_class, install_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_cb);
   gtk_widget_class_bind_template_callback (widget_class, show_cb);
+  gtk_widget_class_bind_template_callback (widget_class, repo_cb);
   gtk_widget_class_bind_template_callback (widget_class, permission_cb);
   gtk_widget_class_bind_template_callback (widget_class, get_version);
   gtk_widget_class_bind_template_callback (widget_class, get_disk_title);
   gtk_widget_class_bind_template_callback (widget_class, get_safety_subtitle);
   gtk_widget_class_bind_template_callback (widget_class, get_safety_icon_name);
+  gtk_widget_class_bind_template_callback (widget_class, format_url);
+  gtk_widget_class_bind_template_callback (widget_class, get_header_halign);
+  gtk_widget_class_bind_template_callback (widget_class, get_header_orientation);
 }
 
 static void
@@ -381,6 +444,13 @@ bz_bundle_install_dialog_get_entry (BzBundleInstallDialog *self)
 {
   g_return_val_if_fail (BZ_IS_BUNDLE_INSTALL_DIALOG (self), NULL);
   return self->entry;
+}
+
+BzFlatpakRepo *
+bz_bundle_install_dialog_get_runtime_repo (BzBundleInstallDialog *self)
+{
+  g_return_val_if_fail (BZ_IS_BUNDLE_INSTALL_DIALOG (self), NULL);
+  return self->runtime_repo;
 }
 
 void
@@ -427,6 +497,38 @@ bz_bundle_install_dialog_set_entry (BzBundleInstallDialog *self,
     }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENTRY]);
+}
+
+void
+bz_bundle_install_dialog_set_runtime_repo (BzBundleInstallDialog *self,
+                                           BzFlatpakRepo         *runtime_repo)
+{
+  g_return_if_fail (BZ_IS_BUNDLE_INSTALL_DIALOG (self));
+  g_return_if_fail (runtime_repo == NULL || BZ_IS_FLATPAK_REPO (runtime_repo));
+
+  if (runtime_repo == self->runtime_repo)
+    return;
+
+  g_set_object (&self->runtime_repo, runtime_repo);
+
+  if (self->bundle_image != NULL)
+    {
+      const char *icon_url = NULL;
+      icon_url             = runtime_repo != NULL
+                                 ? bz_flatpak_repo_get_icon (runtime_repo)
+                                 : NULL;
+
+      if (icon_url != NULL)
+        {
+          g_autoptr (BzAsyncTexture) async_tex = NULL;
+          async_tex                            = bz_async_texture_new (g_file_new_for_uri (icon_url), NULL);
+          gtk_image_set_from_paintable (self->bundle_image, GDK_PAINTABLE (async_tex));
+        }
+      else
+        gtk_image_set_from_icon_name (self->bundle_image, "application-x-executable");
+    }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_RUNTIME_REPO]);
 }
 
 static DexFuture *

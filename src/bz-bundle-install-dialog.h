@@ -23,7 +23,9 @@
 #include <adwaita.h>
 
 #include "bz-entry.h"
+#include "bz-flatpak-repo.h"
 #include "bz-state-info.h"
+#include <adwaita.h>
 
 G_BEGIN_DECLS
 
@@ -39,6 +41,9 @@ bz_bundle_install_dialog_get_state (BzBundleInstallDialog *self);
 BzEntry *
 bz_bundle_install_dialog_get_entry (BzBundleInstallDialog *self);
 
+BzFlatpakRepo *
+bz_bundle_install_dialog_get_runtime_repo (BzBundleInstallDialog *self);
+
 void
 bz_bundle_install_dialog_set_state (BzBundleInstallDialog *self,
                                     BzStateInfo           *state);
@@ -46,6 +51,9 @@ bz_bundle_install_dialog_set_state (BzBundleInstallDialog *self,
 void
 bz_bundle_install_dialog_set_entry (BzBundleInstallDialog *self,
                                     BzEntry               *entry);
+void
+bz_bundle_install_dialog_set_runtime_repo (BzBundleInstallDialog *self,
+                                           BzFlatpakRepo         *runtime_repo);
 
 G_END_DECLS
 

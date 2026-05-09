@@ -30,13 +30,14 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                 spacing: 16;
                 valign: center;
                 halign: fill;
+                hexpand: true;
                 margin-top: 24;
                 margin-bottom: 24;
                 margin-start: 24;
                 margin-end: 24;
 
                 Box {
-                  orientation: horizontal;
+                  orientation: bind $get_header_orientation(template.runtime-repo) as <Gtk.Orientation>;
                   spacing: 16;
                   halign: fill;
                   valign: start;
@@ -48,7 +49,7 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                     ) as <bool>;
                     use-fallback: true;
                     pixel-size: 96;
-                    halign: start;
+                    halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                     valign: center;
                   }
 
@@ -56,7 +57,7 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                     icon-name: "application-x-executable";
                     pixel-size: 96;
                     visible: bind $invert_boolean(icon.visible) as <bool>;
-                    halign: start;
+                    halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                     valign: center;
                   }
 
@@ -70,7 +71,7 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                       label: bind template.entry as <$BzEntry>.title;
                       wrap: true;
                       wrap-mode: word_char;
-                      halign: fill;
+                      halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                       xalign: 0;
 
                       styles [
@@ -82,7 +83,7 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                       label: bind template.entry as <$BzEntry>.developer;
                       wrap: true;
                       wrap-mode: word_char;
-                      halign: fill;
+                      halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                       xalign: 0;
                       visible: bind $not($is_empty_string(template.entry as <$BzEntry>.developer) as <bool>) as <bool>;
 
@@ -96,7 +97,8 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                       visible: bind $not(
                         $is_empty_string($get_version(template.entry as <$BzEntry>.version-history) as <string>) as <bool>
                       ) as <bool>;
-                      halign: start;
+                      halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                      xalign: 0;
 
                       styles [
                         "dim-label",
@@ -112,7 +114,7 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                     ]
 
                     valign: center;
-                    halign: end;
+                    halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                     label: _("Install");
                     clicked => $install_cb(template);
                   }
@@ -161,23 +163,86 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                   }
                 }
 
-                Label {
-                  label: _(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
-                  );
-                  wrap: true;
-                  wrap-mode: word_char;
-                  halign: start;
+                Box {
+                  orientation: vertical;
+                  spacing: 4;
+                  visible: bind $not($is_null(template.runtime-repo) as <bool>) as <bool>;
 
-                  styles [
-                    "body",
-                  ]
-                }
+                  Label {
+                    label: _(
+                      "Installing this app requires adding a new software source. Other apps from this source will show up in Bazaar.\n\nOnly add this source if you're sure you trust it."
+                    );
+                    wrap: true;
+                    wrap-mode: word_char;
+                    halign: start;
 
-                Adw.PreferencesGroup {
-                  Adw.ActionRow {
-                    title: _("Placeholder Row");
-                    activatable: true;
+                    styles [
+                      "body",
+                    ]
+                  }
+
+                  Adw.PreferencesGroup {
+                    Adw.ActionRow {
+                      activatable: bind $not(
+                        $is_null(template.runtime-repo as <$BzFlatpakRepo>.homepage) as <bool>
+                      ) as <bool>;
+                      activated => $repo_cb();
+
+                      child: Box {
+                        margin-top: 8;
+                        margin-bottom: 8;
+                        margin-start: 8;
+                        margin-end: 16;
+                        spacing: 8;
+
+                        Image bundle_image {
+                          pixel-size: 48;
+                        }
+
+                        Box {
+                          orientation: vertical;
+                          spacing: 4;
+                          hexpand: true;
+
+                          Label {
+                            label: bind template.runtime-repo as <$BzFlatpakRepo>.title;
+                            halign: start;
+                            ellipsize: end;
+
+                            styles [
+                              "heading",
+                            ]
+                          }
+
+                          Label {
+                            label: bind template.runtime-repo as <$BzFlatpakRepo>.description;
+                            wrap: true;
+                            halign: start;
+                            wrap-mode: word_char;
+                            lines: 2;
+                            ellipsize: end;
+                          }
+
+                          Label {
+                            halign: start;
+                            label: bind $format_url(template.runtime-repo as <$BzFlatpakRepo>.url);
+                            ellipsize: end;
+                            styles [
+                              "accent",
+                              "caption",
+                            ]
+                          }
+                        }
+
+                        Image {
+                          icon-name: "external-link-symbolic";
+                          margin-start: 8;
+                          visible: bind $not(
+                            $is_null(template.runtime-repo as <$BzFlatpakRepo>.homepage) as <bool>
+                          ) as <bool>;
+                        }
+                      };
+                    }
                   }
                 }
               }

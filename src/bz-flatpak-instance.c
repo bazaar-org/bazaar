@@ -31,7 +31,9 @@
 #include "bz-backend-transaction-op-progress-payload.h"
 #include "bz-backend.h"
 #include "bz-env.h"
+#include "bz-flatpak-bundle-result.h"
 #include "bz-flatpak-private.h"
+#include "bz-flatpak-repo.h"
 #include "bz-global-net.h"
 #include "bz-io.h"
 #include "bz-repository.h"
@@ -124,6 +126,10 @@ BZ_DEFINE_DATA (
     BZ_RELEASE_DATA (file, g_object_unref));
 static DexFuture *
 load_local_ref_fiber (LoadLocalRefData *data);
+
+DexFuture *
+bz_flatpak_repo_new_from_url (const char   *url,
+                              GCancellable *cancellable);
 
 BZ_DEFINE_DATA (
     gather_refs,
@@ -964,6 +970,83 @@ ensure_flathub_fiber (EnsureFlathubData *data)
   return dex_future_new_true ();
 }
 
+DexFuture *
+bz_flatpak_repo_new_from_url (const char   *url,
+                              GCancellable *cancellable)
+{
+  g_autoptr (SoupMessage) message  = NULL;
+  g_autoptr (GOutputStream) output = NULL;
+  g_autoptr (GBytes) bytes         = NULL;
+  g_autoptr (GKeyFile) key_file    = NULL;
+  BzFlatpakRepo *repo              = NULL;
+  g_autoptr (GError) local_error   = NULL;
+  gboolean         result          = FALSE;
+  g_autofree char *title           = NULL;
+  g_autofree char *repo_url        = NULL;
+  g_autofree char *homepage        = NULL;
+  g_autofree char *comment         = NULL;
+  g_autofree char *description     = NULL;
+  g_autofree char *icon            = NULL;
+  g_autofree char *gpg_key         = NULL;
+  g_autofree char *default_branch  = NULL;
+  g_autofree char *filter          = NULL;
+  g_autoptr (GError) bool_error    = NULL;
+  gboolean gpg_verify              = FALSE;
+
+  message = soup_message_new (SOUP_METHOD_GET, url);
+  output  = g_memory_output_stream_new_resizable ();
+  result  = dex_await (
+      bz_send_with_global_http_session_then_splice_into (message, output),
+      &local_error);
+  if (!result)
+    return dex_future_new_reject (
+        BZ_FLATPAK_ERROR,
+        BZ_FLATPAK_ERROR_IO_MISBEHAVIOR,
+        "Failed to retrieve flatpakrepo file from %s: %s",
+        url, local_error->message);
+
+  bytes    = g_memory_output_stream_steal_as_bytes (G_MEMORY_OUTPUT_STREAM (output));
+  key_file = g_key_file_new ();
+  result   = g_key_file_load_from_bytes (key_file, bytes, G_KEY_FILE_NONE, &local_error);
+  if (!result)
+    return dex_future_new_reject (
+        BZ_FLATPAK_ERROR,
+        BZ_FLATPAK_ERROR_IO_MISBEHAVIOR,
+        "Failed to parse flatpakrepo file from %s: %s",
+        url, local_error->message);
+
+  title          = g_key_file_get_string (key_file, "Flatpak Repo", "Title", NULL);
+  repo_url       = g_key_file_get_string (key_file, "Flatpak Repo", "Url", NULL);
+  homepage       = g_key_file_get_string (key_file, "Flatpak Repo", "Homepage", NULL);
+  comment        = g_key_file_get_string (key_file, "Flatpak Repo", "Comment", NULL);
+  description    = g_key_file_get_string (key_file, "Flatpak Repo", "Description", NULL);
+  icon           = g_key_file_get_string (key_file, "Flatpak Repo", "Icon", NULL);
+  gpg_key        = g_key_file_get_string (key_file, "Flatpak Repo", "GPGKey", NULL);
+  default_branch = g_key_file_get_string (key_file, "Flatpak Repo", "DefaultBranch", NULL);
+  filter         = g_key_file_get_string (key_file, "Flatpak Repo", "Filter", NULL);
+  gpg_verify     = g_key_file_get_boolean (key_file, "Flatpak Repo", "GPGVerify", &bool_error);
+  if (bool_error != NULL)
+    {
+      gpg_verify = gpg_key != NULL;
+      g_clear_error (&bool_error);
+    }
+
+  repo = g_object_new (BZ_TYPE_FLATPAK_REPO,
+                       "title", title,
+                       "url", repo_url,
+                       "homepage", homepage,
+                       "comment", comment,
+                       "description", description,
+                       "icon", icon,
+                       "gpg-key", gpg_key,
+                       "default-branch", default_branch,
+                       "filter", filter,
+                       "gpg-verify", gpg_verify,
+                       NULL);
+
+  return dex_future_new_for_object (repo);
+}
+
 static DexFuture *
 load_local_ref_fiber (LoadLocalRefData *data)
 {
@@ -974,6 +1057,7 @@ load_local_ref_fiber (LoadLocalRefData *data)
   g_autoptr (GError) local_error     = NULL;
   g_autofree char *uri               = NULL;
   g_autofree char *path              = NULL;
+  g_autofree char *runtime_repo_url  = NULL;
 
   bz_weak_get_or_return_reject (self, data->self);
 
@@ -1054,15 +1138,17 @@ load_local_ref_fiber (LoadLocalRefData *data)
   else
     /* This is a bundle ref */
     {
-      g_autoptr (FlatpakBundleRef) bref        = NULL;
-      const char          *name                = NULL;
-      const char          *origin              = NULL;
-      FlatpakInstallation *add_to_installation = NULL;
-      g_autoptr (FlatpakRemote) remote         = NULL;
-      g_autoptr (BzFlatpakEntry) entry         = NULL;
-      g_autoptr (GBytes) appstream_gz          = NULL;
-      g_autoptr (GBytes) appstream             = NULL;
-      g_autoptr (AsComponent) component        = NULL;
+      g_autoptr (FlatpakBundleRef) bref               = NULL;
+      const char          *name                       = NULL;
+      const char          *origin                     = NULL;
+      FlatpakInstallation *add_to_installation        = NULL;
+      g_autoptr (FlatpakRemote) remote                = NULL;
+      g_autoptr (BzFlatpakEntry) entry                = NULL;
+      g_autoptr (BzFlatpakRepo) runtime_repo          = NULL;
+      g_autoptr (GBytes) appstream_gz                 = NULL;
+      g_autoptr (GBytes) appstream                    = NULL;
+      g_autoptr (AsComponent) component               = NULL;
+      g_autoptr (BzFlatpakBundleResult) bundle_result = NULL;
 
       if (path == NULL)
         return dex_future_new_reject (
@@ -1080,8 +1166,21 @@ load_local_ref_fiber (LoadLocalRefData *data)
             path,
             local_error->message);
 
-      name   = flatpak_ref_get_name (FLATPAK_REF (bref));
-      origin = flatpak_bundle_ref_get_origin (bref);
+      name             = flatpak_ref_get_name (FLATPAK_REF (bref));
+      origin           = flatpak_bundle_ref_get_origin (bref);
+      runtime_repo_url = flatpak_bundle_ref_get_runtime_repo_url (bref);
+
+      if (runtime_repo_url != NULL)
+        {
+          g_autoptr (GError) repo_error = NULL;
+
+          runtime_repo = dex_await_object (
+              bz_flatpak_repo_new_from_url (runtime_repo_url, cancellable),
+              &repo_error);
+          if (runtime_repo == NULL)
+            g_warning ("Failed to parse runtime repo from %s: %s",
+                       runtime_repo_url, repo_error->message);
+        }
 
       if (self->system != NULL)
         add_to_installation = self->system;
@@ -1259,7 +1358,12 @@ load_local_ref_fiber (LoadLocalRefData *data)
             path,
             local_error->message);
 
-      return dex_future_new_for_object (entry);
+      bundle_result = g_object_new (BZ_TYPE_FLATPAK_BUNDLE_RESULT,
+                                    "entry", entry,
+                                    "runtime-repo", runtime_repo,
+                                    NULL);
+
+      return dex_future_new_for_object (g_steal_pointer (&bundle_result));
     }
 }
 
