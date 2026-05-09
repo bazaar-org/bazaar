@@ -51,6 +51,10 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                     pixel-size: 96;
                     halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                     valign: center;
+
+                    styles [
+                      "icon-dropshadow",
+                    ]
                   }
 
                   Image {
@@ -59,6 +63,10 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                     visible: bind $invert_boolean(icon.visible) as <bool>;
                     halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
                     valign: center;
+
+                    styles [
+                      "icon-dropshadow",
+                    ]
                   }
 
                   Box {
@@ -264,6 +272,10 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                   ) as <bool>;
                   pixel-size: 128;
                   margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
                 }
 
                 Image {
@@ -271,6 +283,10 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                   pixel-size: 128;
                   visible: bind $invert_boolean(loading_icon.visible) as <bool>;
                   margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
                 }
 
                 Label {
@@ -308,6 +324,10 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                   ) as <bool>;
                   pixel-size: 128;
                   margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
                 }
 
                 Image {
@@ -315,6 +335,10 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
                   pixel-size: 128;
                   visible: bind $invert_boolean(end_icon.visible) as <bool>;
                   margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
                 }
 
                 Label {
