@@ -5,7 +5,7 @@ defwidget "Transact Icon" {
   var icon-scale : "gdouble";
 
   var flag : "GtkFixed";
-  var icon : "GtkPicture";
+  var icon : "GtkImage";
 
   var start : "gdouble";
   var end : "gdouble";
@@ -59,6 +59,7 @@ defwidget "Transact Icon" {
 
     set icon = #child/(""("icon-dropshadow")
       paintable = info:paintable;
+      pixel-size = %height%;
     );
     allocate icon %width%, %height%, #();
 
