@@ -23,7 +23,6 @@
 #include <md4c.h>
 
 #include "bge.h"
-#include "util.h"
 
 struct _BgeMarkdownRender
 {
@@ -32,7 +31,8 @@ struct _BgeMarkdownRender
   char    *markdown;
   gboolean selectable;
 
-  GtkTextView *text_view;
+  GtkWidget *box;
+  GPtrArray *box_children;
 };
 
 G_DEFINE_FINAL_TYPE (BgeMarkdownRender, bge_markdown_render, GTK_TYPE_WIDGET);
@@ -51,39 +51,16 @@ static GParamSpec *props[LAST_PROP] = { 0 };
 static void
 regenerate (BgeMarkdownRender *self);
 
-BGE_DEFINE_DATA (
-    tag,
-    Tag,
-    {
-      GtkTextTag *tag;
-      int         start;
-      int         end;
-    },
-    BGE_RELEASE_DATA (tag, g_object_unref));
-
-#define INIT_TAG_DATA_LOCATION(_loc, _buffer, ...)                        \
-  G_STMT_START                                                            \
-  {                                                                       \
-    *(_loc) = tag_data_new ();                                            \
-    g_object_get ((_buffer), "cursor-position", &(*(_loc))->start, NULL); \
-    (*(_loc))->end = -1;                                                  \
-    (*(_loc))->tag = gtk_text_buffer_create_tag (                         \
-        (_buffer), NULL,                                                  \
-        "accumulative-margin", TRUE,                                      \
-        ##__VA_ARGS__, NULL);                                             \
-  }                                                                       \
-  G_STMT_END
-
 typedef struct
 {
-  GtkTextBuffer *buffer;
-  char          *beginning;
-  GArray        *block_stack;
-  GArray        *list_index_stack;
-  GArray        *list_prefix_stack;
-  GPtrArray     *tags;
-  int            indent;
-  int            running_list_index;
+  GtkBox    *box;
+  GPtrArray *box_children;
+  char      *beginning;
+  GString   *markup;
+  GArray    *block_stack;
+  int        indent;
+  int        list_index;
+  MD_CHAR    list_prefix;
 } ParseCtx;
 
 static int
@@ -123,6 +100,11 @@ static const MD_PARSER parser = {
   .text        = text,
 };
 
+static int
+terminate_block (MD_BLOCKTYPE type,
+                 void        *detail,
+                 void        *user_data);
+
 static void
 bge_markdown_render_dispose (GObject *object)
 {
@@ -130,7 +112,8 @@ bge_markdown_render_dispose (GObject *object)
 
   g_clear_pointer (&self->markdown, g_free);
 
-  gtk_widget_unparent (GTK_WIDGET (self->text_view));
+  g_clear_pointer (&self->box, gtk_widget_unparent);
+  g_clear_pointer (&self->box_children, g_ptr_array_unref);
 
   G_OBJECT_CLASS (bge_markdown_render_parent_class)->dispose (object);
 }
@@ -177,6 +160,12 @@ bge_markdown_render_set_property (GObject      *object,
     }
 }
 
+static GtkSizeRequestMode
+bge_markdown_render_get_request_mode (GtkWidget *widget)
+{
+  return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
+}
+
 static void
 bge_markdown_render_measure (GtkWidget     *widget,
                              GtkOrientation orientation,
@@ -189,10 +178,13 @@ bge_markdown_render_measure (GtkWidget     *widget,
   BgeMarkdownRender *self = BGE_MARKDOWN_RENDER (widget);
 
   gtk_widget_measure (
-      GTK_WIDGET (self->text_view),
-      orientation, for_size,
-      minimum, natural,
-      minimum_baseline, natural_baseline);
+      self->box,
+      orientation,
+      for_size,
+      minimum,
+      natural,
+      minimum_baseline,
+      natural_baseline);
 }
 
 static void
@@ -203,7 +195,8 @@ bge_markdown_render_size_allocate (GtkWidget *widget,
 {
   BgeMarkdownRender *self = BGE_MARKDOWN_RENDER (widget);
 
-  gtk_widget_allocate (GTK_WIDGET (self->text_view), width, height, baseline, NULL);
+  if (gtk_widget_should_layout (self->box))
+    gtk_widget_allocate (self->box, width, height, baseline, NULL);
 }
 
 static void
@@ -230,17 +223,18 @@ bge_markdown_render_class_init (BgeMarkdownRenderClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
-  widget_class->measure       = bge_markdown_render_measure;
-  widget_class->size_allocate = bge_markdown_render_size_allocate;
+  widget_class->get_request_mode = bge_markdown_render_get_request_mode;
+  widget_class->measure          = bge_markdown_render_measure;
+  widget_class->size_allocate    = bge_markdown_render_size_allocate;
 }
 
 static void
 bge_markdown_render_init (BgeMarkdownRender *self)
 {
-  self->text_view = (GtkTextView *) gtk_text_view_new ();
-  gtk_text_view_set_wrap_mode (self->text_view, GTK_WRAP_WORD_CHAR);
-  gtk_text_view_set_editable (self->text_view, FALSE);
-  gtk_widget_set_parent (GTK_WIDGET (self->text_view), GTK_WIDGET (self));
+  self->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_set_parent (self->box, GTK_WIDGET (self));
+
+  self->box_children = g_ptr_array_new ();
 }
 
 GtkWidget *
@@ -295,50 +289,42 @@ regenerate (BgeMarkdownRender *self)
   int      iresult = 0;
   ParseCtx ctx     = { 0 };
 
+  for (guint i = 0; i < self->box_children->len; i++)
+    {
+      GtkWidget *child = NULL;
+
+      child = g_ptr_array_index (self->box_children, i);
+      gtk_box_remove (GTK_BOX (self->box), child);
+    }
+  g_ptr_array_set_size (self->box_children, 0);
+
   if (self->markdown == NULL)
     return;
 
-  ctx.buffer             = gtk_text_buffer_new (NULL);
-  ctx.beginning          = self->markdown;
-  ctx.block_stack        = g_array_new (FALSE, TRUE, sizeof (int));
-  ctx.list_index_stack   = g_array_new (FALSE, TRUE, sizeof (int));
-  ctx.list_prefix_stack  = g_array_new (FALSE, TRUE, sizeof (MD_CHAR));
-  ctx.tags               = g_ptr_array_new_with_free_func (tag_data_unref);
-  ctx.indent             = 0;
-  ctx.running_list_index = -1;
+  ctx.box          = GTK_BOX (self->box);
+  ctx.box_children = self->box_children;
+  ctx.beginning    = self->markdown;
+  ctx.markup       = NULL;
+  ctx.block_stack  = g_array_new (FALSE, TRUE, sizeof (int));
+  ctx.indent       = 0;
+  ctx.list_index   = 0;
+  ctx.list_prefix  = '\0';
 
   iresult = md_parse (
       self->markdown,
       strlen (self->markdown),
       &parser,
       &ctx);
-  if (iresult != 0)
-    goto error;
 
-  for (guint i = 0; i < ctx.tags->len; i++)
-    {
-      TagData    *data       = NULL;
-      GtkTextIter start_iter = { 0 };
-      GtkTextIter end_iter   = { 0 };
-
-      data = g_ptr_array_index (ctx.tags, i);
-
-      gtk_text_buffer_get_iter_at_offset (ctx.buffer, &start_iter, data->start);
-      gtk_text_buffer_get_iter_at_offset (ctx.buffer, &end_iter, data->end);
-      gtk_text_buffer_apply_tag (ctx.buffer, g_object_ref (data->tag), &start_iter, &end_iter);
-    }
-  gtk_text_view_set_buffer (self->text_view, ctx.buffer);
-  goto done;
-
-error:
-  g_warning ("Failed to parse markdown text");
-
-done:
-  g_object_unref (ctx.buffer);
+  if (ctx.markup != NULL)
+    g_string_free (ctx.markup, TRUE);
   g_array_unref (ctx.block_stack);
-  g_array_unref (ctx.list_index_stack);
-  g_array_unref (ctx.list_prefix_stack);
-  g_ptr_array_unref (ctx.tags);
+
+  if (iresult != 0)
+    {
+      g_warning ("Failed to parse markdown text");
+      return;
+    }
 }
 
 static int
@@ -346,135 +332,33 @@ enter_block (MD_BLOCKTYPE type,
              void        *detail,
              void        *user_data)
 {
-  ParseCtx *ctx           = user_data;
-  int       parent        = 0;
-  int       list_index    = 0;
-  MD_CHAR   list_prefix   = 0;
-  g_autoptr (TagData) tag = NULL;
+  ParseCtx *ctx = user_data;
 
-  if (ctx->block_stack->len > 0)
-    parent = g_array_index (ctx->block_stack, int, ctx->block_stack->len - 1);
-  if (ctx->list_index_stack->len > 0)
-    list_index = g_array_index (ctx->list_index_stack, int, ctx->list_index_stack->len - 1);
-  if (ctx->list_prefix_stack->len > 0)
-    list_prefix = g_array_index (ctx->list_prefix_stack, MD_CHAR, ctx->list_prefix_stack->len - 1);
-
-  switch (type)
+  if (ctx->markup != NULL)
     {
-    case MD_BLOCK_DOC:
-      break;
-    case MD_BLOCK_QUOTE:
-      INIT_TAG_DATA_LOCATION (
-          &tag, ctx->buffer,
-          "left-margin", 50,
-          "right-margin", 50,
-          "justification", GTK_JUSTIFY_CENTER,
-          "foreground", "gray",
-          "weight", 600,
-          "scale", 1.1,
-          "style", PANGO_STYLE_ITALIC);
-      break;
-    case MD_BLOCK_UL:
-      {
-        MD_BLOCK_UL_DETAIL *ul_detail = detail;
-        const int           zero      = 0;
-
-        ctx->indent++;
-        ctx->running_list_index = 0;
-        g_array_append_val (ctx->list_index_stack, zero);
-        g_array_append_val (ctx->list_prefix_stack, ul_detail->mark);
-
-        INIT_TAG_DATA_LOCATION (
-            &tag, ctx->buffer,
-            "left-margin", 25);
-      }
-      break;
-    case MD_BLOCK_OL:
-      {
-        MD_BLOCK_OL_DETAIL *ol_detail = detail;
-        const int           zero      = 0;
-
-        ctx->indent++;
-        ctx->running_list_index = 0;
-        g_array_append_val (ctx->list_index_stack, zero);
-        g_array_append_val (ctx->list_prefix_stack, ol_detail->mark_delimiter);
-
-        INIT_TAG_DATA_LOCATION (
-            &tag, ctx->buffer,
-            "left-margin", 25);
-      }
-      break;
-    case MD_BLOCK_LI:
-      {
-        if (ctx->indent > 1 ||
-            list_index > 0)
-          gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
-        if (parent == MD_BLOCK_OL)
-          {
-            g_autofree char *prefix_text = NULL;
-
-            INIT_TAG_DATA_LOCATION (
-                &tag, ctx->buffer,
-                "indent", -18);
-
-            prefix_text = g_strdup_printf ("%d%c ", list_index, list_prefix);
-            gtk_text_buffer_insert_at_cursor (ctx->buffer, prefix_text, -1);
-          }
-        else
-          {
-            INIT_TAG_DATA_LOCATION (
-                &tag, ctx->buffer,
-                "indent", -12);
-            /* TODO:
-
-              `ctx->list_prefix` is '-', '+', '*'
-
-              maybe handle these?
-             */
-            gtk_text_buffer_insert_at_cursor (ctx->buffer, "• ", -1);
-          }
-      }
-      break;
-    case MD_BLOCK_HR:
-      gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
-      break;
-    case MD_BLOCK_H:
-      {
-        MD_BLOCK_H_DETAIL *h_detail = detail;
-
-        gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
-        INIT_TAG_DATA_LOCATION (
-            &tag, ctx->buffer,
-            "scale", MAX (2.2 - 0.2 * (float) h_detail->level, 1.0),
-            "pixels-below-lines", 10);
-      }
-      break;
-    case MD_BLOCK_CODE:
-      INIT_TAG_DATA_LOCATION (
-          &tag, ctx->buffer,
-          "family", "monospace",
-          "foreground", "gray");
-      break;
-    case MD_BLOCK_P:
-      if (parent != MD_BLOCK_LI)
-        INIT_TAG_DATA_LOCATION (
-            &tag, ctx->buffer,
-            "indent", 15,
-            "pixels-below-lines", 4);
-      break;
-    case MD_BLOCK_HTML:
-    case MD_BLOCK_TABLE:
-    case MD_BLOCK_THEAD:
-    case MD_BLOCK_TBODY:
-    case MD_BLOCK_TR:
-    case MD_BLOCK_TH:
-    case MD_BLOCK_TD:
-    default:
-      break;
+      terminate_block (type, detail, user_data);
+      g_array_index (ctx->block_stack, int, ctx->block_stack->len - 1) = -1;
     }
 
-  if (tag != NULL)
-    g_ptr_array_add (ctx->tags, g_steal_pointer (&tag));
+  if (type == MD_BLOCK_UL)
+    {
+      MD_BLOCK_UL_DETAIL *ul_detail = detail;
+
+      ctx->indent++;
+      ctx->list_index  = 0;
+      ctx->list_prefix = ul_detail->mark;
+    }
+  else if (type == MD_BLOCK_OL)
+    {
+      MD_BLOCK_OL_DETAIL *ol_detail = detail;
+
+      ctx->indent++;
+      ctx->list_index  = 0;
+      ctx->list_prefix = ol_detail->mark_delimiter;
+    }
+  else
+    ctx->markup = g_string_new (NULL);
+
   g_array_append_val (ctx->block_stack, type);
 
   return 0;
@@ -485,102 +369,11 @@ leave_block (MD_BLOCKTYPE type,
              void        *detail,
              void        *user_data)
 {
-  ParseCtx *ctx    = user_data;
-  int       parent = -1;
-
-#define TERMINATE_TAG_FROM_SET_PROP(_set_prop)           \
-  for (guint i = ctx->tags->len; i > 0; i--)             \
-    {                                                    \
-      TagData *data = NULL;                              \
-      gboolean set  = FALSE;                             \
-                                                         \
-      data = g_ptr_array_index (ctx->tags, i - 1);       \
-      if (data->end >= 0)                                \
-        continue;                                        \
-                                                         \
-      g_object_get (data->tag, (_set_prop), &set, NULL); \
-      if (set)                                           \
-        {                                                \
-          g_object_get (                                 \
-              ctx->buffer,                               \
-              "cursor-position", &data->end,             \
-              NULL);                                     \
-          break;                                         \
-        }                                                \
-    }
+  ParseCtx *ctx = user_data;
 
   g_assert (ctx->block_stack->len > 0);
-  parent = g_array_index (ctx->block_stack, int, ctx->block_stack->len - 1);
-
-  if (parent >= 0)
-    {
-      switch (type)
-        {
-        case MD_BLOCK_DOC:
-          break;
-        case MD_BLOCK_QUOTE:
-          TERMINATE_TAG_FROM_SET_PROP ("style-set");
-          gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n\n", -1);
-          break;
-        case MD_BLOCK_UL:
-          {
-            // MD_BLOCK_UL_DETAIL *ul_detail = detail;
-
-            TERMINATE_TAG_FROM_SET_PROP ("left-margin-set");
-            ctx->indent--;
-            ctx->running_list_index = -1;
-            g_array_set_size (ctx->list_index_stack, ctx->list_index_stack->len - 1);
-            g_array_set_size (ctx->list_prefix_stack, ctx->list_prefix_stack->len - 1);
-            if (ctx->indent == 0)
-              gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n\n", -1);
-          }
-          break;
-        case MD_BLOCK_OL:
-          {
-            // MD_BLOCK_OL_DETAIL *ol_detail = detail;
-
-            TERMINATE_TAG_FROM_SET_PROP ("left-margin-set");
-            ctx->indent--;
-            ctx->running_list_index = -1;
-            g_array_set_size (ctx->list_index_stack, ctx->list_index_stack->len - 1);
-            g_array_set_size (ctx->list_prefix_stack, ctx->list_prefix_stack->len - 1);
-            if (ctx->indent == 0)
-              gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
-          }
-          break;
-        case MD_BLOCK_LI:
-          TERMINATE_TAG_FROM_SET_PROP ("indent-set");
-          ++g_array_index (ctx->list_index_stack, int, ctx->list_index_stack->len - 1);
-          ctx->running_list_index++;
-          break;
-        case MD_BLOCK_HR:
-          break;
-        case MD_BLOCK_H:
-          TERMINATE_TAG_FROM_SET_PROP ("scale-set");
-          gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
-          break;
-        case MD_BLOCK_CODE:
-          TERMINATE_TAG_FROM_SET_PROP ("family-set");
-          gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
-          break;
-        case MD_BLOCK_P:
-          if (parent != MD_BLOCK_LI)
-            TERMINATE_TAG_FROM_SET_PROP ("indent-set");
-          if (ctx->running_list_index < 0)
-            gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n\n", -1);
-          break;
-        case MD_BLOCK_HTML:
-        case MD_BLOCK_TABLE:
-        case MD_BLOCK_THEAD:
-        case MD_BLOCK_TBODY:
-        case MD_BLOCK_TR:
-        case MD_BLOCK_TH:
-        case MD_BLOCK_TD:
-        default:
-          g_warning ("Unsupported markdown event (Did you use html/tables?)");
-          return 1;
-        }
-    }
+  if (g_array_index (ctx->block_stack, int, ctx->block_stack->len - 1) >= 0)
+    terminate_block (type, detail, user_data);
   g_array_set_size (ctx->block_stack, ctx->block_stack->len - 1);
 
   return 0;
@@ -591,46 +384,46 @@ enter_span (MD_SPANTYPE type,
             void       *detail,
             void       *user_data)
 {
-  ParseCtx *ctx           = user_data;
-  g_autoptr (TagData) tag = NULL;
+  ParseCtx *ctx = user_data;
+
+  g_assert (ctx->markup != NULL);
 
   switch (type)
     {
     case MD_SPAN_EM:
-      INIT_TAG_DATA_LOCATION (&tag, ctx->buffer, "weight", 600);
+      g_string_append (ctx->markup, "<b>");
       break;
     case MD_SPAN_STRONG:
-      INIT_TAG_DATA_LOCATION (&tag, ctx->buffer, "weight", 800);
+      g_string_append (ctx->markup, "<big>");
       break;
     case MD_SPAN_A:
       {
         MD_SPAN_A_DETAIL *a_detail = detail;
         g_autofree char  *href     = NULL;
         g_autofree char  *title    = NULL;
-        g_autofree char  *xml      = NULL;
 
         href = g_strndup (a_detail->href.text, a_detail->href.size);
         if (a_detail->title.text != NULL)
           title = g_strndup (a_detail->title.text, a_detail->title.size);
 
-        xml = g_strdup_printf (
+        g_string_append_printf (
+            ctx->markup,
             "<a href=\"%s\" title=\"%s\">",
             href,
             title != NULL ? title : href);
-        gtk_text_buffer_insert_at_cursor (ctx->buffer, xml, -1);
       }
       break;
     case MD_SPAN_IMG:
       g_warning ("Images aren't implemented yet!");
       break;
     case MD_SPAN_CODE:
-      INIT_TAG_DATA_LOCATION (&tag, ctx->buffer, "family", "monospace");
+      g_string_append (ctx->markup, "<tt>");
       break;
     case MD_SPAN_DEL:
-      INIT_TAG_DATA_LOCATION (&tag, ctx->buffer, "strikethrough", TRUE);
+      g_string_append (ctx->markup, "<s>");
       break;
     case MD_SPAN_U:
-      INIT_TAG_DATA_LOCATION (&tag, ctx->buffer, "underline", TRUE);
+      g_string_append (ctx->markup, "<u>");
       break;
     case MD_SPAN_LATEXMATH:
     case MD_SPAN_LATEXMATH_DISPLAY:
@@ -640,9 +433,6 @@ enter_span (MD_SPANTYPE type,
       return 1;
       break;
     }
-
-  if (tag != NULL)
-    g_ptr_array_add (ctx->tags, g_steal_pointer (&tag));
 
   return 0;
 }
@@ -654,28 +444,30 @@ leave_span (MD_SPANTYPE type,
 {
   ParseCtx *ctx = user_data;
 
+  g_assert (ctx->markup != NULL);
+
   switch (type)
     {
     case MD_SPAN_EM:
-      TERMINATE_TAG_FROM_SET_PROP ("weight-set");
+      g_string_append (ctx->markup, "</b>");
       break;
     case MD_SPAN_STRONG:
-      TERMINATE_TAG_FROM_SET_PROP ("weight-set");
+      g_string_append (ctx->markup, "</big>");
       break;
     case MD_SPAN_A:
-      gtk_text_buffer_insert_at_cursor (ctx->buffer, "</a>", -1);
+      g_string_append (ctx->markup, "</a>");
       break;
     case MD_SPAN_IMG:
       // g_warning ("Images aren't implemented yet!");
       break;
     case MD_SPAN_CODE:
-      TERMINATE_TAG_FROM_SET_PROP ("family-set");
+      g_string_append (ctx->markup, "</tt>");
       break;
     case MD_SPAN_DEL:
-      TERMINATE_TAG_FROM_SET_PROP ("strikethrough-set");
+      g_string_append (ctx->markup, "</s>");
       break;
     case MD_SPAN_U:
-      TERMINATE_TAG_FROM_SET_PROP ("underline-set");
+      g_string_append (ctx->markup, "</u>");
       break;
     case MD_SPAN_LATEXMATH:
     case MD_SPAN_LATEXMATH_DISPLAY:
@@ -698,12 +490,233 @@ text (MD_TEXTTYPE    type,
   ParseCtx        *ctx     = user_data;
   g_autofree char *escaped = NULL;
 
-  if (type == MD_TEXT_SOFTBR)
-    gtk_text_buffer_insert_at_cursor (ctx->buffer, " ", -1);
-  else if (type == MD_TEXT_BR)
-    gtk_text_buffer_insert_at_cursor (ctx->buffer, "\n", -1);
+  g_assert (ctx->markup != NULL);
+
+  if (type == MD_TEXT_SOFTBR &&
+      ctx->markup->len > 0)
+    g_string_append_c (ctx->markup, ' ');
+  else if (type == MD_TEXT_BR &&
+           ctx->markup->len > 0)
+    g_string_append_c (ctx->markup, '\n');
   else
-    gtk_text_buffer_insert_at_cursor (ctx->buffer, buf, size);
+    {
+      escaped = g_markup_escape_text (buf, size);
+      g_string_append (ctx->markup, escaped);
+    }
+
+  return 0;
+}
+
+static int
+terminate_block (MD_BLOCKTYPE type,
+                 void        *detail,
+                 void        *user_data)
+{
+  ParseCtx  *ctx    = user_data;
+  int        parent = 0;
+  GtkWidget *child  = NULL;
+
+  g_assert (ctx->block_stack->len > 0);
+  if (ctx->block_stack->len > 1)
+    parent = g_array_index (ctx->block_stack, int, ctx->block_stack->len - 2);
+
+  if (ctx->markup != NULL)
+    {
+      if (ctx->markup->len > 0 &&
+          !g_unichar_isgraph (ctx->markup->str[ctx->markup->len - 1]))
+        g_string_truncate (ctx->markup, ctx->markup->len - 1);
+    }
+
+#define SET_DEFAULTS(_label_widget)                                            \
+  G_STMT_START                                                                 \
+  {                                                                            \
+    gtk_label_set_use_markup (GTK_LABEL (_label_widget), TRUE);                \
+    gtk_label_set_wrap (GTK_LABEL (_label_widget), TRUE);                      \
+    gtk_label_set_wrap_mode (GTK_LABEL (_label_widget), PANGO_WRAP_WORD_CHAR); \
+    gtk_label_set_xalign (GTK_LABEL (_label_widget), 0.0);                     \
+    gtk_label_set_selectable (GTK_LABEL (_label_widget), TRUE);                \
+  }                                                                            \
+  G_STMT_END
+
+  switch (type)
+    {
+    case MD_BLOCK_DOC:
+      {
+        g_assert (ctx->markup != NULL);
+
+        child = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (child);
+      }
+      break;
+    case MD_BLOCK_QUOTE:
+      {
+        GtkWidget *bar   = NULL;
+        GtkWidget *label = NULL;
+
+        g_assert (ctx->markup != NULL);
+
+        bar = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+        gtk_widget_set_size_request (bar, 10, -1);
+        gtk_widget_set_margin_end (bar, 20);
+
+        label = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (label);
+
+        child = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+        gtk_box_append (GTK_BOX (child), bar);
+        gtk_box_append (GTK_BOX (child), label);
+      }
+      break;
+    case MD_BLOCK_UL:
+      {
+        // MD_BLOCK_UL_DETAIL *ul_detail = detail;
+
+        if (ctx->markup == NULL)
+          ctx->indent--;
+      }
+      break;
+    case MD_BLOCK_OL:
+      {
+        // MD_BLOCK_OL_DETAIL *ol_detail = detail;
+
+        if (ctx->markup == NULL)
+          ctx->indent--;
+      }
+      break;
+    case MD_BLOCK_LI:
+      {
+        // MD_BLOCK_LI_DETAIL *li_detail = detail;
+        GtkWidget *prefix = NULL;
+        GtkWidget *label  = NULL;
+
+        g_assert (ctx->markup != NULL);
+        g_assert (parent == MD_BLOCK_UL ||
+                  parent == MD_BLOCK_OL);
+
+        if (parent == MD_BLOCK_OL)
+          {
+            g_autofree char *prefix_text = NULL;
+
+            prefix_text = g_strdup_printf ("%d%c", ctx->list_index, ctx->list_prefix);
+            prefix      = gtk_label_new (prefix_text);
+            gtk_widget_add_css_class (prefix, "caption");
+          }
+        else
+          {
+            /* TODO:
+
+               `ctx->list_prefix` is '-', '+', '*'
+
+               maybe handle these?
+               */
+
+            prefix = gtk_image_new_from_icon_name ("circle-filled-symbolic");
+            gtk_image_set_pixel_size (GTK_IMAGE (prefix), 6);
+            gtk_widget_set_margin_top (prefix, 6);
+          }
+        gtk_widget_add_css_class (prefix, "dimmed");
+        gtk_widget_set_valign (prefix, GTK_ALIGN_START);
+
+        label = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (label);
+
+        child = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+        gtk_box_append (GTK_BOX (child), prefix);
+        gtk_box_append (GTK_BOX (child), label);
+
+        ctx->list_index++;
+      }
+      break;
+
+    case MD_BLOCK_HR:
+      child = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+      break;
+
+    case MD_BLOCK_H:
+      {
+        MD_BLOCK_H_DETAIL *h_detail  = detail;
+        const char        *css_class = NULL;
+
+        child = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (child);
+
+        switch (h_detail->level)
+          {
+          case 1:
+            css_class = "title-1";
+            break;
+          case 2:
+            css_class = "title-2";
+            break;
+          case 3:
+            css_class = "title-3";
+            break;
+          case 4:
+            css_class = "title-4";
+            break;
+          case 5:
+            css_class = "heading";
+            break;
+          case 6:
+          default:
+            css_class = "caption-heading";
+            break;
+          }
+        gtk_widget_add_css_class (child, css_class);
+      }
+      break;
+
+    case MD_BLOCK_CODE:
+      {
+        GtkWidget *label = NULL;
+
+        label = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (label);
+        gtk_widget_add_css_class (label, "monospace");
+        gtk_widget_set_margin_start (label, 5);
+        gtk_widget_set_margin_end (label, 5);
+        gtk_widget_set_margin_top (label, 5);
+        gtk_widget_set_margin_bottom (label, 5);
+
+        child = gtk_frame_new (NULL);
+        gtk_frame_set_child (GTK_FRAME (child), label);
+      }
+      break;
+
+    case MD_BLOCK_P:
+      {
+        child = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (child);
+        gtk_widget_add_css_class (child, "body");
+      }
+      break;
+
+    case MD_BLOCK_HTML:
+    case MD_BLOCK_TABLE:
+    case MD_BLOCK_THEAD:
+    case MD_BLOCK_TBODY:
+    case MD_BLOCK_TR:
+    case MD_BLOCK_TH:
+    case MD_BLOCK_TD:
+    default:
+      g_warning ("Unsupported markdown event (Did you use html/tables?)");
+      return 1;
+    }
+
+#undef SET_DEFAULTS
+
+  if (child != NULL)
+    {
+      gtk_widget_set_margin_start (child, 10 * ctx->indent);
+      gtk_box_append (ctx->box, child);
+      g_ptr_array_add (ctx->box_children, child);
+    }
+
+  if (ctx->markup != NULL)
+    {
+      g_string_free (ctx->markup, TRUE);
+      ctx->markup = NULL;
+    }
 
   return 0;
 }
