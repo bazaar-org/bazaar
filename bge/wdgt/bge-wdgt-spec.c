@@ -5009,7 +5009,6 @@ expression_adjust_state_transition (BgeWdgtRenderer *this,
                                     double           notifier,
                                     TransitionData  *data)
 {
-  gboolean                result                   = FALSE;
   TransitionClosureData  *closure_data             = NULL;
   TransitionData         *transition               = NULL;
   TransitionData         *last_transition          = NULL;
@@ -5033,23 +5032,6 @@ expression_adjust_state_transition (BgeWdgtRenderer *this,
       this->last_state == NULL ||
       this->last_instance == NULL)
     return in;
-
-  if (closure_data->instance != this->active_instance)
-    {
-      GtkExpression *corrected_in_expression = NULL;
-      GValue         corrected_in_resolved   = G_VALUE_INIT;
-
-      corrected_in_expression = g_hash_table_lookup (
-          this->active_state->expressions, closure_data->value);
-      g_assert (corrected_in_expression != NULL);
-      result = gtk_expression_evaluate (
-          corrected_in_expression,
-          this,
-          &corrected_in_resolved);
-      if (result)
-        in = g_value_get_double (&corrected_in_resolved);
-      g_value_unset (&corrected_in_resolved);
-    }
 
   transition = g_hash_table_lookup (
       this->active_state->transitions, closure_data->value);
