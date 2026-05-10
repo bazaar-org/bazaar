@@ -1290,9 +1290,6 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
   gtk_filter_changed (GTK_FILTER (self->group_filter), GTK_FILTER_CHANGE_LESS_STRICT);
   gtk_filter_changed (GTK_FILTER (self->appid_filter), GTK_FILTER_CHANGE_LESS_STRICT);
 
-  bz_state_info_set_background_task_label (self->state, _ ("Checking for updates…"));
-  finish_with_background_task_label (self);
-
   return dex_future_new_for_boolean (has_flathub_entry);
 }
 
@@ -1776,7 +1773,6 @@ respond_to_flatpak_fiber (RespondToFlatpakData *data)
             self->state, _ ("Loading %d apps…"), self->n_entries_incoming);
       else
         {
-          bz_state_info_set_background_task_label (self->state, _ ("Checking for updates…"));
           fiber_check_for_updates (self);
           finish_with_background_task_label (self);
         }
@@ -2282,6 +2278,7 @@ fiber_check_for_updates (BzApplication *self)
   GtkWindow *window                = NULL;
 
   g_debug ("Checking for updates...");
+  bz_state_info_set_background_task_label (self->state, _ ("Checking for updates…"));
   bz_state_info_set_checking_for_updates (self->state, TRUE);
 
   update_ids = dex_await_boxed (
