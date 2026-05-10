@@ -497,13 +497,17 @@ static void
 safety_cb (BzFullView *self,
            GtkButton  *button)
 {
-  AdwDialog *dialog = NULL;
+  AdwDialog *dialog   = NULL;
+  BzEntry   *ui_entry = NULL;
 
   if (self->group == NULL)
     return;
 
-  dialog = ADW_DIALOG (bz_safety_dialog_new (self->group));
+  ui_entry = bz_result_get_object (self->ui_entry);
+  if (ui_entry == NULL)
+    return;
 
+  dialog = bz_safety_dialog_new (ui_entry);
   adw_dialog_present (dialog, GTK_WIDGET (self));
 }
 

@@ -1,0 +1,10 @@
+prefix=bz
+name=flatpak_bundle_result
+parent-prefix=g
+parent-name=object
+author=AUTOGEN
+include="bz-flatpak-entry.h"
+include="bz-flatpak-repo.h"
+
+property=entry BzFlatpakEntry BZ_TYPE_FLATPAK_ENTRY object
+property=runtime_repo BzFlatpakRepo BZ_TYPE_FLATPAK_REPO object

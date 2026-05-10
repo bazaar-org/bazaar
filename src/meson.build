@@ -222,6 +222,8 @@ gobject_specs = files(
   'bz-finished-search-query.txt',
   'bz-flathub-auth-provider.txt',
   'bz-flathub-sub-category.txt',
+  'bz-flatpak-repo.txt',
+  'bz-flatpak-bundle-result.txt',
   'bz-hash-table-object.txt',
   'bz-hook-dialog-option.txt',
   'bz-hook-dialog.txt',

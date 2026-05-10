@@ -2,50 +2,490 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BzBundleInstallDialog: Adw.BreakpointBin {
-  width-request: 360;
-  height-request: 450;
-  child: Adw.ToolbarView {
-    bottom-bar-style: raised_border;
+  child: Adw.NavigationView nav_view {
+    Adw.NavigationPage {
+      tag: "main";
+      title: _("Bundle Installation");
 
-    [top]
-    Adw.HeaderBar {
-      title-widget: Label {
-        label: _("Bundle Installation");
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          title-widget: Label {
+            label: _("Bundle Installation");
+          };
+
+          show-title: false;
+        }
+
+        content: Stack main_stack {
+          StackPage {
+            name: "carousel";
+
+            child: Adw.Carousel carousel {
+              interactive: false;
+              spacing: 64;
+
+              Box page_info {
+                orientation: vertical;
+                spacing: 16;
+                valign: center;
+                halign: fill;
+                hexpand: true;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 24;
+                margin-end: 24;
+
+                Box {
+                  orientation: bind $get_header_orientation(template.runtime-repo) as <Gtk.Orientation>;
+                  spacing: 16;
+                  halign: fill;
+                  valign: start;
+
+                  Image icon {
+                    paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                    visible: bind $invert_boolean(
+                      $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                    ) as <bool>;
+                    use-fallback: true;
+                    pixel-size: 96;
+                    halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                    valign: center;
+
+                    styles [
+                      "icon-dropshadow",
+                    ]
+                  }
+
+                  Image {
+                    icon-name: "application-x-executable";
+                    pixel-size: 96;
+                    visible: bind $invert_boolean(icon.visible) as <bool>;
+                    halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                    valign: center;
+
+                    styles [
+                      "icon-dropshadow",
+                    ]
+                  }
+
+                  Box {
+                    orientation: vertical;
+                    spacing: 2;
+                    valign: center;
+                    hexpand: true;
+
+                    Label {
+                      label: bind template.entry as <$BzEntry>.title;
+                      wrap: true;
+                      wrap-mode: word_char;
+                      halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                      xalign: 0;
+
+                      styles [
+                        "title-3",
+                      ]
+                    }
+
+                    Label {
+                      label: bind template.entry as <$BzEntry>.developer;
+                      wrap: true;
+                      wrap-mode: word_char;
+                      halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                      xalign: 0;
+                      visible: bind $not($is_empty_string(template.entry as <$BzEntry>.developer) as <bool>) as <bool>;
+
+                      styles [
+                        "dim-label",
+                      ]
+                    }
+
+                    Label {
+                      label: bind $get_version(template.entry as <$BzEntry>.version-history);
+                      visible: bind $not(
+                        $is_empty_string($get_version(template.entry as <$BzEntry>.version-history) as <string>) as <bool>
+                      ) as <bool>;
+                      halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                      xalign: 0;
+
+                      styles [
+                        "dim-label",
+                        "caption",
+                      ]
+                    }
+                  }
+
+                  Button {
+                    styles [
+                      "suggested-action",
+                      "pill",
+                    ]
+
+                    valign: center;
+                    halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
+                    label: _("Install");
+                    clicked => $install_cb(template);
+                  }
+                }
+
+                Adw.PreferencesGroup {
+                  margin-top: 12;
+
+                  Adw.ActionRow {
+                    [prefix]
+                    Image {
+                      icon-name: "drive-harddisk-symbolic";
+                      valign: center;
+
+                      styles [
+                        "circular-lozenge",
+                        "grey",
+                      ]
+                    }
+
+                    title: bind $get_disk_title(template.entry as <$BzEntry>.installed-size);
+                    subtitle: _("Additional dependencies may take extra space");
+                  }
+
+                  Adw.ActionRow {
+                    [prefix]
+                    Image safety_icon {
+                      icon-name: bind $get_safety_icon_name(template.entry as <$BzEntry>);
+                      valign: center;
+
+                      styles [
+                        "circular-lozenge",
+                      ]
+                    }
+
+                    [suffix]
+                    Image {
+                      icon-name: "go-next-symbolic";
+                    }
+
+                    title: bind $get_safety_rating_label(template.entry);
+                    subtitle: bind $get_safety_subtitle(template.entry);
+                    subtitle-lines: 1;
+                    activatable: true;
+                    activated => $permission_cb();
+                  }
+                }
+
+                Box {
+                  orientation: vertical;
+                  spacing: 4;
+                  visible: bind $not($is_null(template.runtime-repo) as <bool>) as <bool>;
+
+                  Label {
+                    label: _(
+                      "Installing this app requires adding a new software source. Other apps from this source will show up in Bazaar.\n\nOnly add this source if you're sure you trust it."
+                    );
+                    wrap: true;
+                    wrap-mode: word_char;
+                    halign: start;
+
+                    styles [
+                      "body",
+                    ]
+                  }
+
+                  Adw.PreferencesGroup {
+                    Adw.ActionRow {
+                      activatable: bind $not(
+                        $is_null(template.runtime-repo as <$BzFlatpakRepo>.homepage) as <bool>
+                      ) as <bool>;
+                      activated => $repo_cb();
+
+                      child: Box {
+                        margin-top: 8;
+                        margin-bottom: 8;
+                        margin-start: 8;
+                        margin-end: 16;
+                        spacing: 8;
+
+                        Image bundle_image {
+                          pixel-size: 48;
+                        }
+
+                        Box {
+                          orientation: vertical;
+                          spacing: 4;
+                          hexpand: true;
+
+                          Label {
+                            label: bind template.runtime-repo as <$BzFlatpakRepo>.title;
+                            halign: start;
+                            ellipsize: end;
+
+                            styles [
+                              "heading",
+                            ]
+                          }
+
+                          Label {
+                            label: bind template.runtime-repo as <$BzFlatpakRepo>.description;
+                            wrap: true;
+                            halign: start;
+                            wrap-mode: word_char;
+                            lines: 2;
+                            ellipsize: end;
+                          }
+
+                          Label {
+                            halign: start;
+                            label: bind $format_url(template.runtime-repo as <$BzFlatpakRepo>.url);
+                            ellipsize: end;
+                            styles [
+                              "accent",
+                              "caption",
+                            ]
+                          }
+                        }
+
+                        Image {
+                          icon-name: "external-link-symbolic";
+                          margin-start: 8;
+                          visible: bind $not(
+                            $is_null(template.runtime-repo as <$BzFlatpakRepo>.homepage) as <bool>
+                          ) as <bool>;
+                        }
+                      };
+                    }
+                  }
+                }
+              }
+
+              Box page_progress {
+                orientation: vertical;
+                spacing: 12;
+                valign: center;
+                halign: fill;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 48;
+                margin-end: 48;
+
+                Image loading_icon {
+                  paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                  visible: bind $invert_boolean(
+                    $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                  ) as <bool>;
+                  pixel-size: 128;
+                  margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
+                }
+
+                Image {
+                  icon-name: "application-x-executable";
+                  pixel-size: 128;
+                  visible: bind $invert_boolean(loading_icon.visible) as <bool>;
+                  margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
+                }
+
+                Label {
+                  label: bind template.entry as <$BzEntry>.title;
+                  wrap: true;
+                  wrap-mode: word_char;
+                  halign: center;
+
+                  styles [
+                    "title-3",
+                  ]
+                }
+
+                ProgressBar progress_bar {
+                  margin-top: 16;
+                  pulse-step: 0.05;
+                  width-request: 250;
+                }
+              }
+
+              Box page_finish {
+                orientation: vertical;
+                spacing: 8;
+                valign: center;
+                halign: fill;
+                margin-top: 24;
+                margin-bottom: 24;
+                margin-start: 24;
+                margin-end: 24;
+
+                Image end_icon {
+                  paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                  visible: bind $invert_boolean(
+                    $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                  ) as <bool>;
+                  pixel-size: 128;
+                  margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
+                }
+
+                Image {
+                  icon-name: "application-x-executable";
+                  pixel-size: 128;
+                  visible: bind $invert_boolean(end_icon.visible) as <bool>;
+                  margin-bottom: 12;
+
+                  styles [
+                    "icon-dropshadow",
+                  ]
+                }
+
+                Label {
+                  label: bind template.entry as <$BzEntry>.title;
+                  wrap: true;
+                  wrap-mode: word_char;
+                  halign: center;
+
+                  styles [
+                    "title-3",
+                  ]
+                }
+
+                Label {
+                  label: _("Successfully Installed!");
+                  halign: center;
+                  margin-bottom: 16;
+                  margin-top: 8;
+
+                  styles [
+                    "dim-label",
+                  ]
+                }
+
+                Box {
+                  width-request: 40;
+                  orientation: vertical;
+                  spacing: 8;
+                  margin-top: 8;
+                  halign: center;
+
+                  Button open_btn {
+                    styles [
+                      "suggested-action",
+                      "pill",
+                    ]
+
+                    halign: fill;
+                    label: _("Open");
+                    clicked => $run_cb(template);
+                  }
+
+                  Button show_in_store_btn {
+                    styles [
+                      "pill",
+                    ]
+
+                    halign: fill;
+                    label: _("Show App Details");
+                    clicked => $show_cb(template);
+                  }
+                }
+              }
+            };
+          }
+
+          StackPage {
+            name: "installed";
+
+            child: Box {
+              orientation: vertical;
+              spacing: 8;
+              valign: center;
+              halign: fill;
+              margin-top: 24;
+              margin-bottom: 24;
+              margin-start: 24;
+              margin-end: 24;
+
+              Image installed_icon {
+                paintable: bind template.entry as <$BzEntry>.icon-paintable;
+                visible: bind $invert_boolean(
+                  $is_null(template.entry as <$BzEntry>.icon-paintable) as <bool>
+                ) as <bool>;
+                pixel-size: 128;
+                margin-bottom: 12;
+              }
+
+              Image {
+                icon-name: "application-x-executable";
+                pixel-size: 128;
+                visible: bind $invert_boolean(installed_icon.visible) as <bool>;
+                margin-bottom: 12;
+              }
+
+              Label {
+                label: bind template.entry as <$BzEntry>.title;
+                wrap: true;
+                wrap-mode: word_char;
+                halign: center;
+
+                styles [
+                  "title-3",
+                ]
+              }
+
+              Label {
+                label: _("Already Installed");
+
+                styles [
+                  "dim-label",
+                  "caption",
+                ]
+
+                halign: center;
+              }
+
+              Box {
+                orientation: vertical;
+                spacing: 8;
+                margin-top: 24;
+                halign: center;
+
+                Button {
+                  styles [
+                    "suggested-action",
+                    "pill",
+                  ]
+
+                  halign: fill;
+                  label: _("Open");
+                  clicked => $run_cb(template);
+                }
+
+                Button {
+                  styles [
+                    "pill",
+                  ]
+
+                  halign: fill;
+                  label: _("Show App Details");
+                  clicked => $show_cb(template);
+                }
+              }
+            };
+          }
+
+          StackPage {
+            name: "error";
+
+            child: Adw.StatusPage error_status {
+              icon-name: "sad-computer-symbolic";
+              title: _("Installation Failed");
+            };
+          }
+        };
       };
     }
-
-    content: Box {
-      orientation: vertical;
-      spacing: 5;
-
-      Image {
-        paintable: bind template.entry as <$BzEntry>.icon-paintable;
-        pixel-size: 128;
-      }
-      Label {
-        label: bind template.entry as <$BzEntry>.title;
-        wrap: true;
-      }
-      Label {
-        label: bind template.entry as <$BzEntry>.developer;
-        wrap: true;
-      }
-      Label {
-        label: bind template.entry as <$BzEntry>.description;
-        wrap: true;
-      }
-
-      Button install_btn {
-        styles [
-          "suggested-action",
-        ]
-        halign: center;
-        label: _("Install Bundle");
-        clicked => $install_cb(template);
-      }
-
-      Label status_lbl {
-      }
-    };
   };
 }

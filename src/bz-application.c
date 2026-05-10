@@ -45,6 +45,7 @@
 #include "bz-flathub-state.h"
 #include "bz-flatpak-entry.h"
 #include "bz-flatpak-instance.h"
+#include "bz-flatpak-bundle-result.h"
 #include "bz-gnome-shell-search-provider.h"
 #include "bz-hash-table-object.h"
 #include "bz-inspector.h"
@@ -292,6 +293,9 @@ init_service_struct (BzApplication *self,
                      GtkStringList *blocklists,
                      GtkStringList *txt_blocklists,
                      GtkStringList *curated_configs);
+
+static GtkWindow *
+get_or_create_window (BzApplication *self);
 
 static GtkWindow *
 new_window (BzApplication *self);
@@ -549,7 +553,12 @@ bz_application_command_line (GApplication            *app,
     }
 
   if (!no_window && !preview_metainfo)
-    new_window (self);
+    {
+      if (locations == NULL || *locations == NULL)
+        new_window (self);
+      else
+        get_or_create_window (self);
+    }
 
   if (locations != NULL && *locations != NULL)
     command_line_open_location (self, cmdline, locations[0]);
@@ -654,10 +663,7 @@ bz_application_donate_action (GSimpleAction *action,
 
   g_assert (BZ_IS_APPLICATION (self));
 
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
-
+  window = get_or_create_window (self);
   dialog = bz_donations_dialog_new ();
   adw_dialog_present (dialog, GTK_WIDGET (window));
 
@@ -675,9 +681,7 @@ bz_application_search_action (GSimpleAction *action,
 
   g_assert (BZ_IS_APPLICATION (self));
 
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
+  window = get_or_create_window (self);
 
   if (parameter != NULL)
     initial_text = g_variant_get_string (parameter, NULL);
@@ -696,9 +700,7 @@ bz_application_show_app_id_action (GSimpleAction *action,
 
   g_assert (BZ_IS_APPLICATION (self));
 
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
+  window = get_or_create_window (self);
 
   if (parameter != NULL)
     {
@@ -840,10 +842,7 @@ bz_application_flathub_favorites_action (GSimpleAction *action,
 
   g_assert (BZ_IS_APPLICATION (self));
 
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
-
+  window         = get_or_create_window (self);
   favorites_page = ADW_NAVIGATION_PAGE (bz_favorites_page_new (self->state));
 
   bz_window_push_page (BZ_WINDOW (window), favorites_page);
@@ -1822,11 +1821,7 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
   value = dex_future_get_value (future, &local_error);
   if (value == NULL)
     {
-      GtkWindow *window = NULL;
-
-      window = gtk_application_get_active_window (GTK_APPLICATION (self));
-      if (window == NULL)
-        window = new_window (self);
+      GtkWindow *window = get_or_create_window (self);
 
       bz_show_error_for_widget (
           GTK_WIDGET (window),
@@ -1838,24 +1833,44 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
 
   if (G_VALUE_HOLDS_OBJECT (value))
     {
-      GtkWindow             *window     = NULL;
-      BzEntry               *entry      = NULL;
-      BzBundleInstallDialog *install_ui = NULL;
-      AdwDialog             *dialog     = NULL;
+      GtkWindow             *window        = NULL;
+      BzEntry               *entry         = NULL;
+      BzFlatpakRepo         *repo          = NULL;
+      BzBundleInstallDialog *install_ui    = NULL;
+      BzFlatpakBundleResult *bundle_result = NULL;
+      AdwDialog             *dialog        = NULL;
+      const char            *id            = NULL;
 
-      window = gtk_application_get_active_window (GTK_APPLICATION (self));
-      if (window == NULL)
+      window = get_or_create_window (self);
+
+      if (adw_application_window_get_visible_dialog (ADW_APPLICATION_WINDOW (window)) != NULL)
         window = new_window (self);
 
-      entry      = g_value_get_object (value);
+      bundle_result = BZ_FLATPAK_BUNDLE_RESULT (g_value_get_object (value));
+      entry         = BZ_ENTRY (bz_flatpak_bundle_result_get_entry (bundle_result));
+      repo          = bz_flatpak_bundle_result_get_runtime_repo (bundle_result);
+
+      id = bz_entry_get_id (entry);
+
+      if (id != NULL)
+        {
+          BzEntryGroup *group = NULL;
+
+          group = g_hash_table_lookup (self->ids_to_groups, id);
+          if (group != NULL && bz_entry_group_get_removable (group) > 0)
+            bz_entry_set_installed (entry, TRUE);
+        }
+
       install_ui = g_object_new (
           BZ_TYPE_BUNDLE_INSTALL_DIALOG,
-          "state", self->state,
-          "entry", entry,
+          "state",        self->state,
+          "entry",        entry,
+          "runtime-repo", repo,
           NULL);
 
       dialog = adw_dialog_new ();
-      adw_dialog_set_follows_content_size (dialog, TRUE);
+      adw_dialog_set_content_width (dialog, 500);
+      adw_dialog_set_content_height (dialog, -1);
       adw_dialog_set_child (dialog, GTK_WIDGET (install_ui));
 
       adw_dialog_present (dialog, GTK_WIDGET (window));
@@ -3203,6 +3218,32 @@ init_service_struct (BzApplication *self,
 }
 
 static GtkWindow *
+get_or_create_window (BzApplication *self)
+{
+  GtkWindow *window  = NULL;
+  GList     *windows = NULL;
+
+  window = gtk_application_get_active_window (GTK_APPLICATION (self));
+  if (BZ_IS_WINDOW (window))
+    {
+      gtk_window_present (window);
+      return window;
+    }
+
+  windows = gtk_application_get_windows (GTK_APPLICATION (self));
+  for (GList *l = windows; l != NULL; l = l->next)
+    {
+      if (BZ_IS_WINDOW (l->data))
+        {
+          gtk_window_present (GTK_WINDOW (l->data));
+          return GTK_WINDOW (l->data);
+        }
+    }
+
+  return new_window (self);
+}
+
+static GtkWindow *
 new_window (BzApplication *self)
 {
   BzWindow *window                  = NULL;
@@ -3359,9 +3400,7 @@ open_generic_id (BzApplication *self,
   GtkWindow    *window = NULL;
 
   group  = g_hash_table_lookup (self->ids_to_groups, generic_id);
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
+  window = get_or_create_window (self);
 
   if (group != NULL)
     gtk_widget_activate_action (GTK_WIDGET (window), "window.show-group", "s", generic_id);
@@ -3392,9 +3431,7 @@ preview_metainfo_then (DexFuture *future,
     return dex_future_new_true ();
 
   result = g_value_get_boxed (value);
-  window = gtk_application_get_active_window (GTK_APPLICATION (self));
-  if (window == NULL)
-    window = new_window (self);
+  window = get_or_create_window (self);
 
   entry = bz_appstream_parser_entry_from_metainfo (
       result->metainfo_file,
