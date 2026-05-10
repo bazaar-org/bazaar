@@ -122,13 +122,11 @@ defwidget "Transact Icon" {
     
     set start = 0.0;
     set end = 1.0;
-    transition-spring start 1.0, 0.1, 5.0;
-    transition-spring end 1.0, 0.1, 5.0;
     
     set path-opacity = 0.0;
-    transition-spring path-opacity 1.0, 0.1, 50.0;
+    transition-spring path-opacity 1.0, 0.1, 30.0;
 
-    set path-width = 5.0;
+    set path-width = 2.0;
     transition-spring path-width 1.0, 0.1, 5.0;
 
     set t-x  = 0.5;
@@ -170,10 +168,8 @@ defwidget "Transact Icon" {
     set icon-scale = 0.5;
     transition-spring icon-scale 1.0, 0.1, 15.0;
     
-    set start = 0.0;
-    set end = 1.0;
-    transition-spring start 1.0, 0.1, 5.0;
-    transition-spring end 1.0, 0.1, 5.0;
+    set start = #eval((#(%tick%)*0.5)%1.0);
+    set end = #eval(#(start)+0.2);
     
     set path-opacity = 1.0;
     transition-spring path-opacity 1.0, 0.1, 5.0;
@@ -181,22 +177,22 @@ defwidget "Transact Icon" {
     set path-width = 2.0;
     transition-spring path-width 1.0, 0.1, 5.0;
     
-    set t-x  = #eval(0.5+sin(#(%tick%))*0.1);
+    set t-x  = 0.5;
     set t-y  = 0.0;
-    set tr-x = r-x;
-    set tr-y = t-y;
+    set tr-x = 1.0;
+    set tr-y = 0.0;
     set r-x  = 1.0;
-    set r-y  = #eval(0.5+cos(#(%tick%))*0.1);
-    set br-x = r-x;
-    set br-y = b-y;
-    set b-x  = #eval(0.5+sin(#(%tick%))*0.1);
+    set r-y  = 0.5;
+    set br-x = 1.0;
+    set br-y = 1.0;
+    set b-x  = 0.5;
     set b-y  = 1.0;
-    set bl-x = l-x;
-    set bl-y = b-y;
+    set bl-x = 0.0;
+    set bl-y = 1.0;
     set l-x  = 0.0;
-    set l-y  = #eval(0.5+cos(#(%tick%))*0.1);
-    set tl-x = l-x;
-    set tl-y = t-y;
+    set l-y  = 0.5;
+    set tl-x = 0.0;
+    set tl-y = 0.0;
 
     transition-spring t-x  1.0, 0.1, 10.0;
     transition-spring t-y  1.0, 0.1, 10.0;
@@ -221,9 +217,7 @@ defwidget "Transact Icon" {
     transition-spring icon-scale 1.0, 0.1, 15.0;
     
     set start = 0.0;
-    set end = progress;
-    transition-spring start 1.0, 0.1, 5.0;
-    transition-spring end 1.0, 0.1, 5.0;
+    set end = #eval(0.05+#(progress)*0.95);
     
     set path-opacity = 1.0;
     transition-spring path-opacity 1.0, 0.1, 5.0;
