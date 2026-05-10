@@ -124,7 +124,7 @@ defwidget "Transact Icon" {
     set end = 1.0;
     
     set path-opacity = 0.0;
-    transition-spring path-opacity 1.0, 0.1, 30.0;
+    transition-spring path-opacity 1.0, 0.1, 10.0;
 
     set path-width = 2.0;
     transition-spring path-width 1.0, 0.1, 5.0;
