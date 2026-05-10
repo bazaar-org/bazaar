@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-04 16:32+0200\n"
-"PO-Revision-Date: 2026-05-04 16:42+0200\n"
+"POT-Creation-Date: 2026-05-10 17:29+0200\n"
+"PO-Revision-Date: 2026-05-10 22:28+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Search apps directly from GNOME Shell"
 msgstr "Vyhledávejte aplikace přímo z GNOME Shellu"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:756
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:760
 msgid "The Bazaar Contributors"
 msgstr "Přispěvatelé aplikace Bazaar"
 
@@ -151,11 +151,11 @@ msgstr ""
 msgid "Add-on for %s"
 msgstr "Doplněk pro %s"
 
-#: src/bz-addons-dialog.c:344 src/bz-full-view.c:568
+#: src/bz-addons-dialog.c:344 src/bz-full-view.c:572
 msgid "Show Less"
 msgstr "Zobrazit méně"
 
-#: src/bz-addons-dialog.c:344 src/bz-full-view.c:568
+#: src/bz-addons-dialog.c:344 src/bz-full-view.c:572
 msgid "Show More"
 msgstr "Zobrazit více"
 
@@ -716,41 +716,41 @@ msgstr "Ověřeno"
 msgid "Installed"
 msgstr "Nainstalováno"
 
-#: src/bz-application.c:735
+#: src/bz-application.c:739
 msgctxt "About Dialog Developer Credit"
 msgid "Adam Masciola <kolunmi@posteo.net>"
 msgstr "Adam Masciola <kolunmi@posteo.net>"
 
-#: src/bz-application.c:736
+#: src/bz-application.c:740
 msgctxt "About Dialog Developer Credit"
 msgid "Alexander Vanhee"
 msgstr "Alexander Vanhee"
 
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:759
+#: src/bz-application.c:763
 msgid "translator-credits"
 msgstr ""
 "Vlastimil Dědek <dedek.vlastimil2@proton.me>, 2025\n"
 "Pavel Borecki <pavel@borecki.cz>, 2026\n"
 "Daniel Rusek <mail@asciiwolf.com>, 2026"
 
-#: src/bz-application.c:769
+#: src/bz-application.c:773
 msgid "Special Thanks"
 msgstr "Zvláštní poděkování patří"
 
-#: src/bz-application.c:827
+#: src/bz-application.c:831
 msgid "Logged Out Successfully!"
 msgstr "Úspěšně odhlášeni!"
 
-#: src/bz-application.c:965
+#: src/bz-application.c:967
 msgid "Performing setup…"
 msgstr "Provádí se nastavení…"
 
-#: src/bz-application.c:1049
+#: src/bz-application.c:1053
 msgid "Set Up System Flathub?"
 msgstr "Nastavit systémový Flathub?"
 
-#: src/bz-application.c:1052
+#: src/bz-application.c:1056
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -765,11 +765,11 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1059
+#: src/bz-application.c:1063
 msgid "Set Up Flathub?"
 msgstr "Nastavit Flathub?"
 
-#: src/bz-application.c:1062
+#: src/bz-application.c:1066
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -782,52 +782,52 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1068
+#: src/bz-application.c:1072
 msgid "Later"
 msgstr "Později"
 
-#: src/bz-application.c:1069
+#: src/bz-application.c:1073
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1281 src/bz-application.c:1768
-msgid "Checking for updates…"
-msgstr "Kontrolují se aktualizace…"
-
-#: src/bz-application.c:1401
+#: src/bz-application.c:1408
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1601 src/bz-application.c:3641 src/bz-window.blp:69
+#: src/bz-application.c:1608 src/bz-application.c:3690 src/bz-window.blp:69
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:1765 src/bz-application.c:3639
+#: src/bz-application.c:1772 src/bz-application.c:3688
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:1823
+#: src/bz-application.c:1825
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:1908
+#: src/bz-application.c:1930
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2329
+#: src/bz-application.c:2296
+msgid "Checking for updates…"
+msgstr "Kontrolují se aktualizace…"
+
+#: src/bz-application.c:2352
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3359
+#: src/bz-application.c:3410
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:3392
+#: src/bz-application.c:3441
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:3643
+#: src/bz-application.c:3692
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -895,13 +895,23 @@ msgctxt "Project URL Type"
 msgid "Contribute"
 msgstr "Přispět"
 
-#: src/bz-bundle-install-dialog.c:240
-msgid "Installing"
-msgstr "Instaluje se"
+#: src/bz-bundle-install-dialog.c:169
+msgid "Unknown install size"
+msgstr "Neznámá velikost instalace"
 
-#: src/bz-bundle-install-dialog.c:254
-msgid "Installed!"
-msgstr "Nainstalováno!"
+#: src/bz-bundle-install-dialog.c:172
+#, c-format
+msgid "About %s to install"
+msgstr "Přibližně %s k instalaci"
+
+#: src/bz-bundle-install-dialog.c:186 src/bz-context-tile-callbacks.c:104
+#: src/bz-context-tile-callbacks.c:392 src/bz-context-tile-callbacks.c:409
+msgid "N/A"
+msgstr "N/A"
+
+#: src/bz-bundle-install-dialog.c:215
+msgid "No special permissions"
+msgstr "Žádná zvláštní oprávnění"
 
 #: src/bz-context-tile-callbacks.c:68
 msgid "---"
@@ -923,11 +933,6 @@ msgstr "%.*f tis."
 #, c-format
 msgid "%d downloads in the last month"
 msgstr "%d stažení za poslední měsíc"
-
-#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:389
-#: src/bz-context-tile-callbacks.c:406
-msgid "N/A"
-msgstr "N/A"
 
 #: src/bz-context-tile-callbacks.c:132
 #, c-format
@@ -1015,25 +1020,25 @@ msgstr "Funguje na PC, tabletech a telefonech"
 msgid "May not work on mobile devices"
 msgstr "Možná nefunguje na mobilních zařízeních"
 
-#: src/bz-context-tile-callbacks.c:396 src/bz-safety-dialog.blp:31
+#: src/bz-context-tile-callbacks.c:399 src/bz-safety-dialog.blp:27
 msgid "Safe"
 msgstr "Bezpečné"
 
-#: src/bz-context-tile-callbacks.c:398 src/bz-context-tile-callbacks.c:400
+#: src/bz-context-tile-callbacks.c:401 src/bz-context-tile-callbacks.c:403
 msgid "Low Risk"
 msgstr "Nízké riziko"
 
-#: src/bz-context-tile-callbacks.c:402
+#: src/bz-context-tile-callbacks.c:405
 msgid "Medium Risk"
 msgstr "Střední riziko"
 
-#: src/bz-context-tile-callbacks.c:404
+#: src/bz-context-tile-callbacks.c:407
 msgid "High Risk"
 msgstr "Vysoké riziko"
 
 #: src/bz-curated-view.blp:11 src/bz-favorites-page.blp:46
 #: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30
-#: src/bz-library-page.blp:66 src/bz-user-data-page.blp:30
+#: src/bz-library-page.blp:67 src/bz-user-data-page.blp:30
 msgid "Empty"
 msgstr "Prázdné"
 
@@ -1169,7 +1174,7 @@ msgid "all users"
 msgstr "všichni uživatelé"
 
 #: src/bz-error-dialog.blp:36 src/bz-error.c:69 src/bz-error.c:88
-#: src/bz-safety-dialog.blp:50
+#: src/bz-safety-dialog.blp:46
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -1572,8 +1577,8 @@ msgstr "Hry a aplikace pro spuštění vašich oblíbených titulů"
 msgid "More Games"
 msgstr "Více z Her"
 
-#: src/bz-full-view.blp:34 src/bz-library-page.blp:77
-#: src/bz-library-page.blp:81
+#: src/bz-full-view.blp:34 src/bz-library-page.blp:78
+#: src/bz-library-page.blp:82
 msgid "No Results"
 msgstr "Žádné výsledky"
 
@@ -1790,48 +1795,48 @@ msgstr "Odebrat"
 msgid "Search installed apps"
 msgstr "hledat nainstalované aplikace"
 
-#: src/bz-library-page.blp:49
+#: src/bz-library-page.blp:50
 msgid "Clear search"
 msgstr "Vymazat hledání"
 
-#: src/bz-library-page.blp:70
+#: src/bz-library-page.blp:71
 msgid "No Apps Found"
 msgstr "Nenalezeny žádné aplikace"
 
-#: src/bz-library-page.blp:89
+#: src/bz-library-page.blp:90
 msgid "Search Store Instead"
 msgstr "Hledat v obchodě"
 
 #. Translators: .
-#: src/bz-library-page.blp:99 src/bz-window.blp:111
+#: src/bz-library-page.blp:100 src/bz-window.blp:111
 msgid "Library"
 msgstr "Knihovna"
 
-#: src/bz-library-page.blp:127
+#: src/bz-library-page.blp:128
 msgid "Pending Updates"
 msgstr "Čekající aktualizace"
 
-#: src/bz-library-page.blp:154
+#: src/bz-library-page.blp:155
 msgid "Downloads"
 msgstr "Stažení"
 
-#: src/bz-library-page.blp:197
+#: src/bz-library-page.blp:198
 msgid "Recently Uninstalled"
 msgstr "Nedávno odinstalované"
 
-#: src/bz-library-page.blp:248
+#: src/bz-library-page.blp:249
 msgid "Clear Finished Tasks"
 msgstr "Vymazat dokončené úlohy"
 
-#: src/bz-library-page.blp:333
+#: src/bz-library-page.blp:334
 msgid "Sort By"
 msgstr "Řadit podle"
 
-#: src/bz-library-page.blp:347
+#: src/bz-library-page.blp:348
 msgid "Name"
 msgstr "Název"
 
-#: src/bz-library-page.blp:353
+#: src/bz-library-page.blp:354
 msgid "Size"
 msgstr "Velikost"
 
@@ -1924,7 +1929,7 @@ msgstr ""
 "\n"
 "Můžete nebo nemusíte být schopni do této aplikace přispívat."
 
-#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:53
+#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:49
 msgid "License"
 msgstr "Licence"
 
@@ -2528,19 +2533,15 @@ msgstr "Integrace KDE Connect"
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "Může komunikovat se zařízeními spárovanými přes KDE Connect"
 
-#: src/bz-safety-dialog.blp:7
-msgid "Safety"
-msgstr "Bezpečnost"
-
-#: src/bz-safety-dialog.blp:63
+#: src/bz-safety-dialog.blp:59
 msgid "App ID"
 msgstr "ID aplikace"
 
-#: src/bz-safety-dialog.blp:73
+#: src/bz-safety-dialog.blp:69
 msgid "SDK"
 msgstr "SDK"
 
-#: src/bz-safety-dialog.blp:104
+#: src/bz-safety-dialog.blp:100
 msgid ""
 "This app uses an outdated version of the software platform (SDK) and might "
 "contain bugs or security vulnerabilities which will not be fixed."
@@ -2548,27 +2549,31 @@ msgstr ""
 "Tato aplikace používá zastaralou verzi softwarové platformy (SDK) a může "
 "obsahovat chyby nebo slabá místa zabezpečení, která nebudou opravena."
 
-#: src/bz-safety-dialog.c:227
+#: src/bz-safety-dialog.c:167
+msgid "Safety"
+msgstr "Bezpečnost"
+
+#: src/bz-safety-dialog.c:226
 #, c-format
 msgid "%s is Safe"
 msgstr "Aplikace %s je bezpečná"
 
-#: src/bz-safety-dialog.c:232
+#: src/bz-safety-dialog.c:231
 #, c-format
 msgid "%s has no Unsafe Permissions"
 msgstr "Aplikace %s nemá žádná nebezpečná oprávnění"
 
-#: src/bz-safety-dialog.c:237
+#: src/bz-safety-dialog.c:236
 #, c-format
 msgid "%s is Probably Safe"
 msgstr "Aplikace %s je pravděpodobně bezpečná"
 
-#: src/bz-safety-dialog.c:242
+#: src/bz-safety-dialog.c:241
 #, c-format
 msgid "%s is Possibly Unsafe"
 msgstr "Aplikace %s pravděpodobně není bezpečná"
 
-#: src/bz-safety-dialog.c:247
+#: src/bz-safety-dialog.c:246
 #, c-format
 msgid "%s is Unsafe"
 msgstr "Aplikace %s není bezpečná"
