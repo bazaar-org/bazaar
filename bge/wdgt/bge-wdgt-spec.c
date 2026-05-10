@@ -6147,13 +6147,13 @@ reset_setter (WatchSetterData *data)
 
 static GHashTable *renderer_resource_cache = NULL;
 
-static void
-cache_weak_notify (char    *resource,
-                   GObject *where_the_object_was)
-{
-  g_hash_table_remove (renderer_resource_cache, resource);
-  g_free (resource);
-}
+// static void
+// cache_weak_notify (char    *resource,
+//                    GObject *where_the_object_was)
+// {
+//   g_hash_table_remove (renderer_resource_cache, resource);
+//   g_free (resource);
+// }
 
 static void
 wdgt_renderer_set_from_resource (BgeWdgtRenderer *self,
@@ -6174,7 +6174,7 @@ wdgt_renderer_set_from_resource (BgeWdgtRenderer *self,
           g_str_hash,
           g_str_equal,
           g_free,
-          NULL);
+          g_object_unref);
       g_once_init_leave_pointer (&renderer_resource_cache, tmp);
     }
 
@@ -6208,11 +6208,11 @@ wdgt_renderer_set_from_resource (BgeWdgtRenderer *self,
       g_hash_table_replace (
           renderer_resource_cache,
           g_strdup (resource),
-          spec);
-      g_object_weak_ref (
-          G_OBJECT (spec),
-          (GWeakNotify) cache_weak_notify,
-          g_strdup (resource));
+          g_object_ref (spec));
+      // g_object_weak_ref (
+      //     G_OBJECT (spec),
+      //     (GWeakNotify) cache_weak_notify,
+      //     g_strdup (resource));
 
       cached = spec;
     }
