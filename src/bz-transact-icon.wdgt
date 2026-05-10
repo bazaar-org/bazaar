@@ -126,7 +126,7 @@ defwidget "Transact Icon" {
     set path-opacity = 0.0;
     transition-spring path-opacity 1.0, 0.1, 10.0;
 
-    set path-width = 2.0;
+    set path-width = 3.0;
     transition-spring path-width 1.0, 0.1, 5.0;
 
     set t-x  = 0.5;
@@ -165,7 +165,7 @@ defwidget "Transact Icon" {
   }
   
   state "pending" {
-    set icon-scale = 0.5;
+    set icon-scale = 0.6;
     transition-spring icon-scale 1.0, 0.1, 15.0;
     
     set start = #eval((#(%tick%)*0.5)%1.0);
@@ -174,7 +174,7 @@ defwidget "Transact Icon" {
     set path-opacity = 1.0;
     transition-spring path-opacity 1.0, 0.1, 5.0;
 
-    set path-width = 2.0;
+    set path-width = 3.0;
     transition-spring path-width 1.0, 0.1, 5.0;
     
     set t-x  = 0.5;
@@ -222,7 +222,7 @@ defwidget "Transact Icon" {
     set path-opacity = 1.0;
     transition-spring path-opacity 1.0, 0.1, 5.0;
 
-    set path-width = 4.0;
+    set path-width = 3.0;
     transition-spring path-width 1.0, 0.1, 5.0;
 
     set t-x  = 0.5;
