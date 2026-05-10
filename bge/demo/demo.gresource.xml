@@ -4,5 +4,6 @@
     <file>window.ui</file>
     <file>style.css</file>
     <file>test.wdgt</file>
+    <file alias="example-markdown.md">../../docs/overview.md</file>
   </gresource>
 </gresources>

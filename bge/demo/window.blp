@@ -2,29 +2,39 @@ using Gtk 4.0;
 
 Box root {
   Paned {
+    orientation: horizontal;
     position: 400;
+    wide-handle: true;
     start-child: ScrolledWindow {
-      child: TextView {
-        styles ["source-edit"]
-        monospace: true;
-        buffer: TextBuffer buffer {
-        };
+      child: $BgeMarkdownRender markdown {
       };
     };
-    end-child: Box {
-      orientation: vertical;
-      $BgeWdgtRenderer wdgt {
-        styles ["debug"]
-        halign: center;
-        valign: center;
-        hexpand: true;
-        vexpand: true;
-        state: bind state_entry.text;
-      }
-      Entry state_entry {
-        text: "1";
-      }
+    end-child: Paned {
+      orientation: horizontal;
+      position: 400;
+      start-child: ScrolledWindow {
+        child: TextView {
+          styles ["source-edit"]
+          monospace: true;
+          buffer: TextBuffer buffer {
+          };
+        };
+      };
+      end-child: Box {
+        orientation: vertical;
+        $BgeWdgtRenderer wdgt {
+          styles ["debug"]
+          halign: center;
+          valign: center;
+          hexpand: true;
+          vexpand: true;
+          state: bind state_entry.text;
+        }
+        Entry state_entry {
+          text: "1";
+        }
+      };
+      shrink-end-child: false;
     };
-    shrink-end-child: false;
   }
 }

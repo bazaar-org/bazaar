@@ -53,16 +53,20 @@ main (int argc, char **argv)
 static void
 on_activate (GtkApplication *app)
 {
-  GtkWidget       *window               = NULL;
-  GtkWidget       *root                 = NULL;
-  GtkTextBuffer   *buffer               = NULL;
-  BgeWdgtRenderer *wdgt                 = NULL;
+  GtkWidget         *window             = NULL;
+  GtkWidget         *root               = NULL;
+  GtkTextBuffer     *buffer             = NULL;
+  BgeWdgtRenderer   *wdgt               = NULL;
+  BgeMarkdownRender *markdown           = NULL;
   g_autoptr (GtkStringObject) reference = NULL;
   g_autoptr (GtkBuilder) builder        = NULL;
   g_autoptr (GtkBuilderScope) scope     = NULL;
   g_autoptr (GBytes) wdgt_bytes         = NULL;
   gsize         wdgt_buffer_size        = 0;
   gconstpointer wdgt_buffer             = NULL;
+  g_autoptr (GBytes) markdown_bytes     = NULL;
+  gsize         markdown_buffer_size    = 0;
+  gconstpointer markdown_buffer         = NULL;
 
   window = gtk_application_window_new (app);
   gtk_window_set_default_size (GTK_WINDOW (window), 1000, 500);
@@ -72,9 +76,10 @@ on_activate (GtkApplication *app)
   builder = gtk_builder_new ();
   gtk_builder_set_scope (builder, scope);
   gtk_builder_add_from_resource (builder, "/io/github/kolunmi/BgeDemo/window.ui", NULL);
-  root   = GTK_WIDGET (gtk_builder_get_object (builder, "root"));
-  buffer = GTK_TEXT_BUFFER (gtk_builder_get_object (builder, "buffer"));
-  wdgt   = BGE_WDGT_RENDERER (gtk_builder_get_object (builder, "wdgt"));
+  root     = GTK_WIDGET (gtk_builder_get_object (builder, "root"));
+  buffer   = GTK_TEXT_BUFFER (gtk_builder_get_object (builder, "buffer"));
+  wdgt     = BGE_WDGT_RENDERER (gtk_builder_get_object (builder, "wdgt"));
+  markdown = BGE_MARKDOWN_RENDER (gtk_builder_get_object (builder, "markdown"));
 
   reference = gtk_string_object_new ("Hello from demo.c!!");
   bge_wdgt_renderer_set_reference (wdgt, G_OBJECT (reference));
@@ -90,6 +95,13 @@ on_activate (GtkApplication *app)
   g_assert (wdgt_bytes != NULL);
   wdgt_buffer = g_bytes_get_data (wdgt_bytes, &wdgt_buffer_size);
   gtk_text_buffer_set_text (buffer, wdgt_buffer, wdgt_buffer_size);
+
+  markdown_bytes = g_resources_lookup_data (
+      "/io/github/kolunmi/BgeDemo/example-markdown.md",
+      G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
+  g_assert (markdown_bytes != NULL);
+  markdown_buffer = g_bytes_get_data (markdown_bytes, &markdown_buffer_size);
+  bge_markdown_render_set_markdown (markdown, markdown_buffer);
 
   gtk_window_set_child (GTK_WINDOW (window), g_object_ref_sink (root));
   gtk_window_present (GTK_WINDOW (window));
