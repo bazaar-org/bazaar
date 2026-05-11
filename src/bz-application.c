@@ -736,9 +736,8 @@ bz_application_about_action (GSimpleAction *action,
   AdwDialog     *dialog = NULL;
 
   const char *developers[] = {
-    C_ ("About Dialog Developer Credit", "Adam Masciola <kolunmi@posteo.net>"),
-    C_ ("About Dialog Developer Credit", "Alexander Vanhee"),
-    /* This array MUST be NULL terminated */
+    "Adam Masciola <kolunmi@posteo.net>",
+    "Alexander Vanhee",
     NULL
   };
 
