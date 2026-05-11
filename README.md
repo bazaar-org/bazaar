@@ -97,6 +97,7 @@ You will need the following dependencies installed, along with a C compiler, mes
 | [libsoup](https://gitlab.gnome.org/GNOME/libsoup)                 | `libsoup-3.0`     | `3.6.0`     | HTTP operations                                     |
 | [json-glib](https://gitlab.gnome.org/GNOME/json-glib)             | `json-glib-1.0`   | `1.10.0`    | Parse some HTTP replies                             |
 | [md4c](https://github.com/mity/md4c)                              | `md4c`            | `0.5.1`     | Parse markdown (.md)                                |
+| [gtksourceview](https://gitlab.gnome.org/GNOME/gtksourceview)     | `gtksourceview-5` | `5.17`      | Render markdown code blocks                         |
 | [webkitgtk](https://webkitgtk.org/)                               | `webkitgtk-6.0`   | `2.50.2`    | Render web views                                    |
 | [libsecret](https://gitlab.gnome.org/GNOME/libsecret)             | `libsecret-1`     | `0.20`      | Store Flathub account information                   |
 | [libproxy](https://github.com/libproxy/libproxy)                  | `libproxy-1.0`    | `0.5`       | Parse proxies for networking operations             |
