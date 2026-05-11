@@ -151,7 +151,7 @@ template $BzSectionView: Adw.Bin {
       vexpand: true;
       visible: bind $invert_boolean($is_null(template.section as <$BzCuratedSection>.markdown) as <bool>) as <bool>;
 
-      $BgeMarkdownRender {
+      $BgeMarkdownRender markdown {
         hexpand: true;
         vexpand: true;
         markdown: bind template.section as <$BzCuratedSection>.markdown as <$BzCuratedMarkdownInfo>.string as <string>;

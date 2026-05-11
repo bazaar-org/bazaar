@@ -36,15 +36,15 @@ const char *
 bge_markdown_render_get_markdown (BgeMarkdownRender *self);
 
 gboolean
-bge_markdown_render_get_selectable (BgeMarkdownRender *self);
+bge_markdown_render_get_dark (BgeMarkdownRender *self);
 
 void
 bge_markdown_render_set_markdown (BgeMarkdownRender *self,
                                   const char        *markdown);
 
 void
-bge_markdown_render_set_selectable (BgeMarkdownRender *self,
-                                    gboolean           selectable);
+bge_markdown_render_set_dark (BgeMarkdownRender *self,
+                              gboolean           dark);
 
 G_END_DECLS
 

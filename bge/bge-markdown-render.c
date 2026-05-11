@@ -30,10 +30,11 @@ struct _BgeMarkdownRender
   GtkWidget parent_instance;
 
   char    *markdown;
-  gboolean selectable;
+  gboolean dark;
 
   GtkWidget *box;
   GPtrArray *box_children;
+  GPtrArray *source_views;
 };
 
 G_DEFINE_FINAL_TYPE (BgeMarkdownRender, bge_markdown_render, GTK_TYPE_WIDGET);
@@ -43,7 +44,7 @@ enum
   PROP_0,
 
   PROP_MARKDOWN,
-  PROP_SELECTABLE,
+  PROP_DARK,
 
   LAST_PROP
 };
@@ -62,6 +63,7 @@ typedef struct
   int        indent;
   int        list_index;
   MD_CHAR    list_prefix;
+  GPtrArray *source_views;
 } ParseCtx;
 
 static int
@@ -107,6 +109,9 @@ terminate_block (MD_BLOCKTYPE type,
                  void        *user_data);
 
 static void
+check_dark_mode (BgeMarkdownRender *self);
+
+static void
 bge_markdown_render_dispose (GObject *object)
 {
   BgeMarkdownRender *self = BGE_MARKDOWN_RENDER (object);
@@ -115,6 +120,7 @@ bge_markdown_render_dispose (GObject *object)
 
   g_clear_pointer (&self->box, gtk_widget_unparent);
   g_clear_pointer (&self->box_children, g_ptr_array_unref);
+  g_clear_pointer (&self->source_views, g_ptr_array_unref);
 
   G_OBJECT_CLASS (bge_markdown_render_parent_class)->dispose (object);
 }
@@ -132,8 +138,8 @@ bge_markdown_render_get_property (GObject    *object,
     case PROP_MARKDOWN:
       g_value_set_string (value, bge_markdown_render_get_markdown (self));
       break;
-    case PROP_SELECTABLE:
-      g_value_set_boolean (value, bge_markdown_render_get_selectable (self));
+    case PROP_DARK:
+      g_value_set_boolean (value, bge_markdown_render_get_dark (self));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -153,8 +159,8 @@ bge_markdown_render_set_property (GObject      *object,
     case PROP_MARKDOWN:
       bge_markdown_render_set_markdown (self, g_value_get_string (value));
       break;
-    case PROP_SELECTABLE:
-      bge_markdown_render_set_selectable (self, g_value_get_boolean (value));
+    case PROP_DARK:
+      bge_markdown_render_set_dark (self, g_value_get_boolean (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -216,9 +222,9 @@ bge_markdown_render_class_init (BgeMarkdownRenderClass *klass)
           NULL, NULL, NULL,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-  props[PROP_SELECTABLE] =
+  props[PROP_DARK] =
       g_param_spec_boolean (
-          "selectable",
+          "dark",
           NULL, NULL, FALSE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
@@ -236,6 +242,7 @@ bge_markdown_render_init (BgeMarkdownRender *self)
   gtk_widget_set_parent (self->box, GTK_WIDGET (self));
 
   self->box_children = g_ptr_array_new ();
+  self->source_views = g_ptr_array_new ();
 }
 
 GtkWidget *
@@ -252,10 +259,10 @@ bge_markdown_render_get_markdown (BgeMarkdownRender *self)
 }
 
 gboolean
-bge_markdown_render_get_selectable (BgeMarkdownRender *self)
+bge_markdown_render_get_dark (BgeMarkdownRender *self)
 {
   g_return_val_if_fail (BGE_IS_MARKDOWN_RENDER (self), FALSE);
-  return self->selectable;
+  return self->dark;
 }
 
 void
@@ -269,19 +276,24 @@ bge_markdown_render_set_markdown (BgeMarkdownRender *self,
     self->markdown = g_strdup (markdown);
 
   regenerate (self);
+  check_dark_mode (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MARKDOWN]);
 }
 
 void
-bge_markdown_render_set_selectable (BgeMarkdownRender *self,
-                                    gboolean           selectable)
+bge_markdown_render_set_dark (BgeMarkdownRender *self,
+                              gboolean           dark)
 {
   g_return_if_fail (BGE_IS_MARKDOWN_RENDER (self));
 
-  self->selectable = selectable;
+  if (!!dark == !!self->dark)
+    return;
 
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SELECTABLE]);
+  self->dark = dark;
+  check_dark_mode (self);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DARK]);
 }
 
 static void
@@ -298,6 +310,7 @@ regenerate (BgeMarkdownRender *self)
       gtk_box_remove (GTK_BOX (self->box), child);
     }
   g_ptr_array_set_size (self->box_children, 0);
+  g_ptr_array_set_size (self->source_views, 0);
 
   if (self->markdown == NULL)
     return;
@@ -310,6 +323,7 @@ regenerate (BgeMarkdownRender *self)
   ctx.indent       = 0;
   ctx.list_index   = 0;
   ctx.list_prefix  = '\0';
+  ctx.source_views = self->source_views;
 
   iresult = md_parse (
       self->markdown,
@@ -698,6 +712,7 @@ terminate_block (MD_BLOCKTYPE type,
             ctx->markup->str, ctx->markup->len);
 
         view = gtk_source_view_new_with_buffer (buffer);
+        g_ptr_array_add (ctx->source_views, view);
         gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
         gtk_text_view_set_monospace (GTK_TEXT_VIEW (view), TRUE);
         gtk_widget_add_css_class (view, "monospace");
@@ -747,6 +762,37 @@ terminate_block (MD_BLOCKTYPE type,
     }
 
   return 0;
+}
+
+static void
+check_dark_mode (BgeMarkdownRender *self)
+{
+  const char           *id     = NULL;
+  GtkSourceStyleScheme *scheme = NULL;
+
+  if (self->dark)
+    id = "Adwaita-dark";
+  else
+    id = "Adwaita";
+
+  scheme = gtk_source_style_scheme_manager_get_scheme (
+      gtk_source_style_scheme_manager_get_default (),
+      id);
+  for (guint i = 0; i < self->source_views->len; i++)
+    {
+      GtkSourceView *view   = NULL;
+      GtkTextBuffer *buffer = NULL;
+
+      view   = g_ptr_array_index (self->source_views, i);
+      buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+      if (scheme != NULL)
+        {
+          gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (buffer), TRUE);
+          gtk_source_buffer_set_style_scheme (GTK_SOURCE_BUFFER (buffer), scheme);
+        }
+      else
+        gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (buffer), FALSE);
+    }
 }
 
 /* End of bge-markdown-render.c */

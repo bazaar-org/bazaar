@@ -40,9 +40,10 @@ struct _BzSectionView
   GListModel      *applied_classes;
 
   /* Template widgets */
-  GtkOverlay *banner_text_overlay;
-  GtkBox     *banner_text_bg;
-  GtkBox     *banner_text;
+  GtkOverlay        *banner_text_overlay;
+  GtkBox            *banner_text_bg;
+  GtkBox            *banner_text;
+  BgeMarkdownRender *markdown;
 };
 
 G_DEFINE_FINAL_TYPE (BzSectionView, bz_section_view, ADW_TYPE_BIN)
@@ -311,6 +312,7 @@ bz_section_view_class_init (BzSectionViewClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text_overlay);
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text_bg);
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text);
+  gtk_widget_class_bind_template_child (widget_class, BzSectionView, markdown);
   gtk_widget_class_bind_template_callback (widget_class, invert_boolean);
   gtk_widget_class_bind_template_callback (widget_class, is_null);
   gtk_widget_class_bind_template_callback (widget_class, get_banner);
@@ -359,6 +361,10 @@ bz_section_view_init (BzSectionView *self)
       "notify::dark",
       G_CALLBACK (dark_changed),
       self);
+  g_object_bind_property (
+      self->style_manager, "dark",
+      self->markdown, "dark",
+      G_BINDING_SYNC_CREATE);
 }
 
 GtkWidget *
