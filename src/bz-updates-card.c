@@ -41,8 +41,6 @@ struct _BzUpdatesCard
 
   GPtrArray *app_rows;
   GtkWidget *runtimes_row;
-
-  gboolean has_closed;
 };
 
 G_DEFINE_FINAL_TYPE (BzUpdatesCard, bz_updates_card, ADW_TYPE_BIN)
@@ -67,7 +65,6 @@ static guint signals[LAST_SIGNAL];
 static char    *format_update_count (gpointer object, GListModel *updates);
 static void     update_all_cb (GtkButton *button, BzUpdatesCard *self);
 static void     update_runtimes_cb (GtkButton *button, BzUpdatesCard *self);
-static void     on_expander_expanded_cb (AdwExpanderRow *row, GParamSpec *pspec, BzUpdatesCard *self);
 static gboolean filter_runtimes (BzEntry *entry, BzUpdatesCard *self);
 static void     on_available_updates_changed (BzUpdatesCard *self, GParamSpec *pspec, BzStateInfo *state);
 static void     on_runtimes_changed (GtkFilterListModel *model, guint position, guint removed, guint added, BzUpdatesCard *self);
@@ -259,9 +256,6 @@ repopulate_expander_row (BzUpdatesCard *self)
   self->runtimes_row = build_runtimes_row (self);
   adw_expander_row_add_row (self->expander_row, self->runtimes_row);
   on_runtimes_changed (self->runtimes_filter_model, 0, 0, 0, self);
-
-  if (!self->has_closed)
-      adw_expander_row_set_expanded (self->expander_row, n_items <= 3);
 }
 
 static void
@@ -364,7 +358,6 @@ bz_updates_card_class_init (BzUpdatesCardClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzUpdatesCard, runtimes_filter_model);
   gtk_widget_class_bind_template_callback (widget_class, format_update_count);
   gtk_widget_class_bind_template_callback (widget_class, update_all_cb);
-  gtk_widget_class_bind_template_callback (widget_class, on_expander_expanded_cb);
 }
 
 static void
@@ -479,15 +472,6 @@ update_runtimes_cb (GtkButton     *button,
     }
 
   g_signal_emit (self, signals[SIGNAL_UPDATE], 0, store);
-}
-
-static void
-on_expander_expanded_cb (AdwExpanderRow *row,
-                         GParamSpec     *pspec,
-                         BzUpdatesCard  *self)
-{
-  if (!adw_expander_row_get_expanded (row))
-    self->has_closed = TRUE;
 }
 
 static gboolean
