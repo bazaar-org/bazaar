@@ -76,6 +76,7 @@
       {                                            \
         name##_data_deinit (self);                 \
         g_free (self);                             \
+        self = NULL;                               \
       }                                            \
   }                                                \
   G_GNUC_UNUSED                                    \
