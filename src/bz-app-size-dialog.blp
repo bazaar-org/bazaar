@@ -26,6 +26,14 @@ template $BzAppSizeDialog: Adw.Bin {
             title: _("Download Size");
             label: bind $format_size(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.size as <uint64>) as <string>;
             importance: neutral;
+            visible: bind $is_zero(template.group as <$BzEntryGroup>.removable) as <bool>;
+          }
+
+          $BzLozenge {
+            title: _("Installed Size");
+            label: bind $format_size(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.installed-size as <uint64>) as <string>;
+            importance: neutral;
+            visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable) as <bool>) as <bool>;
           }
         }
 
@@ -95,9 +103,13 @@ template $BzAppSizeDialog: Adw.Bin {
             title: bind $get_runtime_size_title(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.installed) as <string>;
             subtitle: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.title;
           }
+        }
+
+        Adw.PreferencesGroup {
+          margin-bottom: 15;
+          visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>;
 
           Adw.ActionRow {
-            visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>;
 
             [prefix]
             Label {
@@ -128,8 +140,44 @@ template $BzAppSizeDialog: Adw.Bin {
               ]
             }
 
-            title: _("User Data Size");
+            title: _("Your User Data");
             subtitle: _("Caches, settings, and other app data");
+          }
+
+          Adw.ActionRow {
+
+            [prefix]
+            Label {
+              label: bind $format_size(template.group as <$BzEntryGroup>.cache-size) as <string>;
+              use-markup: true;
+              valign: center;
+              width-request: 90;
+              margin-top: 8;
+              margin-bottom: 8;
+
+              styles [
+                "circular-lozenge",
+                "title-4",
+                "grey",
+              ]
+            }
+
+            title: _("Cache");
+            subtitle: _("Temporary cached data");
+          }
+        }
+
+        Adw.PreferencesGroup {
+          margin-bottom: 15;
+          margin-top: 4;
+          visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>;
+
+          Adw.ButtonRow {
+            title: _("Clear Cache");
+            activated => $delete_cache_cb();
+            sensitive: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.cache-size) as <bool>) as <bool>;
+
+            styles ["destructive-action"]
           }
         }
       };

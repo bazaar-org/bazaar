@@ -28,6 +28,9 @@ G_BEGIN_DECLS
 char *
 bz_dup_user_data_path (const char *app_id);
 
+char *
+bz_dup_user_cache_path (const char *app_id);
+
 DexScheduler *
 bz_get_io_scheduler (void);
 
@@ -47,7 +50,10 @@ DexFuture *
 bz_reap_user_data_dex (const char *app_id);
 
 DexFuture *
-bz_get_user_data_size_dex (const char *app_id);
+bz_reap_user_cache_dex (const char *app_id);
+
+DexFuture *
+bz_get_user_sizes_dex (const char *app_id);
 
 DexFuture *
 bz_get_user_data_ids_dex (void);
