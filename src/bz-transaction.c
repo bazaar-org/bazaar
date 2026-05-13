@@ -698,7 +698,11 @@ finish (BzTransactionPrivate *priv)
       bz_transaction_entry_tracker_set_pending (tracker, FALSE);
       if (bz_transaction_entry_tracker_get_status (tracker) == BZ_TRANSACTION_ENTRY_STATUS_CANCELLED)
         continue;
-      bz_transaction_entry_tracker_set_status (tracker, BZ_TRANSACTION_ENTRY_STATUS_DONE);
+      bz_transaction_entry_tracker_set_status (
+          tracker,
+          priv->success
+              ? BZ_TRANSACTION_ENTRY_STATUS_DONE
+              : BZ_TRANSACTION_ENTRY_STATUS_CANCELLED);
     }
 }
 
