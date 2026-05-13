@@ -21,6 +21,7 @@
 #include <glib/gi18n.h>
 
 #include "bz-addon-tile.h"
+#include "bz-addons-dialog.h"
 #include "bz-entry-group.h"
 #include "bz-state-info.h"
 #include "bz-window.h"
@@ -30,6 +31,7 @@ struct _BzAddonTile
   BzListTile parent_instance;
 
   BzEntryGroup *group;
+  BzResult     *parent_ui_entry;
 
   GtkButton *install_remove_button;
 };
@@ -41,6 +43,7 @@ enum
   PROP_0,
 
   PROP_GROUP,
+  PROP_PARENT_UI_ENTRY,
 
   LAST_PROP
 };
@@ -71,6 +74,7 @@ bz_addon_tile_dispose (GObject *object)
   BzAddonTile *self = BZ_ADDON_TILE (object);
 
   g_clear_object (&self->group);
+  g_clear_object (&self->parent_ui_entry);
 
   G_OBJECT_CLASS (bz_addon_tile_parent_class)->dispose (object);
 }
@@ -87,6 +91,9 @@ bz_addon_tile_get_property (GObject    *object,
     {
     case PROP_GROUP:
       g_value_set_object (value, bz_addon_tile_get_group (self));
+      break;
+    case PROP_PARENT_UI_ENTRY:
+      g_value_set_object (value, self->parent_ui_entry);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -105,6 +112,11 @@ bz_addon_tile_set_property (GObject      *object,
     {
     case PROP_GROUP:
       bz_addon_tile_set_group (self, g_value_get_object (value));
+      break;
+    case PROP_PARENT_UI_ENTRY:
+      g_clear_object (&self->parent_ui_entry);
+      self->parent_ui_entry = g_value_dup_object (value);
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PARENT_UI_ENTRY]);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -177,6 +189,33 @@ switch_bool (gpointer object,
 }
 
 static void
+bz_addon_tile_realize (GtkWidget *widget)
+{
+  BzAddonTile *self          = BZ_ADDON_TILE (widget);
+  GtkWidget   *parent        = widget;
+  GtkWidget   *addons_dialog = NULL;
+
+  GTK_WIDGET_CLASS (bz_addon_tile_parent_class)->realize (widget);
+
+  while ((parent = gtk_widget_get_parent (parent)) != NULL)
+    {
+      if (BZ_IS_ADDONS_DIALOG (parent))
+        {
+          addons_dialog = parent;
+          break;
+        }
+    }
+
+  if (addons_dialog == NULL)
+    return;
+
+  g_object_bind_property (
+      addons_dialog, "parent-ui-entry",
+      self,          "parent-ui-entry",
+      G_BINDING_SYNC_CREATE);
+}
+
+static void
 bz_addon_tile_class_init (BzAddonTileClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -186,11 +225,20 @@ bz_addon_tile_class_init (BzAddonTileClass *klass)
   object_class->get_property = bz_addon_tile_get_property;
   object_class->set_property = bz_addon_tile_set_property;
 
+  widget_class->realize = bz_addon_tile_realize;
+
   props[PROP_GROUP] =
       g_param_spec_object (
           "group",
           NULL, NULL,
           BZ_TYPE_ENTRY_GROUP,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_PARENT_UI_ENTRY] =
+      g_param_spec_object (
+          "parent-ui-entry",
+          NULL, NULL,
+          BZ_TYPE_RESULT,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);

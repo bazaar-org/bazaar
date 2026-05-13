@@ -957,6 +957,26 @@ snapshot_append_instr_paste (GtkSnapshot *snapshot,
       g_value_get_uint64 (&args[1]));
 }
 
+static void
+snapshot_append_instr_paintable (GtkSnapshot *snapshot,
+                                 const GValue args[],
+                                 const GValue rest[],
+                                 guint        n_rest)
+{
+  graphene_rect_t rect = { 0 };
+
+  rect = *(graphene_rect_t *) g_value_get_boxed (&args[1]);
+
+  gtk_snapshot_save (snapshot);
+  gtk_snapshot_translate (snapshot, &rect.origin);
+  gdk_paintable_snapshot (
+      g_value_get_object (&args[0]),
+      snapshot,
+      rect.size.width,
+      rect.size.height);
+  gtk_snapshot_restore (snapshot);
+}
+
 gboolean
 lookup_snapshot_append_instr (const char    *lookup_name,
                               SnapshotInstr *out)
@@ -1187,6 +1207,17 @@ lookup_snapshot_append_instr (const char    *lookup_name,
      },
      gtk_snapshot_append_paste,
      snapshot_append_instr_paste,
+     },
+    {
+     "paintable",
+     2,
+     0,
+     {
+     GDK_TYPE_PAINTABLE,
+     GRAPHENE_TYPE_RECT,
+     },
+     gdk_paintable_snapshot,
+     snapshot_append_instr_paintable,
      },
   };
 

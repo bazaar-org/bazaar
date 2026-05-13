@@ -940,3 +940,6 @@ curated-list-view list {
     background: var(--flag-gradient, var(--accent-bg-color));
     border-radius: 9999px;
 }
+.transact-icon-flag {
+    background: var(--flag-gradient, var(--accent-bg-color));
+}
