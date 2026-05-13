@@ -265,7 +265,7 @@ bge_markdown_render_class_init (BgeMarkdownRenderClass *klass)
 static void
 bge_markdown_render_init (BgeMarkdownRender *self)
 {
-  self->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  self->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 7);
   gtk_widget_set_parent (self->box, GTK_WIDGET (self));
 
   self->box_children = g_ptr_array_new ();
@@ -609,6 +609,8 @@ terminate_block (MD_BLOCKTYPE type,
     case MD_BLOCK_DOC:
       {
         g_assert (ctx->markup != NULL);
+        if (ctx->markup->len == 0)
+          break;
 
         child = gtk_label_new (ctx->markup->str);
         SET_DEFAULTS (child);
@@ -620,6 +622,8 @@ terminate_block (MD_BLOCKTYPE type,
         GtkWidget *label = NULL;
 
         g_assert (ctx->markup != NULL);
+        if (ctx->markup->len == 0)
+          break;
 
         bar = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
         gtk_widget_set_size_request (bar, 10, -1);
@@ -628,7 +632,7 @@ terminate_block (MD_BLOCKTYPE type,
         label = gtk_label_new (ctx->markup->str);
         SET_DEFAULTS (label);
 
-        child = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+        child = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
         gtk_box_append (GTK_BOX (child), bar);
         gtk_box_append (GTK_BOX (child), label);
       }
@@ -656,6 +660,9 @@ terminate_block (MD_BLOCKTYPE type,
         GtkWidget *label  = NULL;
 
         g_assert (ctx->markup != NULL);
+        if (ctx->markup->len == 0)
+          break;
+
         g_assert (parent == MD_BLOCK_UL ||
                   parent == MD_BLOCK_OL);
 
@@ -703,6 +710,10 @@ terminate_block (MD_BLOCKTYPE type,
         MD_BLOCK_H_DETAIL *h_detail  = detail;
         const char        *css_class = NULL;
 
+        g_assert (ctx->markup != NULL);
+        if (ctx->markup->len == 0)
+          break;
+
         child = gtk_label_new (ctx->markup->str);
         SET_DEFAULTS (child);
 
@@ -741,6 +752,10 @@ terminate_block (MD_BLOCKTYPE type,
         GtkWidget *view                    = NULL;
         GtkWidget *window                  = NULL;
 
+        g_assert (ctx->markup != NULL);
+        if (ctx->markup->len == 0)
+          break;
+
         if (code_detail->lang.text != NULL)
           {
             lang_id  = g_strndup (code_detail->lang.text, code_detail->lang.size);
@@ -773,6 +788,10 @@ terminate_block (MD_BLOCKTYPE type,
 
     case MD_BLOCK_P:
       {
+        g_assert (ctx->markup != NULL);
+        if (ctx->markup->len == 0)
+          break;
+
         child = gtk_label_new (ctx->markup->str);
         SET_DEFAULTS (child);
         gtk_widget_add_css_class (child, "body");
