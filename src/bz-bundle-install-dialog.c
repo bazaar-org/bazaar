@@ -538,6 +538,8 @@ install_fiber (GWeakRef *wr)
   g_autoptr (GError) local_error              = NULL;
   g_autoptr (BzTransaction) transaction       = NULL;
   g_autoptr (BzTransactionManager) ts_manager = NULL;
+  gboolean            success                 = FALSE;
+  g_autofree char    *error_message           = NULL;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -557,10 +559,18 @@ install_fiber (GWeakRef *wr)
           ts_manager, transaction),
       &local_error);
 
+  g_object_get (transaction,
+                "success", &success,
+                "error", &error_message,
+                NULL);
+
   g_clear_handle_id (&self->pulse_source_id, g_source_remove);
-  if (local_error != NULL)
+  if (local_error != NULL || !success)
     {
-      adw_status_page_set_description (self->error_status, local_error->message);
+      const char *description = local_error != NULL
+                                    ? local_error->message
+                                    : error_message;
+      adw_status_page_set_description (self->error_status, description);
       gtk_stack_set_visible_child_name (self->main_stack, "error");
     }
   else
