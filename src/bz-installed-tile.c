@@ -28,6 +28,8 @@
 #include "bz-installed-tile.h"
 #include "bz-library-page.h"
 #include "bz-state-info.h"
+#include "bz-transact-icon.h"
+#include "bz-transact-icon-info.h"
 #include "bz-window.h"
 
 struct _BzInstalledTile
@@ -36,8 +38,6 @@ struct _BzInstalledTile
 
   BzEntryGroup *group;
 
-  GtkPicture *icon_picture;
-  GtkImage   *fallback_icon;
   GtkLabel   *title_label;
   GtkButton  *support_button;
   GtkButton  *remove_button;
@@ -253,10 +253,10 @@ bz_installed_tile_class_init (BzInstalledTileClass *klass)
 
   g_type_ensure (BZ_TYPE_LIST_TILE);
   g_type_ensure (BZ_TYPE_ENTRY_GROUP);
+  g_type_ensure (BZ_TYPE_TRANSACT_ICON);
+  g_type_ensure (BZ_TYPE_TRANSACT_ICON_INFO);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-installed-tile.ui");
-  gtk_widget_class_bind_template_child (widget_class, BzInstalledTile, icon_picture);
-  gtk_widget_class_bind_template_child (widget_class, BzInstalledTile, fallback_icon);
   gtk_widget_class_bind_template_child (widget_class, BzInstalledTile, title_label);
   gtk_widget_class_bind_template_child (widget_class, BzInstalledTile, support_button);
   gtk_widget_class_bind_template_child (widget_class, BzInstalledTile, remove_button);

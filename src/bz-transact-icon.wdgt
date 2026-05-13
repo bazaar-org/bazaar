@@ -58,8 +58,7 @@ defwidget "Transact Icon" {
                   #(translate(#GraphenePoint(#eval(-#(path-width)), #eval(-#(path-width)))););
 
     set icon = #child/(""("icon-dropshadow")
-      paintable = info:paintable;
-      pixel-size = %height%;
+      pixel-size = #ifelse(#<(%height%, 1), 1, %height%);
     );
     allocate icon %width%, %height%, #();
 

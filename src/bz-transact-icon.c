@@ -22,6 +22,7 @@
 
 #include "bz-transact-icon.h"
 #include "progress-bar-designs/common.h"
+#include "bz-application.h"
 
 struct _BzTransactIcon
 {
@@ -64,6 +65,9 @@ static void
 ensure_draw_css (BzTransactIcon *self);
 
 static void
+update_icon (BzTransactIcon *self);
+
+static void
 info_state_notify (BzTransactIcon     *self,
                    GParamSpec         *pspec,
                    BzTransactIconInfo *info);
@@ -72,6 +76,11 @@ static void
 info_group_notify (BzTransactIcon     *self,
                    GParamSpec         *pspec,
                    BzTransactIconInfo *info);
+
+static void
+info_paintable_notify (BzTransactIcon     *self,
+                       GParamSpec         *pspec,
+                       BzTransactIconInfo *info);
 
 static void
 trackers_items_changed (BzTransactIcon *self,
@@ -101,6 +110,8 @@ bz_transact_icon_dispose (GObject *object)
           self->info, info_state_notify, self);
       g_signal_handlers_disconnect_by_func (
           self->info, info_group_notify, self);
+      g_signal_handlers_disconnect_by_func (
+          self->info, info_paintable_notify, self);
     }
   g_clear_pointer (&self->info, g_object_unref);
 
@@ -220,6 +231,8 @@ bz_transact_icon_set_info (BzTransactIcon     *self,
           self->info, info_state_notify, self);
       g_signal_handlers_disconnect_by_func (
           self->info, info_group_notify, self);
+      g_signal_handlers_disconnect_by_func (
+          self->info, info_paintable_notify, self);
     }
 
   g_clear_pointer (&self->info, g_object_unref);
@@ -228,9 +241,15 @@ bz_transact_icon_set_info (BzTransactIcon     *self,
       self->info = g_object_ref (info);
       g_signal_connect_swapped (self->info, "notify::state", G_CALLBACK (info_state_notify), self);
       g_signal_connect_swapped (self->info, "notify::group", G_CALLBACK (info_group_notify), self);
+      g_signal_connect_swapped (self->info, "notify::paintable", G_CALLBACK (info_paintable_notify), self);
     }
 
   apply_state (self);
+  update_icon (self);
+
+  bz_transact_icon_info_set_state (
+      info,
+      bz_state_info_get_default ());
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INFO]);
 }
@@ -419,6 +438,23 @@ ensure_draw_css (BzTransactIcon *self)
 }
 
 static void
+update_icon (BzTransactIcon *self)
+{
+  GtkImage     *icon      = NULL;
+  GdkPaintable *paintable = NULL;
+
+  icon = bge_wdgt_renderer_lookup_object (self->wdgt, "icon");
+
+  if (self->info != NULL)
+    paintable = bz_transact_icon_info_get_paintable (self->info);
+
+  if (paintable != NULL)
+    gtk_image_set_from_paintable (icon, paintable);
+  else
+    gtk_image_set_from_icon_name (icon, "application-x-executable");
+}
+
+static void
 info_state_notify (BzTransactIcon     *self,
                    GParamSpec         *pspec,
                    BzTransactIconInfo *info)
@@ -432,6 +468,14 @@ info_group_notify (BzTransactIcon     *self,
                    BzTransactIconInfo *info)
 {
   update_tracker (self);
+}
+
+static void
+info_paintable_notify (BzTransactIcon     *self,
+                       GParamSpec         *pspec,
+                       BzTransactIconInfo *info)
+{
+  update_icon (self);
 }
 
 static void

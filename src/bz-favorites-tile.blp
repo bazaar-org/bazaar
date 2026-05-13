@@ -11,27 +11,17 @@ template $BzFavoritesTile: $BzListTile {
     orientation: horizontal;
     spacing: 10;
 
-    Picture icon_picture {
+    $BzTransactIcon {
       margin-start: 10;
       margin-top: 10;
       margin-bottom: 10;
-      height-request: 48;
       width-request: 48;
-      paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
-      visible: bind $invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-      styles ["icon-dropshadow"]
-    }
+      height-request: 48;
 
-    Image fallback_icon {
-      margin-start: 10;
-      margin-top: 10;
-      margin-bottom: 10;
-      height-request: 48;
-      width-request: 48;
-      pixel-size: 48;
-      icon-name: "application-x-executable";
-      visible: bind $is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>;
-      styles ["icon-dropshadow"]
+      info: $BzTransactIconInfo {
+        group: bind template.group as <$BzEntryGroup>;
+        paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
+      };
     }
 
     Box {

@@ -262,11 +262,6 @@ static void
 bz_rich_app_tile_init (BzRichAppTile *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  /* This is bad; should get state from rich app tile */
-  bz_transact_icon_info_set_state (
-      self->transact_icon_info,
-      bz_state_info_get_default ());
 }
 
 GtkWidget *

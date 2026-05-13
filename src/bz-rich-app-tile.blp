@@ -65,24 +65,12 @@ template $BzRichAppTile: $BzListTile {
         halign: center;
         width-request: 64;
         height-request: 64;
-        visible: bind $invert_boolean($is_null(template.ui_entry as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
 
         info: $BzTransactIconInfo transact_icon_info {
           group: bind template.group as <$BzEntryGroup>;
           paintable: bind template.ui_entry as <$BzEntry>.icon-paintable;
         };
       }
-
-      // Image {
-      //   pixel-size: 64;
-      //   paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
-      //
-      //   visible: bind $invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-      //
-      //   styles [
-      //     "icon-dropshadow",
-      //   ]
-      // }
 
       Box {
         valign: center;
