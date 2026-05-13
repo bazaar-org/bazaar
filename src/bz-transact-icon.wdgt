@@ -43,18 +43,24 @@ defwidget "Transact Icon" {
         move scale(icon-scale, icon-scale);
         do-child icon;
       }
-      with opacity(path-opacity) {
-        with stroke(
-          #GskPath(
-            add-segment(
-              path,
-              #path-point(path-measure, #eval((#(start)%1.0)*#(#path-length(path-measure)))),
-              #path-point(path-measure, #eval((#(end)%1.0)*#(#path-length(path-measure)))),
-            );
-          ),
-          #GskStroke(path-width, round, round, 0.0),
-        ) {
-          do-child flag;
+      save {
+        move translate(#GraphenePoint(0.0, %height%));
+        move rotate(-90.0);
+        with opacity(path-opacity) {
+          with stroke(
+            #GskPath(
+              add-segment(
+                path,
+                #path-point(path-measure, #eval((#(start)%1.0)*#(#path-length(path-measure)))),
+                #path-point(path-measure, #eval((#(end)%1.0)*#(#path-length(path-measure)))),
+              );
+            ),
+            #GskStroke(path-width, round, round, 0.0),
+          ) {
+            move rotate(90.0);
+            move translate(#GraphenePoint(0.0, #eval(-#(%height%))));
+            do-child flag;
+          }
         }
       }
     }
