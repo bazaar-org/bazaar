@@ -245,16 +245,37 @@ get_visible_page (gpointer    object,
     return g_strdup ("empty");
 }
 
+static void
+set_install_btn_class (BzInstallControls *self,
+                       const char        *class)
+{
+  if (self->install_button == NULL)
+    return;
+
+  if (self->install_btn_class != NULL &&
+      g_strcmp0 (class, self->install_btn_class) == 0)
+    return;
+
+  if (self->install_btn_class != NULL)
+    gtk_widget_remove_css_class (self->install_button, self->install_btn_class);
+  g_clear_pointer (&self->install_btn_class, g_free);
+
+  if (class != NULL)
+    {
+      gtk_widget_add_css_class (self->install_button, class);
+      self->install_btn_class = g_strdup (class);
+    }
+}
+
 static char *
-get_install_btn_state (gpointer                 object,
+get_install_btn_state (BzInstallControls       *self,
                        BzTransactionEntryStatus status,
                        gboolean                 active,
                        gboolean                 pending,
                        double                   progress)
 {
-  BzInstallControls *self  = BZ_INSTALL_CONTROLS (object);
-  g_autofree char   *state = NULL;
-  const char        *class = NULL;
+  g_autofree char *state = NULL;
+  const char      *class = NULL;
 
   if ((active || pending) && status == BZ_TRANSACTION_ENTRY_STATUS_CANCELLED)
     {
@@ -277,25 +298,15 @@ get_install_btn_state (gpointer                 object,
       class = NULL;
     }
 
-  if (!(class != NULL &&
-        self->install_btn_class != NULL &&
-        g_strcmp0 (class, self->install_btn_class) == 0))
-    {
-      if (self->install_btn_class != NULL)
-        gtk_widget_remove_css_class (
-            self->install_button,
-            self->install_btn_class);
-      g_clear_pointer (&self->install_btn_class, g_free);
-      if (class != NULL)
-        {
-          gtk_widget_add_css_class (
-              self->install_button,
-              class);
-          self->install_btn_class = g_strdup (class);
-        }
-    }
-
+  set_install_btn_class (self, class);
   return g_steal_pointer (&state);
+}
+
+static char *
+install_btn_state_fallback (BzInstallControls *self)
+{
+  set_install_btn_class (self, "suggested-action");
+  return g_strdup ("inactive");
 }
 
 static gboolean
@@ -526,6 +537,7 @@ bz_install_controls_class_init (BzInstallControlsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, update_cb);
   gtk_widget_class_bind_template_callback (widget_class, get_visible_page);
   gtk_widget_class_bind_template_callback (widget_class, get_install_btn_state);
+  gtk_widget_class_bind_template_callback (widget_class, install_btn_state_fallback);
   gtk_widget_class_bind_template_callback (widget_class, is_blocked);
 }
 
