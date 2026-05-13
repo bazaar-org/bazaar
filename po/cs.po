@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-10 17:29+0200\n"
-"PO-Revision-Date: 2026-05-10 22:28+0200\n"
+"POT-Creation-Date: 2026-05-13 22:25+0200\n"
+"PO-Revision-Date: 2026-05-14 00:22+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Search apps directly from GNOME Shell"
 msgstr "Vyhledávejte aplikace přímo z GNOME Shellu"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:760
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:759
 msgid "The Bazaar Contributors"
 msgstr "Přispěvatelé aplikace Bazaar"
 
@@ -94,23 +94,27 @@ msgstr "Stránka hledání"
 msgid "Category page"
 msgstr "Stránka kategorií"
 
-#: src/bz-addon-tile.blp:49 src/bz-installed-tile.blp:64
-#: src/bz-rich-app-tile.blp:140
+#: src/bz-addon-tile.blp:64 src/bz-installed-tile.blp:55
+#: src/bz-rich-app-tile.blp:141
 msgid "Stopped Receiving Updates"
 msgstr "Příjem aktualizací zastaven"
 
-#: src/bz-addon-tile.c:155 src/bz-favorites-tile.c:157
-#: src/bz-rich-app-tile.blp:172
+#: src/bz-addon-tile.c:167 src/bz-favorites-tile.c:155
+#: src/bz-rich-app-tile.blp:173
 msgid "Uninstall"
 msgstr "Odinstalovat"
 
-#: src/bz-addon-tile.c:157 src/bz-favorites-tile.c:159
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-addon-tile.c:169 src/bz-favorites-tile.c:157 src/bz-world-map.c:604
 msgid "Install"
-msgstr "Instalovat"
+msgid_plural "Installs"
+msgstr[0] "instalace"
+msgstr[1] "instalace"
+msgstr[2] "instalací"
 
 #: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
 #: src/bz-addons-dialog.blp:70 src/bz-full-view.blp:606
-#: src/bz-installed-tile.blp:101
+#: src/bz-installed-tile.blp:92
 msgid "Manage Add-Ons"
 msgstr "Spravovat doplňky"
 
@@ -146,20 +150,20 @@ msgstr ""
 "Tento doplněk používá běhové prostředí, které již nedostává aktualizace ani "
 "opravy zabezpečení. Jeho používání nemusí být bezpečné."
 
-#: src/bz-addons-dialog.c:330
+#: src/bz-addons-dialog.c:333
 #, c-format
 msgid "Add-on for %s"
 msgstr "Doplněk pro %s"
 
-#: src/bz-addons-dialog.c:344 src/bz-full-view.c:572
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:572
 msgid "Show Less"
 msgstr "Zobrazit méně"
 
-#: src/bz-addons-dialog.c:344 src/bz-full-view.c:572
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:572
 msgid "Show More"
 msgstr "Zobrazit více"
 
-#: src/bz-addons-dialog.c:394
+#: src/bz-addons-dialog.c:397
 msgid "Download Stats"
 msgstr "Statistiky stahování"
 
@@ -665,33 +669,45 @@ msgstr "Přístup k souborovému systému v %s"
 msgid "Unknown filesystem path"
 msgstr "Neznámá cesta souborového systému"
 
-#: src/bz-app-size-dialog.blp:26 src/bz-app-size-dialog.blp:52
+#: src/bz-app-size-dialog.blp:26 src/bz-app-size-dialog.blp:60
 msgid "Download Size"
 msgstr "Stahovaná velikost"
 
-#: src/bz-app-size-dialog.blp:53
-msgid "Amount to download from the internet"
-msgstr "Velikost ke stažení z internetu"
-
-#: src/bz-app-size-dialog.blp:73
+#: src/bz-app-size-dialog.blp:33 src/bz-app-size-dialog.blp:81
 msgid "Installed Size"
 msgstr "Instalovaná velikost"
 
-#: src/bz-app-size-dialog.blp:74
+#: src/bz-app-size-dialog.blp:61
+msgid "Amount to download from the internet"
+msgstr "Velikost ke stažení z internetu"
+
+#: src/bz-app-size-dialog.blp:82
 msgid "Size on Disk"
 msgstr "Velikost na disku"
 
-#: src/bz-app-size-dialog.blp:121
+#: src/bz-app-size-dialog.blp:133
 msgid "Open user data folder"
 msgstr "Otevřít složku uživatelských dat"
 
-#: src/bz-app-size-dialog.blp:131
-msgid "User Data Size"
-msgstr "Velikost uživatelských dat"
+#: src/bz-app-size-dialog.blp:143
+msgid "Your User Data"
+msgstr "Vaše uživatelská data"
 
-#: src/bz-app-size-dialog.blp:132
+#: src/bz-app-size-dialog.blp:144
 msgid "Caches, settings, and other app data"
 msgstr "Mezipaměti, nastavení a další data aplikací"
+
+#: src/bz-app-size-dialog.blp:165
+msgid "Cache"
+msgstr "Mezipaměť"
+
+#: src/bz-app-size-dialog.blp:166
+msgid "Temporary cached data"
+msgstr "Dočasná data v mezipaměti"
+
+#: src/bz-app-size-dialog.blp:176
+msgid "Clear Cache"
+msgstr "Vymazat mezipaměť"
 
 #: src/bz-app-size-dialog.c:99
 msgid "Installed Runtime Size"
@@ -701,12 +717,12 @@ msgstr "Instalovaná velikost prostředí"
 msgid "Runtime Download Size"
 msgstr "Stahovaná velikost prostředí"
 
-#: src/bz-app-size-dialog.c:204
+#: src/bz-app-size-dialog.c:212
 msgid "App Size"
 msgstr "Velikost aplikace"
 
 #: src/bz-app-tile.blp:57 src/bz-developer-badge.c:98
-#: src/bz-rich-app-tile.blp:104 src/bz-rich-app-tile.c:304
+#: src/bz-rich-app-tile.blp:105 src/bz-rich-app-tile.c:309
 msgid "Verified"
 msgstr "Ověřeno"
 
@@ -716,41 +732,31 @@ msgstr "Ověřeno"
 msgid "Installed"
 msgstr "Nainstalováno"
 
-#: src/bz-application.c:739
-msgctxt "About Dialog Developer Credit"
-msgid "Adam Masciola <kolunmi@posteo.net>"
-msgstr "Adam Masciola <kolunmi@posteo.net>"
-
-#: src/bz-application.c:740
-msgctxt "About Dialog Developer Credit"
-msgid "Alexander Vanhee"
-msgstr "Alexander Vanhee"
-
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:763
+#: src/bz-application.c:762
 msgid "translator-credits"
 msgstr ""
 "Vlastimil Dědek <dedek.vlastimil2@proton.me>, 2025\n"
 "Pavel Borecki <pavel@borecki.cz>, 2026\n"
 "Daniel Rusek <mail@asciiwolf.com>, 2026"
 
-#: src/bz-application.c:773
+#: src/bz-application.c:772
 msgid "Special Thanks"
 msgstr "Zvláštní poděkování patří"
 
-#: src/bz-application.c:831
+#: src/bz-application.c:830
 msgid "Logged Out Successfully!"
 msgstr "Úspěšně odhlášeni!"
 
-#: src/bz-application.c:967
+#: src/bz-application.c:966
 msgid "Performing setup…"
 msgstr "Provádí se nastavení…"
 
-#: src/bz-application.c:1053
+#: src/bz-application.c:1052
 msgid "Set Up System Flathub?"
 msgstr "Nastavit systémový Flathub?"
 
-#: src/bz-application.c:1056
+#: src/bz-application.c:1055
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -765,11 +771,11 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1063
+#: src/bz-application.c:1062
 msgid "Set Up Flathub?"
 msgstr "Nastavit Flathub?"
 
-#: src/bz-application.c:1066
+#: src/bz-application.c:1065
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -782,52 +788,52 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1072
+#: src/bz-application.c:1071
 msgid "Later"
 msgstr "Později"
 
-#: src/bz-application.c:1073
+#: src/bz-application.c:1072
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1408
+#: src/bz-application.c:1407
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1608 src/bz-application.c:3690 src/bz-window.blp:69
+#: src/bz-application.c:1607 src/bz-application.c:3689 src/bz-window.blp:69
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:1772 src/bz-application.c:3688
+#: src/bz-application.c:1771 src/bz-application.c:3687
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:1825
+#: src/bz-application.c:1824
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:1930
+#: src/bz-application.c:1929
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2296
+#: src/bz-application.c:2295
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2352
+#: src/bz-application.c:2351
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3410
+#: src/bz-application.c:3409
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:3441
+#: src/bz-application.c:3440
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:3692
+#: src/bz-application.c:3691
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1223,15 +1229,15 @@ msgstr "Žádné oblíbené aplikace"
 msgid "Applications you mark as favorite will appear here"
 msgstr "Aplikace, které označíte jako oblíbené, se zobrazí zde"
 
-#: src/bz-favorites-tile.blp:70 src/bz-installed-tile.blp:78
+#: src/bz-favorites-tile.blp:60 src/bz-installed-tile.blp:69
 msgid "Support This Application"
 msgstr "Podpořit tuto aplikaci"
 
-#: src/bz-favorites-tile.blp:119
+#: src/bz-favorites-tile.blp:109
 msgid "Remove From Favorites"
 msgstr "Odebrat z oblíbených"
 
-#: src/bz-favorites-tile.c:357
+#: src/bz-favorites-tile.c:353
 msgid "Failed to remove favorite"
 msgstr "Odebrání z oblíbených se nezdařilo"
 
@@ -1782,12 +1788,12 @@ msgstr "Odinstalovat aplikaci"
 msgid "_Remove"
 msgstr "Odeb_rat"
 
-#: src/bz-install-controls.blp:121 src/bz-updates-card.c:161
-#: src/bz-updates-card.c:180
+#: src/bz-install-controls.blp:121 src/bz-updates-card.c:164
+#: src/bz-updates-card.c:183
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: src/bz-install-controls.blp:144 src/bz-installed-tile.blp:114
+#: src/bz-install-controls.blp:144 src/bz-installed-tile.blp:105
 msgid "Remove"
 msgstr "Odebrat"
 
@@ -1845,7 +1851,7 @@ msgstr "Velikost"
 msgid "No matches found for \"%s\" in the list of installed apps"
 msgstr "Žádné shody pro výraz „%s“ v seznamu nainstalovaných aplikací"
 
-#: src/bz-library-page.c:193 src/bz-updates-card.c:426
+#: src/bz-library-page.c:193 src/bz-updates-card.c:433
 #, c-format
 msgid "%u Available Update"
 msgid_plural "%u Available Updates"
@@ -2143,7 +2149,7 @@ msgstr "Barvy hrdosti femboyů"
 msgid "Neutrois Pride Colors"
 msgstr "Barvy neutrois hrdosti"
 
-#: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:152
+#: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:155
 msgid "Version History"
 msgstr "Historie verzí"
 
@@ -2216,11 +2222,11 @@ msgstr "Žádné informace o této verzi"
 msgid "Get More Information"
 msgstr "Získat více informací"
 
-#: src/bz-rich-app-tile.blp:157
+#: src/bz-rich-app-tile.blp:158
 msgid "Get"
 msgstr "Získat"
 
-#: src/bz-rich-app-tile.blp:185 src/bz-transaction-tile.blp:296
+#: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
 msgid "Open"
 msgstr "Otevřít"
 
@@ -2937,7 +2943,7 @@ msgstr "Kromě toho budou nainstalovány doplňky."
 msgid "_Install All"
 msgstr "_Instalovat vše"
 
-#: src/bz-transaction-manager.c:784
+#: src/bz-transaction-manager.c:795
 #, c-format
 msgid "Finished in %.02f seconds"
 msgstr "Dokončeno v %.02f sekundách"
@@ -2966,11 +2972,11 @@ msgstr "Zrušeno"
 msgid "Error"
 msgstr "Chyba"
 
-#: src/bz-transaction-tile.blp:310
+#: src/bz-transaction-tile.blp:312
 msgid "Cancel Transaction"
 msgstr "Zrušit transakci"
 
-#: src/bz-transaction-tile.blp:434
+#: src/bz-transaction-tile.blp:436
 msgid "Show Error Info"
 msgstr "Zobrazit informace o chybě"
 
@@ -2987,11 +2993,11 @@ msgstr "Chyba transakce"
 msgid "Pending"
 msgstr "Čeká"
 
-#: src/bz-updates-card.blp:22
+#: src/bz-updates-card.blp:23
 msgid "_Update All"
 msgstr "Akt_ualizovat vše"
 
-#: src/bz-updates-card.c:208
+#: src/bz-updates-card.c:211
 #, c-format
 msgid "%u Runtime Update"
 msgid_plural "%u Runtime Updates"
@@ -3103,11 +3109,6 @@ msgstr "Bazaar nelze odstranit z Bazaaru!"
 #: src/bz-window.c:1110 src/bz-window.c:1144
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
-
-#: src/bz-world-map.c:603
-msgctxt "As in, \"100 Installs\""
-msgid "Installs"
-msgstr "instalací"
 
 #: src/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
