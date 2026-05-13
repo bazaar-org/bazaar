@@ -618,7 +618,13 @@ set_page (BzLibraryPage *self)
   else if (n_apps > 0 && n_filtered == 0)
     adw_view_stack_set_visible_child_name (self->stack, "no-results");
   else
-    adw_view_stack_set_visible_child_name (self->stack, "content");
+    {
+      GtkAdjustment *adjustment = NULL;
+
+      adw_view_stack_set_visible_child_name (self->stack, "content");
+      adjustment = gtk_scrolled_window_get_vadjustment (self->scroll);
+      gtk_adjustment_set_value (adjustment, gtk_adjustment_get_lower (adjustment));
+    }
 }
 
 static gboolean
