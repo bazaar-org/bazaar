@@ -20,9 +20,9 @@
 
 #include <bge.h>
 
+#include "bz-application.h"
 #include "bz-transact-icon.h"
 #include "progress-bar-designs/common.h"
-#include "bz-application.h"
 
 struct _BzTransactIcon
 {
@@ -440,8 +440,8 @@ ensure_draw_css (BzTransactIcon *self)
 static void
 update_icon (BzTransactIcon *self)
 {
-  GtkImage     *icon      = NULL;
-  GdkPaintable *paintable = NULL;
+  g_autoptr (GtkImage) icon = NULL;
+  GdkPaintable *paintable   = NULL;
 
   icon = bge_wdgt_renderer_lookup_object (self->wdgt, "icon");
 
