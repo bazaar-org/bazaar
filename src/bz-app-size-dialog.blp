@@ -170,7 +170,7 @@ template $BzAppSizeDialog: Adw.Bin {
         Adw.PreferencesGroup {
           margin-bottom: 15;
           margin-top: 4;
-          visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>;
+          visible: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>, $invert_boolean($is_app_id(template.group as <$BzEntryGroup>.id) as <bool>) as <bool>) as <bool>;
 
           Adw.ButtonRow {
             title: _("Clear Cache");

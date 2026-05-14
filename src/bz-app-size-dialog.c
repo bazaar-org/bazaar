@@ -116,6 +116,13 @@ format_size (gpointer object,
   return g_strdup (size_str);
 }
 
+static gboolean
+is_app_id (gpointer object,
+           const char *id)
+{
+  return g_strcmp0 (id, g_application_get_application_id (g_application_get_default ())) == 0;
+}
+
 static void
 open_user_data_folder_cb (GtkWidget       *widget,
                           BzAppSizeDialog *self)
@@ -174,6 +181,7 @@ bz_app_size_dialog_class_init (BzAppSizeDialogClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-app-size-dialog.ui");
   bz_widget_class_bind_all_util_callbacks (widget_class);
+  gtk_widget_class_bind_template_callback (widget_class, is_app_id);
   gtk_widget_class_bind_template_callback (widget_class, format_size);
   gtk_widget_class_bind_template_callback (widget_class, get_runtime_size_title);
   gtk_widget_class_bind_template_callback (widget_class, open_user_data_folder_cb);
