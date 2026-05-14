@@ -161,6 +161,12 @@ BZ_DEFINE_DATA (
 static DexFuture *
 list_repositories_fiber (ListReposData *data);
 
+static DexFuture *
+ensure_runtime_remote_fiber (BzFlatpakInstance   *self,
+                             FlatpakInstallation *installation,
+                             const char          *bundle_path,
+                             GCancellable        *cancellable);
+
 BZ_DEFINE_DATA (
     retrieve_refs_for_remote,
     RetrieveRefsForRemote,
@@ -997,7 +1003,8 @@ bz_flatpak_repo_new_from_url (const char   *url,
   name = g_path_get_basename (url);
   {
     char *dot = strrchr (name, '.');
-    if (dot != NULL) *dot = '\0';
+    if (dot != NULL)
+      *dot = '\0';
   }
 
   message = soup_message_new (SOUP_METHOD_GET, url);
@@ -2136,11 +2143,12 @@ list_repositories_fiber (ListReposData *data)
 }
 
 static DexFuture *
-ensure_runtime_remote (BzFlatpakInstance   *self,
-                       FlatpakInstallation *installation,
-                       const char          *bundle_path,
-                       GCancellable        *cancellable)
+ensure_runtime_remote_fiber (BzFlatpakInstance   *self,
+                             FlatpakInstallation *installation,
+                             const char          *bundle_path,
+                             GCancellable        *cancellable)
 {
+  g_autoptr (GError) local_error          = NULL;
   g_autoptr (GFile) bundle_file           = NULL;
   g_autoptr (FlatpakBundleRef) bundle_ref = NULL;
   g_autofree char *runtime_repo_url       = NULL;
@@ -2152,7 +2160,6 @@ ensure_runtime_remote (BzFlatpakInstance   *self,
   g_autoptr (GKeyFile) key_file           = NULL;
   g_autofree char *gpg_key_base64         = NULL;
   g_autoptr (GBytes) gpg_key_bytes        = NULL;
-  g_autoptr (GError) local_error          = NULL;
 
   bundle_file = g_file_new_for_path (bundle_path);
   bundle_ref  = flatpak_bundle_ref_new (bundle_file, NULL);
@@ -2166,7 +2173,8 @@ ensure_runtime_remote (BzFlatpakInstance   *self,
   remote_name = g_path_get_basename (runtime_repo_url);
   {
     char *dot = strrchr (remote_name, '.');
-    if (dot != NULL) *dot = '\0';
+    if (dot != NULL)
+      *dot = '\0';
   }
 
   {
@@ -2185,7 +2193,7 @@ ensure_runtime_remote (BzFlatpakInstance   *self,
       &local_error);
   if (local_error != NULL)
     {
-      g_warning ("ensure_runtime_remote: failed to fetch %s: %s",
+      g_warning ("failed to fetch %s: %s",
                  runtime_repo_url, local_error->message);
       return dex_future_new_true ();
     }
@@ -2202,13 +2210,13 @@ ensure_runtime_remote (BzFlatpakInstance   *self,
   {
     gsize   gpg_key_len  = 0;
     guchar *gpg_key_data = g_base64_decode (gpg_key_base64, &gpg_key_len);
-    gpg_key_bytes = g_bytes_new_take (gpg_key_data, gpg_key_len);
+    gpg_key_bytes        = g_bytes_new_take (gpg_key_data, gpg_key_len);
   }
 
   remote = flatpak_remote_new_from_file (remote_name, bytes, &local_error);
   if (remote == NULL)
     {
-      g_warning ("ensure_runtime_remote: failed to parse flatpakrepo from %s: %s",
+      g_warning ("failed to parse flatpakrepo from %s: %s",
                  runtime_repo_url, local_error->message);
       return dex_future_new_true ();
     }
@@ -2219,7 +2227,7 @@ ensure_runtime_remote (BzFlatpakInstance   *self,
   if (!flatpak_installation_add_remote (
           installation, remote, TRUE, cancellable, &local_error))
     {
-      g_warning ("ensure_runtime_remote: failed to add remote '%s': %s",
+      g_warning ("failed to add remote '%s': %s",
                  remote_name, local_error->message);
       g_clear_error (&local_error);
     }
@@ -2256,8 +2264,8 @@ transaction_fiber (TransactionData *data)
           const char          *bundle_path  = NULL;
           FlatpakInstallation *installation = NULL;
 
-          entry        = g_ptr_array_index (installations, i);
-          bundle_path  = bz_flatpak_entry_get_bundle_path (entry);
+          entry       = g_ptr_array_index (installations, i);
+          bundle_path = bz_flatpak_entry_get_bundle_path (entry);
 
           if (bundle_path == NULL)
             continue;
@@ -2267,9 +2275,9 @@ transaction_fiber (TransactionData *data)
                              : self->system_interactive;
 
           if (bundle_path != NULL && installation != NULL)
-              dex_await (
-                  ensure_runtime_remote (self, installation, bundle_path, cancellable),
-                  NULL);
+            dex_await (
+                ensure_runtime_remote_fiber (self, installation, bundle_path, cancellable),
+                NULL);
         }
 
       for (guint i = 0; i < installations->len; i++)
