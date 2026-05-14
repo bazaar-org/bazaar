@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 22:25+0200\n"
-"PO-Revision-Date: 2026-05-14 00:22+0200\n"
+"POT-Creation-Date: 2026-05-14 12:38+0200\n"
+"PO-Revision-Date: 2026-05-14 14:02+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -100,17 +100,15 @@ msgid "Stopped Receiving Updates"
 msgstr "Příjem aktualizací zastaven"
 
 #: src/bz-addon-tile.c:167 src/bz-favorites-tile.c:155
-#: src/bz-rich-app-tile.blp:173
+msgctxt "Install Controls"
 msgid "Uninstall"
 msgstr "Odinstalovat"
 
-#. Translators: As in, "1 Install" / "100 Installs"
-#: src/bz-addon-tile.c:169 src/bz-favorites-tile.c:157 src/bz-world-map.c:604
+#: src/bz-addon-tile.c:169 src/bz-favorites-tile.c:157
+#: src/bz-install-controls.wdgt:29
+msgctxt "Install Controls"
 msgid "Install"
-msgid_plural "Installs"
-msgstr[0] "instalace"
-msgstr[1] "instalace"
-msgstr[2] "instalací"
+msgstr "Instalovat"
 
 #: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
 #: src/bz-addons-dialog.blp:70 src/bz-full-view.blp:606
@@ -717,7 +715,7 @@ msgstr "Instalovaná velikost prostředí"
 msgid "Runtime Download Size"
 msgstr "Stahovaná velikost prostředí"
 
-#: src/bz-app-size-dialog.c:212
+#: src/bz-app-size-dialog.c:220
 msgid "App Size"
 msgstr "Velikost aplikace"
 
@@ -1797,6 +1795,16 @@ msgstr "Aktualizovat"
 msgid "Remove"
 msgstr "Odebrat"
 
+#: src/bz-install-controls.wdgt:32
+msgctxt "Install Controls"
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: src/bz-install-controls.wdgt:35
+msgctxt "Install Controls"
+msgid "Cancelling"
+msgstr "Ruší se"
+
 #: src/bz-library-page.blp:32
 msgid "Search installed apps"
 msgstr "hledat nainstalované aplikace"
@@ -2225,6 +2233,10 @@ msgstr "Získat více informací"
 #: src/bz-rich-app-tile.blp:158
 msgid "Get"
 msgstr "Získat"
+
+#: src/bz-rich-app-tile.blp:173
+msgid "Uninstall"
+msgstr "Odinstalovat"
 
 #: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
 msgid "Open"
@@ -3109,6 +3121,14 @@ msgstr "Bazaar nelze odstranit z Bazaaru!"
 #: src/bz-window.c:1110 src/bz-window.c:1144
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "instalace"
+msgstr[1] "instalace"
+msgstr[2] "instalací"
 
 #: src/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
