@@ -1622,19 +1622,37 @@ parse_args (const char        *p,
               return NULL;
             }
         }
-      else if (g_strcmp0 (token, "_") == 0)
+      else if (g_strcmp0 (token, "_") == 0 ||
+               g_strcmp0 (token, "C_") == 0)
         /* gettext translations */
         {
-          g_autofree char *source_text = NULL;
-          GValue           value       = G_VALUE_INIT;
-          g_autofree char *key         = NULL;
+          gboolean         have_context = FALSE;
+          g_autofree char *context_text = NULL;
+          g_autofree char *source_text  = NULL;
+          GValue           value        = G_VALUE_INIT;
+          g_autofree char *key          = NULL;
+
+          have_context = g_strcmp0 (token, "C_") == 0;
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          if (have_context)
+            {
+              GET_TOKEN (&context_text, TOKEN_PARSE_QUOTED);
+              GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ",");
+            }
           GET_TOKEN (&source_text, TOKEN_PARSE_QUOTED);
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ")");
 
-          g_value_set_string (g_value_init (&value, G_TYPE_STRING),
-                              gettext (source_text));
+          g_value_init (&value, G_TYPE_STRING);
+          if (have_context)
+            {
+              g_autofree char *query = NULL;
+
+              query = g_strdup_printf ("%s\004%s", context_text, source_text);
+              g_value_set_string (&value, g_dpgettext (NULL, query, strlen (context_text) + 1));
+            }
+          else
+            g_value_set_string (&value, gettext (source_text));
 
           key    = make_anon_name ((*n_anon_vals)++);
           result = bge_wdgt_spec_add_constant_source_value (

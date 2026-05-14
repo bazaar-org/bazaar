@@ -26,13 +26,13 @@ defwidget "Install Button" {
       transition-type = crossfade;
       transition-duration = 200;
       %set lbl-install = #child/GtkLabel(""()
-        label = _("Install");
+        label = C_("Install Controls", "Install");
       );
       %set lbl-cancel = #child/GtkLabel(""()
-        label = _("Cancel");
+        label = C_("Install Controls", "Cancel");
       );
       %set lbl-cancelling = #child/GtkLabel(""()
-        label = _("Cancelling");
+        label = C_("Install Controls", "Cancelling");
       );
     );
     allocate stack %width%, %height%, #();
