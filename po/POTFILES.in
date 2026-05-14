@@ -76,6 +76,7 @@ src/bz-inspector.blp
 src/bz-inspector.c
 src/bz-install-controls.blp
 src/bz-install-controls.c
+src/bz-install-controls.wdgt
 src/bz-installed-tile.blp
 src/bz-installed-tile.c
 src/bz-io.c
@@ -117,6 +118,7 @@ src/bz-share-list.c
 src/bz-stats-dialog.blp
 src/bz-stats-dialog.c
 src/bz-tag-list.c
+src/bz-transact-icon.wdgt
 src/bz-transaction-dialog.c
 src/bz-transaction-list-dialog.blp
 src/bz-transaction-list-dialog.c

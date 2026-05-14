@@ -20,6 +20,7 @@
 
 #define G_LOG_DOMAIN "BGE::WDGT-PARSE"
 
+#include <glib/gi18n.h>
 #include <graphene-gobject.h>
 
 #include "../bge-wdgt-spec-private.h"
@@ -1555,6 +1556,30 @@ parse_args (const char        *p,
                   "Arguments must be comma-separated");
               return NULL;
             }
+        }
+      else if (g_strcmp0 (token, "_") == 0)
+        /* gettext translations */
+        {
+          g_autofree char *source_text = NULL;
+          GValue           value       = G_VALUE_INIT;
+          g_autofree char *key         = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          GET_TOKEN (&source_text, TOKEN_PARSE_QUOTED);
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ")");
+
+          g_value_set_string (g_value_init (&value, G_TYPE_STRING),
+                              gettext (source_text));
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_constant_source_value (
+              spec, key, &value, &local_error);
+          g_value_unset (&value);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
         }
       else if (g_strcmp0 (token, "#eval") == 0)
         {
