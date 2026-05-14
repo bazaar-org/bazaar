@@ -1200,13 +1200,14 @@ init_fiber (GWeakRef *wr)
 static DexFuture *
 enumerate_disk_entries_fiber (GWeakRef *wr)
 {
-  g_autoptr (BzApplication) self    = NULL;
-  g_autoptr (GError) local_error    = NULL;
-  g_autoptr (GHashTable) cached_set = NULL;
-  g_autoptr (GPtrArray) futures     = NULL;
-  GHashTableIter iter               = { 0 };
-  g_autoptr (GPtrArray) entries     = NULL;
-  gboolean has_flathub_entry        = FALSE;
+  g_autoptr (BzApplication) self          = NULL;
+  g_autoptr (GError) local_error          = NULL;
+  g_autoptr (GHashTable) cached_set       = NULL;
+  g_autoptr (GPtrArray) futures           = NULL;
+  GHashTableIter iter                     = { 0 };
+  g_autoptr (GPtrArray) entries           = NULL;
+  g_autoptr (GPtrArray) writeback_futures = NULL;
+  gboolean has_flathub_entry              = FALSE;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -1277,13 +1278,27 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
 
   g_ptr_array_sort_values_with_data (
       entries, (GCompareDataFunc) cmp_entry, NULL);
+
+  writeback_futures = g_ptr_array_new_with_free_func (dex_unref);
+
   for (guint i = 0; i < entries->len; i++)
     {
       BzEntry *entry = NULL;
 
       entry = g_ptr_array_index (entries, i);
       fiber_replace_entry (self, entry);
+
+      if (bz_entry_is_installed (entry))
+        g_ptr_array_add (writeback_futures,
+                         bz_entry_cache_manager_add (self->cache, entry));
     }
+
+
+  if (writeback_futures->len > 0)
+    dex_await (dex_future_allv (
+                   (DexFuture *const *) writeback_futures->pdata,
+                   writeback_futures->len),
+               NULL);
 
   gtk_filter_changed (GTK_FILTER (self->group_filter), GTK_FILTER_CHANGE_LESS_STRICT);
   gtk_filter_changed (GTK_FILTER (self->appid_filter), GTK_FILTER_CHANGE_LESS_STRICT);
