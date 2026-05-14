@@ -178,11 +178,12 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
 
                   Label {
                     label: _(
-                      "Installing this app requires adding a new software source. Other apps from this source will show up in Bazaar.\n\nOnly add this source if you're sure you trust it."
+                      "Installing this app may require adding a new software source. Other apps from this source will show up in Bazaar.\n\nOnly add this source if you're sure you trust it."
                     );
                     wrap: true;
                     wrap-mode: word_char;
                     halign: start;
+                    margin-bottom: 6;
 
                     styles [
                       "body",
