@@ -164,9 +164,9 @@ get_install_remove_tooltip (gpointer object,
                             int      removable)
 {
   if (removable > 0)
-    return g_strdup (_ ("Uninstall"));
+    return g_strdup (C_("Install Controls", "Uninstall"));
   else
-    return g_strdup (_ ("Install"));
+    return g_strdup (C_("Install Controls", "Install"));
 }
 
 static char *

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 10:23+0700\n"
-"PO-Revision-Date: 2026-05-14 16:13+0700\n"
+"POT-Creation-Date: 2026-05-14 17:18+0700\n"
+"PO-Revision-Date: 2026-05-14 17:32+0700\n"
 "Last-Translator: Jill Fiore <contact@lumaeris.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -102,12 +102,13 @@ msgid "Stopped Receiving Updates"
 msgstr "Прекращено получение обновлений"
 
 #: src/bz-addon-tile.c:167 src/bz-favorites-tile.c:155
-#: src/bz-rich-app-tile.blp:173
+msgctxt "Install Controls"
 msgid "Uninstall"
 msgstr "Удалить"
 
 #: src/bz-addon-tile.c:169 src/bz-favorites-tile.c:157
 #: src/bz-install-controls.wdgt:29
+msgctxt "Install Controls"
 msgid "Install"
 msgstr "Установить"
 
@@ -1167,7 +1168,7 @@ msgstr ""
 "Вы установили несколько версий данного приложения. Какое вы хотите выбрать "
 "для продолжения?"
 
-#: src/bz-entry-group-util.c:80 src/bz-install-controls.wdgt:32
+#: src/bz-entry-group-util.c:80
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -1805,7 +1806,13 @@ msgstr "Обновить"
 msgid "Remove"
 msgstr "Удалить"
 
+#: src/bz-install-controls.wdgt:32
+msgctxt "Install Controls"
+msgid "Cancel"
+msgstr "Отмена"
+
 #: src/bz-install-controls.wdgt:35
+msgctxt "Install Controls"
 msgid "Cancelling"
 msgstr "Отменяется"
 
@@ -2239,6 +2246,10 @@ msgstr "Получить дополнительную информацию"
 #: src/bz-rich-app-tile.blp:158
 msgid "Get"
 msgstr "Скачать"
+
+#: src/bz-rich-app-tile.blp:173
+msgid "Uninstall"
+msgstr "Удалить"
 
 #: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
 msgid "Open"
@@ -2783,7 +2794,7 @@ msgstr "Открыть ссылку"
 msgid "Timeline"
 msgstr "Временная шкала"
 
-#: src/bz-stats-dialog.blp:45 src/bz-world-map.c:604
+#: src/bz-stats-dialog.blp:45
 msgid "Installs:"
 msgstr "Установок:"
 
@@ -3131,6 +3142,14 @@ msgstr "Вы не можете удалить Bazaar из Bazaar!"
 #: src/bz-window.c:1110 src/bz-window.c:1144
 msgid "Can't do that right now!"
 msgstr "Нельзя сделать это прямо сейчас!"
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "установка"
+msgstr[1] "установки"
+msgstr[2] "установок"
 
 #: src/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
