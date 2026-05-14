@@ -61,6 +61,7 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
   const BzBusPolicy *const *bus_policies    = NULL;
   size_t                    n_bus_policies  = 0;
   gboolean                  has_system_tray = FALSE;
+  BzImportance              fs_importance   = BZ_IMPORTANCE_WARNING;
   guint                     i               = 0;
 
   g_return_val_if_fail (BZ_IS_ENTRY (entry), NULL);
@@ -72,6 +73,10 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
   g_object_get (entry, "permissions", &permissions, NULL);
   if (permissions != NULL)
     perm_flags = bz_app_permissions_get_flags (permissions);
+
+  fs_importance = (perm_flags & BZ_APP_PERMISSIONS_FLAGS_NETWORK)
+                      ? BZ_IMPORTANCE_WARNING
+                      : BZ_IMPORTANCE_INFORMATION;
 
   if (permissions == NULL)
     {
@@ -107,7 +112,7 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
                              _ ("Cannot access the internet"));
       add_row_if_permission (store,
                              (perm_flags & BZ_APP_PERMISSIONS_FLAGS_DEVICES) != 0,
-                             BZ_IMPORTANCE_WARNING,
+                             (perm_flags & BZ_APP_PERMISSIONS_FLAGS_NETWORK) ? BZ_IMPORTANCE_WARNING : BZ_IMPORTANCE_INFORMATION,
                              "camera-photo-symbolic",
                              _ ("User Device Access"),
                              _ ("Can access devices such as webcams or gaming controllers"),
@@ -199,7 +204,7 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
                              ((perm_flags & BZ_APP_PERMISSIONS_FLAGS_DOWNLOADS_FULL) != 0 &&
                               !(perm_flags & (BZ_APP_PERMISSIONS_FLAGS_FILESYSTEM_FULL |
                                               BZ_APP_PERMISSIONS_FLAGS_HOME_FULL))),
-                             BZ_IMPORTANCE_WARNING,
+                             fs_importance,
                              "folder-download-symbolic",
                              _ ("Download Folder Read/Write Access"),
                              _ ("Can read and write all data in your downloads directory"),
@@ -210,7 +215,7 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
                                               BZ_APP_PERMISSIONS_FLAGS_FILESYSTEM_READ |
                                               BZ_APP_PERMISSIONS_FLAGS_HOME_FULL |
                                               BZ_APP_PERMISSIONS_FLAGS_HOME_READ))),
-                             BZ_IMPORTANCE_WARNING,
+                             fs_importance,
                              "folder-download-symbolic",
                              _ ("Download Folder Read Access"),
                              _ ("Can read all data in your downloads directory"),
@@ -221,9 +226,17 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
           const BzFilesystemPath *path     = g_ptr_array_index (filesystem_full, i);
           g_autofree char        *fs_title = bz_filesystem_path_to_display_string (path);
           const char             *fs_icon  = bz_filesystem_path_to_icon_name (path);
+
+          if (perm_flags & BZ_APP_PERMISSIONS_FLAGS_FILESYSTEM_FULL)
+            continue;
+
+          if ((perm_flags & BZ_APP_PERMISSIONS_FLAGS_HOME_FULL) &&
+              path->type == BZ_FILESYSTEM_PATH_HOME_SUBDIR)
+            continue;
+
           add_row_if_permission (store,
                                  TRUE,
-                                 BZ_IMPORTANCE_WARNING,
+                                 fs_importance,
                                  fs_icon,
                                  fs_title,
                                  _ ("Can read and write all data in the directory"),
@@ -235,9 +248,19 @@ bz_safety_calculator_analyze_entry (BzEntry *entry)
           const BzFilesystemPath *path     = g_ptr_array_index (filesystem_read, i);
           g_autofree char        *fs_title = bz_filesystem_path_to_display_string (path);
           const char             *fs_icon  = bz_filesystem_path_to_icon_name (path);
+
+          if (perm_flags & BZ_APP_PERMISSIONS_FLAGS_FILESYSTEM_FULL)
+            continue;
+
+          if ((perm_flags & (BZ_APP_PERMISSIONS_FLAGS_FILESYSTEM_READ |
+                             BZ_APP_PERMISSIONS_FLAGS_HOME_FULL |
+                             BZ_APP_PERMISSIONS_FLAGS_HOME_READ)) &&
+              path->type == BZ_FILESYSTEM_PATH_HOME_SUBDIR)
+            continue;
+
           add_row_if_permission (store,
                                  TRUE,
-                                 BZ_IMPORTANCE_WARNING,
+                                 fs_importance,
                                  fs_icon,
                                  fs_title,
                                  _ ("Can read all data in the directory"),
