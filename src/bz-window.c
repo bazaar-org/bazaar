@@ -111,8 +111,7 @@ static DexFuture *
 bulk_install_fiber (BulkInstallData *data);
 
 static DexFuture *
-transact (BzWindow  *self,
-          BzEntry   *entry,
+transact (BzEntry   *entry,
           gboolean   remove,
           GtkWidget *source);
 
@@ -793,7 +792,6 @@ has_inputs_changed (BzWindow          *self,
 static DexFuture *
 transact_fiber (TransactData *data)
 {
-  g_autoptr (BzWindow) self             = NULL;
   g_autoptr (GError) local_error        = NULL;
   g_autoptr (BzEntry) selected_entry    = NULL;
   g_autoptr (DexFuture) transact_future = NULL;
@@ -806,7 +804,6 @@ transact_fiber (TransactData *data)
   GdkDevice       *keyboard             = NULL;
   GdkModifierType  modifiers            = GDK_NO_MODIFIER_MASK;
 
-  bz_weak_get_or_return_reject (self, data->self);
 
   // Get ID early before any async operations
   if (data->group != NULL)
@@ -822,12 +819,14 @@ transact_fiber (TransactData *data)
       bazaar_id = g_application_get_application_id (g_application_get_default ());
       if (g_strcmp0 (id_dup, bazaar_id) == 0)
         {
-          bz_show_error_for_widget (GTK_WIDGET (self), _ ("You can't remove Bazaar from Bazaar!"), _ ("You can't remove Bazaar from Bazaar!"));
+          GtkWidget *window = NULL;
+          window = GTK_WIDGET (gtk_application_get_active_window (GTK_APPLICATION (g_application_get_default ())));
+          bz_show_error_for_widget (window, _ ("You can't remove Bazaar from Bazaar!"), _ ("You can't remove Bazaar from Bazaar!"));
           return dex_future_new_false ();
         }
     }
 
-  config = bz_state_info_get_main_config (self->state);
+  config = bz_state_info_get_main_config (bz_state_info_get_default ());
   if (config != NULL)
     hooks = bz_main_config_get_hooks (config);
 
@@ -898,7 +897,8 @@ transact_fiber (TransactData *data)
       // Show the dialog
       dialog_result = dex_await_object (
           bz_transaction_dialog_show (
-              GTK_WIDGET (self),
+              GTK_WIDGET (gtk_application_get_active_window (
+                  GTK_APPLICATION (g_application_get_default ()))),
               data->entry,
               data->group,
               data->remove,
@@ -918,7 +918,6 @@ transact_fiber (TransactData *data)
 
   // Perform the transaction
   transact_future = transact (
-      self,
       selected_entry,
       data->remove,
       data->source);
@@ -1069,8 +1068,7 @@ bz_window_get_state_info (BzWindow *self)
 }
 
 static DexFuture *
-transact (BzWindow  *self,
-          BzEntry   *entry,
+transact (BzEntry   *entry,
           gboolean   remove,
           GtkWidget *source)
 {
@@ -1088,7 +1086,7 @@ transact (BzWindow  *self,
         NULL, 0);
 
   return bz_transaction_manager_add (
-      bz_state_info_get_transaction_manager (self->state),
+      bz_state_info_get_transaction_manager (bz_state_info_get_default ()),
       transaction);
 }
 
