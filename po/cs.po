@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 12:38+0200\n"
-"PO-Revision-Date: 2026-05-14 14:02+0200\n"
+"POT-Creation-Date: 2026-05-14 23:22+0200\n"
+"PO-Revision-Date: 2026-05-14 23:32+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:45
-#: src/bz-window.c:374 src/bz-window.c:375
+#: src/bz-window.c:373 src/bz-window.c:374
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -898,6 +898,55 @@ msgstr "Zdrojový kód"
 msgctxt "Project URL Type"
 msgid "Contribute"
 msgstr "Přispět"
+
+#: src/bz-bundle-install-dialog.blp:8 src/bz-bundle-install-dialog.blp:14
+msgid "Bundle Installation"
+msgstr "Instalace balíčku"
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-bundle-install-dialog.blp:126 src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "instalace"
+msgstr[1] "instalace"
+msgstr[2] "instalací"
+
+#: src/bz-bundle-install-dialog.blp:147
+msgid "Additional dependencies may take extra space"
+msgstr "Dodatečné závislosti mohou zabírat další místo"
+
+#: src/bz-bundle-install-dialog.blp:181
+msgid ""
+"Installing this app may require adding a new software source. Other apps "
+"from this source will show up in Bazaar.\n"
+"\n"
+"Only add this source if you're sure you trust it."
+msgstr ""
+"Instalace této aplikace může vyžadovat přidání nového zdroje softwaru. "
+"Ostatní aplikace z tohoto zdroje se zobrazí v Bazaaru.\n"
+"\n"
+"Tento zdroj přidejte, pouze pokud jste si jisti, že mu důvěřujete."
+
+#: src/bz-bundle-install-dialog.blp:357
+msgid "Successfully Installed!"
+msgstr "Úspěšně nainstalováno!"
+
+#: src/bz-bundle-install-dialog.blp:381 src/bz-bundle-install-dialog.blp:463
+#: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
+msgid "Open"
+msgstr "Otevřít"
+
+#: src/bz-bundle-install-dialog.blp:391 src/bz-bundle-install-dialog.blp:473
+msgid "Show App Details"
+msgstr "Zobrazit podrobnosti o aplikaci"
+
+#: src/bz-bundle-install-dialog.blp:440
+msgid "Already Installed"
+msgstr "Již nainstalováno"
+
+#: src/bz-bundle-install-dialog.blp:485
+msgid "Installation Failed"
+msgstr "Instalace se nezdařila"
 
 #: src/bz-bundle-install-dialog.c:169
 msgid "Unknown install size"
@@ -2238,217 +2287,213 @@ msgstr "Získat"
 msgid "Uninstall"
 msgstr "Odinstalovat"
 
-#: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
-msgid "Open"
-msgstr "Otevřít"
-
-#: src/bz-safety-calculator.c:82
+#: src/bz-safety-calculator.c:87
 msgid "Unknown Permissions"
 msgstr "Neznámá oprávnění"
 
-#: src/bz-safety-calculator.c:83
+#: src/bz-safety-calculator.c:88
 msgid "Permissions are missing for this app."
 msgstr "Pro tuto aplikaci chybí oprávnění."
 
-#: src/bz-safety-calculator.c:96
+#: src/bz-safety-calculator.c:101
 msgid "No Permissions"
 msgstr "Žádná oprávnění"
 
-#: src/bz-safety-calculator.c:97
+#: src/bz-safety-calculator.c:102
 msgid "App is fully sandboxed"
 msgstr "Aplikace je v plně izolovaném prostředí"
 
-#: src/bz-safety-calculator.c:103
+#: src/bz-safety-calculator.c:108
 msgid "Network Access"
 msgstr "Přístup k síti"
 
-#: src/bz-safety-calculator.c:104
+#: src/bz-safety-calculator.c:109
 msgid "Can access the internet"
 msgstr "Může přistupovat k internetu"
 
-#: src/bz-safety-calculator.c:106
+#: src/bz-safety-calculator.c:111
 msgid "No Network Access"
 msgstr "Žádný přístup k síti"
 
-#: src/bz-safety-calculator.c:107
+#: src/bz-safety-calculator.c:112
 msgid "Cannot access the internet"
 msgstr "Nemůže přistupovat k internetu"
 
-#: src/bz-safety-calculator.c:112
+#: src/bz-safety-calculator.c:117
 msgid "User Device Access"
 msgstr "Přístup k uživatelským zařízením"
 
-#: src/bz-safety-calculator.c:113
+#: src/bz-safety-calculator.c:118
 msgid "Can access devices such as webcams or gaming controllers"
 msgstr "Může přistupovat k zařízením jako jsou webkamery nebo herní ovladače"
 
-#: src/bz-safety-calculator.c:115
+#: src/bz-safety-calculator.c:120
 msgid "No User Device Access"
 msgstr "Žádný přístup k uživatelským zařízením"
 
-#: src/bz-safety-calculator.c:116
+#: src/bz-safety-calculator.c:121
 msgid "Cannot access devices such as webcams or gaming controllers"
 msgstr "Nemůže přistupovat k zařízením jako jsou webkamery nebo herní ovladače"
 
-#: src/bz-safety-calculator.c:121
+#: src/bz-safety-calculator.c:126
 msgid "Input Device Access"
 msgstr "Přístup ke vstupním zařízením"
 
-#: src/bz-safety-calculator.c:122
+#: src/bz-safety-calculator.c:127
 msgid "Can access input devices"
 msgstr "Může přistupovat ke vstupním zařízením"
 
-#: src/bz-safety-calculator.c:128
+#: src/bz-safety-calculator.c:133
 msgid "Microphone Access and Audio Playback"
 msgstr "Přístup k mikrofonu a přehrávání zvuku"
 
-#: src/bz-safety-calculator.c:129
+#: src/bz-safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
 msgstr ""
 "Může poslouchat pomocí mikrofonů a přehrávat zvuk bez žádosti o povolení"
 
-#: src/bz-safety-calculator.c:135
+#: src/bz-safety-calculator.c:140
 msgid "System Device Access"
 msgstr "Přístup k systémovým zařízením"
 
-#: src/bz-safety-calculator.c:136
+#: src/bz-safety-calculator.c:141
 msgid "Can access system devices which require elevated permissions"
 msgstr ""
 "Může přistupovat k systémovým zařízením, která vyžadují zvýšená oprávnění"
 
-#: src/bz-safety-calculator.c:142
+#: src/bz-safety-calculator.c:147
 msgid "Screen Contents Access"
 msgstr "Přístup k obsahu obrazovky"
 
-#: src/bz-safety-calculator.c:143
+#: src/bz-safety-calculator.c:148
 msgid "Can access the contents of the screen or other windows"
 msgstr "Může přistupovat k obsahu obrazovky nebo jiných oken"
 
-#: src/bz-safety-calculator.c:149
+#: src/bz-safety-calculator.c:154
 msgid "Legacy Windowing System"
 msgstr "Zastaralý zobrazovací systém"
 
-#: src/bz-safety-calculator.c:150
+#: src/bz-safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
 msgstr "Vždy používá starý zobrazovací systém (X11)"
 
-#: src/bz-safety-calculator.c:156
+#: src/bz-safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Libovolná oprávnění"
 
-#: src/bz-safety-calculator.c:157
+#: src/bz-safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
 msgstr "Může získat libovolná oprávnění"
 
-#: src/bz-safety-calculator.c:163
+#: src/bz-safety-calculator.c:168
 msgid "User Settings"
 msgstr "Nastavení uživatele"
 
-#: src/bz-safety-calculator.c:164
+#: src/bz-safety-calculator.c:169
 msgid "Can access and change user settings"
 msgstr "Může zobrazovat a měnit uživatelská nastavení"
 
-#: src/bz-safety-calculator.c:170
+#: src/bz-safety-calculator.c:175
 msgid "Full File System Read/Write Access"
 msgstr "Plný přístup k souborovému systému pro čtení/zápis"
 
-#: src/bz-safety-calculator.c:171
+#: src/bz-safety-calculator.c:176
 msgid "Can read and write all data on the file system"
 msgstr "Může číst a zapisovat všechna data v souborovém systému"
 
-#: src/bz-safety-calculator.c:178
+#: src/bz-safety-calculator.c:183
 msgid "Home Folder Read/Write Access"
 msgstr "Přístup k domovské složce pro čtení/zápis"
 
-#: src/bz-safety-calculator.c:179
+#: src/bz-safety-calculator.c:184
 msgid "Can read and write all data in your home directory"
 msgstr "Může číst a zapisovat všechna data ve vaší domovské složce"
 
-#: src/bz-safety-calculator.c:186
+#: src/bz-safety-calculator.c:191
 msgid "Full File System Read Access"
 msgstr "Plný přístup k souborovému systému pro čtení"
 
-#: src/bz-safety-calculator.c:187
+#: src/bz-safety-calculator.c:192
 msgid "Can read all data on the file system"
 msgstr "Může číst všechna data v souborovém systému"
 
-#: src/bz-safety-calculator.c:195
+#: src/bz-safety-calculator.c:200
 msgid "Home Folder Read Access"
 msgstr "Přístup k domovské složce pro čtení"
 
-#: src/bz-safety-calculator.c:196
+#: src/bz-safety-calculator.c:201
 msgid "Can read all data in your home directory"
 msgstr "Může číst všechna data ve vaší domovské složce"
 
-#: src/bz-safety-calculator.c:204
+#: src/bz-safety-calculator.c:209
 msgid "Download Folder Read/Write Access"
 msgstr "Přístup ke složce se staženými soubory pro čtení/zápis"
 
-#: src/bz-safety-calculator.c:205
+#: src/bz-safety-calculator.c:210
 msgid "Can read and write all data in your downloads directory"
 msgstr "Může číst a zapisovat všechna data ve vaší složce se staženými soubory"
 
-#: src/bz-safety-calculator.c:215
+#: src/bz-safety-calculator.c:220
 msgid "Download Folder Read Access"
 msgstr "Přístup ke složce se staženými soubory pro čtení"
 
-#: src/bz-safety-calculator.c:216
+#: src/bz-safety-calculator.c:221
 msgid "Can read all data in your downloads directory"
 msgstr "Může číst všechna data ve vaší složce se staženými soubory"
 
-#: src/bz-safety-calculator.c:229
+#: src/bz-safety-calculator.c:242
 msgid "Can read and write all data in the directory"
 msgstr "Může číst a zapisovat všechna data ve složce"
 
-#: src/bz-safety-calculator.c:243
+#: src/bz-safety-calculator.c:266
 msgid "Can read all data in the directory"
 msgstr "Může číst všechna data ve složce"
 
-#: src/bz-safety-calculator.c:258
+#: src/bz-safety-calculator.c:281
 msgid "No File System Access"
 msgstr "Žádný přístup k souborovému systému"
 
-#: src/bz-safety-calculator.c:259
+#: src/bz-safety-calculator.c:282
 msgid "Cannot access the file system at all"
 msgstr "Vůbec nemůže přistupovat k souborovému systému"
 
-#: src/bz-safety-calculator.c:266
+#: src/bz-safety-calculator.c:289
 msgid "Uses System Services"
 msgstr "Využívá služby systému"
 
-#: src/bz-safety-calculator.c:267
+#: src/bz-safety-calculator.c:290
 msgid "Can request data from non-portal system services"
 msgstr "Může si vyžádat data ze služeb systému mimo portál"
 
-#: src/bz-safety-calculator.c:273
+#: src/bz-safety-calculator.c:296
 msgid "Uses Session Services"
 msgstr "Využívá služby sezení"
 
-#: src/bz-safety-calculator.c:274
+#: src/bz-safety-calculator.c:297
 msgid "Can request data from non-portal session services"
 msgstr "Může si vyžádat data ze služeb sezení mimo portál"
 
-#: src/bz-safety-calculator.c:322
+#: src/bz-safety-calculator.c:345
 msgid "No Service Access"
 msgstr "Žádný přístup ke službám"
 
-#: src/bz-safety-calculator.c:323
+#: src/bz-safety-calculator.c:346
 msgid "Cannot access non-portal session or system services at all"
 msgstr "Nemůže přistupovat ke službám sezení nebo systému mimo portál"
 
-#: src/bz-safety-calculator.c:331
+#: src/bz-safety-calculator.c:354
 msgid "Verified App Developer"
 msgstr "Ověřený vývojář aplikace"
 
-#: src/bz-safety-calculator.c:332
+#: src/bz-safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
 msgstr "Vývojář této aplikace byl ověřen jako ten, za koho se vydává"
 
-#: src/bz-safety-calculator.c:341
+#: src/bz-safety-calculator.c:364
 msgid "Proprietary Code"
 msgstr "Uzavřený kód"
 
-#: src/bz-safety-calculator.c:342
+#: src/bz-safety-calculator.c:365
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
@@ -2456,11 +2501,11 @@ msgstr ""
 "Zdrojový kód není veřejný, takže jej nelze nezávisle zkontrolovat a nemusí "
 "být bezpečný"
 
-#: src/bz-safety-calculator.c:352
+#: src/bz-safety-calculator.c:375
 msgid "Auditable Code"
 msgstr "Otevřený kód"
 
-#: src/bz-safety-calculator.c:353
+#: src/bz-safety-calculator.c:376
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
@@ -2468,86 +2513,86 @@ msgstr ""
 "Zdrojový kód je veřejný a může být nezávisle kontrolován, což zvyšuje "
 "pravděpodobnost, že je aplikace bezpečná"
 
-#: src/bz-safety-calculator.c:493
+#: src/bz-safety-calculator.c:516
 #, c-format
 msgid "Use the %s System Service"
 msgstr "Použít službu systému %s"
 
-#: src/bz-safety-calculator.c:497
+#: src/bz-safety-calculator.c:520
 #, c-format
 msgid "Use the %s Session Service"
 msgstr "Použít službu sezení %s"
 
-#: src/bz-safety-calculator.c:501
+#: src/bz-safety-calculator.c:524
 #, c-format
 msgid "Use the %s Service"
 msgstr "Použít službu %s"
 
-#: src/bz-safety-calculator.c:511
+#: src/bz-safety-calculator.c:534
 msgid "Can see the non-portal service"
 msgstr "Může vidět službu mimo portál"
 
-#: src/bz-safety-calculator.c:513
+#: src/bz-safety-calculator.c:536
 msgid "Can talk to the non-portal service"
 msgstr "Může komunikovat se službou mimo portál"
 
-#: src/bz-safety-calculator.c:515
+#: src/bz-safety-calculator.c:538
 msgid "Can own the non-portal service"
 msgstr "Může vlastnit službu mimo portál"
 
-#: src/bz-safety-calculator.c:530
+#: src/bz-safety-calculator.c:553
 msgid "Global Menu Integration"
 msgstr "Integrace globální nabídky"
 
-#: src/bz-safety-calculator.c:531
+#: src/bz-safety-calculator.c:554
 msgid "Can display its menus in a global menu bar"
 msgstr "Může zobrazit své nabídky v globálním panelu nabídek"
 
-#: src/bz-safety-calculator.c:536
+#: src/bz-safety-calculator.c:559
 msgid "KDE Settings Integration"
 msgstr "Integrace nastavení KDE"
 
-#: src/bz-safety-calculator.c:537
+#: src/bz-safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
 msgstr "Může detekovat změnu nastavení plochy KDE"
 
-#: src/bz-safety-calculator.c:542
+#: src/bz-safety-calculator.c:565
 msgid "KDE Global Settings"
 msgstr "Globální nastavení KDE"
 
-#: src/bz-safety-calculator.c:543
+#: src/bz-safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
 msgstr "Může číst nastavení plochy KDE, jako jsou písma a barvy"
 
-#: src/bz-safety-calculator.c:548
+#: src/bz-safety-calculator.c:571
 msgid "Secret Storage Service"
 msgstr "Úložiště služby utajení"
 
-#: src/bz-safety-calculator.c:549
+#: src/bz-safety-calculator.c:572
 msgid "Can store and retrieve its own passwords using the system keyring"
 msgstr "Může ukládat a načítat vlastní hesla pomocí systémové klíčenky"
 
-#: src/bz-safety-calculator.c:554
+#: src/bz-safety-calculator.c:577
 msgid "Desktop Notifications Service"
 msgstr "Služba upozornění plochy"
 
-#: src/bz-safety-calculator.c:555
+#: src/bz-safety-calculator.c:578
 msgid "Can send desktop notifications"
 msgstr "Může zasílat upozornění plochy"
 
-#: src/bz-safety-calculator.c:561
+#: src/bz-safety-calculator.c:584
 msgid "System Tray Integration"
 msgstr "Integrace do oznamovací oblasti systému"
 
-#: src/bz-safety-calculator.c:562
+#: src/bz-safety-calculator.c:585
 msgid "Can display an icon in the system tray"
 msgstr "Může zobrazit ikonu v systémové oznamovací oblasti"
 
-#: src/bz-safety-calculator.c:567
+#: src/bz-safety-calculator.c:590
 msgid "KDE Connect Integration"
 msgstr "Integrace KDE Connect"
 
-#: src/bz-safety-calculator.c:568
+#: src/bz-safety-calculator.c:591
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "Může komunikovat se zařízeními spárovanými přes KDE Connect"
 
@@ -3105,30 +3150,22 @@ msgid "Log Out"
 msgstr "Odhlásit se"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:377
+#: src/bz-window.c:376
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar – %s"
 
-#: src/bz-window.c:586 src/bz-window.c:624
+#: src/bz-window.c:585 src/bz-window.c:623
 msgid "Failed to launch application"
 msgstr "Aplikaci se nezdařilo spustit"
 
-#: src/bz-window.c:825
+#: src/bz-window.c:824
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Bazaar nelze odstranit z Bazaaru!"
 
-#: src/bz-window.c:1110 src/bz-window.c:1144
+#: src/bz-window.c:1108 src/bz-window.c:1142
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
-
-#. Translators: As in, "1 Install" / "100 Installs"
-#: src/bz-world-map.c:604
-msgid "Install"
-msgid_plural "Installs"
-msgstr[0] "instalace"
-msgstr[1] "instalace"
-msgstr[2] "instalací"
 
 #: src/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
