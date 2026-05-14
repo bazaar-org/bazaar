@@ -22,6 +22,7 @@ src/bz-apps-page.c
 src/bz-appstream-parser.c
 src/bz-async-texture.c
 src/bz-backend.c
+src/bz-bundle-install-dialog.blp
 src/bz-bundle-install-dialog.c
 src/bz-content-provider.c
 src/bz-context-tile-callbacks.c
