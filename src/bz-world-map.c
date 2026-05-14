@@ -600,8 +600,7 @@ bz_world_map_snapshot (GtkWidget   *widget,
       double           card_y = 0.0;
 
       gtk_label_set_markup (GTK_LABEL (self->tooltip_label1), label1_text);
-      /* Translators: As in, "1 Install" / "100 Installs" */
-      gtk_label_set_text (GTK_LABEL (self->tooltip_prefix_label), ngettext ("Install", "Installs", download_number));
+      gtk_label_set_text (GTK_LABEL (self->tooltip_prefix_label), _("Installs:"));
       gtk_label_set_text (GTK_LABEL (self->tooltip_label2), label2_text);
 
       gtk_widget_get_preferred_size (self->tooltip_box, NULL, &natural_size);
@@ -688,16 +687,16 @@ bz_world_map_init (BzWorldMap *self)
 
   label2_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
-  self->tooltip_label2 = gtk_label_new ("");
-  gtk_widget_add_css_class (self->tooltip_label2, "monospace");
-  gtk_label_set_xalign (GTK_LABEL (self->tooltip_label2), 0.0);
-  gtk_box_append (GTK_BOX (label2_box), self->tooltip_label2);
-
   self->tooltip_prefix_label = gtk_label_new ("");
   gtk_widget_add_css_class (self->tooltip_prefix_label, "body");
   gtk_widget_add_css_class (self->tooltip_prefix_label, "dim-label");
   gtk_label_set_xalign (GTK_LABEL (self->tooltip_prefix_label), 0.0);
   gtk_box_append (GTK_BOX (label2_box), self->tooltip_prefix_label);
+
+  self->tooltip_label2 = gtk_label_new ("");
+  gtk_widget_add_css_class (self->tooltip_label2, "monospace");
+  gtk_label_set_xalign (GTK_LABEL (self->tooltip_label2), 0.0);
+  gtk_box_append (GTK_BOX (label2_box), self->tooltip_label2);
 
   gtk_box_append (GTK_BOX (inner_box), label2_box);
 
