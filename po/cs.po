@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 23:22+0200\n"
-"PO-Revision-Date: 2026-05-14 23:32+0200\n"
+"POT-Creation-Date: 2026-05-15 22:48+0200\n"
+"PO-Revision-Date: 2026-05-15 23:28+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -104,8 +104,8 @@ msgctxt "Install Controls"
 msgid "Uninstall"
 msgstr "Odinstalovat"
 
-#: src/bz-addon-tile.c:169 src/bz-favorites-tile.c:157
-#: src/bz-install-controls.wdgt:29
+#: src/bz-addon-tile.c:169 src/bz-bundle-install-dialog.blp:126
+#: src/bz-favorites-tile.c:157 src/bz-install-controls.wdgt:29
 msgctxt "Install Controls"
 msgid "Install"
 msgstr "Instalovat"
@@ -903,14 +903,6 @@ msgstr "Přispět"
 msgid "Bundle Installation"
 msgstr "Instalace balíčku"
 
-#. Translators: As in, "1 Install" / "100 Installs"
-#: src/bz-bundle-install-dialog.blp:126 src/bz-world-map.c:604
-msgid "Install"
-msgid_plural "Installs"
-msgstr[0] "instalace"
-msgstr[1] "instalace"
-msgstr[2] "instalací"
-
 #: src/bz-bundle-install-dialog.blp:147
 msgid "Additional dependencies may take extra space"
 msgstr "Dodatečné závislosti mohou zabírat další místo"
@@ -1129,11 +1121,11 @@ msgstr "Prohlížeč"
 msgid "Not Verified"
 msgstr "Neověřeno"
 
-#: src/bz-developer-badge.c:210
+#: src/bz-developer-badge.c:213
 msgid "Developer information not available."
 msgstr "Informace o vývojáři nejsou k dispozici."
 
-#: src/bz-developer-badge.c:216 src/bz-developer-badge.c:230
+#: src/bz-developer-badge.c:219 src/bz-developer-badge.c:233
 #, c-format
 msgid ""
 "The ownership of the %s app ID has not been verified and it may be a "
@@ -1142,14 +1134,14 @@ msgstr ""
 "Vlastnictví ID aplikace %s nebylo ověřeno a může se jednat o komunitní "
 "balíček."
 
-#: src/bz-developer-badge.c:234
+#: src/bz-developer-badge.c:237
 #, c-format
 msgid ""
 "The ownership of the %s app ID has been manually verified by the Flathub "
 "team."
 msgstr "Vlastnictví ID aplikace %s bylo ručně ověřeno týmem Flathubu."
 
-#: src/bz-developer-badge.c:250
+#: src/bz-developer-badge.c:253
 #, c-format
 msgid ""
 "The ownership of the %1$s app ID has been verified by <b>%2$s</b> on "
@@ -1158,12 +1150,12 @@ msgstr ""
 "Vlastnictví ID aplikace %1$s bylo ověřeno uživatelem <b>%2$s</b> na <b>%3$s</"
 "b>."
 
-#: src/bz-developer-badge.c:257
+#: src/bz-developer-badge.c:260
 #, c-format
 msgid "The ownership of the %1$s app ID has been verified using %2$s."
 msgstr "Vlastnictví ID aplikace %1$s bylo ověřeno pomocí %2$s."
 
-#: src/bz-developer-badge.c:261
+#: src/bz-developer-badge.c:264
 #, c-format
 msgid "The ownership of the %s app ID has been verified."
 msgstr "Vlastnictví ID aplikace %s bylo ověřeno."
@@ -3166,6 +3158,14 @@ msgstr "Bazaar nelze odstranit z Bazaaru!"
 #: src/bz-window.c:1108 src/bz-window.c:1142
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "instalace"
+msgstr[1] "instalace"
+msgstr[2] "instalací"
 
 #: src/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
