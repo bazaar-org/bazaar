@@ -5,14 +5,14 @@
 # Atom <29772841+AtomHare@users.noreply.github.com>, 2025.
 # Léane GRASSER <leane.grasser@proton.me>, 2025.
 # Irénée THIRION <irenee.thirion@e.email>, 2026.
-# SPDX-FileCopyrightText: 2025-2026 Mimolet <themimolet@proton.me>
+# Mimolet <themimolet@proton.me>, 2025-2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-15 00:07+0200\n"
-"PO-Revision-Date: 2026-05-15 01:24+0200\n"
+"POT-Creation-Date: 2026-05-15 22:48+0200\n"
+"PO-Revision-Date: 2026-05-15 23:20+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -36,8 +36,7 @@ msgstr "Ajoutez, désinstallez ou mettez à jour vos applications flatpak"
 msgid "GTK;System;PackageManager;Discover;Flatpak;Software;Store;"
 msgstr ""
 "GTK;System;Système;PackageManager;Gestionnaire de "
-"paquets;Discover;Découvrir;Flatpak;Software;Applis;Logiciel;Store;Magasin;Logi"
-"thèque;"
+"paquets;Discover;Flatpak;Software;Applis;Logiciel;Store;Magasin;Logithèque;"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:16
 msgid "New Window"
@@ -99,15 +98,15 @@ msgstr "Page Catégorie"
 #: src/bz-addon-tile.blp:64 src/bz-installed-tile.blp:55
 #: src/bz-rich-app-tile.blp:141
 msgid "Stopped Receiving Updates"
-msgstr "Utilise un environnement non maintenu"
+msgstr "Utilise un environnement en fin de vie"
 
 #: src/bz-addon-tile.c:167 src/bz-favorites-tile.c:155
 msgctxt "Install Controls"
 msgid "Uninstall"
 msgstr "Désinstaller"
 
-#: src/bz-addon-tile.c:169 src/bz-favorites-tile.c:157
-#: src/bz-install-controls.wdgt:29
+#: src/bz-addon-tile.c:169 src/bz-bundle-install-dialog.blp:126
+#: src/bz-favorites-tile.c:157 src/bz-install-controls.wdgt:29
 msgctxt "Install Controls"
 msgid "Install"
 msgstr "Installer"
@@ -140,15 +139,16 @@ msgstr "Téléchargements/mois"
 
 #: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:440
 msgid "Stopped Receiving Core Updates"
-msgstr "L'application utilise un environnement qui n'est plus mis à jour"
+msgstr "L'application utilise un environnement en fin de vie"
 
 #: src/bz-addons-dialog.blp:243
 msgid ""
 "This add-on uses a runtime that no longer receives updates or security "
 "fixes. It may become unsafe to use."
 msgstr ""
-"L’environnement d’exécution utilisé par cette extension n'est plus pris en "
-"charge. Son utilisation pourrait devenir risquée."
+"L’environnement d’exécution utilisé par cette extension ne reçoit plus de "
+"mises à jour ni de correctifs de sécurité.\n"
+"Son utilisation pourrait devenir risquée."
 
 #: src/bz-addons-dialog.c:333
 #, c-format
@@ -710,11 +710,11 @@ msgstr "Caches, paramètres et autres données"
 
 #: src/bz-app-size-dialog.blp:165
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: src/bz-app-size-dialog.blp:166
 msgid "Temporary cached data"
-msgstr ""
+msgstr "Données mises en cache temporairement"
 
 #: src/bz-app-size-dialog.blp:176
 msgid "Clear Cache"
@@ -917,16 +917,11 @@ msgstr "Contribuer"
 msgid "Bundle Installation"
 msgstr "Installation de paquet"
 
-#. Translators: As in, "1 Install" / "100 Installs"
-#: src/bz-bundle-install-dialog.blp:126 src/bz-world-map.c:604
-msgid "Install"
-msgid_plural "Installs"
-msgstr[0] "Installation"
-msgstr[1] "Installations"
-
 #: src/bz-bundle-install-dialog.blp:147
 msgid "Additional dependencies may take extra space"
 msgstr ""
+"Des dépendances additionnelles pourraient nécessiter de l'espace disque "
+"supplémentaire"
 
 #: src/bz-bundle-install-dialog.blp:181
 msgid ""
@@ -935,10 +930,15 @@ msgid ""
 "\n"
 "Only add this source if you're sure you trust it."
 msgstr ""
+"Installer cette application pourrait nécessiter l'ajout d'une nouvelle "
+"source de logiciels.\n"
+"D'autres applis de cette source apparaîtront alors dans Bazaar.\n"
+"\n"
+"N'ajoutez cette source que si vous lui faites confiance."
 
 #: src/bz-bundle-install-dialog.blp:357
 msgid "Successfully Installed!"
-msgstr "Appli installée avec succès!"
+msgstr "Application installée avec succès!"
 
 #: src/bz-bundle-install-dialog.blp:381 src/bz-bundle-install-dialog.blp:463
 #: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
@@ -1138,11 +1138,11 @@ msgstr "Navigateur"
 msgid "Not Verified"
 msgstr "Non-vérifié"
 
-#: src/bz-developer-badge.c:210
+#: src/bz-developer-badge.c:213
 msgid "Developer information not available."
 msgstr "Informations sur le développeur non disponibles."
 
-#: src/bz-developer-badge.c:216 src/bz-developer-badge.c:230
+#: src/bz-developer-badge.c:219 src/bz-developer-badge.c:233
 #, c-format
 msgid ""
 "The ownership of the %s app ID has not been verified and it may be a "
@@ -1151,14 +1151,14 @@ msgstr ""
 "La propriété de l'identifiant %s n’a pas été vérifiée et il pourrait s’agir "
 "d’un paquet géré par la communauté."
 
-#: src/bz-developer-badge.c:234
+#: src/bz-developer-badge.c:237
 #, c-format
 msgid ""
 "The ownership of the %s app ID has been manually verified by the Flathub "
 "team."
 msgstr "La propriété de l'identifiant %s a été vérifiée par l’équipe Flathub."
 
-#: src/bz-developer-badge.c:250
+#: src/bz-developer-badge.c:253
 #, c-format
 msgid ""
 "The ownership of the %1$s app ID has been verified by <b>%2$s</b> on "
@@ -1167,12 +1167,12 @@ msgstr ""
 "La propriété de l'identifiant %1$s a été vérifiée par <b>%2$s</b> sur "
 "<b>%3$s</b>."
 
-#: src/bz-developer-badge.c:257
+#: src/bz-developer-badge.c:260
 #, c-format
 msgid "The ownership of the %1$s app ID has been verified using %2$s."
 msgstr "La propriété de l'identifiant %1$s a été vérifiée en utilisant %2$s."
 
-#: src/bz-developer-badge.c:261
+#: src/bz-developer-badge.c:264
 #, c-format
 msgid "The ownership of the %s app ID has been verified."
 msgstr "La propriété de l'identifiant %s a été vérifiée."
@@ -1674,8 +1674,9 @@ msgid ""
 "This app uses a runtime that no longer receives updates or security fixes. "
 "It may become unsafe to use."
 msgstr ""
-"L’environnement d’exécution utilisé par cette application n'est plus pris en "
-"charge. Son utilisation pourrait devenir risquée."
+"L’environnement d’exécution utilisé par cette application ne reçoit plus de "
+"mises à jour ni de correctifs de sécurité.\n"
+"Son utilisation pourrait devenir risquée."
 
 #: src/bz-full-view.blp:541
 msgid "Trash Data"
@@ -2096,7 +2097,7 @@ msgstr "Masque les résultats non vérifiés sur Flathub"
 
 #: src/bz-preferences-dialog.blp:49
 msgid "Hide End-of-Life Apps"
-msgstr "Masquer les applis en fin de vie"
+msgstr "Masquer les applications en fin de vie"
 
 #: src/bz-preferences-dialog.blp:50
 msgid "Hide apps which are no longer supported by their developers"
@@ -2717,7 +2718,7 @@ msgstr "À _jour"
 
 #: src/bz-search-filter-popover.blp:52
 msgid "Filter out End-of-Life apps"
-msgstr "Cache les applis en fin de vie"
+msgstr "Affiche/Masque les applications en fin de vie"
 
 #: src/bz-search-filter-popover.blp:57
 msgid "Categories"
@@ -3041,11 +3042,11 @@ msgstr "En attente"
 
 #: src/bz-transaction-tile.blp:206
 msgid "Done"
-msgstr "Terminé"
+msgstr "Tâche terminée"
 
 #: src/bz-transaction-tile.blp:230
 msgid "Cancelled"
-msgstr "Annulé"
+msgstr "Tâche annulée"
 
 #: src/bz-transaction-tile.blp:254
 msgid "Error"
@@ -3189,6 +3190,13 @@ msgstr "Vous ne pouvez supprimer Bazaar depuis Bazaar !"
 #: src/bz-window.c:1108 src/bz-window.c:1142
 msgid "Can't do that right now!"
 msgstr "Impossible de faire ceci pour le moment !"
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "Installation"
+msgstr[1] "Installations"
 
 #: src/shortcuts-dialog.blp:6
 msgctxt "shortcut window"
