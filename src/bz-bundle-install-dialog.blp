@@ -123,7 +123,7 @@ template $BzBundleInstallDialog: Adw.BreakpointBin {
 
                     valign: center;
                     halign: bind $get_header_halign(template.runtime-repo) as <Gtk.Align>;
-                    label: _("Install");
+                    label: C_("Install Controls", "Install");
                     clicked => $install_cb(template);
                   }
                 }

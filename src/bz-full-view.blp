@@ -267,11 +267,11 @@ template $BzFullView: Adw.Bin {
                           homogeneous: true;
 
                           $BzContextTile download_size_tile {
-                            label: bind $get_size_label(
+                            label: bind try {$get_size_label(
                               $is_zero(template.entry-group as <$BzEntryGroup>.removable) as <bool>,
                               template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.installed,
                               template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.size,
-                            ) as <string>;
+                            ) as <string>, $get_size_label($is_zero(template.entry-group as <$BzEntryGroup>.removable) as <bool>,0,0) as <string>};
                             has-tooltip: true;
                             tooltip-text: bind $format_size_tooltip(template.ui-entry as <$BzResult>.object as <$BzEntry>.size) as <string>;
                             lozenge-style: "grey";

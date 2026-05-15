@@ -159,6 +159,9 @@ get_developer_link (gpointer              object,
     return NULL;
 
   dev         = bz_entry_get_developer (entry);
+  if (dev == NULL)
+    return NULL;
+
   escaped_dev = g_markup_escape_text (dev, -1);
 
   if (status == NULL)
@@ -279,6 +282,15 @@ on_info_button_leave (GtkEventControllerMotion *controller,
   gtk_widget_set_cursor (widget, NULL);
 }
 
+static gboolean
+on_popover_label_activate_link (GtkLabel         *label,
+                                const char       *uri,
+                                BzDeveloperBadge *self)
+{
+  gtk_popover_popdown (self->popover);
+  return FALSE;
+}
+
 static void
 bz_developer_badge_dispose (GObject *object)
 {
@@ -351,6 +363,7 @@ bz_developer_badge_class_init (BzDeveloperBadgeClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzDeveloperBadge, popover_label);
   gtk_widget_class_bind_template_callback (widget_class, on_info_button_enter);
   gtk_widget_class_bind_template_callback (widget_class, on_info_button_leave);
+  gtk_widget_class_bind_template_callback (widget_class, on_popover_label_activate_link);
   gtk_widget_class_bind_template_callback (widget_class, is_null);
   gtk_widget_class_bind_template_callback (widget_class, invert_boolean);
   gtk_widget_class_bind_template_callback (widget_class, get_developer_name);
