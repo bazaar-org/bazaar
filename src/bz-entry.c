@@ -2528,13 +2528,9 @@ query_flathub_fiber (QueryFlathubData *data)
         g_autoptr (GListStore) store = NULL;
 
         if (!JSON_NODE_HOLDS_OBJECT (node))
-          {
-            g_debug ("No data for property %s for %s from flathub",
-                     props[prop]->name, id);
-            return dex_future_new_for_error (
-                g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                             "Unexpected JSON response format"));
-          }
+          return dex_future_new_for_error (
+              g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+                           "Unexpected JSON response format"));
 
         root    = json_node_get_object (node);
         per_day = json_object_get_object_member (root, "installs_per_day");
@@ -2556,6 +2552,11 @@ query_flathub_fiber (QueryFlathubData *data)
         JsonObject *per_country      = NULL;
         g_autoptr (GListStore) store = NULL;
 
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          return dex_future_new_for_error (
+              g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+                           "Unexpected JSON response format"));
+
         per_country = json_object_get_object_member (
             json_node_get_object (node),
             "installs_per_country");
@@ -2575,6 +2576,9 @@ query_flathub_fiber (QueryFlathubData *data)
       {
         int recent_downloads = 0;
 
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          return dex_future_new_for_int (0);
+
         if (json_object_has_member (json_node_get_object (node), "installs_last_month"))
           recent_downloads = json_object_get_int_member (json_node_get_object (node), "installs_last_month");
 
@@ -2584,6 +2588,9 @@ query_flathub_fiber (QueryFlathubData *data)
     case PROP_TOTAL_DOWNLOADS:
       {
         int total_downloads = 0;
+
+        if (!JSON_NODE_HOLDS_OBJECT (node))
+          return dex_future_new_for_int (0);
 
         if (json_object_has_member (json_node_get_object (node), "installs_total"))
           total_downloads = json_object_get_int_member (json_node_get_object (node), "installs_total");

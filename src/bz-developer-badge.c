@@ -159,6 +159,9 @@ get_developer_link (gpointer              object,
     return NULL;
 
   dev         = bz_entry_get_developer (entry);
+  if (dev == NULL)
+    return NULL;
+
   escaped_dev = g_markup_escape_text (dev, -1);
 
   if (status == NULL)
