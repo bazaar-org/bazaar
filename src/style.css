@@ -918,12 +918,6 @@ window.narrow .category-tile {
 	transform: rotate(270deg);
 }
 
-@media (prefers-color-scheme: dark) {
-  separator {
-	  opacity: 0.5;
-  }
-}
-
 .disable-adw-flow-box-styling {
     background-color: transparent;
     box-shadow: none;
