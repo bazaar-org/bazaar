@@ -383,7 +383,7 @@ check_tracker (BzTransactIcon *self)
       status  = bz_transaction_entry_tracker_get_status (self->tracker);
 
       if ((active || pending) && status == BZ_TRANSACTION_ENTRY_STATUS_CANCELLED)
-        state = "cancelling";
+        state = "inactive";
       else if (pending || status == BZ_TRANSACTION_ENTRY_STATUS_QUEUED)
         state = "pending";
       else if (!active || status == BZ_TRANSACTION_ENTRY_STATUS_DONE)
