@@ -73,6 +73,31 @@
   </screenshots>
 
   <releases>
+    <release version="0.8.0" date="2026-05-16">
+      <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.8.0</url>
+        <description translate="no">
+          <p>
+            <em>New Features</em>
+          </p>
+          <ul>
+            <li>Add support for installing (.flatpak) bundles</li>
+            <li>New progress indicators</li>
+            <li>The ability to view and delete app caches</li>
+          </ul>
+          <p>
+            <em>Fixes</em>
+          </p>
+          <ul>
+            <li>Fix the download context tile not displaying a label for non-Flathub apps</li>
+            <li>Reduce RAM usage when no windows are open</li>
+            <li>Fix an issue where a window could open at the wrong size while a transaction was running</li>
+            <li>Many other bug fixes</li>
+          </ul>
+          <p>
+            Thanks for reading, and have a great day!
+          </p>
+        </description>
+    </release>
     <release version="0.7.15" date="2026-04-17">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.7.15</url>
       <description translate="no">
