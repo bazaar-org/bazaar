@@ -732,6 +732,7 @@ key_pressed (BzWindow              *self,
   gunichar    unichar            = 0;
   char        buf[32]            = { 0 };
   const char *visible_child_name = NULL;
+  gboolean    was_deeper         = FALSE;
 
   /* Ignore if this is a modifier-shortcut of some sort */
   if (state & ~(GDK_NO_MODIFIER_MASK | GDK_SHIFT_MASK))
@@ -742,8 +743,13 @@ key_pressed (BzWindow              *self,
     return FALSE;
   g_unichar_to_utf8 (unichar, buf);
 
+  was_deeper = g_list_model_get_n_items (
+      adw_navigation_view_get_navigation_stack (self->navigation_view)) > 1;
+
+  adw_navigation_view_pop_to_tag (self->navigation_view, "main");
+
   visible_child_name = adw_view_stack_get_visible_child_name (self->main_view_stack);
-  if (g_strcmp0 (visible_child_name, "installed") == 0)
+  if (!was_deeper && g_strcmp0 (visible_child_name, "installed") == 0)
     return bz_library_page_ensure_active (self->library_page, buf);
   else
     {
