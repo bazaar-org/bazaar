@@ -224,10 +224,19 @@ template $BzWindow: Adw.ApplicationWindow {
                   }
 
                   [title]
-                  Adw.ViewSwitcher {
-                    stack: main_view_stack;
-                    policy: wide;
-                    sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
+                  Box {
+                    Adw.ViewSwitcher {
+                      stack: main_view_stack;
+                      policy: wide;
+                      visible: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
+                    }
+                    Label {
+                      label: _("Bazaar");
+                      visible: bind template.state as <$BzStateInfo>.busy as <bool>;
+                      styles [
+                        "title",
+                      ]
+                    }
                   }
 
                   [end]
@@ -264,7 +273,7 @@ template $BzWindow: Adw.ApplicationWindow {
               Adw.ViewSwitcherBar {
                 stack: main_view_stack;
                 reveal: true;
-                sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
+                visible: bind $invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>;
               }
             };
           }
