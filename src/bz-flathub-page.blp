@@ -187,33 +187,37 @@ template $BzFlathubPage: Adw.Bin {
                     $BzFlathubCategorySection section_productivity {
                       category: bind $get_category_by_name_cb(template.state as <$BzStateInfo>.flathub as <$BzFlathubState>.categories, "office") as <$BzFlathubCategory>;
                     }
-
-                    Label {
-                      styles [
-                        "title-1",
-                      ]
-                      xalign: 0.0;
-                      hexpand: true;
-                      margin-start: 3;
-                      margin-end: 3;
-                      ellipsize: end;
-                      label: _("App of the Day");
-                    }
-
-                    $BzFeaturedCarousel {
-                      styles [
-                        "flathub-page-section",
-                      ]
-
+                    Box {
+                      orientation: vertical;
+                      spacing: 10;
                       margin-top: 16;
                       margin-bottom: 20;
-                      hexpand: true;
+                      Label {
+                        styles [
+                          "title-1",
+                        ]
+                        xalign: 0.0;
+                        hexpand: true;
+                        margin-start: 3;
+                        margin-end: 3;
+                        margin-bottom: 5;
+                        ellipsize: end;
+                        label: _("App of the Day");
+                      }
 
-                      model: SliceListModel {
-                        offset: 0;
-                        size: 1;
-                        model: bind template.state as <$BzStateInfo>.flathub as <$BzFlathubState>.apps_of_the_day_week;
-                      };
+                      $BzFeaturedCarousel {
+                        styles [
+                          "flathub-page-section",
+                        ]
+
+                        hexpand: true;
+
+                        model: SliceListModel {
+                          offset: 0;
+                          size: 1;
+                          model: bind template.state as <$BzStateInfo>.flathub as <$BzFlathubState>.apps_of_the_day_week;
+                        };
+                      }
                     }
 
                     $BzFlathubCategorySection section_graphics {
