@@ -125,7 +125,7 @@ get_target_size (BzSafetyDialog *self,
   if (page_index == 0)
     {
       int nat    = 0;
-      *out_width = 400;
+      *out_width = 450;
       gtk_widget_measure (GTK_WIDGET (self->global_box),
                           GTK_ORIENTATION_VERTICAL,
                           *out_width,
