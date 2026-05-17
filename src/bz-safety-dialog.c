@@ -22,6 +22,7 @@
 
 #include <glib/gi18n.h>
 
+#include "bz-app-permissions.h"
 #include "bz-context-row.h"
 #include "bz-entry.h"
 #include "bz-lozenge.h"
@@ -30,14 +31,23 @@
 #include "bz-safety-row.h"
 #include "bz-template-callbacks.h"
 
+#define ANIMATION_DURATION 300
+
 struct _BzSafetyDialog
 {
   AdwBin parent_instance;
 
   BzEntry *entry;
 
-  BzLozenge  *lozenge;
-  GtkListBox *permissions_list;
+  gboolean has_sandbox_escape;
+
+  AdwAnimation *width_animation;
+  AdwAnimation *height_animation;
+
+  BzLozenge   *lozenge;
+  GtkListBox  *permissions_list;
+  AdwCarousel *carousel;
+  GtkBox      *global_box;
 };
 
 G_DEFINE_FINAL_TYPE (BzSafetyDialog, bz_safety_dialog, ADW_TYPE_BIN)
@@ -51,8 +61,8 @@ enum
 
 static GParamSpec *props[LAST_PROP] = { 0 };
 
-static AdwActionRow *create_permission_row (BzSafetyRow *row_data);
-static void          update_permissions_list (BzSafetyDialog *self);
+static void update_permissions_list (BzSafetyDialog *self);
+static void animate_to_page (BzSafetyDialog *self, guint page_index);
 
 static void
 bz_safety_dialog_dispose (GObject *object)
@@ -60,6 +70,8 @@ bz_safety_dialog_dispose (GObject *object)
   BzSafetyDialog *self = BZ_SAFETY_DIALOG (object);
 
   g_clear_object (&self->entry);
+  g_clear_object (&self->width_animation);
+  g_clear_object (&self->height_animation);
 
   G_OBJECT_CLASS (bz_safety_dialog_parent_class)->dispose (object);
 }
@@ -105,6 +117,91 @@ bz_safety_dialog_set_property (GObject      *object,
 }
 
 static void
+get_target_size (BzSafetyDialog *self,
+                 guint           page_index,
+                 int            *out_width,
+                 int            *out_height)
+{
+  if (page_index == 0)
+    {
+      int nat    = 0;
+      *out_width = 450;
+      gtk_widget_measure (GTK_WIDGET (self->global_box),
+                          GTK_ORIENTATION_VERTICAL,
+                          *out_width,
+                          NULL, &nat, NULL, NULL);
+      *out_height = CLAMP (nat + 48, 100, 600);
+    }
+  else
+    {
+      *out_width  = 640;
+      *out_height = 576;
+    }
+}
+
+static void
+animate_to_page (BzSafetyDialog *self,
+                 guint           page_index)
+{
+  AdwDialog *dialog        = NULL;
+  int        target_width  = 0;
+  int        target_height = 0;
+  int        cur_w         = 0;
+  int        cur_h         = 0;
+
+  dialog = ADW_DIALOG (gtk_widget_get_ancestor (GTK_WIDGET (self), ADW_TYPE_DIALOG));
+  if (dialog == NULL)
+    return;
+
+  if (self->width_animation == NULL || self->height_animation == NULL)
+    return;
+
+  get_target_size (self, page_index, &target_width, &target_height);
+
+  cur_w = adw_dialog_get_content_width (dialog);
+  cur_h = adw_dialog_get_content_height (dialog);
+
+  adw_animation_skip (self->width_animation);
+  adw_animation_skip (self->height_animation);
+
+  adw_timed_animation_set_duration (ADW_TIMED_ANIMATION (self->width_animation), ANIMATION_DURATION);
+  adw_timed_animation_set_duration (ADW_TIMED_ANIMATION (self->height_animation), ANIMATION_DURATION);
+  adw_timed_animation_set_value_from (ADW_TIMED_ANIMATION (self->width_animation), cur_w);
+  adw_timed_animation_set_value_to (ADW_TIMED_ANIMATION (self->width_animation), target_width);
+  adw_timed_animation_set_value_from (ADW_TIMED_ANIMATION (self->height_animation), cur_h);
+  adw_timed_animation_set_value_to (ADW_TIMED_ANIMATION (self->height_animation), target_height);
+  adw_animation_play (self->width_animation);
+  adw_animation_play (self->height_animation);
+}
+
+static void
+on_dialog_map (BzSafetyDialog *self)
+{
+  AdwDialog *dialog        = NULL;
+  int        target_width  = 0;
+  int        target_height = 0;
+
+  dialog = ADW_DIALOG (gtk_widget_get_ancestor (GTK_WIDGET (self), ADW_TYPE_DIALOG));
+  if (dialog == NULL)
+    return;
+
+  get_target_size (self, self->has_sandbox_escape ? 0 : 1, &target_width, &target_height);
+  adw_dialog_set_content_width (dialog, target_width);
+  adw_dialog_set_content_height (dialog, target_height);
+}
+
+static void
+next_page (BzSafetyDialog *self,
+           GtkButton      *button)
+{
+  GtkWidget *page = NULL;
+
+  page = gtk_widget_get_last_child (GTK_WIDGET (self->carousel));
+  adw_carousel_scroll_to (self->carousel, page, TRUE);
+  animate_to_page (self, 1);
+}
+
+static void
 bz_safety_dialog_class_init (BzSafetyDialogClass *klass)
 {
   GObjectClass   *object_class;
@@ -133,6 +230,9 @@ bz_safety_dialog_class_init (BzSafetyDialogClass *klass)
 
   gtk_widget_class_bind_template_child (widget_class, BzSafetyDialog, lozenge);
   gtk_widget_class_bind_template_child (widget_class, BzSafetyDialog, permissions_list);
+  gtk_widget_class_bind_template_child (widget_class, BzSafetyDialog, carousel);
+  gtk_widget_class_bind_template_child (widget_class, BzSafetyDialog, global_box);
+  gtk_widget_class_bind_template_callback (widget_class, next_page);
 }
 
 static void
@@ -144,15 +244,26 @@ bz_safety_dialog_init (BzSafetyDialog *self)
 AdwDialog *
 bz_safety_dialog_new (BzEntry *entry)
 {
-  BzSafetyDialog *widget = NULL;
-  AdwDialog      *dialog = NULL;
+  BzSafetyDialog     *widget        = NULL;
+  AdwDialog          *dialog        = NULL;
+  AdwAnimationTarget *width_target  = NULL;
+  AdwAnimationTarget *height_target = NULL;
 
-  widget = g_object_new (BZ_TYPE_SAFETY_DIALOG, "entry", entry, NULL);
+  widget = g_object_new (BZ_TYPE_SAFETY_DIALOG, NULL);
 
   dialog = adw_dialog_new ();
   adw_dialog_set_content_height (dialog, 576);
   adw_dialog_set_content_width (dialog, 640);
   adw_dialog_set_child (dialog, GTK_WIDGET (widget));
+
+  width_target             = adw_property_animation_target_new (G_OBJECT (dialog), "content-width");
+  widget->width_animation  = adw_timed_animation_new (GTK_WIDGET (widget), 0, 0, ANIMATION_DURATION, width_target);
+  height_target            = adw_property_animation_target_new (G_OBJECT (dialog), "content-height");
+  widget->height_animation = adw_timed_animation_new (GTK_WIDGET (widget), 0, 0, ANIMATION_DURATION, height_target);
+
+  g_object_set (widget, "entry", entry, NULL);
+
+  g_signal_connect_swapped (widget, "map", G_CALLBACK (on_dialog_map), widget);
 
   return dialog;
 }
@@ -170,25 +281,18 @@ bz_safety_dialog_page_new (BzEntry *entry)
   return page;
 }
 
-static AdwActionRow *
-create_permission_row (BzSafetyRow *row_data)
-{
-  return bz_context_row_new (bz_safety_row_get_icon_name (row_data),
-                             bz_safety_row_get_importance (row_data),
-                             bz_safety_row_get_title (row_data),
-                             bz_safety_row_get_subtitle (row_data));
-}
-
 static void
 update_permissions_list (BzSafetyDialog *self)
 {
   const char      *icon_names[2];
-  const char      *app_name    = NULL;
-  g_autofree char *title_text  = NULL;
-  BzImportance     importance  = BZ_IMPORTANCE_UNIMPORTANT;
-  GtkWidget       *child       = NULL;
-  g_autoptr (GListModel) model = NULL;
-  guint n_items                = 0;
+  const char      *app_name                = NULL;
+  g_autofree char *title_text              = NULL;
+  BzImportance     importance              = BZ_IMPORTANCE_UNIMPORTANT;
+  GtkWidget       *child                   = NULL;
+  g_autoptr (GListModel) model             = NULL;
+  guint                 n_items            = 0;
+  BzAppPermissions     *permissions        = NULL;
+  BzAppPermissionsFlags perm_flags         = BZ_APP_PERMISSIONS_FLAGS_NONE;
 
   while ((child = gtk_widget_get_first_child (GTK_WIDGET (self->permissions_list))) != NULL)
     gtk_list_box_remove (self->permissions_list, child);
@@ -196,11 +300,26 @@ update_permissions_list (BzSafetyDialog *self)
   if (self->entry == NULL)
     return;
 
-  app_name = bz_entry_get_title (self->entry);
+  g_object_get (self->entry, "permissions", &permissions, NULL);
+  if (permissions != NULL)
+    {
+      perm_flags = bz_app_permissions_get_flags (permissions);
+      g_object_unref (permissions);
+    }
 
+  self->has_sandbox_escape = (perm_flags & BZ_APP_PERMISSIONS_FLAGS_ESCAPE_SANDBOX) != 0;
+
+  if (!self->has_sandbox_escape)
+    {
+      GtkWidget *page = gtk_widget_get_last_child (GTK_WIDGET (self->carousel));
+      adw_carousel_scroll_to (self->carousel, page, FALSE);
+    }
+
+  app_name   = bz_entry_get_title (self->entry);
   model      = bz_safety_calculator_analyze_entry (self->entry);
   importance = bz_safety_calculator_calculate_rating (self->entry);
   n_items    = g_list_model_get_n_items (model);
+
   for (gint level = BZ_IMPORTANCE_IMPORTANT; level >= BZ_IMPORTANCE_UNIMPORTANT; level--)
     {
       for (gint j = 0; j < n_items; j++)
@@ -213,7 +332,10 @@ update_permissions_list (BzSafetyDialog *self)
           row_importance = bz_safety_row_get_importance (row_data);
           if (row_importance != level)
             continue;
-          row = create_permission_row (row_data);
+          row = bz_context_row_new (bz_safety_row_get_icon_name (row_data),
+                                    bz_safety_row_get_importance (row_data),
+                                    bz_safety_row_get_title (row_data),
+                                    bz_safety_row_get_subtitle (row_data));
           gtk_list_box_append (self->permissions_list, GTK_WIDGET (row));
         }
     }
