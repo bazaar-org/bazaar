@@ -35,8 +35,9 @@ struct _BzStatsDialog
   int         total_downloads;
 
   /* Template widgets */
-  BzDataGraph *graph;
-  BzWorldMap  *world_map;
+  AdwViewStack *stack;
+  BzDataGraph  *graph;
+  BzWorldMap   *world_map;
 };
 
 G_DEFINE_FINAL_TYPE (BzStatsDialog, bz_stats_dialog, ADW_TYPE_BREAKPOINT_BIN)
@@ -101,6 +102,10 @@ bz_stats_dialog_set_property (GObject      *object,
     case PROP_MODEL:
       g_clear_object (&self->model);
       self->model = g_value_dup_object (value);
+      if (self->model == NULL || g_list_model_get_n_items (self->model) < 10)
+        adw_view_stack_set_visible_child_name (ADW_VIEW_STACK (self->stack), "map");
+      else
+        adw_view_stack_set_visible_child_name (ADW_VIEW_STACK (self->stack), "graph");
       break;
     case PROP_COUNTRY_MODEL:
       g_clear_object (&self->country_model);
@@ -128,6 +133,15 @@ format_total_downloads (gpointer object,
     return g_strdup_printf (_("%.2fK Total Installs"), value / 1000.0);
   else
     return g_strdup_printf (_("%'d Total Installs"), value);
+}
+
+static gboolean
+model_has_enough_points (gpointer object,
+                         GListModel *model)
+{
+  if (model == NULL)
+    return FALSE;
+  return g_list_model_get_n_items (model) >= 10;
 }
 
 static void
@@ -171,6 +185,8 @@ bz_stats_dialog_class_init (BzStatsDialogClass *klass)
   bz_widget_class_bind_all_util_callbacks (widget_class);
 
   gtk_widget_class_bind_template_callback (widget_class, format_total_downloads);
+  gtk_widget_class_bind_template_callback (widget_class, model_has_enough_points);
+  gtk_widget_class_bind_template_child (widget_class, BzStatsDialog, stack);
   gtk_widget_class_bind_template_child (widget_class, BzStatsDialog, graph);
   gtk_widget_class_bind_template_child (widget_class, BzStatsDialog, world_map);
 }
