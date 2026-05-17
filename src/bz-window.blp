@@ -58,6 +58,7 @@ template $BzWindow: Adw.ApplicationWindow {
                     valign: center;
                     orientation: vertical;
                     spacing: 6;
+                    tooltip-text: bind template.state as <$BzStateInfo>.background-task-label;
 
                     Adw.Spinner {
                       width-request: 64;
@@ -66,7 +67,7 @@ template $BzWindow: Adw.ApplicationWindow {
                     }
 
                     Label {
-                      label: _("Refreshing…");
+                      label: _("Refreshing");
                       wrap: true;
                       justify: center;
                       margin-bottom: 24;
@@ -177,49 +178,13 @@ template $BzWindow: Adw.ApplicationWindow {
                   Revealer {
                     transition-type: crossfade;
                     transition-duration: 750;
-                    reveal-child: bind $logical_or($invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>, status_popover.visible) as <bool>;
-
-                    child: MenuButton {
-                      styles [
-                        "flat",
-                      ]
-
-                      child: Box {
-                        Adw.Spinner {
-                          visible: bind status_popover_label.visible;
-                        }
-
-                        Image {
-                          visible: bind $invert_boolean(status_popover_label.visible) as <bool>;
-                          icon-name: "check-plain-symbolic";
-                        }
-                      };
-
-                      popover: Popover status_popover {
-                        has-arrow: true;
-                        position: right;
-
-                        child: Box {
-                          orientation: vertical;
-                          margin-top: 12;
-                          margin-bottom: 12;
-                          margin-start: 12;
-                          margin-end: 12;
-                          width-request: 300;
-
-                          Label status_popover_label {
-                            hexpand: true;
-                            visible: bind $invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>;
-                            label: bind template.state as <$BzStateInfo>.background-task-label;
-                          }
-
-                          Label {
-                            hexpand: true;
-                            visible: bind $invert_boolean(status_popover_label.visible) as <bool>;
-                            label: _("Refresh completed!");
-                          }
-                        };
-                      };
+                    margin-start: 8;
+                    reveal-child: bind $logical_and($invert_boolean(template.state as <$BzStateInfo>.busy) as <bool>, $invert_boolean($is_null(template.state as <$BzStateInfo>.background-task-label) as <bool>) as <bool>) as <bool>;
+                    child: Adw.Spinner {
+                      width-request: 16;
+                      height-request: 16;
+                      has-tooltip: true;
+                      tooltip-text: bind template.state as <$BzStateInfo>.background-task-label;
                     };
                   }
 
