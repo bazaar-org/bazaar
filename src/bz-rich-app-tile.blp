@@ -94,9 +94,9 @@ template $BzRichAppTile: $BzListTile {
           }
 
           Image {
-             styles [
-               "verified",
-             ]
+            styles [
+              "verified",
+            ]
             visible: bind template.group as <$BzEntryGroup>.is-verified;
             icon-name: "verified-checkmark-symbolic";
             pixel-size: 14;
@@ -146,46 +146,100 @@ template $BzRichAppTile: $BzListTile {
         }
       }
 
-      Box {
-        Button {
-          visible: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.installable) as <bool>) as <bool>, $is_zero(template.group as <$BzEntryGroup>.removable) as <bool>) as <bool>;
-          sensitive: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.installable-and-available) as <bool>) as <bool>;
+      Stack {
+        transition-type: crossfade;
+        valign: center;
+        hhomogeneous: false;
+        interpolate-size: true;
+        visible-child-name: bind try {
+          $get_visible_page(
+            template.group as <$BzEntryGroup>.installable,
+            template.group as <$BzEntryGroup>.removable,
+            template.removable-at-start as <bool>,
+            template.tracker as <$BzTransactionEntryTracker>,
+            template.tracker as <$BzTransactionEntryTracker>.status as <$BzTransactionEntryStatus>
+            ) as <string>,
+          $get_visible_page(
+            template.group as <$BzEntryGroup>.installable,
+            template.group as <$BzEntryGroup>.removable,
+            template.removable-at-start as <bool>,
+            null as <$BzTransactionEntryTracker>,
+            null as <$BzTransactionEntryStatus>
+          ) as <string>
+        };
 
-          styles [
-            "medium-pill",
-          ]
+        StackPage {
+          name: "get";
+          child: Button {
+            sensitive: bind $invert_boolean(
+              $is_zero(template.group as <$BzEntryGroup>.installable-and-available) as <bool>
+            ) as <bool>;
 
-          label: _("Get");
-          valign: center;
-          clicked => $install_button_clicked_cb(template);
+            styles [
+              "medium-pill",
+            ]
+
+            label: _("Get");
+            valign: center;
+            clicked => $install_button_clicked_cb(template);
+          };
         }
 
-        Button {
-          visible: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable) as <bool>) as <bool>, template.removable-at-start) as <bool>;
-          sensitive: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable-and-available) as <bool>) as <bool>, template.removable-at-start) as <bool>;
+        StackPage {
+          name: "open";
+          child: Button {
+            sensitive: bind $invert_boolean(
+              $is_zero(template.group as <$BzEntryGroup>.removable-and-available) as <bool>
+            ) as <bool>;
 
-          styles [
-            "circular"
-          ]
+            styles [
+              "medium-pill",
+            ]
 
-          icon-name: "user-trash-symbolic";
-          has-tooltip: true;
-          tooltip-text: _("Uninstall");
-          valign: center;
-          clicked => $remove_button_clicked_cb(template);
+            label: _("Open");
+            valign: center;
+            clicked => $run_button_clicked_cb(template);
+          };
         }
 
-        Button {
-          visible: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable) as <bool>) as <bool>, $invert_boolean(template.removable-at-start) as <bool>) as <bool>;
-          sensitive: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable-and-available) as <bool>) as <bool>, $invert_boolean(template.removable-at-start) as <bool>) as <bool>;
+        StackPage {
+          name: "uninstall";
+          child: Button {
+            sensitive: bind $invert_boolean(
+              $is_zero(template.group as <$BzEntryGroup>.removable-and-available) as <bool>
+            ) as <bool>;
 
-          styles [
-            "medium-pill",
-          ]
+            styles [
+              "circular",
+            ]
 
-          label: _("Open");
-          valign: center;
-          clicked => $run_button_clicked_cb(template);
+            icon-name: "user-trash-symbolic";
+            has-tooltip: true;
+            tooltip-text: _("Uninstall");
+            valign: center;
+            clicked => $remove_button_clicked_cb(template);
+          };
+        }
+
+        StackPage {
+          name: "cancel";
+          child: Button {
+            styles [
+              "circular",
+            ]
+
+            icon-name: "cross-large-circle-filled-symbolic";
+            has-tooltip: true;
+            tooltip-text: _("Cancel");
+            valign: center;
+            clicked => $cancel_button_clicked_cb(template);
+          };
+        }
+
+        StackPage {
+          name: "empty";
+
+          child: Box {};
         }
       }
     }

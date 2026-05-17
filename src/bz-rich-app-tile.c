@@ -36,6 +36,9 @@ struct _BzRichAppTile
   DexFuture    *ui_entry_resolve;
   gboolean      removable_at_start;
 
+  BzTransactionEntryTracker *tracker;
+  GListModel                *all_trackers;
+
   GtkWidget          *picture_box;
   BzTransactIconInfo *transact_icon_info;
 };
@@ -48,12 +51,59 @@ enum
   PROP_GROUP,
   PROP_UI_ENTRY,
   PROP_REMOVABLE_AT_START,
+  PROP_TRACKER,
   LAST_PROP
 };
 
 static GParamSpec *props[LAST_PROP] = { 0 };
 
 static void update_ui_entry (BzRichAppTile *self);
+
+static void
+update_tracker (BzRichAppTile *self)
+{
+  BzTransactionManager *manager               = NULL;
+  g_autoptr (GListModel) all                  = NULL;
+  const char *group_id                        = NULL;
+  g_autoptr (BzTransactionEntryTracker) found = NULL;
+
+  manager = bz_state_info_get_transaction_manager (bz_state_info_get_default ());
+  if (manager != NULL)
+    g_object_get (manager, "all-trackers", &all, NULL);
+  if (self->group != NULL)
+    group_id = bz_entry_group_get_id (self->group);
+
+  if (all != NULL && group_id != NULL)
+    {
+      for (guint i = 0; i < g_list_model_get_n_items (all); i++)
+        {
+          g_autoptr (BzTransactionEntryTracker) tracker = NULL;
+          BzEntry *entry                                = NULL;
+
+          tracker = g_list_model_get_item (all, i);
+          entry   = bz_transaction_entry_tracker_get_entry (tracker);
+
+          if (g_strcmp0 (entry != NULL ? bz_entry_get_id (entry) : NULL, group_id) == 0)
+            {
+              found = g_steal_pointer (&tracker);
+              break;
+            }
+        }
+    }
+
+  if (g_set_object (&self->tracker, found))
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TRACKER]);
+}
+
+static void
+on_all_trackers_changed (GListModel    *model,
+                         guint          position,
+                         guint          removed,
+                         guint          added,
+                         BzRichAppTile *self)
+{
+  update_tracker (self);
+}
 
 static DexFuture *
 ui_entry_resolved_finally (DexFuture *future,
@@ -104,8 +154,15 @@ bz_rich_app_tile_dispose (GObject *object)
 {
   BzRichAppTile *self = BZ_RICH_APP_TILE (object);
 
+  if (self->all_trackers != NULL)
+    {
+      g_signal_handlers_disconnect_by_func (self->all_trackers, on_all_trackers_changed, self);
+      g_clear_object (&self->all_trackers);
+    }
+
   g_clear_object (&self->group);
   g_clear_object (&self->ui_entry);
+  g_clear_object (&self->tracker);
   dex_clear (&self->ui_entry_resolve);
 
   G_OBJECT_CLASS (bz_rich_app_tile_parent_class)->dispose (object);
@@ -129,6 +186,9 @@ bz_rich_app_tile_get_property (GObject    *object,
     case PROP_REMOVABLE_AT_START:
       g_value_set_boolean (value, self->removable_at_start);
       break;
+    case PROP_TRACKER:
+      g_value_set_object (value, self->tracker);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -148,6 +208,7 @@ bz_rich_app_tile_set_property (GObject      *object,
       break;
     case PROP_UI_ENTRY:
     case PROP_REMOVABLE_AT_START:
+    case PROP_TRACKER:
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -174,12 +235,28 @@ is_zero (gpointer object,
   return value == 0;
 }
 
-static gboolean
-logical_and (gpointer object,
-             gboolean value1,
-             gboolean value2)
+static char *
+get_visible_page (gpointer                   object,
+                  int                        installable,
+                  int                        removable,
+                  gboolean                   removable_at_start,
+                  BzTransactionEntryTracker *tracker,
+                  BzTransactionEntryStatus   status)
 {
-  return value1 && value2;
+  if (tracker != NULL &&
+      (bz_transaction_entry_tracker_get_active (tracker) ||
+       bz_transaction_entry_tracker_get_pending (tracker)) &&
+      status != BZ_TRANSACTION_ENTRY_STATUS_CANCELLED &&
+      status != BZ_TRANSACTION_ENTRY_STATUS_DONE)
+    return g_strdup ("cancel");
+
+  if (removable > 0)
+    return g_strdup (removable_at_start ? "uninstall" : "open");
+
+  if (installable > 0)
+    return g_strdup ("get");
+
+  return g_strdup ("empty");
 }
 
 static void
@@ -187,7 +264,7 @@ install_button_clicked_cb (BzRichAppTile *self,
                            GtkButton     *button)
 {
   gtk_widget_activate_action (GTK_WIDGET (self), "window.install-group", "(sb)",
-                              bz_entry_group_get_id (self->group), FALSE);
+                              bz_entry_group_get_id (self->group), TRUE);
 }
 
 static void
@@ -203,6 +280,17 @@ run_button_clicked_cb (BzRichAppTile *self,
                        GtkButton     *button)
 {
   gtk_widget_activate_action (GTK_WIDGET (self), "window.launch-group", "s",
+                              bz_entry_group_get_id (self->group));
+}
+
+static void
+cancel_button_clicked_cb (BzRichAppTile *self,
+                          GtkButton     *button)
+{
+  if (self->group == NULL)
+    return;
+
+  gtk_widget_activate_action (GTK_WIDGET (self), "window.cancel-group", "s",
                               bz_entry_group_get_id (self->group));
 }
 
@@ -237,6 +325,13 @@ bz_rich_app_tile_class_init (BzRichAppTileClass *klass)
           FALSE,
           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
+  props[PROP_TRACKER] =
+      g_param_spec_object (
+          "tracker",
+          NULL, NULL,
+          BZ_TYPE_TRANSACTION_ENTRY_TRACKER,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   g_type_ensure (BZ_TYPE_TRANSACT_ICON);
@@ -248,10 +343,11 @@ bz_rich_app_tile_class_init (BzRichAppTileClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, invert_boolean);
   gtk_widget_class_bind_template_callback (widget_class, is_null);
   gtk_widget_class_bind_template_callback (widget_class, is_zero);
-  gtk_widget_class_bind_template_callback (widget_class, logical_and);
+  gtk_widget_class_bind_template_callback (widget_class, get_visible_page);
   gtk_widget_class_bind_template_callback (widget_class, install_button_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, remove_button_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_button_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, cancel_button_clicked_cb);
   gtk_widget_class_bind_template_child (widget_class, BzRichAppTile, picture_box);
   gtk_widget_class_bind_template_child (widget_class, BzRichAppTile, transact_icon_info);
 
@@ -261,7 +357,21 @@ bz_rich_app_tile_class_init (BzRichAppTileClass *klass)
 static void
 bz_rich_app_tile_init (BzRichAppTile *self)
 {
+  BzStateInfo          *state   = NULL;
+  BzTransactionManager *manager = NULL;
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  state   = bz_state_info_get_default ();
+  manager = bz_state_info_get_transaction_manager (state);
+  if (manager != NULL)
+    g_object_get (manager, "all-trackers", &self->all_trackers, NULL);
+
+  if (self->all_trackers != NULL)
+    g_signal_connect (self->all_trackers, "items-changed",
+                      G_CALLBACK (on_all_trackers_changed), self);
+
+  update_tracker (self);
 }
 
 GtkWidget *
@@ -320,6 +430,7 @@ bz_rich_app_tile_set_group (BzRichAppTile *self,
     }
 
   update_ui_entry (self);
+  update_tracker (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_GROUP]);
 }
