@@ -8,98 +8,172 @@ template $BzSafetyDialog: Adw.Bin {
       show-title: false;
     }
 
-    content: ScrolledWindow {
-      hscrollbar-policy: never;
+    content: Adw.Carousel carousel {
+      interactive: false;
+      allow-scroll-wheel: false;
+      allow-mouse-drag: false;
+      allow-long-swipes: false;
+      hexpand: true;
 
-      Adw.Clamp {
-        maximum-size: 640;
-        tightening-threshold: 400;
+      ScrolledWindow {
+        hscrollbar-policy: never;
+        hexpand: true;
 
-        Box {
+        Box global_box {
           orientation: vertical;
-          spacing: 24;
-          margin-start: 24;
-          margin-end: 24;
-          margin-top: 24;
-          margin-bottom: 24;
+          spacing: 12;
+          margin-start: 18;
+          margin-end: 18;
+          margin-top: 18;
+          margin-bottom: 18;
 
-          $BzLozenge lozenge {
-            title: _("Safe");
+          $BzLozenge {
+            title: _("Arbitrary Permissions");
 
             icon-names: [
-              "app-safety-ok-symbolic",
+              "earth-symbolic",
             ];
 
-            importance: unimportant;
+            importance: important;
+            margin-bottom: 12;
           }
 
-          ListBox permissions_list {
+          ListBox {
+            styles [
+              "boxed-list",
+            ]
+
+            ListBoxRow {
+              activatable: false;
+              selectable: false;
+
+              child: Label {
+                wrap: true;
+                xalign: 0;
+                use-markup: true;
+                margin-top: 12;
+                margin-bottom: 12;
+                margin-start: 12;
+                margin-end: 12;
+                label: _("This app has a permission that indirectly allows it to grant itself <b>any other permission it wants</b>, bypassing the Flatpak sandbox.\n\nIt can therefore do anything a normal, non-sandboxed application can do. Like acessing all your files, and connecting the internet.\n\nViewing the other permissions may still give a better idea of what the app is likely to do.");
+              };
+            }
+          }
+
+          ListBox {
             selection-mode: none;
 
             styles [
               "boxed-list",
             ]
+
+            Adw.ButtonRow {
+              title: _("View Other Permissions");
+              end-icon-name: "go-next-symbolic";
+              activated => $next_page(template);
+            }
           }
+        }
+      }
 
-          Adw.PreferencesGroup {
-            margin-top: 10;
-            title: _("Details");
+      ScrolledWindow {
+        hscrollbar-policy: never;
+        hexpand: true;
 
-            Adw.ActionRow {
-              title: _("License");
-              subtitle: bind template.entry as <$BzEntry>.project-license;
-              subtitle-selectable: true;
+        Adw.Clamp {
+          maximum-size: 640;
+          tightening-threshold: 400;
+
+          Box {
+            orientation: vertical;
+            spacing: 24;
+            margin-start: 24;
+            margin-end: 24;
+            margin-top: 24;
+            margin-bottom: 24;
+
+            $BzLozenge lozenge {
+              title: _("Safe");
+
+              icon-names: [
+                "app-safety-ok-symbolic",
+              ];
+
+              importance: unimportant;
+            }
+
+            ListBox permissions_list {
+              selection-mode: none;
 
               styles [
-                "property",
+                "boxed-list",
               ]
             }
 
-            Adw.ActionRow {
-              title: _("App ID");
-              subtitle: bind template.entry as <$BzEntry>.id;
-              subtitle-selectable: true;
+            Adw.PreferencesGroup {
+              margin-top: 10;
+              title: _("Details");
 
-              styles [
-                "property",
-              ]
-            }
-
-            Adw.ActionRow {
-              title: _("SDK");
-              subtitle: bind template.entry as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.title;
-              subtitle-selectable: true;
-              has-tooltip: true;
-              tooltip-text: bind template.entry as <$BzFlatpakEntry>.application-runtime;
-              visible: bind $invert_boolean($is_null(template.entry as <$BzFlatpakEntry>.runtime as <$BzResult>.object) as <bool>) as <bool>;
-
-              styles [
-                "property",
-              ]
-
-              [suffix]
-              MenuButton {
-                visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.eol) as <bool>) as <bool>;
+              Adw.ActionRow {
+                title: _("License");
+                subtitle: bind template.entry as <$BzEntry>.project-license;
+                subtitle-selectable: true;
 
                 styles [
-                  "error",
-                  "flat",
+                  "property",
+                ]
+              }
+
+              Adw.ActionRow {
+                title: _("App ID");
+                subtitle: bind template.entry as <$BzEntry>.id;
+                subtitle-selectable: true;
+
+                styles [
+                  "property",
+                ]
+              }
+
+              Adw.ActionRow {
+                title: _("SDK");
+                subtitle: bind template.entry as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.title;
+                subtitle-selectable: true;
+                has-tooltip: true;
+                tooltip-text: bind template.entry as <$BzFlatpakEntry>.application-runtime;
+                visible: bind $invert_boolean(
+                  $is_null(template.entry as <$BzFlatpakEntry>.runtime as <$BzResult>.object) as <bool>
+                ) as <bool>;
+
+                styles [
+                  "property",
                 ]
 
-                valign: center;
-                icon-name: "dialog-warning-symbolic";
+                [suffix]
+                MenuButton {
+                  visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.eol) as <bool>) as <bool>;
 
-                popover: Popover {
-                  child: Label {
-                    margin-top: 8;
-                    margin-bottom: 8;
-                    margin-start: 8;
-                    margin-end: 8;
-                    max-width-chars: 35;
-                    wrap: true;
-                    label: _("This app uses an outdated version of the software platform (SDK) and might contain bugs or security vulnerabilities which will not be fixed.");
+                  styles [
+                    "error",
+                    "flat",
+                  ]
+
+                  valign: center;
+                  icon-name: "dialog-warning-symbolic";
+
+                  popover: Popover {
+                    child: Label {
+                      margin-top: 8;
+                      margin-bottom: 8;
+                      margin-start: 8;
+                      margin-end: 8;
+                      max-width-chars: 35;
+                      wrap: true;
+                      label: _(
+                        "This app uses an outdated version of the software platform (SDK) and might contain bugs or security vulnerabilities which will not be fixed."
+                      );
+                    };
                   };
-                };
+                }
               }
             }
           }
