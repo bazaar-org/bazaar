@@ -5,5 +5,5 @@
   <typehint name="rows.sections.classes" type="GtkStringObject"/>
   <typehint name="rows.sections.light-classes" type="GtkStringObject"/>
   <typehint name="rows.sections.dark-classes" type="GtkStringObject"/>
-  <typehint name="rows.sections.category.appids" type="GtkStringObject"/>
+  <typehint name="rows.sections.appids.list" type="GtkStringObject"/>
 </object>

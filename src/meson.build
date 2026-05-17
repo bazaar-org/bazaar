@@ -212,7 +212,7 @@ gobject_specs = files(
   'bz-comet.txt',
   'bz-country-data-point.txt',
   'bz-country.txt',
-  'bz-curated-category-info.txt',
+  'bz-curated-appids-info.txt',
   'bz-curated-image-info.txt',
   'bz-curated-markdown-info.txt',
   'bz-curated-row.txt',
