@@ -3,6 +3,10 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
+	"runArgs": [
+		"--device=/dev/dri",
+		"--network=host"
+	],
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"installZsh": "false",
@@ -25,9 +29,12 @@
 	"containerEnv": {
 		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
 		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
-		"XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}"
+		"XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}",
+
+		"DBUS_SYSTEM_BUS_ADDRESS": "unix:path=/var/run/dbus/system_bus_socket"
 	},
 	"mounts": [
-		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached"
+		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",
+		"source=/var/run/dbus/system_bus_socket,target=/var/run/dbus/system_bus_socket,type=bind,consistency=cached"
 	]
 }
