@@ -1008,7 +1008,6 @@ refresh_graph (BzDataGraph *self)
   GdkRGBA widget_color                    = { 0 };
   g_autoptr (GskPath) transitioning       = NULL;
   g_autoptr (GskPath) trend_transitioning = NULL;
-  g_autoptr (GskStroke) stroke            = NULL;
   g_autoptr (GtkSnapshot) snapshot        = NULL;
 
   if (self->path == NULL)
@@ -1056,15 +1055,14 @@ refresh_graph (BzDataGraph *self)
       trend_transitioning = gsk_path_builder_to_path (builder);
     }
 
-  stroke = gsk_stroke_new (3.0);
-  gsk_stroke_set_line_cap (stroke, GSK_LINE_CAP_ROUND);
-
   snapshot = gtk_snapshot_new ();
   gtk_snapshot_save (snapshot);
   gtk_snapshot_translate (snapshot, &GRAPHENE_POINT_INIT (LABEL_MARGIN, 0.0));
 
   if (self->transition_progress > 0.0)
     {
+      g_autoptr (GskStroke) stroke       = NULL;
+      g_autoptr (GskStroke) trend_stroke = NULL;
       g_autoptr (GskPathBuilder) builder = NULL;
       GskPathPoint     point0            = { 0 };
       GskPathPoint     point1            = { 0 };
@@ -1125,8 +1123,15 @@ refresh_graph (BzDataGraph *self)
         .red   = widget_color.red,
         .green = widget_color.green,
         .blue  = widget_color.blue,
-        .alpha = 0.5,
+        .alpha = 0.8,
       };
+
+      stroke = gsk_stroke_new (3.0);
+      gsk_stroke_set_line_cap (stroke, GSK_LINE_CAP_ROUND);
+
+      trend_stroke = gsk_stroke_new (2.0);
+      gsk_stroke_set_line_cap (trend_stroke, GSK_LINE_CAP_ROUND);
+      gsk_stroke_set_dash (trend_stroke, (const float[]){ 12, 16 }, 2);
 
       gtk_snapshot_append_stroke (
           snapshot,
@@ -1217,7 +1222,7 @@ refresh_graph (BzDataGraph *self)
           trend_transitioning != NULL
               ? trend_transitioning
               : self->trend,
-          stroke, &trend_color);
+          trend_stroke, &trend_color);
     }
   gtk_snapshot_restore (snapshot);
 
