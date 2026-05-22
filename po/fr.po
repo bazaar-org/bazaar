@@ -5,14 +5,14 @@
 # Atom <29772841+AtomHare@users.noreply.github.com>, 2025.
 # Léane GRASSER <leane.grasser@proton.me>, 2025.
 # Irénée THIRION <irenee.thirion@e.email>, 2026.
-# Mimolet <themimolet@proton.me>, 2025-2026.
+# SPDX-FileCopyrightText: 2025-2026 Mimolet <themimolet@proton.me>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-15 22:48+0200\n"
-"PO-Revision-Date: 2026-05-15 23:20+0200\n"
+"POT-Creation-Date: 2026-05-21 06:03+0200\n"
+"PO-Revision-Date: 2026-05-22 17:20+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:45
-#: src/bz-window.c:373 src/bz-window.c:374
+#: src/bz-window.blp:199 src/bz-window.c:373 src/bz-window.c:374
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -112,7 +112,7 @@ msgid "Install"
 msgstr "Installer"
 
 #: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
-#: src/bz-addons-dialog.blp:70 src/bz-full-view.blp:606
+#: src/bz-addons-dialog.blp:70 src/bz-full-view.blp:583
 #: src/bz-installed-tile.blp:92
 msgid "Manage Add-Ons"
 msgstr "Gérer les extensions"
@@ -133,11 +133,11 @@ msgstr ""
 msgid "Add-on Page"
 msgstr "Page des extensions"
 
-#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:404
+#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:381
 msgid "Downloads/Month"
 msgstr "Téléchargements/mois"
 
-#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:440
+#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:417
 msgid "Stopped Receiving Core Updates"
 msgstr "L'application utilise un environnement en fin de vie"
 
@@ -155,11 +155,11 @@ msgstr ""
 msgid "Add-on for %s"
 msgstr "Extension pour %s"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:572
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:600
 msgid "Show Less"
 msgstr "Montrer moins"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:572
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:600
 msgid "Show More"
 msgstr "Montrer plus"
 
@@ -733,7 +733,7 @@ msgid "App Size"
 msgstr "Taille de l'appli"
 
 #: src/bz-app-tile.blp:57 src/bz-developer-badge.c:98
-#: src/bz-rich-app-tile.blp:105 src/bz-rich-app-tile.c:309
+#: src/bz-rich-app-tile.blp:105 src/bz-rich-app-tile.c:429
 msgid "Verified"
 msgstr "Vérifié"
 
@@ -808,110 +808,77 @@ msgstr "Plus tard"
 msgid "Set Up Flathub"
 msgstr "Configurer Flathub"
 
-#: src/bz-application.c:1407
+#: src/bz-application.c:1408
 msgid "A backend error occurred"
 msgstr "Une erreur de backend est survenue"
 
-#: src/bz-application.c:1607 src/bz-application.c:3689 src/bz-window.blp:69
+#: src/bz-application.c:1608 src/bz-application.c:3767
 msgid "Refreshing…"
 msgstr "Actualisation…"
 
-#: src/bz-application.c:1771 src/bz-application.c:3687
+#: src/bz-application.c:1772 src/bz-application.c:3765
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Chargement de %d applis…"
 
-#: src/bz-application.c:1824
+#: src/bz-application.c:1825
 msgid "Failed to open file"
 msgstr "Échec de l’ouverture du fichier"
 
-#: src/bz-application.c:1929
+#: src/bz-application.c:1930
 msgid "An initialization error occurred"
 msgstr "Une erreur d'initialisation s'est produite"
 
-#: src/bz-application.c:2295
+#: src/bz-application.c:2296
 msgid "Checking for updates…"
 msgstr "Recherche de mises à jour…"
 
-#: src/bz-application.c:2351
+#: src/bz-application.c:2352
 msgid "Failed to check for updates"
 msgstr "Échec de la vérification des mises à jour"
 
-#: src/bz-application.c:3409
+#: src/bz-application.c:3478
+msgid "Malformed Link"
+msgstr "Lien corrigé"
+
+#: src/bz-application.c:3479
+msgid ""
+"The link used to open this app has incorrect capitalization and may stop "
+"working in the future.\n"
+"\n"
+"This is most likely caused by KRunner sending incorrect app IDs"
+msgstr ""
+"Le lien utilisé pour ouvrir cette application a une majuscule incorrecte et "
+"a été corrigé par Bazaar.\n"
+"\n"
+"Il s'agit très probablement de KRunner qui envoie des identifiants "
+"d'application incorrects."
+
+#: src/bz-application.c:3487
 msgid "Could not find app"
 msgstr "Impossible de trouver l'application"
 
-#: src/bz-application.c:3440
+#: src/bz-application.c:3518
 msgid "Failed to load metainfo"
 msgstr "Échec du chargement des métainfos"
 
-#: src/bz-application.c:3691
+#: src/bz-application.c:3769
 msgid "Writing to cache…"
 msgstr "Écriture dans le cache…"
 
-#: src/bz-apps-page.blp:86
+#: src/bz-apps-page.blp:99
 msgid "Show All"
 msgstr "Tout afficher"
 
-#: src/bz-apps-page.c:229
+#: src/bz-apps-page.c:237
 #, c-format
 msgid "All \"%s\""
 msgstr "Toutes les applis « %s »"
 
-#: src/bz-apps-page.c:478 src/bz-tag-list.c:91
+#: src/bz-apps-page.c:487 src/bz-tag-list.c:91
 #, c-format
 msgid "%d Applications"
 msgstr "%d applications"
-
-#: src/bz-appstream-parser.c:303
-msgctxt "Project URL Type"
-msgid "Flathub Page"
-msgstr "Page Flathub"
-
-#: src/bz-appstream-parser.c:324
-msgctxt "Project URL Type"
-msgid "Project Website"
-msgstr "Site du projet"
-
-#: src/bz-appstream-parser.c:328
-msgctxt "Project URL Type"
-msgid "Issue Tracker"
-msgstr "Signaler un problème"
-
-#: src/bz-appstream-parser.c:332
-msgctxt "Project URL Type"
-msgid "FAQ"
-msgstr "FAQ"
-
-#: src/bz-appstream-parser.c:336
-msgctxt "Project URL Type"
-msgid "Help"
-msgstr "Aide"
-
-#: src/bz-appstream-parser.c:340
-msgctxt "Project URL Type"
-msgid "Donate"
-msgstr "Faire un don"
-
-#: src/bz-appstream-parser.c:346
-msgctxt "Project URL Type"
-msgid "Translate"
-msgstr "Traduire"
-
-#: src/bz-appstream-parser.c:350
-msgctxt "Project URL Type"
-msgid "Contact"
-msgstr "Contact"
-
-#: src/bz-appstream-parser.c:354
-msgctxt "Project URL Type"
-msgid "Source Code"
-msgstr "Code Source"
-
-#: src/bz-appstream-parser.c:360
-msgctxt "Project URL Type"
-msgid "Contribute"
-msgstr "Contribuer"
 
 #: src/bz-bundle-install-dialog.blp:8 src/bz-bundle-install-dialog.blp:14
 msgid "Bundle Installation"
@@ -941,7 +908,7 @@ msgid "Successfully Installed!"
 msgstr "Application installée avec succès!"
 
 #: src/bz-bundle-install-dialog.blp:381 src/bz-bundle-install-dialog.blp:463
-#: src/bz-rich-app-tile.blp:186 src/bz-transaction-tile.blp:298
+#: src/bz-rich-app-tile.blp:198 src/bz-transaction-tile.blp:298
 msgid "Open"
 msgstr "Ouvrir"
 
@@ -1220,7 +1187,7 @@ msgstr ""
 "Plusieurs versions de cette application sont installées. Avec quelle version "
 "souhaitez-vous poursuivre ?"
 
-#: src/bz-entry-group-util.c:80
+#: src/bz-entry-group-util.c:80 src/bz-rich-app-tile.blp:232
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1245,7 +1212,7 @@ msgstr "Détails"
 msgid "Copy"
 msgstr "Copier"
 
-#: src/bz-error-dialog.c:56 src/bz-share-list.c:62
+#: src/bz-error-dialog.c:56 src/bz-share-list.c:94
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -1266,7 +1233,7 @@ msgid "Log In"
 msgstr "Se connecter"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:360
+#: src/bz-window.blp:334
 msgid "Favorites"
 msgstr "Favoris"
 
@@ -1613,31 +1580,31 @@ msgstr ""
 msgid "Search Apps"
 msgstr "Rechercher des applis"
 
-#: src/bz-flathub-page.blp:200
+#: src/bz-flathub-page.blp:205
 msgid "App of the Day"
 msgstr "Appli du jour"
 
-#: src/bz-flathub-page.blp:264
+#: src/bz-flathub-page.blp:268
 msgid "On the Go"
 msgstr "Sur tous vos écrans"
 
-#: src/bz-flathub-page.blp:276
+#: src/bz-flathub-page.blp:280
 msgid "Apps for your Linux phones and tablets"
 msgstr "Applis pour vos téléphones et tablettes Linux"
 
-#: src/bz-flathub-page.blp:287 src/bz-flathub-page.blp:322
+#: src/bz-flathub-page.blp:291 src/bz-flathub-page.blp:326
 msgid "More Mobile Apps"
 msgstr "Plus d’applis mobiles"
 
-#: src/bz-flathub-page.blp:378
+#: src/bz-flathub-page.blp:382
 msgid "We​ ♥​ Games"
 msgstr "Nous + jeux = ♥"
 
-#: src/bz-flathub-page.blp:391
+#: src/bz-flathub-page.blp:395
 msgid "Games and apps to run your favorite titles"
 msgstr "Jeux et applis pour lancer vos titres préférés"
 
-#: src/bz-flathub-page.blp:425
+#: src/bz-flathub-page.blp:429
 msgid "More Games"
 msgstr "Plus de jeux"
 
@@ -1654,22 +1621,22 @@ msgstr "Essayez une autre recherche"
 msgid "Content"
 msgstr "Contenu"
 
-#: src/bz-full-view.blp:105
+#: src/bz-full-view.blp:103
 msgid ""
 "This is a local preview, some details may differ from the published listing"
 msgstr ""
 "Ceci est une prévisualisation locale, quelques détails pourraient être "
 "différents du résultat publié"
 
-#: src/bz-full-view.blp:108
+#: src/bz-full-view.blp:106
 msgid "Preview Store Appearance"
 msgstr "Prévisualiser dans la logithèque"
 
-#: src/bz-full-view.blp:234
+#: src/bz-full-view.blp:232
 msgid "_Support"
 msgstr "_Soutenir"
 
-#: src/bz-full-view.blp:454
+#: src/bz-full-view.blp:431
 msgid ""
 "This app uses a runtime that no longer receives updates or security fixes. "
 "It may become unsafe to use."
@@ -1678,11 +1645,11 @@ msgstr ""
 "mises à jour ni de correctifs de sécurité.\n"
 "Son utilisation pourrait devenir risquée."
 
-#: src/bz-full-view.blp:541
+#: src/bz-full-view.blp:518
 msgid "Trash Data"
 msgstr "Supprimer les données"
 
-#: src/bz-full-view.blp:681
+#: src/bz-full-view.blp:658
 msgid "Tags:"
 msgstr "Étiquettes :"
 
@@ -1719,7 +1686,7 @@ msgstr "Plus d’applis par %s"
 msgid "Other Apps by this Developer"
 msgstr "D’autres applis de ce développeur"
 
-#: src/bz-full-view.c:216 src/bz-full-view.c:315
+#: src/bz-full-view.c:216 src/bz-full-view.c:316
 #, c-format
 msgid "Other Apps by %s"
 msgstr "D’autres applis par %s"
@@ -1729,16 +1696,20 @@ msgstr "D’autres applis par %s"
 msgid "%s is not installed, but it still has <b>%s</b> of data present."
 msgstr "%s n’est pas installé, mais a toujours <b>%s</b> de données présentes."
 
-#: src/bz-full-view.c:317
+#: src/bz-full-view.c:318
 msgid "Other Apps"
 msgstr "D’autres applis"
 
-#: src/bz-full-view.c:319
+#: src/bz-full-view.c:320
 #, c-format
 msgid "%d Application"
 msgid_plural "%d Applications"
 msgstr[0] "%d application"
 msgstr[1] "%d applications"
+
+#: src/bz-full-view.c:536 src/bz-user-data-tile.c:144
+msgid "Failed to Remove User Data"
+msgstr "Échec de la suppression des données utilisateurs"
 
 #: src/bz-hardware-support-dialog.blp:7 src/bz-hardware-support-dialog.blp:31
 msgid "Hardware Support"
@@ -1883,7 +1854,7 @@ msgstr "Rechercher plutôt dans la logithèque"
 
 # "Bibliothèque" est trop long sous un format "mobile"
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:111
+#: src/bz-library-page.blp:100 src/bz-window.blp:112
 msgid "Library"
 msgstr "Bibliothèque"
 
@@ -2061,7 +2032,7 @@ msgstr ""
 "La connexion réseau est limitée — l’actualisation automatique de la "
 "logithèque est suspendue"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:258
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:232
 msgid "Refresh Manually"
 msgstr "Actualiser manuellement"
 
@@ -2104,7 +2075,7 @@ msgid "Hide apps which are no longer supported by their developers"
 msgstr ""
 "Masque les applis qui ne sont plus prises en charge par leurs développeurs"
 
-#: src/bz-preferences-dialog.blp:55 src/bz-window.blp:126
+#: src/bz-preferences-dialog.blp:55 src/bz-window.blp:127
 msgid "Search"
 msgstr "Recherche"
 
@@ -2289,14 +2260,15 @@ msgstr "Aucun détail à propos de cette version"
 msgid "Get More Information"
 msgstr "Obtenir plus d’informations"
 
-# Dans le contexte d'App Store - "Get" serait plutôt traduit en "Télécharger" ou comme ici en "Installer"
-#: src/bz-rich-app-tile.blp:158
-msgid "Get"
-msgstr "/"
-
-#: src/bz-rich-app-tile.blp:173
+#: src/bz-rich-app-tile.blp:217
 msgid "Uninstall"
 msgstr "Désinstaller"
+
+# Dans le contexte d'App Store - "Get" serait plutôt traduit en "Télécharger" ou comme ici en "Installer"
+#. Translators: If you can't find a short enough translation, use "/" to use an icon instead.
+#: src/bz-rich-app-tile.c:369
+msgid "Get"
+msgstr "/"
 
 #: src/bz-safety-calculator.c:87
 msgid "Unknown Permissions"
@@ -2829,11 +2801,61 @@ msgstr "Torrent"
 msgid "Emulator"
 msgstr "Émulateur"
 
-#: src/bz-share-list.c:123
+#: src/bz-share-list.c:55
+msgctxt "Project URL Type"
+msgid "Flathub Page"
+msgstr "Page Flathub"
+
+#: src/bz-share-list.c:56
+msgctxt "Project URL Type"
+msgid "Project Website"
+msgstr "Site du projet"
+
+#: src/bz-share-list.c:57
+msgctxt "Project URL Type"
+msgid "Issue Tracker"
+msgstr "Signaler un problème"
+
+#: src/bz-share-list.c:58
+msgctxt "Project URL Type"
+msgid "FAQ"
+msgstr "FAQ"
+
+#: src/bz-share-list.c:59
+msgctxt "Project URL Type"
+msgid "Help"
+msgstr "Aide"
+
+#: src/bz-share-list.c:60
+msgctxt "Project URL Type"
+msgid "Donate"
+msgstr "Faire un don"
+
+#: src/bz-share-list.c:61
+msgctxt "Project URL Type"
+msgid "Translate"
+msgstr "Traduire"
+
+#: src/bz-share-list.c:62
+msgctxt "Project URL Type"
+msgid "Contact"
+msgstr "Contact"
+
+#: src/bz-share-list.c:63
+msgctxt "Project URL Type"
+msgid "Source Code"
+msgstr "Code Source"
+
+#: src/bz-share-list.c:64
+msgctxt "Project URL Type"
+msgid "Contribute"
+msgstr "Contribuer"
+
+#: src/bz-share-list.c:153
 msgid "Copy Link"
 msgstr "Copier le lien"
 
-#: src/bz-share-list.c:134
+#: src/bz-share-list.c:164
 msgid "Open Link"
 msgstr "Ouvrir le lien"
 
@@ -2841,31 +2863,31 @@ msgstr "Ouvrir le lien"
 msgid "Timeline"
 msgstr "Chronologie"
 
-#: src/bz-stats-dialog.blp:45
+#: src/bz-stats-dialog.blp:46
 msgid "Installs:"
 msgstr "Installations :"
 
-#: src/bz-stats-dialog.blp:54
+#: src/bz-stats-dialog.blp:55
 msgid "World"
 msgstr "Monde"
 
-#: src/bz-stats-dialog.blp:68
+#: src/bz-stats-dialog.blp:69
 msgid "Since 4/15/2024"
 msgstr "Depuis le 15 Avril 2024"
 
 #. Translators: M is the suffix for millions
-#: src/bz-stats-dialog.c:125
+#: src/bz-stats-dialog.c:130
 #, c-format
 msgid "%.2fM Total Installs"
 msgstr "%.2f Mio installations en tout"
 
 #. Translators: K is the suffix for thousands
-#: src/bz-stats-dialog.c:128
+#: src/bz-stats-dialog.c:133
 #, c-format
 msgid "%.2fK Total Installs"
 msgstr "%.2f mil. installations en tout"
 
-#: src/bz-stats-dialog.c:130
+#: src/bz-stats-dialog.c:135
 #, c-format
 msgid "%'d Total Installs"
 msgstr "%'d téléchargements en tout"
@@ -3101,75 +3123,75 @@ msgstr "Données utilisateur"
 msgid "Trash User Data"
 msgstr "Mettre les données utilisateurs à la corbeille"
 
-#: src/bz-user-data-tile.c:144
+#: src/bz-user-data-tile.c:150
 #, c-format
 msgid "Trashed User Data for %s"
 msgstr "Les données utilisateur de %s ont été mise à la corbeille"
 
-#: src/bz-window.blp:87
+#: src/bz-window.blp:70
+msgid "Refreshing"
+msgstr "Actualisation"
+
+#: src/bz-window.blp:88
 msgid "Curated"
 msgstr "Sélection"
 
-#: src/bz-window.blp:99
+#: src/bz-window.blp:100
 msgid "Explore"
 msgstr "Explorer"
 
-#: src/bz-window.blp:219
-msgid "Refresh completed!"
-msgstr "Actualisation terminée !"
-
-#: src/bz-window.blp:238
+#: src/bz-window.blp:212
 msgid "Main Menu"
 msgstr "Menu principal"
 
-#: src/bz-window.blp:249
+#: src/bz-window.blp:223
 msgid "You are running a new version of Bazaar!"
 msgstr "Bazaar a été mis à jour !"
 
-#: src/bz-window.blp:250
+#: src/bz-window.blp:224
 msgid "See What's New"
 msgstr "Voir les nouveautés"
 
-#: src/bz-window.blp:257
+#: src/bz-window.blp:231
 msgid ""
 "You have a network connection but are viewing a cached version of Flathub"
 msgstr ""
 "Votre appareil est connecté à Internet, mais vous consultez une version hors-"
 "ligne de la logithèque"
 
-#: src/bz-window.blp:302
+#: src/bz-window.blp:276
 msgid "_Donate to Bazaar"
 msgstr "Faire un _don à Bazaar"
 
-#: src/bz-window.blp:309
+#: src/bz-window.blp:283
 msgid "_Refresh"
 msgstr "_Actualiser"
 
-#: src/bz-window.blp:314
+#: src/bz-window.blp:288
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: src/bz-window.blp:319
+#: src/bz-window.blp:293
 msgid "_Login With Flathub"
 msgstr "Se _connecter avec Flathub"
 
-#: src/bz-window.blp:325
+#: src/bz-window.blp:299
 msgid "_Manage Leftover User Data"
 msgstr "_Gérer les données utilisateurs orphelines"
 
-#: src/bz-window.blp:330
+#: src/bz-window.blp:304
 msgid "_Keyboard Shortcuts"
 msgstr "_Raccourcis clavier"
 
-#: src/bz-window.blp:335
+#: src/bz-window.blp:309
 msgid "_About Bazaar"
 msgstr "À propos de _Bazaar"
 
-#: src/bz-window.blp:342
+#: src/bz-window.blp:316
 msgid "_Quit Bazaar"
 msgstr "_Quitter Bazaar"
 
-#: src/bz-window.blp:367
+#: src/bz-window.blp:341
 msgid "Log Out"
 msgstr "Se déconnecter"
 
@@ -3179,15 +3201,15 @@ msgstr "Se déconnecter"
 msgid "Bazaar — %s"
 msgstr "Bazaar — %s"
 
-#: src/bz-window.c:585 src/bz-window.c:623
+#: src/bz-window.c:596 src/bz-window.c:634
 msgid "Failed to launch application"
 msgstr "Échec du lancement de l'application"
 
-#: src/bz-window.c:824
+#: src/bz-window.c:843
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Vous ne pouvez supprimer Bazaar depuis Bazaar !"
 
-#: src/bz-window.c:1108 src/bz-window.c:1142
+#: src/bz-window.c:1127 src/bz-window.c:1161
 msgid "Can't do that right now!"
 msgstr "Impossible de faire ceci pour le moment !"
 
@@ -3198,15 +3220,15 @@ msgid_plural "Installs"
 msgstr[0] "Installation"
 msgstr[1] "Installations"
 
-#: src/shortcuts-dialog.blp:6
+#: src/shortcuts-dialog.blp:5
 msgctxt "shortcut window"
-msgid "General"
-msgstr "Général"
+msgid "Navigation"
+msgstr "Navigation"
 
-#: src/shortcuts-dialog.blp:9
+#: src/shortcuts-dialog.blp:8
 msgctxt "shortcut window"
-msgid "Open Search Page"
-msgstr "Ouvrir la page Recherche"
+msgid "Open Explore Page"
+msgstr "Ouvrir la page Explorer"
 
 #: src/shortcuts-dialog.blp:14
 msgctxt "shortcut window"
@@ -3215,28 +3237,50 @@ msgstr "Ouvrir la page Bibliothèque"
 
 #: src/shortcuts-dialog.blp:20
 msgctxt "shortcut window"
-msgid "Refresh"
-msgstr "Actualiser"
+msgid "Open Search Page"
+msgstr "Ouvrir la page Recherche"
 
 #: src/shortcuts-dialog.blp:25
+msgctxt "shortcut window"
+msgid "Remotes"
+msgstr "Sources"
+
+#: src/shortcuts-dialog.blp:27
+msgctxt "shortcut window"
+msgid "Sync Remotes"
+msgstr "Synchroniser les sources"
+
+#: src/shortcuts-dialog.blp:33
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Général"
+
+#: src/shortcuts-dialog.blp:36
 msgctxt "shortcut window"
 msgid "Open Preferences"
 msgstr "Ouvrir les préférences"
 
-#: src/shortcuts-dialog.blp:30
+#: src/shortcuts-dialog.blp:41
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
 msgstr "Afficher les raccourcis"
 
-#: src/shortcuts-dialog.blp:35
+#: src/shortcuts-dialog.blp:46
 msgctxt "shortcut window"
 msgid "Close Window"
 msgstr "Fermer la fenêtre"
 
-#: src/shortcuts-dialog.blp:41
+#: src/shortcuts-dialog.blp:52
 msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Quitter Bazaar"
+
+#~ msgid "Refresh completed!"
+#~ msgstr "Actualisation terminée !"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Refresh"
+#~ msgstr "Actualiser"
 
 #~ msgid "User Data Size"
 #~ msgstr "Taille des données utilisateur"
