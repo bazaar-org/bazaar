@@ -1,0 +1,8 @@
+prefix=bz
+name=size_result
+parent-prefix=g
+parent-name=object
+author=AUTOGEN
+
+property=user_data_size guint64 G_TYPE_UINT64 uint64
+property=cache_size guint64 G_TYPE_UINT64 uint64

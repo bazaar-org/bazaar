@@ -287,6 +287,9 @@ bz_addons_dialog_new (BzEntryGroup *group)
       "addon-groups", groups,
       NULL);
 
+  self->parent_ui_entry = bz_entry_group_dup_ui_entry (group);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PARENT_UI_ENTRY]);
+
   if (groups == NULL || g_list_model_get_n_items (groups) == 0)
     adw_navigation_view_replace (self->navigation_view,
                                  (AdwNavigationPage *[]) { adw_navigation_view_find_page (self->navigation_view, "empty") },

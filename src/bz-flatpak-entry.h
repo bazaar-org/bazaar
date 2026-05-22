@@ -64,6 +64,9 @@ gboolean
 bz_flatpak_entry_is_installed_ref (BzFlatpakEntry *self);
 
 const char *
+bz_flatpak_entry_get_bundle_path (BzFlatpakEntry *self);
+
+const char *
 bz_flatpak_entry_get_addon_extension_of_ref (BzFlatpakEntry *self);
 
 gboolean

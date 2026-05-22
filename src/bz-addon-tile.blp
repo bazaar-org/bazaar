@@ -8,8 +8,23 @@ template $BzAddonTile: $BzListTile {
 
   child: Box {
     orientation: horizontal;
-    spacing: 10;
+    spacing: 4;
     height-request: 64;
+
+    $BzTransactIcon {
+      margin-start: 10;
+      margin-top: 10;
+      margin-bottom: 10;
+      width-request: 48;
+      height-request: 48;
+      valign: center;
+      halign: center;
+
+      info: $BzTransactIconInfo {
+        group: bind template.group as <$BzEntryGroup>;
+        paintable: bind template.parent-ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
+      };
+    }
 
     Box {
       orientation: vertical;
@@ -58,6 +73,7 @@ template $BzAddonTile: $BzListTile {
       orientation: horizontal;
       spacing: 8;
       margin-end: 8;
+      margin-start: 4;
       hexpand: true;
       halign: end;
 

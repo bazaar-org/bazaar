@@ -1,6 +1,6 @@
-/* bz-inhibited-scrollable.h
+/* bz-transact-icon.h
  *
- * Copyright 2025 Adam Masciola
+ * Copyright 2026 Eva M
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,21 +20,25 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
+#include <adwaita.h>
+
+#include "bz-transact-icon-info.h"
 
 G_BEGIN_DECLS
 
-#define BZ_TYPE_INHIBITED_SCROLLABLE (bz_inhibited_scrollable_get_type ())
-G_DECLARE_FINAL_TYPE (BzInhibitedScrollable, bz_inhibited_scrollable, BZ, INHIBITED_SCROLLABLE, GtkWidget)
+#define BZ_TYPE_TRANSACT_ICON (bz_transact_icon_get_type ())
+G_DECLARE_FINAL_TYPE (BzTransactIcon, bz_transact_icon, BZ, TRANSACT_ICON, AdwBin)
 
-GtkWidget *
-bz_inhibited_scrollable_new (void);
+BzTransactIcon *
+bz_transact_icon_new (void);
+
+BzTransactIconInfo *
+bz_transact_icon_get_info (BzTransactIcon *self);
 
 void
-bz_inhibited_scrollable_set_scrollable (BzInhibitedScrollable *self,
-                                        GtkScrollable         *scrollable);
-
-GtkScrollable *
-bz_inhibited_scrollable_get_scrollable (BzInhibitedScrollable *self);
+bz_transact_icon_set_info (BzTransactIcon     *self,
+                           BzTransactIconInfo *info);
 
 G_END_DECLS
+
+/* End of bz-transact-icon.h */

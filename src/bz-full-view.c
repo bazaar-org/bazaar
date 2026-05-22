@@ -28,8 +28,8 @@
 #include "bz-app-tile.h"
 #include "bz-apps-page.h"
 #include "bz-appstream-description-render.h"
-#include "bz-context-tile.h"
 #include "bz-context-tile-callbacks.h"
+#include "bz-context-tile.h"
 #include "bz-developer-badge.h"
 #include "bz-dynamic-list-view.h"
 #include "bz-entry-inspector.h"
@@ -277,8 +277,9 @@ get_developer_apps_entries (gpointer object, GtkStringList *app_ids, BzEntry *en
 static int
 get_dev_apps_max_children_per_line (gpointer object, GListModel *model)
 {
-    if (!model) return 3;
-    return g_list_model_get_n_items (model) > 2 ? 3 : 2;
+  if (!model)
+    return 3;
+  return g_list_model_get_n_items (model) > 2 ? 3 : 2;
 }
 
 static void
@@ -410,9 +411,9 @@ static void
 dl_stats_cb (BzFullView *self,
              GtkButton  *button)
 {
-  AdwDialog         *dialog   = NULL;
-  AdwBreakpointBin  *bin      = NULL;
-  BzEntry           *ui_entry = NULL;
+  AdwDialog        *dialog   = NULL;
+  AdwBreakpointBin *bin      = NULL;
+  BzEntry          *ui_entry = NULL;
 
   if (self->group == NULL)
     return;
@@ -497,13 +498,17 @@ static void
 safety_cb (BzFullView *self,
            GtkButton  *button)
 {
-  AdwDialog *dialog = NULL;
+  AdwDialog *dialog   = NULL;
+  BzEntry   *ui_entry = NULL;
 
   if (self->group == NULL)
     return;
 
-  dialog = ADW_DIALOG (bz_safety_dialog_new (self->group));
+  ui_entry = bz_result_get_object (self->ui_entry);
+  if (ui_entry == NULL)
+    return;
 
+  dialog = bz_safety_dialog_new (ui_entry);
   adw_dialog_present (dialog, GTK_WIDGET (self));
 }
 
@@ -515,16 +520,43 @@ update_cb (BzFullView        *self,
   g_signal_emit (self, signals[SIGNAL_UPDATE], 0, entries);
 }
 
+static DexFuture *
+reap_user_data_done (DexFuture *future,
+                     GWeakRef  *wr)
+{
+  g_autoptr (BzFullView) self    = NULL;
+  g_autoptr (GError) local_error = NULL;
+
+  dex_future_get_value (future, &local_error);
+
+  self = g_weak_ref_get (wr);
+  if (self != NULL && local_error != NULL)
+    bz_show_error_for_widget (
+        GTK_WIDGET (gtk_widget_get_root (GTK_WIDGET (self))),
+        _ ("Failed to Remove User Data"),
+        local_error->message);
+
+  return dex_future_new_true ();
+}
+
 static void
 delete_user_data_cb (BzFullView *self,
                      GtkButton  *button)
 {
+  g_autoptr (DexFuture) future = NULL;
+
   g_return_if_fail (BZ_IS_FULL_VIEW (self));
 
   if (self->group == NULL)
     return;
 
-  bz_entry_group_reap_user_data (self->group);
+  future = bz_entry_group_reap_user_data (self->group);
+  if (future != NULL)
+    dex_future_disown (dex_future_finally (
+        dex_ref (future),
+        (DexFutureCallback) reap_user_data_done,
+        bz_track_weak (self),
+        bz_weak_release));
 }
 
 static void

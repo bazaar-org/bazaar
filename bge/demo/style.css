@@ -4,7 +4,7 @@
 }
 
 .debug {
-    background-color: pink;
+    background-color: alpha(pink, 0.25);
 }
 
 .gradient {

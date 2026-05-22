@@ -12,6 +12,11 @@ defwidget "My Widget" {
   var x : "gdouble";
   var y : "gdouble";
 
+  var start : "gdouble";
+  var end : "gdouble";
+  var outline : "GskPath";
+  var measure : "GskPathMeasure";
+
   init {
     set box = #child/(""("gradient")
       orientation = vertical;
@@ -34,16 +39,44 @@ defwidget "My Widget" {
     allocate box w, h,
                  #(translate(#GraphenePoint(x, y)););
 
+    set outline = #GskPath(
+      move-to(#eval(#(x)+#(corner)), y);
+      
+      rel-line-to(#eval(#(w)-#(corner)*2.0), 0.0);
+      rel-arc-to(corner, 0.0, corner, corner);
+
+      rel-line-to(0.0, #eval(#(h)-#(corner)*2.0));
+      rel-arc-to(0.0, corner, #eval(-#(corner)), corner);
+
+      rel-line-to(#eval(-(#(w)-#(corner)*2.0)), 0.0);
+      rel-arc-to(#eval(-#(corner)), 0.0, #eval(-#(corner)), #eval(-#(corner)));
+
+      rel-line-to(0.0, #eval(-(#(h)-#(corner)*2.0)));
+      rel-arc-to(0.0, #eval(-#(corner)), corner, #eval(-#(corner)));
+
+      close();
+    );
+    set measure = #measure-path(outline);
+
     snapshot {
-      with rounded-clip(
-        #GrapheneRect(x, y, w, h),
-        #GrapheneSize(corner, corner),
-        #GrapheneSize(corner, corner),
-        #GrapheneSize(corner, corner),
-        #GrapheneSize(corner, corner),
+      with fill(
+        outline,
+        #GskFillRule(winding),
       ) {
         do-child box;
       }
+      
+      add stroke(
+        #GskPath(
+          add-segment(
+            outline,
+            #path-point(measure, start),
+            #path-point(measure, end),
+          );
+        ),
+        #GskStroke(6.0, round, round, 0.0),
+        #GdkRGBA("#101432"),
+      );
     }
   }
 
@@ -55,11 +88,16 @@ defwidget "My Widget" {
     set cx = #eval(30.0*sin(#(%tick%)) + #(%width%)/2.0);
     set cy = #eval(#(%height%)/2.0);
 
+    set start = #eval(#(#path-length(measure))*(0.333*sin(#(%tick%))+0.333));
+    set end   = #eval(#(#path-length(measure))*(0.333*sin(#(%tick%))+0.666));
+
     transition-spring w 1.0, 0.5, 100.0;
     transition-spring h 1.0, 0.5, 100.0;
     transition-spring corner 1.0, 0.5, 100.0;
     transition-spring cx 1.0, 0.5, 100.0;
     transition-spring cy 1.0, 0.5, 100.0;
+    transition-spring start 0.5, 0.5, 5.0;
+    transition-spring end 0.5, 0.5, 5.0;
   }
   
   state "2" {
@@ -70,10 +108,15 @@ defwidget "My Widget" {
     set cx = #eval(#(%width%)/2.0);
     set cy = #eval(#(%height%)/2.0);
 
+    set start = 0.0;
+    set end = #path-length(measure);
+
     transition-spring w 0.9, 0.5, 100.0;
     transition-spring h 0.9, 0.5, 100.0;
     transition-spring corner 0.9, 0.5, 100.0;
     transition-spring cx 0.9, 0.5, 100.0;
     transition-spring cy 0.9, 0.5, 100.0;
+    transition-spring start 1.1, 0.2, 10.0;
+    transition-spring end 1.1, 0.2, 10.0;
   }
 }

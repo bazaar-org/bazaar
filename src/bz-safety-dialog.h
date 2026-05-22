@@ -20,15 +20,20 @@
 
 #pragma once
 
-#include "bz-entry-group.h"
+#include "bz-entry.h"
 #include <adwaita.h>
 
 G_BEGIN_DECLS
 
+G_BEGIN_DECLS
 #define BZ_TYPE_SAFETY_DIALOG (bz_safety_dialog_get_type ())
 
-G_DECLARE_FINAL_TYPE (BzSafetyDialog, bz_safety_dialog, BZ, SAFETY_DIALOG, AdwDialog)
+G_DECLARE_FINAL_TYPE (BzSafetyDialog, bz_safety_dialog, BZ, SAFETY_DIALOG, AdwBin)
 
-AdwDialog *bz_safety_dialog_new (BzEntryGroup *group);
+AdwDialog *
+bz_safety_dialog_new (BzEntry *entry);
+
+AdwNavigationPage *
+bz_safety_dialog_page_new (BzEntry *entry);
 
 G_END_DECLS

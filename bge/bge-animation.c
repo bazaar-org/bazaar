@@ -84,6 +84,10 @@ tick_cb (GtkWidget     *widget,
          GWeakRef      *wr);
 
 static void
+ensure_tick (BgeAnimation *self,
+             GtkWidget    *widget);
+
+static void
 destroy_spring_data (gpointer ptr);
 
 static void
@@ -153,18 +157,6 @@ constructed (GObject *object)
 {
   BgeAnimation *self = BGE_ANIMATION (object);
 
-  if (GTK_IS_WIDGET (self->widget))
-    {
-      GWeakRef *wr = NULL;
-
-      wr = g_new0 (typeof (*wr), 1);
-      g_weak_ref_init (wr, self);
-
-      self->tag = gtk_widget_add_tick_callback (
-          self->widget,
-          (GtkTickCallback) tick_cb,
-          wr, destroy_wr);
-    }
   g_weak_ref_init (&self->wr, self->widget);
   g_clear_object (&self->widget);
 }
@@ -333,6 +325,7 @@ bge_animation_add_spring (BgeAnimation        *self,
               data->clamp);
 
           cb (widget, key, from, user_data);
+          ensure_tick (self, widget);
         }
       else
         /* If we shouldn't animate, just invoke the callback at the final
@@ -449,13 +442,13 @@ tick_cb (GtkWidget     *widget,
 
   cancel = !bge_should_animate (widget);
 
-#define UPDATE(_data, _out_value, _out_finished)                   \
+#define UPDATE(_data, _out_value, _out_finished, _out_cancelled)   \
   G_STMT_START                                                     \
   {                                                                \
     if (cancel ||                                                  \
         ((_data)->cancellable != NULL &&                           \
          g_cancellable_is_cancelled ((_data)->cancellable)))       \
-      (_out_finished) = TRUE;                                      \
+      (_out_finished) = (_out_cancelled) = TRUE;                   \
     else                                                           \
       {                                                            \
         double elapsed = 0.0;                                      \
@@ -489,10 +482,11 @@ tick_cb (GtkWidget     *widget,
   g_hash_table_iter_init (&iter, self->data);
   for (;;)
     {
-      char       *key      = NULL;
-      SpringData *data     = NULL;
-      double      value    = 0.0;
-      gboolean    finished = FALSE;
+      char       *key       = NULL;
+      SpringData *data      = NULL;
+      double      value     = 0.0;
+      gboolean    finished  = FALSE;
+      gboolean    cancelled = FALSE;
 
       if (!g_hash_table_iter_next (
               &iter,
@@ -500,8 +494,9 @@ tick_cb (GtkWidget     *widget,
               (gpointer *) &data))
         break;
 
-      UPDATE (data, value, finished);
-      data->cb (widget, key, value, data->user_data);
+      UPDATE (data, value, finished, cancelled);
+      if (!cancelled)
+        data->cb (widget, key, value, data->user_data);
 
       if (finished)
         g_hash_table_iter_remove (&iter);
@@ -510,14 +505,16 @@ tick_cb (GtkWidget     *widget,
   /* Anonymous anims */
   for (guint i = 0; i < self->anonymous->len;)
     {
-      SpringData *data     = NULL;
-      double      value    = 0.0;
-      gboolean    finished = FALSE;
+      SpringData *data      = NULL;
+      double      value     = 0.0;
+      gboolean    finished  = FALSE;
+      gboolean    cancelled = FALSE;
 
       data = g_ptr_array_index (self->anonymous, i);
 
-      UPDATE (data, value, finished);
-      data->cb (widget, NULL, value, data->user_data);
+      UPDATE (data, value, finished, cancelled);
+      if (!cancelled)
+        data->cb (widget, NULL, value, data->user_data);
 
       if (finished)
         g_ptr_array_remove_index (self->anonymous, i);
@@ -526,6 +523,14 @@ tick_cb (GtkWidget     *widget,
     }
 
 #undef UPDATE
+
+  if (g_hash_table_size (self->data) == 0 &&
+      self->anonymous->len == 0)
+    {
+      gtk_widget_remove_tick_callback (widget, self->tag);
+      self->tag = 0;
+      return G_SOURCE_REMOVE;
+    }
 
   return G_SOURCE_CONTINUE;
 }
@@ -775,6 +780,24 @@ spring_calculate_duration (double   damping,
 }
 
 /* ///COPIED FROM LIBADWAITA */
+
+static void
+ensure_tick (BgeAnimation *self,
+             GtkWidget    *widget)
+{
+  GWeakRef *wr = NULL;
+
+  if (self->tag > 0)
+    return;
+
+  wr = g_new0 (typeof (*wr), 1);
+  g_weak_ref_init (wr, self);
+
+  self->tag = gtk_widget_add_tick_callback (
+      widget,
+      (GtkTickCallback) tick_cb,
+      wr, destroy_wr);
+}
 
 static void
 destroy_spring_data (gpointer ptr)

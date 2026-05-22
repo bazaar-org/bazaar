@@ -26,6 +26,7 @@
 #include "bz-curated-section.h"
 #include "bz-dynamic-list-view.h"
 #include "bz-entry-group.h"
+#include "bz-rich-app-tile.h"
 #include "bz-section-view.h"
 #include "bz-window.h"
 
@@ -40,9 +41,10 @@ struct _BzSectionView
   GListModel      *applied_classes;
 
   /* Template widgets */
-  GtkOverlay *banner_text_overlay;
-  GtkBox     *banner_text_bg;
-  GtkBox     *banner_text;
+  GtkOverlay        *banner_text_overlay;
+  GtkBox            *banner_text_bg;
+  GtkBox            *banner_text;
+  BgeMarkdownRender *markdown;
 };
 
 G_DEFINE_FINAL_TYPE (BzSectionView, bz_section_view, ADW_TYPE_BIN)
@@ -269,6 +271,61 @@ install_all_clicked (BzSectionView *self,
   bz_window_bulk_install (BZ_WINDOW (window), groups);
 }
 
+static GtkWidget *
+markdown_bind_inline_uri (BzSectionView     *self,
+                          const char        *title,
+                          const char        *src,
+                          BgeMarkdownRender *markdown)
+{
+  if (src == NULL)
+    return NULL;
+
+  if (g_str_has_prefix (src, "appstream://"))
+    {
+      BzStateInfo             *info    = NULL;
+      BzApplicationMapFactory *factory = NULL;
+      g_autoptr (BzEntryGroup) group   = NULL;
+
+      info    = bz_state_info_get_default ();
+      factory = bz_state_info_get_application_factory (info);
+
+      group = bz_application_map_factory_convert_one (
+          factory,
+          gtk_string_object_new (src + strlen ("appstream://")));
+      if (group != NULL)
+        {
+          GtkWidget *tile = NULL;
+
+          tile = bz_rich_app_tile_new ();
+          bz_rich_app_tile_set_group (BZ_RICH_APP_TILE (tile), group);
+
+          return tile;
+        }
+    }
+  else
+    {
+      g_autoptr (GFile) file = NULL;
+
+      file = g_file_new_for_uri (src);
+      if (file != NULL)
+        {
+          g_autoptr (BzAsyncTexture) texture = NULL;
+          GtkWidget *picture                 = NULL;
+
+          texture = bz_async_texture_new_lazy (file, NULL);
+          picture = gtk_picture_new ();
+          gtk_picture_set_paintable (GTK_PICTURE (picture), GDK_PAINTABLE (texture));
+
+          gtk_widget_set_hexpand (picture, TRUE);
+          gtk_widget_set_size_request (picture, -1, 100);
+
+          return picture;
+        }
+    }
+
+  return NULL;
+}
+
 static void
 bz_section_view_class_init (BzSectionViewClass *klass)
 {
@@ -311,6 +368,7 @@ bz_section_view_class_init (BzSectionViewClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text_overlay);
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text_bg);
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text);
+  gtk_widget_class_bind_template_child (widget_class, BzSectionView, markdown);
   gtk_widget_class_bind_template_callback (widget_class, invert_boolean);
   gtk_widget_class_bind_template_callback (widget_class, is_null);
   gtk_widget_class_bind_template_callback (widget_class, get_banner);
@@ -321,6 +379,7 @@ bz_section_view_class_init (BzSectionViewClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, bind_widget_cb);
   gtk_widget_class_bind_template_callback (widget_class, unbind_widget_cb);
   gtk_widget_class_bind_template_callback (widget_class, install_all_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, markdown_bind_inline_uri);
 }
 
 static void
@@ -359,6 +418,10 @@ bz_section_view_init (BzSectionView *self)
       "notify::dark",
       G_CALLBACK (dark_changed),
       self);
+  g_object_bind_property (
+      self->style_manager, "dark",
+      self->markdown, "dark",
+      G_BINDING_SYNC_CREATE);
 }
 
 GtkWidget *

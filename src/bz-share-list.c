@@ -44,6 +44,38 @@ enum
 };
 static GParamSpec *props[LAST_PROP] = { 0 };
 
+typedef struct
+{
+  const char *id;
+  const char *display_name;
+  const char *icon_name;
+} UrlInfo;
+
+static const UrlInfo url_info[] = {
+  {     "flathub",    NC_ ("Project URL Type",    "Flathub Page"),       "flathub-symbolic" },
+  {    "homepage",    NC_ ("Project URL Type", "Project Website"),         "globe-symbolic" },
+  {  "bugtracker",    NC_ ("Project URL Type",   "Issue Tracker"), "computer-fail-symbolic" },
+  {         "faq",    NC_ ("Project URL Type",             "FAQ"),      "help-faq-symbolic" },
+  {        "help",    NC_ ("Project URL Type",            "Help"),  "help-browser-symbolic" },
+  {    "donation",    NC_ ("Project URL Type",          "Donate"),  "heart-filled-symbolic" },
+  {   "translate",    NC_ ("Project URL Type",       "Translate"),  "translations-symbolic" },
+  {     "contact",    NC_ ("Project URL Type",         "Contact"),     "mail-send-symbolic" },
+  { "vcs-browser",    NC_ ("Project URL Type",     "Source Code"),          "code-symbolic" },
+  {  "contribute",    NC_ ("Project URL Type",      "Contribute"),  "system-users-symbolic" },
+  {          NULL,                         NULL,                                       NULL }
+};
+
+static const UrlInfo *
+get_url_info (const char *id)
+{
+  for (int i = 0; url_info[i].id != NULL; i++)
+    {
+      if (g_strcmp0 (url_info[i].id, id) == 0)
+        return &url_info[i];
+    }
+  return NULL;
+}
+
 static void
 copy_cb (BzShareList *self,
          GtkButton   *button)
@@ -87,31 +119,29 @@ follow_link_cb (BzShareList *self,
 static AdwActionRow *
 create_url_action_row (BzShareList *self, BzUrl *url_item)
 {
-  g_autofree char *url_string  = NULL;
-  g_autofree char *url_title   = NULL;
-  g_autofree char *icon_name   = NULL;
-  AdwActionRow    *action_row;
-  GtkBox          *suffix_box;
-  GtkButton       *copy_button;
-  GtkButton       *open_button;
-  GtkSeparator    *separator;
-  GtkImage        *prefix_icon;
+  const char    *url_string = NULL;
+  const char    *id         = NULL;
+  const UrlInfo *info       = NULL;
+  AdwActionRow  *action_row;
+  GtkBox        *suffix_box;
+  GtkButton     *copy_button;
+  GtkButton     *open_button;
+  GtkSeparator  *separator;
 
-  g_object_get (url_item,
-                "url", &url_string,
-                "name", &url_title,
-                "icon-name", &icon_name,
-                NULL);
+  url_string = bz_url_get_url (url_item);
+  id         = bz_url_get_id (url_item);
 
+  info       = get_url_info (id);
   action_row = ADW_ACTION_ROW (adw_action_row_new ());
   adw_preferences_row_set_use_markup (ADW_PREFERENCES_ROW (action_row), FALSE);
   adw_preferences_row_set_title (ADW_PREFERENCES_ROW (action_row),
-                                 url_title ? url_title : url_string);
+                                 info ? g_dpgettext2 (NULL, "Project URL Type", info->display_name)
+                                      : url_string);
   adw_action_row_set_subtitle (action_row, url_string);
 
-  if (icon_name != NULL && icon_name[0] != '\0')
+  if (info != NULL && info->icon_name != NULL && info->icon_name[0] != '\0')
     {
-      prefix_icon = GTK_IMAGE (gtk_image_new_from_icon_name (icon_name));
+      GtkImage *prefix_icon = GTK_IMAGE (gtk_image_new_from_icon_name (info->icon_name));
       gtk_image_set_icon_size (prefix_icon, GTK_ICON_SIZE_NORMAL);
       adw_action_row_add_prefix (action_row, GTK_WIDGET (prefix_icon));
     }

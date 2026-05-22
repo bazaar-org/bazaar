@@ -24,7 +24,6 @@
 #include "bz-curated-view.h"
 #include "bz-dynamic-list-view.h"
 #include "bz-entry-group.h"
-#include "bz-inhibited-scrollable.h"
 #include "bz-root-curated-config.h"
 #include "bz-row-view.h"
 
@@ -175,7 +174,6 @@ bz_curated_view_class_init (BzCuratedViewClass *klass)
   g_type_ensure (BZ_TYPE_ROOT_CURATED_CONFIG);
   g_type_ensure (BZ_TYPE_CURATED_ROW);
   g_type_ensure (BZ_TYPE_DYNAMIC_LIST_VIEW);
-  g_type_ensure (BZ_TYPE_INHIBITED_SCROLLABLE);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-curated-view.ui");
   gtk_widget_class_bind_template_child (widget_class, BzCuratedView, stack);

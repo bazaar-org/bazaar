@@ -194,6 +194,14 @@ is_not_empty_list (gpointer    object,
   return list != NULL && g_list_model_get_n_items (list) > 0;
 }
 
+static gboolean
+is_scrolled_down (gpointer object,
+                  double   value,
+                  gboolean carousel_visible)
+{
+  return value > (carousel_visible ? 400.0 : 50.0);
+}
+
 static void
 featured_carousel_group_clicked_cb (BzAppsPage   *self,
                                     BzEntryGroup *group,
@@ -297,6 +305,7 @@ bz_apps_page_class_init (BzAppsPageClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, is_not_null);
   gtk_widget_class_bind_template_callback (widget_class, is_not_empty_string);
   gtk_widget_class_bind_template_callback (widget_class, is_not_empty_list);
+  gtk_widget_class_bind_template_callback (widget_class, is_scrolled_down);
   gtk_widget_class_bind_template_callback (widget_class, bind_widget_cb);
   gtk_widget_class_bind_template_callback (widget_class, unbind_widget_cb);
   gtk_widget_class_bind_template_callback (widget_class, featured_carousel_group_clicked_cb);

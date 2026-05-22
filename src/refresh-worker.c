@@ -82,6 +82,7 @@ run (MainData *data)
   g_autoptr (BzEntryCacheManager) cache = NULL;
   g_autoptr (BzFlatpakInstance) flatpak = NULL;
   g_autoptr (DexChannel) channel        = NULL;
+  g_autoptr (GHashTable) installed_set  = NULL;
   g_autoptr (DexFuture) all_notifs      = NULL;
   guint n_notifs                        = 0;
   g_autoptr (GPtrArray) write_backs     = NULL;
@@ -105,6 +106,13 @@ run (MainData *data)
   if (!result)
     goto err;
 
+  installed_set = dex_await_boxed (
+      bz_backend_retrieve_install_ids (
+          BZ_BACKEND (flatpak), NULL),
+      &local_error);
+  if (installed_set == NULL)
+    goto err;
+
   all_notifs = dex_channel_receive_all (channel);
   n_notifs   = dex_future_set_get_size (DEX_FUTURE_SET (all_notifs));
 
@@ -125,9 +133,13 @@ run (MainData *data)
       kind = bz_backend_notification_get_kind (notif);
       if (kind == BZ_BACKEND_NOTIFICATION_KIND_REPLACE_ENTRY)
         {
-          BzEntry *entry = NULL;
+          BzEntry    *entry     = NULL;
+          const char *unique_id = NULL;
 
-          entry = bz_backend_notification_get_entry (notif);
+          entry     = bz_backend_notification_get_entry (notif);
+          unique_id = bz_entry_get_unique_id (entry);
+          bz_entry_set_installed (entry, g_hash_table_contains (installed_set, unique_id));
+
           g_ptr_array_add (
               write_backs,
               bz_entry_cache_manager_add (cache, entry));

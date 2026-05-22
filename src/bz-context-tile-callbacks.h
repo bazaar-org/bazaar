@@ -21,6 +21,10 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include "bz-safety-calculator.h"
 
 void
 bz_widget_class_bind_all_context_tile_callbacks (GtkWidgetClass *widget_class);
+
+const char *
+bz_safety_style_for_importance (BzImportance importance);

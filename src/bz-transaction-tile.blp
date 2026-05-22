@@ -288,9 +288,11 @@ template $BzTransactionTile: $BzListTile {
 
           Button {
             visible: bind $is_both(
-                            $is_both($is_entry_application(template.tracker as <$BzTransactionEntryTracker>) as <bool>,$is_completed(template.tracker as <$BzTransactionEntryTracker>.status as <$BzTransactionEntryStatus>) as <bool>) as <bool>,
-                            $is_transaction_tracker_install(template.tracker as <$BzTransactionEntryTracker>) as <bool>
-                        ) as <bool>;
+                            $is_both(
+                              $is_both($is_entry_application(template.tracker as <$BzTransactionEntryTracker>) as <bool>, $is_completed(template.tracker as <$BzTransactionEntryTracker>.status as <$BzTransactionEntryStatus>) as <bool>) as <bool>,
+                              $is_transaction_tracker_install(template.tracker as <$BzTransactionEntryTracker>) as <bool>
+                            ) as <bool>, template.tracker as <$BzTransactionEntryTracker>.entry as <$BzEntry>.installed as <bool>
+                          ) as <bool>;
 
             valign: center;
             label: _("Open");

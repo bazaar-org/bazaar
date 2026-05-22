@@ -3,6 +3,5 @@ name=url
 parent-prefix=g
 parent-name=object
 author=AUTOGEN
-property=name char G_TYPE_STRING string
+property=id char G_TYPE_STRING string
 property=url char G_TYPE_STRING string
-property=icon_name char G_TYPE_STRING string

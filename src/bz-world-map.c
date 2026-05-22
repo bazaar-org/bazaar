@@ -600,7 +600,8 @@ bz_world_map_snapshot (GtkWidget   *widget,
       double           card_y = 0.0;
 
       gtk_label_set_markup (GTK_LABEL (self->tooltip_label1), label1_text);
-      gtk_label_set_text (GTK_LABEL (self->tooltip_prefix_label), C_ ("As in, \"100 Installs\"", "Installs"));
+      /* Translators: As in, "1 Install" / "100 Installs" */
+      gtk_label_set_text (GTK_LABEL (self->tooltip_prefix_label), ngettext ("Install", "Installs", download_number));
       gtk_label_set_text (GTK_LABEL (self->tooltip_label2), label2_text);
 
       gtk_widget_get_preferred_size (self->tooltip_box, NULL, &natural_size);

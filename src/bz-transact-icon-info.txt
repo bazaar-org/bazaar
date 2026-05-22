@@ -1,0 +1,12 @@
+prefix=bz
+name=transact_icon_info
+parent-prefix=g
+parent-name=object
+author=AUTOGEN
+
+include="bz-state-info.h"
+
+property=state BzStateInfo BZ_TYPE_STATE_INFO object
+property=group BzEntryGroup BZ_TYPE_ENTRY_GROUP object
+property=paintable GdkPaintable GDK_TYPE_PAINTABLE object
+property=tracker BzTransactionEntryTracker BZ_TYPE_TRANSACTION_ENTRY_TRACKER object

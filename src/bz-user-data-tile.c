@@ -26,6 +26,7 @@
 #include "bz-state-info.h"
 #include "bz-user-data-page.h"
 #include "bz-user-data-tile.h"
+#include "bz-util.h"
 #include "bz-window.h"
 
 struct _BzUserDataTile
@@ -124,26 +125,54 @@ format_size (gpointer object, guint64 value)
   return g_format_size (value);
 }
 
+static DexFuture *
+reap_user_data_done (DexFuture *future,
+                     GWeakRef  *wr)
+{
+  g_autoptr (BzUserDataTile) self = NULL;
+  g_autoptr (GError) local_error  = NULL;
+
+  dex_future_get_value (future, &local_error);
+
+  self = g_weak_ref_get (wr);
+  if (self == NULL)
+    return dex_future_new_true ();
+
+  if (local_error != NULL)
+    bz_show_error_for_widget (
+        GTK_WIDGET (gtk_widget_get_root (GTK_WIDGET (self))),
+        _ ("Failed to Remove User Data"),
+        local_error->message);
+  else
+    {
+      g_autofree char *message = NULL;
+
+      message = g_strdup_printf (_ ("Trashed User Data for %s"),
+                                 bz_entry_group_get_title (self->group));
+      bz_window_add_toast (
+          BZ_WINDOW (gtk_widget_get_root (GTK_WIDGET (self))),
+          adw_toast_new (message));
+    }
+
+  return dex_future_new_true ();
+}
+
 static void
 remove_cb (BzUserDataTile *self,
            GtkButton      *button)
 {
-  BzWindow        *window;
-  AdwToast        *toast;
-  const char      *title;
-  g_autofree char *message = NULL;
+  g_autoptr (DexFuture) future = NULL;
 
   if (self->group == NULL)
     return;
 
-  title = bz_entry_group_get_title (self->group);
-
-  bz_entry_group_reap_user_data (self->group);
-
-  window  = BZ_WINDOW (gtk_widget_get_root (GTK_WIDGET (self)));
-  message = g_strdup_printf (_ ("Trashed User Data for %s"), title);
-  toast   = adw_toast_new (message);
-  bz_window_add_toast (window, toast);
+  future = bz_entry_group_reap_user_data (self->group);
+  if (future != NULL)
+    dex_future_disown (dex_future_finally (
+        dex_ref (future),
+        (DexFutureCallback) reap_user_data_done,
+        bz_track_weak (self),
+        bz_weak_release));
 }
 
 static void

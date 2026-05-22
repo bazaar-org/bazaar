@@ -10,7 +10,7 @@ template $BzStatsDialog: Adw.BreakpointBin {
     [top]
     Adw.HeaderBar {
       title-widget: Adw.ViewSwitcher switcher_title {
-        visible: bind $invert_boolean($is_null(template.country-model) as <bool>) as <bool>;
+        visible: bind $logical_and($model_has_enough_points(template.model) as <bool>, $invert_boolean($is_null(template.country-model) as <bool>) as <bool>) as <bool>;
         stack: stack;
         policy: wide;
       };
@@ -26,6 +26,7 @@ template $BzStatsDialog: Adw.BreakpointBin {
           name: "graph";
           title: _("Timeline");
           icon-name: "graph2-symbolic";
+          visible: bind $model_has_enough_points(template.model) as <bool>;
 
           child: Box {
             orientation: vertical;

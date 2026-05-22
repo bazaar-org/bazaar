@@ -1,13 +1,13 @@
 using Gtk 4.0;
 using Adw 1;
-
 Adw.ShortcutsDialog shortcuts_dialog {
-  Adw.ShortcutsSection general_section {
-    title: C_("shortcut window", "General");
+  Adw.ShortcutsSection navigation_section {
+    title: C_("shortcut window", "Navigation");
 
     Adw.ShortcutsItem {
-      title: C_("shortcut window", "Open Search Page");
-      action-name: "app.search('')";
+      title: C_("shortcut window", "Open Explore Page");
+      action-name: "window.open-flathub-page";
+      accelerator: "<Control>e";
     }
 
     Adw.ShortcutsItem {
@@ -17,9 +17,20 @@ Adw.ShortcutsDialog shortcuts_dialog {
     }
 
     Adw.ShortcutsItem {
-      title: C_("shortcut window", "Refresh");
+      title: C_("shortcut window", "Open Search Page");
+      action-name: "app.search('')";
+    }
+  }
+  Adw.ShortcutsSection remotes_section {
+    title: C_("shortcut window", "Remotes");
+    Adw.ShortcutsItem {
+      title: C_("shortcut window", "Sync Remotes");
       action-name: "app.sync-remotes";
     }
+  }
+
+  Adw.ShortcutsSection general_section {
+    title: C_("shortcut window", "General");
 
     Adw.ShortcutsItem {
       title: C_("shortcut window", "Open Preferences");

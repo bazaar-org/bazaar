@@ -23,9 +23,19 @@
 
 #include "bz-entry-group.h"
 #include "bz-env.h"
-#include "bz-flatpak-entry.h"
 #include "bz-io.h"
+#include "bz-size-result.h"
 #include "bz-util.h"
+
+typedef enum
+{
+  ENTRY_INSTALLABLE           = 1 << 0,
+  ENTRY_INSTALLABLE_AVAILABLE = 1 << 1,
+  ENTRY_UPDATABLE             = 1 << 2,
+  ENTRY_UPDATABLE_AVAILABLE   = 1 << 3,
+  ENTRY_REMOVABLE             = 1 << 4,
+  ENTRY_REMOVABLE_AVAILABLE   = 1 << 5,
+} EntryStateFlags;
 
 struct _BzEntryGroup
 {
@@ -33,8 +43,10 @@ struct _BzEntryGroup
 
   BzApplicationMapFactory *factory;
 
-  GtkStringList  *unique_ids;
-  GtkStringList  *installed_versions;
+  GtkStringList *unique_ids;
+  GtkStringList *installed_versions;
+  GArray        *state_flags;
+
   char           *id;
   char           *title;
   char           *developer;
@@ -67,9 +79,11 @@ struct _BzEntryGroup
   gboolean is_addon;
 
   guint64 user_data_size;
+  guint64 cache_size;
 
   DexFuture *user_data_size_future;
   DexFuture *reap_user_data_future;
+  DexFuture *reap_cache_future;
 
   GWeakRef  ui_entry;
   BzResult *standalone_ui_entry;
@@ -83,6 +97,7 @@ enum
   PROP_0,
 
   PROP_MODEL,
+  PROP_ADDONS_MODEL,
   PROP_INSTALLED_VERSIONS,
   PROP_ID,
   PROP_TITLE,
@@ -108,6 +123,7 @@ enum
   PROP_UPDATABLE_AND_AVAILABLE,
   PROP_REMOVABLE_AND_AVAILABLE,
   PROP_USER_DATA_SIZE,
+  PROP_CACHE_SIZE,
 
   LAST_PROP
 };
@@ -140,9 +156,13 @@ bz_entry_group_dispose (GObject *object)
 
   dex_clear (&self->user_data_size_future);
   dex_clear (&self->reap_user_data_future);
+  dex_clear (&self->reap_cache_future);
   g_clear_object (&self->factory);
+
   g_clear_object (&self->unique_ids);
   g_clear_object (&self->installed_versions);
+  g_clear_pointer (&self->state_flags, g_array_unref);
+
   g_clear_pointer (&self->id, g_free);
   g_clear_pointer (&self->title, g_free);
   g_clear_pointer (&self->developer, g_free);
@@ -173,6 +193,9 @@ bz_entry_group_get_property (GObject    *object,
     {
     case PROP_MODEL:
       g_value_set_object (value, bz_entry_group_get_model (self));
+      break;
+    case PROP_ADDONS_MODEL:
+      g_value_set_object (value, bz_entry_group_get_addon_group_ids (self));
       break;
     case PROP_INSTALLED_VERSIONS:
       g_value_set_object (value, bz_entry_group_get_installed_versions (self));
@@ -249,6 +272,9 @@ bz_entry_group_get_property (GObject    *object,
     case PROP_USER_DATA_SIZE:
       g_value_set_uint64 (value, bz_entry_group_get_user_data_size (self));
       break;
+    case PROP_CACHE_SIZE:
+      g_value_set_uint64 (value, bz_entry_group_get_cache_size (self));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -265,6 +291,7 @@ bz_entry_group_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_MODEL:
+    case PROP_ADDONS_MODEL:
     case PROP_ID:
     case PROP_TITLE:
     case PROP_DEVELOPER:
@@ -285,6 +312,7 @@ bz_entry_group_set_property (GObject      *object,
     case PROP_UPDATABLE_AND_AVAILABLE:
     case PROP_REMOVABLE_AND_AVAILABLE:
     case PROP_USER_DATA_SIZE:
+    case PROP_CACHE_SIZE:
 
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -303,6 +331,13 @@ bz_entry_group_class_init (BzEntryGroupClass *klass)
   props[PROP_MODEL] =
       g_param_spec_object (
           "model",
+          NULL, NULL,
+          G_TYPE_LIST_MODEL,
+          G_PARAM_READABLE);
+
+  props[PROP_ADDONS_MODEL] =
+      g_param_spec_object (
+          "addons-model",
           NULL, NULL,
           G_TYPE_LIST_MODEL,
           G_PARAM_READABLE);
@@ -471,6 +506,13 @@ bz_entry_group_class_init (BzEntryGroupClass *klass)
           0, G_MAXUINT64, 0,
           G_PARAM_READABLE);
 
+  props[PROP_CACHE_SIZE] =
+      g_param_spec_uint64 (
+          "cache-size",
+          NULL, NULL,
+          0, G_MAXUINT64, 0,
+          G_PARAM_READABLE);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 }
 
@@ -479,7 +521,9 @@ bz_entry_group_init (BzEntryGroup *self)
 {
   self->unique_ids         = gtk_string_list_new (NULL);
   self->installed_versions = gtk_string_list_new (NULL);
-  self->max_usefulness     = -1;
+  self->state_flags        = g_array_new (FALSE, TRUE, sizeof (gint32));
+
+  self->max_usefulness = -1;
   g_weak_ref_init (&self->ui_entry, NULL);
   self->standalone_ui_entry = NULL;
   g_mutex_init (&self->mutex);
@@ -761,6 +805,14 @@ bz_entry_group_get_user_data_size (BzEntryGroup *self)
   return self->user_data_size;
 }
 
+guint64
+bz_entry_group_get_cache_size (BzEntryGroup *self)
+{
+  g_return_val_if_fail (BZ_IS_ENTRY_GROUP (self), 0);
+  check_user_data_size (self);
+  return self->cache_size;
+}
+
 BzResult *
 bz_entry_group_dup_ui_entry (BzEntryGroup *self)
 {
@@ -898,6 +950,7 @@ bz_entry_group_add (BzEntryGroup *self,
   gboolean         is_searchable      = FALSE;
   AsContentRating *content_rating     = NULL;
   gboolean         is_addon           = FALSE;
+  gint32           state_flags        = 0;
 
   g_return_if_fail (BZ_IS_ENTRY_GROUP (self));
   g_return_if_fail (BZ_IS_ENTRY (entry));
@@ -934,11 +987,11 @@ bz_entry_group_add (BzEntryGroup *self,
         }
     }
 
-  title              = bz_entry_get_title (entry);
-  description        = bz_entry_get_description (entry);
-  installed_size     = bz_entry_get_installed_size (entry);
-  is_flathub         = bz_entry_get_is_flathub (entry);
-  is_floss           = bz_entry_get_is_foss (entry);
+  title          = bz_entry_get_title (entry);
+  description    = bz_entry_get_description (entry);
+  installed_size = bz_entry_get_installed_size (entry);
+  is_flathub     = bz_entry_get_is_flathub (entry);
+  is_floss       = bz_entry_get_is_foss (entry);
 
   if (is_addon) // You would not see any addon when the filter is on without this.
     is_verified = TRUE;
@@ -1119,39 +1172,60 @@ bz_entry_group_add (BzEntryGroup *self,
         }
     }
 
-  if (existing == G_MAXUINT)
+  if (existing != G_MAXUINT)
     {
-      if (bz_entry_is_installed (entry))
-        {
-          self->removable++;
-          if (!bz_entry_is_holding (entry))
-            {
-              self->removable_available++;
-              g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
-            }
-          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
-        }
-      else
-        {
-          gboolean is_installed_ref = FALSE;
+      gint32 previous_state_flags = 0;
 
-          if (BZ_IS_FLATPAK_ENTRY (entry))
-            is_installed_ref = bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry));
+      /* revert the old state if we are replacing */
 
-          if (!is_installed_ref)
-            {
-              self->installable++;
-              if (!bz_entry_is_holding (entry))
-                {
-                  self->installable_available++;
-                  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
-                }
-              g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
-            }
-        }
+      previous_state_flags = g_array_index (self->state_flags, gint32, existing);
+      if (previous_state_flags & ENTRY_INSTALLABLE)
+        self->installable--;
+      if (previous_state_flags & ENTRY_INSTALLABLE_AVAILABLE)
+        self->installable_available--;
+      if (previous_state_flags & ENTRY_UPDATABLE)
+        self->updatable--;
+      if (previous_state_flags & ENTRY_UPDATABLE_AVAILABLE)
+        self->updatable_available--;
+      if (previous_state_flags & ENTRY_REMOVABLE)
+        self->removable--;
+      if (previous_state_flags & ENTRY_REMOVABLE_AVAILABLE)
+        self->removable_available--;
     }
 
-  if (!is_addon && is_searchable && !self->searchable)
+  if (bz_entry_is_installed (entry))
+    {
+      self->removable++;
+      state_flags |= ENTRY_REMOVABLE;
+      if (!bz_entry_is_holding (entry))
+        {
+          self->removable_available++;
+          state_flags |= ENTRY_REMOVABLE_AVAILABLE;
+          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
+        }
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
+    }
+  else
+    {
+      if (bz_entry_is_reinstallable (entry))
+        {
+          self->installable++;
+          state_flags |= ENTRY_INSTALLABLE;
+          if (!bz_entry_is_holding (entry))
+            {
+              self->installable_available++;
+              state_flags |= ENTRY_INSTALLABLE_AVAILABLE;
+              g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
+            }
+          g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
+        }
+    }
+  if (existing != G_MAXUINT)
+    g_array_index (self->state_flags, gint32, existing) = state_flags;
+  else
+    g_array_append_val (self->state_flags, state_flags);
+
+  if (!is_addon && is_searchable)
     self->searchable = TRUE;
 }
 
@@ -1194,38 +1268,56 @@ installed_changed (BzEntryGroup *self,
                    BzEntry      *entry)
 {
   g_autoptr (GMutexLocker) locker = NULL;
-  gboolean    is_installed_ref    = FALSE;
+  gboolean    reinstallable       = FALSE;
   const char *unique_id           = NULL;
   const char *version             = NULL;
   guint       index               = 0;
+  gint32      state_flags         = 0;
 
   locker = g_mutex_locker_new (&self->mutex);
 
-  if (BZ_IS_FLATPAK_ENTRY (entry))
-    is_installed_ref = bz_flatpak_entry_is_installed_ref (BZ_FLATPAK_ENTRY (entry));
+  reinstallable = bz_entry_is_reinstallable (entry);
+  unique_id     = bz_entry_get_unique_id (entry);
+  version       = bz_entry_get_installed_version (entry);
+  index         = gtk_string_list_find (self->unique_ids, unique_id);
+  if (index == G_MAXUINT)
+    return;
+  state_flags = g_array_index (self->state_flags, gint32, index);
 
-  unique_id = bz_entry_get_unique_id (entry);
-  version   = bz_entry_get_installed_version (entry);
-  index     = gtk_string_list_find (self->unique_ids, unique_id);
-
-  if (index != G_MAXUINT)
-    {
-      gtk_string_list_splice (self->installed_versions, index, 1,
-                              (const char *const[]) {
-                                  version != NULL ? version : "",
-                                  NULL });
-    }
-
+  gtk_string_list_splice (self->installed_versions, index, 1,
+                          (const char *const[]) {
+                              version != NULL ? version : "",
+                              NULL });
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLED_VERSIONS]);
 
   if (bz_entry_is_installed (entry))
     {
-      self->installable--;
-      self->removable++;
+      if (state_flags & ENTRY_INSTALLABLE)
+        {
+          self->installable--;
+          state_flags &= ~ENTRY_INSTALLABLE;
+        }
+
+      if (!(state_flags & ENTRY_REMOVABLE))
+        {
+          self->removable++;
+          state_flags |= ENTRY_REMOVABLE;
+        }
+
       if (!bz_entry_is_holding (entry))
         {
-          self->installable_available--;
-          self->removable_available++;
+          if (state_flags & ENTRY_INSTALLABLE_AVAILABLE)
+            {
+              self->installable_available--;
+              state_flags &= ~ENTRY_INSTALLABLE_AVAILABLE;
+            }
+
+          if (!(state_flags & ENTRY_REMOVABLE_AVAILABLE))
+            {
+              self->removable_available++;
+              state_flags |= ENTRY_REMOVABLE_AVAILABLE;
+            }
+
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
         }
@@ -1234,29 +1326,55 @@ installed_changed (BzEntryGroup *self,
     }
   else
     {
-      self->removable--;
-      if (!is_installed_ref)
-        self->installable++;
+      if (state_flags & ENTRY_REMOVABLE)
+        {
+          self->removable--;
+          state_flags &= ~ENTRY_REMOVABLE;
+        }
+
+      if (reinstallable)
+        {
+          if (!(state_flags & ENTRY_INSTALLABLE))
+            {
+              self->installable++;
+              state_flags |= ENTRY_INSTALLABLE;
+            }
+        }
 
       if (!bz_entry_is_holding (entry))
         {
-          self->removable_available--;
-          if (!is_installed_ref)
-            self->installable_available++;
+          if (state_flags & ENTRY_REMOVABLE_AVAILABLE)
+            {
+              self->removable_available--;
+              state_flags &= ~ENTRY_REMOVABLE_AVAILABLE;
+            }
+
+          if (reinstallable)
+            {
+              if (!(state_flags & ENTRY_INSTALLABLE_AVAILABLE))
+                {
+                  self->installable_available++;
+                  state_flags |= ENTRY_INSTALLABLE_AVAILABLE;
+                }
+            }
 
           g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
-          if (!is_installed_ref)
+          if (reinstallable)
             g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
         }
 
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE]);
-      if (!is_installed_ref)
+      if (reinstallable)
         g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE]);
     }
+  g_array_index (self->state_flags, gint32, index) = state_flags;
 
   dex_clear (&self->user_data_size_future);
+  dex_clear (&self->reap_cache_future);
   self->user_data_size = 0;
+  self->cache_size     = 0;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CACHE_SIZE]);
 }
 
 static void
@@ -1265,23 +1383,60 @@ holding_changed (BzEntryGroup *self,
                  BzEntry      *entry)
 {
   g_autoptr (GMutexLocker) locker = NULL;
+  gboolean    reinstallable       = FALSE;
+  const char *unique_id           = NULL;
+  guint       index               = 0;
+  gint32      state_flags         = 0;
 
   locker = g_mutex_locker_new (&self->mutex);
+
+  reinstallable = bz_entry_is_reinstallable (entry);
+
+  unique_id = bz_entry_get_unique_id (entry);
+  index     = gtk_string_list_find (self->unique_ids, unique_id);
+  if (index == G_MAXUINT)
+    return;
+  state_flags = g_array_index (self->state_flags, gint32, index);
 
   if (bz_entry_is_holding (entry))
     {
       if (bz_entry_is_installed (entry))
-        self->removable_available--;
+        {
+          if (state_flags & ENTRY_REMOVABLE_AVAILABLE)
+            {
+              self->removable_available--;
+              state_flags &= ~ENTRY_REMOVABLE_AVAILABLE;
+            }
+        }
       else
-        self->installable_available--;
+        {
+          if (state_flags & ENTRY_INSTALLABLE_AVAILABLE)
+            {
+              self->installable_available--;
+              state_flags &= ~ENTRY_INSTALLABLE_AVAILABLE;
+            }
+        }
     }
   else
     {
       if (bz_entry_is_installed (entry))
-        self->removable_available++;
-      else
-        self->installable_available++;
+        {
+          if (!(state_flags & ENTRY_REMOVABLE_AVAILABLE))
+            {
+              self->removable_available++;
+              state_flags |= ENTRY_REMOVABLE_AVAILABLE;
+            }
+        }
+      else if (reinstallable)
+        {
+          if (!(state_flags & ENTRY_INSTALLABLE_AVAILABLE))
+            {
+              self->installable_available++;
+              state_flags |= ENTRY_INSTALLABLE_AVAILABLE;
+            }
+        }
     }
+  g_array_index (self->state_flags, gint32, index) = state_flags;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REMOVABLE_AND_AVAILABLE]);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_INSTALLABLE_AND_AVAILABLE]);
@@ -1350,57 +1505,90 @@ reap_user_data_then (DexFuture *future,
                      GWeakRef  *wr)
 {
   g_autoptr (BzEntryGroup) self = NULL;
-  guint64 old_size              = 0;
 
   bz_weak_get_or_return_reject (self, wr);
   dex_clear (&self->reap_user_data_future);
 
-  old_size             = self->user_data_size;
   self->user_data_size = 0;
-
-  if (old_size != 0)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
 
   return dex_future_new_true ();
 }
 
-void
+DexFuture *
 bz_entry_group_reap_user_data (BzEntryGroup *self)
 {
-  g_return_if_fail (BZ_IS_ENTRY_GROUP (self));
-  g_return_if_fail (self->id != NULL);
+  dex_return_error_if_fail (BZ_IS_ENTRY_GROUP (self));
+  dex_return_error_if_fail (self->id != NULL);
 
   if (self->reap_user_data_future != NULL)
-    return;
+    return dex_ref (self->reap_user_data_future);
 
   self->reap_user_data_future = dex_future_then (
       bz_reap_user_data_dex (self->id),
       (DexFutureCallback) reap_user_data_then,
       bz_track_weak (self),
       bz_weak_release);
+
+  return dex_ref (self->reap_user_data_future);
+}
+
+static DexFuture *
+reap_user_cache_then (DexFuture *future,
+                      GWeakRef  *wr)
+{
+  g_autoptr (BzEntryGroup) self = NULL;
+
+  bz_weak_get_or_return_reject (self, wr);
+  dex_clear (&self->reap_cache_future);
+
+  self->cache_size = 0;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CACHE_SIZE]);
+
+  return dex_future_new_true ();
+}
+
+DexFuture *
+bz_entry_group_reap_user_cache (BzEntryGroup *self)
+{
+  g_return_val_if_fail (BZ_IS_ENTRY_GROUP (self), NULL);
+  g_return_val_if_fail (self->id != NULL, NULL);
+
+  if (self->reap_cache_future != NULL)
+    return dex_ref (self->reap_cache_future);
+
+  self->reap_cache_future = dex_future_then (
+      bz_reap_user_cache_dex (self->id),
+      (DexFutureCallback) reap_user_cache_then,
+      bz_track_weak (self),
+      bz_weak_release);
+
+  return dex_ref (self->reap_cache_future);
 }
 
 static DexFuture *
 user_data_size_then (DexFuture *future,
                      GWeakRef  *wr)
 {
-  g_autoptr (BzEntryGroup) self = NULL;
-  g_autoptr (GError) error      = NULL;
-  guint64 size                  = 0;
-  guint64 old_size              = 0;
+  g_autoptr (BzEntryGroup) self  = NULL;
+  g_autoptr (GError) error       = NULL;
+  g_autoptr (BzSizeResult) sizes = NULL;
 
   bz_weak_get_or_return_reject (self, wr);
   dex_clear (&self->user_data_size_future);
 
-  size = dex_await_uint64 (dex_ref (future), &error);
-  if (error != NULL)
-    size = 0;
+  sizes = g_value_dup_object (dex_future_get_value (future, &error));
+  if (error != NULL || sizes == NULL)
+    {
+      g_clear_error (&error);
+      return dex_future_new_true ();
+    }
 
-  old_size             = self->user_data_size;
-  self->user_data_size = size;
+  self->user_data_size = bz_size_result_get_user_data_size (sizes);
+  self->cache_size     = bz_size_result_get_cache_size (sizes);
 
-  if (old_size != size)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CACHE_SIZE]);
 
   return dex_future_new_true ();
 }
@@ -1414,10 +1602,10 @@ check_user_data_size (BzEntryGroup *self)
       self->id == NULL)
     return;
 
-  if (self->reap_user_data_future != NULL)
+  if (self->reap_user_data_future != NULL || self->reap_cache_future != NULL)
     return;
 
-  future = bz_get_user_data_size_dex (self->id);
+  future = bz_get_user_sizes_dex (self->id);
   future = dex_future_then (
       future,
       (DexFutureCallback) user_data_size_then,

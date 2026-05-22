@@ -1,0 +1,20 @@
+prefix=bz
+name=flatpak_repo
+parent-prefix=g
+parent-name=object
+author=AUTOGEN
+
+property=name char G_TYPE_STRING string
+property=title char G_TYPE_STRING string
+property=url char G_TYPE_STRING string
+property=homepage char G_TYPE_STRING string
+property=comment char G_TYPE_STRING string
+property=description char G_TYPE_STRING string
+property=icon char G_TYPE_STRING string
+property=gpg_key char G_TYPE_STRING string
+property=default_branch char G_TYPE_STRING string
+property=filter char G_TYPE_STRING string
+property=is_user gboolean G_TYPE_BOOLEAN boolean
+property=disabled gboolean G_TYPE_BOOLEAN boolean
+property=noenumerate gboolean G_TYPE_BOOLEAN boolean
+property=gpg_verify gboolean G_TYPE_BOOLEAN boolean

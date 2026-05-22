@@ -8,6 +8,10 @@ project('bazaar', 'c',
   ],
 )
 
+# can't have statements before `project` ...
+bz_vcs_version = run_command('version.sh', 'get-vcs').stdout().strip()
+bz_version = run_command('version.sh', 'get-version').stdout().strip()
+
 python3 = find_program('python3')
 i18n = import('i18n')
 if get_option('im_a_translator')
@@ -87,7 +91,8 @@ else
   else
     config_h = configuration_data()
 
-    config_h.set_quoted('PACKAGE_VERSION', meson.project_version())
+    config_h.set_quoted('PACKAGE_VERSION', bz_version)
+    config_h.set_quoted('PACKAGE_VCS_VERSION', bz_vcs_version)
     config_h.set_quoted('GETTEXT_PACKAGE', 'bazaar')
     config_h.set_quoted('LOCALEDIR', get_option('prefix') / get_option('localedir'))
     config_h.set_quoted('DONATE_LINK', 'https://ko-fi.com/kolunmi')

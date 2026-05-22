@@ -627,12 +627,12 @@ transaction_fiber (QueuedScheduleData *data)
   BzTransaction *transaction            = data->transaction;
   DexPromise    *promise                = data->promise;
   g_autoptr (GError) local_error        = NULL;
-  gboolean result                       = FALSE;
   g_autoptr (GListStore) store          = NULL;
   g_autoptr (DexChannel) channel        = NULL;
   g_autoptr (DexFuture) future          = NULL;
   g_autoptr (GHashTable) op_set         = NULL;
   g_autoptr (GHashTable) pending_set    = NULL;
+  g_autoptr (GHashTable) errored        = NULL;
   GHashTableIter iter                   = { 0 };
 
   bz_weak_get_or_return_reject (self, data->self);
@@ -758,9 +758,20 @@ transaction_fiber (QueuedScheduleData *data)
       bz_transaction_error_out_task (transaction, payload, "Cancelled");
     }
 
-  result = dex_await (g_steal_pointer (&future), &local_error);
-  if (!result)
+  errored = dex_await_boxed (g_steal_pointer (&future), &local_error);
+  if (local_error != NULL)
     return dex_future_new_for_error (g_steal_pointer (&local_error));
+
+  if (errored != NULL && g_hash_table_size (errored) > 0)
+    {
+      GHashTableIter  errored_iter = { 0 };
+      gpointer        key          = NULL;
+      gpointer        val          = NULL;
+
+      g_hash_table_iter_init (&errored_iter, errored);
+      g_hash_table_iter_next (&errored_iter, &key, &val);
+      return dex_future_new_for_error (g_error_copy ((GError *) val));
+    }
 
   return dex_future_new_true ();
 }
@@ -789,9 +800,9 @@ transaction_finally (DexFuture          *future,
       transaction,
       "status", status,
       "progress", 1.0,
-      "finished", TRUE,
       "success", value != NULL,
       "error", local_error != NULL ? local_error->message : NULL,
+      "finished", TRUE,
       NULL);
 
   self->current_progress = 1.0;

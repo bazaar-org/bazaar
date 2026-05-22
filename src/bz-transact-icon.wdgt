@@ -1,0 +1,110 @@
+defwidget "Transact Icon" {
+  reference info : "BzTransactIconInfo";
+  var progress : "gdouble";
+
+  var icon-scale : "gdouble";
+
+  var flag : "GtkFixed";
+  var icon : "GtkImage";
+
+  var start : "gdouble";
+  var end : "gdouble";
+
+  var path : "GskPath";
+  var path-measure : "GskPathMeasure";
+  var path-width : "gdouble";
+  var path-opacity : "gdouble";
+
+  init {
+    set progress = #transition(info:tracker:progress, 1.1, 0.1, 10.0);
+
+    set flag = #child/(""("transact-icon-flag") can-target = false;);
+    allocate flag #eval(#(%width%)+#(path-width)*2.0),
+                  #eval(#(%height%)+#(path-width)*2.0),
+                  #(translate(#GraphenePoint(#eval(-#(path-width)), #eval(-#(path-width)))););
+
+    set icon = #child/(""("icon-dropshadow")
+      pixel-size = #ifelse(#<(%height%, 1), 1, %height%);
+    );
+    allocate icon %width%, %height%, #();
+
+    set path = #GskPath(
+      add-circle(
+        #GraphenePoint(#eval(#(%width%)/2.0), #eval(#(%height%)/2.0)),
+        #eval(#(%height%)/2.0),
+      );
+    );
+    set path-measure = #measure-path(path);
+
+    snapshot {
+      save {
+        move translate(#GraphenePoint(#eval((#(%width%)/2.0)*(1.0-#(icon-scale))),
+                                      #eval((#(%height%)/2.0)*(1.0-#(icon-scale)))));
+        move scale(icon-scale, icon-scale);
+        do-child icon;
+      }
+      save {
+        move translate(#GraphenePoint(0.0, %height%));
+        move rotate(-90.0);
+        with opacity(path-opacity) {
+          with stroke(
+            #GskPath(
+              add-segment(
+                path,
+                #path-point(path-measure, #eval((#(start)%1.0)*#(#path-length(path-measure)))),
+                #path-point(path-measure, #eval((#(end)%1.0)*#(#path-length(path-measure)))),
+              );
+            ),
+            #GskStroke(path-width, round, round, 0.0),
+          ) {
+            move rotate(90.0);
+            move translate(#GraphenePoint(0.0, #eval(-#(%height%))));
+            do-child flag;
+          }
+        }
+      }
+    }
+  }
+
+  state-default "inactive" {
+    set icon-scale = 1.0;
+    transition-spring icon-scale 1.0, 0.1, 15.0;
+    
+    set start = 0.0;
+    set end = 1.0;
+    
+    set path-opacity = 0.0;
+    transition-spring path-opacity 1.0, 0.1, 10.0;
+
+    set path-width = 3.0;
+    transition-spring path-width 1.0, 0.1, 5.0;
+  }
+  
+  state "pending" {
+    set icon-scale = 0.6;
+    transition-spring icon-scale 1.0, 0.1, 15.0;
+    
+    set start = #eval((#(%tick%)*0.5)%1.0);
+    set end = #eval(#(start)+0.2);
+    
+    set path-opacity = 1.0;
+    transition-spring path-opacity 1.0, 0.1, 5.0;
+
+    set path-width = 3.0;
+    transition-spring path-width 1.0, 0.1, 5.0;
+  }
+
+  state "fraction" {
+    set icon-scale = 0.6;
+    transition-spring icon-scale 1.0, 0.1, 15.0;
+    
+    set start = 0.0;
+    set end = #eval(0.05+#(progress)*0.95);
+    
+    set path-opacity = 1.0;
+    transition-spring path-opacity 1.0, 0.1, 5.0;
+
+    set path-width = 3.0;
+    transition-spring path-width 1.0, 0.1, 5.0;
+  }
+}

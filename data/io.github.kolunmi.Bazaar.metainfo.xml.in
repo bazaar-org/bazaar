@@ -73,6 +73,50 @@
   </screenshots>
 
   <releases>
+    <release version="0.8.1" date="2026-05-22">
+      <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.8.1</url>
+        <description translate="no">
+          <p>
+            Fixes an issue where updates would not show, also adds a cancel button to the app tiles on the search page.
+          </p>
+          <p>
+            <em>Other Fixes</em>
+          </p>
+          <ul>
+            <li>Fix Flathub page graphics being rendered full colored in</li>
+            <li>Disable broken graphs for very new Flathub apps</li>
+            <li>Add workaround for kRunner sending broken app IDs</li>
+          </ul>
+          <p>
+            Thanks for reading, and have a great day!
+          </p>
+        </description>
+    </release>
+    <release version="0.8.0" date="2026-05-16">
+      <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.8.0</url>
+        <description translate="no">
+          <p>
+            <em>New Features</em>
+          </p>
+          <ul>
+            <li>Add support for installing (.flatpak) bundles</li>
+            <li>New progress indicators</li>
+            <li>The ability to view and delete app caches</li>
+          </ul>
+          <p>
+            <em>Fixes</em>
+          </p>
+          <ul>
+            <li>Fix the download context tile not displaying a label for non-Flathub apps</li>
+            <li>Reduce RAM usage when no windows are open</li>
+            <li>Fix an issue where a window could open at the wrong size while a transaction was running</li>
+            <li>Many other bug fixes</li>
+          </ul>
+          <p>
+            Thanks for reading, and have a great day!
+          </p>
+        </description>
+    </release>
     <release version="0.7.15" date="2026-04-17">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.7.15</url>
       <description translate="no">
@@ -377,125 +421,30 @@
     </release>
     <release version="0.5.10" date="2025-11-12">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.10</url>
-      <description translate="no">
-        <p>This release comes with the following improvements:</p>
-        <ul>
-          <li>Add "hide-eol" preferences option to prevent Bazaar from showing end-of-life applications or applications which depend on end-of-life runtimes</li>
-          <li>Fix global progress bar theme sometimes not syncing with preferences</li>
-          <li>Show version next to addon name in the addons dialog</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.9" date="2025-11-08">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.9</url>
-      <description translate="no">
-        <p>This release comes with the following improvements:</p>
-        <ul>
-          <li>Add "On the go" section and mobile cateogry</li>
-          <li>Greatly decrease reported memory usage</li>
-          <li>Rework search UI</li>
-          <li>Rework page stack navigation</li>
-          <li>Change screenshot dialog to page</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.8" date="2025-10-29">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.8</url>
-      <description translate="no">
-        <p>This release comes with the following improvements:</p>
-        <ul>
-          <li>Fix slow/inconsistent image loading</li>
-          <li>Fix context row in full view</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.7" date="2025-10-27">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.7</url>
-      <description translate="no">
-        <p>This release comes with the following improvements:</p>
-        <ul>
-          <li>Rework full view layout</li>
-          <li>Improve progress bar theme selection</li>
-          <li>Reduce quantity and improve quality of search results</li>
-          <li>Allow the application window to fit on mobile screen sizes</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.6" date="2025-10-15">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.6</url>
-      <description translate="no">
-        <p>This release comes with the following improvements:</p>
-        <ul>
-          <li>Add interactive screenshot dialog</li>
-          <li>Fix empty update dialogs</li>
-          <li>Greatly improve look of app description rendering</li>
-          <li>Add pending state to the global progress bar</li>
-          <li>Add featured apps carousel</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.5" date="2025-10-09">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.5</url>
-      <description translate="no">
-        <p>More improvements:</p>
-        <ul>
-          <li>Improve design of transaction dialog</li>
-          <li>Update remove button pulse effect and comet size curve</li>
-          <li>Reap and reload cached textures after a day</li>
-          <li>Eliminate some crashes caused by race conditions</li>
-          <li>Change preferences group to context bar in full view</li>
-          <li>Switch side panels to sidebars and use flat header bar designs</li>
-          <li>Add really useful app size dialog :)</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.4" date="2025-10-04">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.4</url>
-      <description translate="no">
-        <p>Some improvements:</p>
-        <ul>
-          <li>Make the global progress bar customizable with pride flags! Check preferences</li>
-          <li>Add a new world map page to the download statistics dialog</li>
-          <li>Allow clicking on entries on transaction sidebar to navigate to the original store page</li>
-          <li>Add Alexander Vanhee to the developer credits</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.3" date="2025-10-02">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.3</url>
-      <description translate="no">
-        <p>Some improvements:</p>
-        <ul>
-          <li>Overhaul download history graph; make it interactive</li>
-          <li>Smarter "back" functionality</li>
-          <li>Hide bottom bar more often on small window sizes</li>
-          <li>Make "light-banner" and "dark-banner" keys available to curated configs</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.2" date="2025-09-29">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.2</url>
-      <description translate="no">
-        <p>This release includes:</p>
-        <ul>
-          <li>553d041 * chore(po): update Ukrainian translation (#408)</li>
-          <li>711732a * Rework Version History (#407)</li>
-          <li>d2d3771 * Calculate detailed app tiles text color based on luminance of background accent color (#405)</li>
-          <li>3787e6e * Save window size in gsettings</li>
-          <li>18ba76c * AsyncTexture: increase HTTP timeout to 5 seconds</li>
-          <li>980f752 * SearchWidget: prevent invalid item selection</li>
-          <li>ab95593 * Add installed icons to app tiles (#404)</li>
-          <li>203754b * (UI) Improve visiblility of add-on feature (#403)</li>
-          <li>069ce61 * fix installed page list outline ring (#402)</li>
-          <li>da9f7b8 * (UX) Refine the Flathub views to be denser and have less partial lines (#401)</li>
-          <li>a6939ba * fix(po): fix Ukrainian translation (#400)</li>
-          <li>35c9611 * decrease app-tile description width reqs</li>
-          <li>6098be7 * chore(po): update Polish translation (#397)</li>
-          <li>2944d1e * change per section limit to 12 from 9 (#396)</li>
-          <li>0b04284 * Update Japanese Translation (#394)</li>
-          <li>fa60f4f * Move to brand new shiny Adw.ShortcutsDialog (#395)</li>
-        </ul>
-      </description>
     </release>
     <release version="0.5.1" date="2025-09-27">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.5.1</url>

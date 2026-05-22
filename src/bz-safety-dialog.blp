@@ -1,11 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $BzSafetyDialog: Adw.Dialog {
-  content-height: 576;
-  content-width: 640;
-  title: _("Safety");
-
+template $BzSafetyDialog: Adw.Bin {
   child: Adw.ToolbarView {
     [top]
     Adw.HeaderBar {
@@ -51,7 +47,7 @@ template $BzSafetyDialog: Adw.Dialog {
 
             Adw.ActionRow {
               title: _("License");
-              subtitle: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.project-license;
+              subtitle: bind template.entry as <$BzEntry>.project-license;
               subtitle-selectable: true;
 
               styles [
@@ -61,7 +57,7 @@ template $BzSafetyDialog: Adw.Dialog {
 
             Adw.ActionRow {
               title: _("App ID");
-              subtitle: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.id;
+              subtitle: bind template.entry as <$BzEntry>.id;
               subtitle-selectable: true;
 
               styles [
@@ -71,11 +67,11 @@ template $BzSafetyDialog: Adw.Dialog {
 
             Adw.ActionRow {
               title: _("SDK");
-              subtitle: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.title;
+              subtitle: bind template.entry as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.title;
               subtitle-selectable: true;
               has-tooltip: true;
-              tooltip-text: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.application-runtime;
-              visible: bind $invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object) as <bool>) as <bool>;
+              tooltip-text: bind template.entry as <$BzFlatpakEntry>.application-runtime;
+              visible: bind $invert_boolean($is_null(template.entry as <$BzFlatpakEntry>.runtime as <$BzResult>.object) as <bool>) as <bool>;
 
               styles [
                 "property",
@@ -83,7 +79,7 @@ template $BzSafetyDialog: Adw.Dialog {
 
               [suffix]
               MenuButton {
-                visible: bind $invert_boolean($is_null(template.group as <$BzEntryGroup>.eol) as <bool>) as <bool>;
+                visible: bind $invert_boolean($is_null(template.entry as <$BzEntry>.eol) as <bool>) as <bool>;
 
                 styles [
                   "error",

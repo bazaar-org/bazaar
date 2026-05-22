@@ -23,4 +23,6 @@ RUN dnf update -y && dnf install -y \
     webkitgtk6.0-devel \
     libsecret-devel \
     libproxy-devel \
+    gtksourceview5-devel \
+    glib-networking \
     clangd

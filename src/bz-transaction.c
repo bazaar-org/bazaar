@@ -698,7 +698,11 @@ finish (BzTransactionPrivate *priv)
       bz_transaction_entry_tracker_set_pending (tracker, FALSE);
       if (bz_transaction_entry_tracker_get_status (tracker) == BZ_TRANSACTION_ENTRY_STATUS_CANCELLED)
         continue;
-      bz_transaction_entry_tracker_set_status (tracker, BZ_TRANSACTION_ENTRY_STATUS_DONE);
+      bz_transaction_entry_tracker_set_status (
+          tracker,
+          priv->success
+              ? BZ_TRANSACTION_ENTRY_STATUS_DONE
+              : BZ_TRANSACTION_ENTRY_STATUS_CANCELLED);
     }
 }
 
@@ -802,15 +806,17 @@ tracker_update (BzTransactionPrivate                  *priv,
         {
           if (progress_payload != NULL)
             {
-              double progress = 0.0;
-              double scaled   = 0.0;
+              double   progress   = 0.0;
+              double   scaled     = 0.0;
+              gboolean estimating = FALSE;
 
-              progress = bz_backend_transaction_op_progress_payload_get_total_progress (progress_payload);
-              scaled   = progress >= 1.0 ? 1.0 : progress * 0.9;
+              progress   = bz_backend_transaction_op_progress_payload_get_total_progress (progress_payload);
+              scaled     = progress >= 1.0 ? 1.0 : progress * 0.9;
+              estimating = bz_backend_transaction_op_progress_payload_get_is_estimating (progress_payload);
 
               g_object_set (tracker,
                             "progress", scaled,
-                            "pending", bz_backend_transaction_op_progress_payload_get_is_estimating (progress_payload),
+                            "pending", estimating && progress == 0.0,
                             NULL);
             }
           bz_transaction_entry_tracker_set_active (tracker, TRUE);

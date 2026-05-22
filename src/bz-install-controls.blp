@@ -30,7 +30,7 @@ template $BzInstallControls: Box {
                   template.tracker as <$BzTransactionEntryTracker>.active as <bool>,
                   template.tracker as <$BzTransactionEntryTracker>.pending as <bool>,
                   template.tracker as <$BzTransactionEntryTracker>.progress as <double>
-                ) as <string>, "inactive"};
+                ) as <string>, $install_btn_state_fallback() as <string>};
 
         has-tooltip: true;
         hexpand: bind $invert_boolean(template.wide) as <bool>;

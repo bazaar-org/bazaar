@@ -28,7 +28,6 @@
 #include "bz-flathub-category-section.h"
 #include "bz-flathub-category.h"
 #include "bz-flathub-page.h"
-#include "bz-inhibited-scrollable.h"
 #include "bz-section-view.h"
 
 struct _BzFlathubPage
@@ -254,7 +253,6 @@ bz_flathub_page_class_init (BzFlathubPageClass *klass)
   g_type_ensure (BZ_TYPE_SECTION_VIEW);
   g_type_ensure (BZ_TYPE_FLATHUB_CATEGORY_SECTION);
   g_type_ensure (BZ_TYPE_FLATHUB_CATEGORY);
-  g_type_ensure (BZ_TYPE_INHIBITED_SCROLLABLE);
   g_type_ensure (BZ_TYPE_DYNAMIC_LIST_VIEW);
   g_type_ensure (BZ_TYPE_APP_TILE);
   g_type_ensure (BZ_TYPE_FEATURED_CAROUSEL);

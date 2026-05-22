@@ -10,28 +10,19 @@ template $BzInstalledTile: $BzListTile {
     orientation: horizontal;
     spacing: 10;
 
-    Image icon_picture {
+    $BzTransactIcon {
       margin-start: 10;
       margin-top: 10;
       margin-bottom: 10;
-      height-request: 64;
       width-request: 64;
-      pixel-size: 64;
-      paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
-      visible: bind $invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-      styles ["icon-dropshadow"]
-    }
+      height-request: 64;
+      valign: center;
+      halign: center;
 
-    Image fallback_icon {
-      margin-start: 10;
-      margin-top: 10;
-      margin-bottom: 10;
-      height-request: 64;
-      width-request: 64;
-      pixel-size: 64;
-      icon-name: "application-x-executable";
-      visible: bind icon_picture.visible inverted;
-      styles ["icon-dropshadow"]
+      info: $BzTransactIconInfo {
+        group: bind template.group as <$BzEntryGroup>;
+        paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
+      };
     }
 
     Box {

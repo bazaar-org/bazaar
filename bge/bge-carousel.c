@@ -93,9 +93,8 @@ BGE_DEFINE_DATA (
     CarouselWidget,
     {
       GtkWidget *widget;
+      int        width;
 
-      /* x/y interpreted as pixel units, width/height interpreted as percentages of
-         the widget width/height */
       graphene_rect_t rect;
       graphene_rect_t target;
 
@@ -945,12 +944,13 @@ move_to_idx (BgeCarousel *self,
 
       target          = GRAPHENE_RECT_INIT (child_x, child_y, child_width, child_height);
       avoid_animation = graphene_rect_equal (&target, &child->target);
-      if ((damping_ratio < 0.0 && !avoid_animation) ||
-          graphene_rect_equal (graphene_rect_zero (), &child->rect))
+      if (child->width != rect_width ||
+          (damping_ratio < 0.0 && !avoid_animation))
         {
           if (child->cancellable != NULL)
             g_cancellable_cancel (child->cancellable);
 
+          child->width  = rect_width;
           child->rect   = target;
           child->target = target;
         }

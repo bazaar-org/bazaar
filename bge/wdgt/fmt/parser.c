@@ -20,6 +20,7 @@
 
 #define G_LOG_DOMAIN "BGE::WDGT-PARSE"
 
+#include <glib/gi18n.h>
 #include <graphene-gobject.h>
 
 #include "../bge-wdgt-spec-private.h"
@@ -98,6 +99,12 @@ BGE_DEFINE_DATA (
     BGE_RELEASE_DATA (workbuf0, g_free);
     BGE_RELEASE_DATA (workbuf1, g_free));
 
+static BgeWdgtSpec *
+parse_string_inner (const char *string,
+                    guint      *line,
+                    guint      *column,
+                    GError    **error);
+
 static const char *
 parse_widget_block (const char  *p,
                     BgeWdgtSpec *spec,
@@ -105,6 +112,8 @@ parse_widget_block (const char  *p,
                     GHashTable  *macro_replacements,
                     guint       *n_anon_vals,
                     GHashTable  *type_hints,
+                    guint       *line,
+                    guint       *column,
                     GError     **error);
 
 static const char *
@@ -114,6 +123,8 @@ parse_snapshot_block (const char  *p,
                       GHashTable  *macro_replacements,
                       guint       *n_anon_vals,
                       GHashTable  *type_hints,
+                      guint       *line,
+                      guint       *column,
                       GError     **error);
 
 static const char *
@@ -123,6 +134,8 @@ parse_eval (const char  *p,
             GHashTable  *macro_replacements,
             guint       *n_anon_vals,
             GHashTable  *type_hints,
+            guint       *line,
+            guint       *column,
             char       **value_out,
             GError     **error);
 
@@ -134,6 +147,8 @@ parse_args (const char        *p,
             GHashTable        *macro_replacements,
             guint             *n_anon_vals,
             GHashTable        *type_hints,
+            guint             *line,
+            guint             *column,
             const char *const *destinations,
             GType              destinations_types[],
             guint              n_destinations,
@@ -147,6 +162,8 @@ static char *
 parse_token_fundamental (const char  *token,
                          BgeWdgtSpec *spec,
                          guint       *n_anon_vals,
+                         guint       *line,
+                         guint       *column,
                          GError     **error);
 
 static char *
@@ -155,6 +172,8 @@ consume_token (const char    **pp,
                TokenParseFlags flags,
                gboolean       *was_quoted,
                GHashTable     *macro_replacements,
+               guint          *line,
+               guint          *column,
                GError        **error);
 
 static char *
@@ -162,6 +181,8 @@ consume_token_inner (const char    **pp,
                      const char     *single_chars,
                      TokenParseFlags flags,
                      gboolean       *was_quoted,
+                     guint          *line,
+                     guint          *column,
                      GError        **error);
 
 static gdouble
@@ -217,6 +238,35 @@ BgeWdgtSpec *
 bge_wdgt_parse_string (const char *string,
                        GError    **error)
 {
+  g_autoptr (GError) local_error = NULL;
+  guint line                     = 0;
+  guint column                   = 0;
+  g_autoptr (BgeWdgtSpec) spec   = NULL;
+
+  g_return_val_if_fail (string != NULL, FALSE);
+
+  spec = parse_string_inner (string, &line, &column, &local_error);
+  if (spec == NULL)
+    {
+      g_set_error (
+          error,
+          local_error->domain,
+          local_error->code,
+          "wdgt parser error in string input "
+          "at line:%u, offset:%u : %s",
+          line, column, local_error->message);
+      return NULL;
+    }
+
+  return g_steal_pointer (&spec);
+}
+
+static BgeWdgtSpec *
+parse_string_inner (const char *string,
+                    guint      *line,
+                    guint      *column,
+                    GError    **error)
+{
   g_autoptr (GError) local_error            = NULL;
   gboolean result                           = FALSE;
   g_autoptr (BgeWdgtSpec) spec              = NULL;
@@ -224,8 +274,6 @@ bge_wdgt_parse_string (const char *string,
   g_autoptr (GHashTable) macro_replacements = NULL;
   guint n_anon_vals                         = 0;
   g_autoptr (GHashTable) type_hints         = NULL;
-
-  g_return_val_if_fail (string != NULL, FALSE);
 
   spec         = bge_wdgt_spec_new ();
   macro_arrays = g_hash_table_new_full (
@@ -262,7 +310,6 @@ bge_wdgt_parse_string (const char *string,
             error,                               \
             G_IO_ERROR,                          \
             G_IO_ERROR_UNKNOWN,                  \
-            "wdgt fmt parser error: "            \
             "expected token \"%s\", got \"%s\"", \
             (_token), (_string));                \
         return NULL;                             \
@@ -277,7 +324,7 @@ bge_wdgt_parse_string (const char *string,
         error,                                \
         G_IO_ERROR,                           \
         G_IO_ERROR_UNKNOWN,                   \
-        "Unexpected token \"%s\"", (_token)); \
+        "unexpected token \"%s\"", (_token)); \
     return NULL;                              \
   }                                           \
   G_STMT_END
@@ -323,7 +370,9 @@ bge_wdgt_parse_string (const char *string,
           &p,
           SINGLE_CHAR_TOKENS,
           TOKEN_PARSE_DEFAULT,
-          NULL, NULL, NULL);
+          NULL, NULL,
+          line, column,
+          NULL);
       if (token == NULL)
         break;
 
@@ -337,6 +386,7 @@ bge_wdgt_parse_string (const char *string,
         (_flags),                                                      \
         (_was_quoted),                                                 \
         macro_replacements,                                            \
+        line, column,                                                  \
         &local_error);                                                 \
     RETURN_ERROR_UNLESS (*(_token_out) != NULL);                       \
   }                                                                    \
@@ -363,7 +413,9 @@ bge_wdgt_parse_string (const char *string,
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "{");
           p = parse_widget_block (
               p, spec, macro_arrays, macro_replacements,
-              &n_anon_vals, type_hints, &local_error);
+              &n_anon_vals, type_hints,
+              line, column,
+              &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
         }
       else if (g_strcmp0 (token, STR_DEFARRAY) == 0)
@@ -378,7 +430,8 @@ bge_wdgt_parse_string (const char *string,
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
           p = parse_args (p, spec, NULL, NULL, macro_replacements,
                           &n_anon_vals, type_hints,
-                          NULL, NULL, 0, &elements, NULL, &n_elements,
+                          line, column, NULL, NULL,
+                          0, &elements, NULL, &n_elements,
                           ARGS_PARSE_PARENS, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
 
@@ -404,6 +457,8 @@ parse_widget_block (const char  *p,
                     GHashTable  *macro_replacements,
                     guint       *n_anon_vals,
                     GHashTable  *type_hints,
+                    guint       *line,
+                    guint       *column,
                     GError     **error)
 {
   g_autoptr (GError) local_error = NULL;
@@ -481,7 +536,7 @@ parse_widget_block (const char  *p,
 
               p = parse_widget_block (
                   fixed_p, spec, macro_arrays, macro_replacements,
-                  n_anon_vals, type_hints, &local_error);
+                  n_anon_vals, type_hints, line, column, &local_error);
               RETURN_ERROR_UNLESS (p != NULL);
             }
           g_hash_table_remove (macro_replacements, var_name);
@@ -559,7 +614,7 @@ parse_widget_block (const char  *p,
                 {
                   GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "{");
                   p = parse_snapshot_block (p, spec, state_name, macro_replacements, n_anon_vals,
-                                            type_hints, &local_error);
+                                            type_hints, line, column, &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
                 }
               else if (g_strcmp0 (token, STR_SET) == 0)
@@ -571,7 +626,7 @@ parse_widget_block (const char  *p,
                   g_auto (GStrv) src_values      = NULL;
 
                   p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals,
-                                  type_hints, NULL, NULL, 0, &dest_values,
+                                  type_hints, line, column, NULL, NULL, 0, &dest_values,
                                   &dest_types, &n_dest_values, ARGS_PARSE_LEFT_ASSIGN,
                                   &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
@@ -586,7 +641,7 @@ parse_widget_block (const char  *p,
                     }
 
                   p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals,
-                                  type_hints, (const char *const *) dest_values,
+                                  type_hints, line, column, (const char *const *) dest_values,
                                   dest_types, n_dest_values, &src_values, NULL,
                                   &n_src_values, ARGS_PARSE_RIGHT_ASSIGN, &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
@@ -621,9 +676,11 @@ parse_widget_block (const char  *p,
 
                   GET_TOKEN (&transition_value, TOKEN_PARSE_DEFAULT);
 
-                  p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+                  p = parse_args (p, spec, state_name, NULL, macro_replacements,
+                                  n_anon_vals, type_hints, line, column, NULL,
                                   (GType[]){ G_TYPE_DOUBLE, BGE_TYPE_EASING }, 2,
-                                  &spec_values, NULL, &n_spec_values, ARGS_PARSE_RIGHT_ASSIGN, &local_error);
+                                  &spec_values, NULL, &n_spec_values, ARGS_PARSE_RIGHT_ASSIGN,
+                                  &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
                   if (n_spec_values != 2)
                     {
@@ -654,7 +711,8 @@ parse_widget_block (const char  *p,
 
                   GET_TOKEN (&transition_value, TOKEN_PARSE_DEFAULT);
 
-                  p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+                  p = parse_args (p, spec, state_name, NULL, macro_replacements,
+                                  n_anon_vals, type_hints, line, column, NULL,
                                   (GType[]){ G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE }, 3,
                                   &spec_values, NULL, &n_spec_values, ARGS_PARSE_RIGHT_ASSIGN, &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
@@ -688,8 +746,9 @@ parse_widget_block (const char  *p,
 
                   GET_TOKEN (&child_value, TOKEN_PARSE_DEFAULT);
 
-                  p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
-                                  (GType[]){ G_TYPE_INT, G_TYPE_INT, GSK_TYPE_TRANSFORM }, 3,
+                  p = parse_args (p, spec, state_name, NULL, macro_replacements,
+                                  n_anon_vals, type_hints, line, column,
+                                  NULL, (GType[]){ G_TYPE_INT, G_TYPE_INT, GSK_TYPE_TRANSFORM }, 3,
                                   &allocation_values, NULL, &n_allocation_values,
                                   ARGS_PARSE_RIGHT_ASSIGN, &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
@@ -744,8 +803,9 @@ parse_widget_block (const char  *p,
                   guint n_measurement_values        = 0;
                   g_auto (GStrv) measurement_values = NULL;
 
-                  p = parse_args (p, spec, state_name, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
-                                  (GType[]){ G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT }, 4,
+                  p = parse_args (p, spec, state_name, NULL, macro_replacements,
+                                  n_anon_vals, type_hints, line, column,
+                                  NULL, (GType[]){ G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT }, 4,
                                   &measurement_values, NULL, &n_measurement_values,
                                   ARGS_PARSE_RIGHT_ASSIGN, &local_error);
                   RETURN_ERROR_UNLESS (p != NULL);
@@ -821,6 +881,8 @@ parse_snapshot_block (const char  *p,
                       GHashTable  *macro_replacements,
                       guint       *n_anon_vals,
                       GHashTable  *type_hints,
+                      guint       *line,
+                      guint       *column,
                       GError     **error)
 {
   g_autoptr (GError) local_error = NULL;
@@ -863,7 +925,7 @@ parse_snapshot_block (const char  *p,
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "{");
           p = parse_snapshot_block (p, spec, state, macro_replacements,
-                                    n_anon_vals, type_hints, &local_error);
+                                    n_anon_vals, type_hints, line, column, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
 
           bge_wdgt_spec_pop_foreach (spec);
@@ -892,7 +954,7 @@ parse_snapshot_block (const char  *p,
       else if (kind == BGE_WDGT_SNAPSHOT_INSTR_SNAPSHOT_CHILD)
         {
           p = parse_args (p, spec, state, NULL, macro_replacements,
-                          n_anon_vals, type_hints,
+                          n_anon_vals, type_hints, line, column,
                           NULL, NULL, 0, &args, NULL, &n_args,
                           ARGS_PARSE_RIGHT_ASSIGN, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
@@ -908,7 +970,7 @@ parse_snapshot_block (const char  *p,
           GET_TOKEN (&instr, TOKEN_PARSE_DEFAULT);
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
           p = parse_args (p, spec, state, NULL, macro_replacements,
-                          n_anon_vals, type_hints,
+                          n_anon_vals, type_hints, line, column,
                           NULL, NULL, 0, &args, NULL, &n_args,
                           ARGS_PARSE_PARENS, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
@@ -932,7 +994,7 @@ parse_snapshot_block (const char  *p,
 
               GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "{");
               p = parse_snapshot_block (p, spec, state, macro_replacements,
-                                        n_anon_vals, type_hints, &local_error);
+                                        n_anon_vals, type_hints, line, column, &local_error);
               RETURN_ERROR_UNLESS (p != NULL);
 
               result = bge_wdgt_spec_append_snapshot_instr (
@@ -945,7 +1007,7 @@ parse_snapshot_block (const char  *p,
         {
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "{");
           p = parse_snapshot_block (p, spec, state, macro_replacements,
-                                    n_anon_vals, type_hints, &local_error);
+                                    n_anon_vals, type_hints, line, column, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
 
           result = bge_wdgt_spec_append_snapshot_instr (
@@ -997,6 +1059,8 @@ parse_eval (const char  *p,
             GHashTable  *macro_replacements,
             guint       *n_anon_vals,
             GHashTable  *type_hints,
+            guint       *line,
+            guint       *column,
             char       **value_out,
             GError     **error)
 {
@@ -1036,7 +1100,7 @@ parse_eval (const char  *p,
       else if (g_strcmp0 (token, "(") == 0)
         {
           p = parse_eval (p, spec, state, macro_replacements, n_anon_vals,
-                          type_hints, &value, &local_error);
+                          type_hints, line, column, &value, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
         }
       else if (g_strcmp0 (token, "#") == 0)
@@ -1045,7 +1109,7 @@ parse_eval (const char  *p,
           guint n_escape_args        = 0;
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
-          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints,
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column,
                           NULL, (GType[]){ G_TYPE_DOUBLE }, 1, &escape_args,
                           NULL, &n_escape_args, ARGS_PARSE_PARENS, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
@@ -1082,7 +1146,7 @@ parse_eval (const char  *p,
 
           GET_TOKEN_EVAL_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
           p = parse_eval (p, spec, state, macro_replacements, n_anon_vals,
-                          type_hints, &arg, &local_error);
+                          type_hints, line, column, &arg, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
 
           math_func_key = make_anon_name ((*n_anon_vals)++);
@@ -1116,7 +1180,7 @@ parse_eval (const char  *p,
       else
         {
           value = parse_token_fundamental (
-              token, spec, n_anon_vals, &local_error);
+              token, spec, n_anon_vals, line, column, &local_error);
           RETURN_ERROR_UNLESS (value != NULL);
         }
 
@@ -1433,6 +1497,54 @@ ifelse_closure (gpointer      this,
     g_value_copy (&param_values[2], return_value);
 }
 
+static void
+measure_path_closure (gpointer      this,
+                      GValue       *return_value,
+                      guint         n_param_values,
+                      const GValue *param_values,
+                      gpointer      dest_type_ptr)
+{
+  GskPathMeasure *measure = NULL;
+
+  measure = gsk_path_measure_new (
+      g_value_get_boxed (param_values));
+  g_value_take_boxed (return_value, measure);
+}
+
+static void
+path_length_closure (gpointer      this,
+                     GValue       *return_value,
+                     guint         n_param_values,
+                     const GValue *param_values,
+                     gpointer      dest_type_ptr)
+{
+  gdouble length = 0.0;
+
+  length = gsk_path_measure_get_length (
+      g_value_get_boxed (param_values));
+  g_value_set_double (return_value, length);
+}
+
+static void
+path_point_closure (gpointer      this,
+                    GValue       *return_value,
+                    guint         n_param_values,
+                    const GValue *param_values,
+                    gpointer      dest_type_ptr)
+{
+  gboolean     result = FALSE;
+  GskPathPoint point  = { 0 };
+
+  result = gsk_path_measure_get_point (
+      g_value_get_boxed (&param_values[0]),
+      g_value_get_double (&param_values[1]),
+      &point);
+  if (!result)
+    return;
+
+  g_value_set_boxed (return_value, &point);
+}
+
 static const char *
 parse_args (const char        *p,
             BgeWdgtSpec       *spec,
@@ -1441,6 +1553,8 @@ parse_args (const char        *p,
             GHashTable        *macro_replacements,
             guint             *n_anon_vals,
             GHashTable        *type_hints,
+            guint             *line,
+            guint             *column,
             const char *const *destinations,
             GType              destinations_types[],
             guint              n_destinations,
@@ -1508,13 +1622,55 @@ parse_args (const char        *p,
               return NULL;
             }
         }
+      else if (g_strcmp0 (token, "_") == 0 ||
+               g_strcmp0 (token, "C_") == 0)
+        /* gettext translations */
+        {
+          gboolean         have_context = FALSE;
+          g_autofree char *context_text = NULL;
+          g_autofree char *source_text  = NULL;
+          GValue           value        = G_VALUE_INIT;
+          g_autofree char *key          = NULL;
+
+          have_context = g_strcmp0 (token, "C_") == 0;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          if (have_context)
+            {
+              GET_TOKEN (&context_text, TOKEN_PARSE_QUOTED);
+              GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ",");
+            }
+          GET_TOKEN (&source_text, TOKEN_PARSE_QUOTED);
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ")");
+
+          g_value_init (&value, G_TYPE_STRING);
+          if (have_context)
+            {
+              g_autofree char *query = NULL;
+
+              query = g_strdup_printf ("%s\004%s", context_text, source_text);
+              g_value_set_string (&value, g_dpgettext (NULL, query, strlen (context_text) + 1));
+            }
+          else
+            g_value_set_string (&value, gettext (source_text));
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_constant_source_value (
+              spec, key, &value, &local_error);
+          g_value_unset (&value);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
       else if (g_strcmp0 (token, "#eval") == 0)
         {
           g_autofree char *key = NULL;
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
           p = parse_eval (p, spec, state, macro_replacements, n_anon_vals,
-                          type_hints, &key, &local_error);
+                          type_hints, line, column, &key, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
 
           g_strv_builder_take (builder, g_steal_pointer (&key));
@@ -1613,7 +1769,7 @@ parse_args (const char        *p,
             g_assert_not_reached ();
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
-          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column, NULL,
                           NULL, 0, &cmp_values, NULL, &n_cmp_values, ARGS_PARSE_PARENS, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
 
@@ -1671,7 +1827,7 @@ parse_args (const char        *p,
             }
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
-          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column, NULL,
                           (GType[]){ G_TYPE_BOOLEAN }, 1,
                           &expr_values, &expr_types, &n_expr_values,
                           ARGS_PARSE_PARENS, &local_error);
@@ -1712,6 +1868,143 @@ parse_args (const char        *p,
           n_args++;
           need_comma = TRUE;
         }
+      else if (g_strcmp0 (token, "#measure-path") == 0)
+        {
+          g_autofree char *key           = NULL;
+          guint            n_expr_values = 0;
+          g_auto (GStrv) expr_values     = NULL;
+          g_autofree GType *expr_types   = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column, NULL,
+                          (GType[]){ GSK_TYPE_PATH }, 1,
+                          &expr_values, &expr_types, &n_expr_values,
+                          ARGS_PARSE_PARENS, &local_error);
+          RETURN_ERROR_UNLESS (p != NULL);
+
+          if (n_expr_values != 1)
+            {
+              g_set_error (
+                  error,
+                  G_IO_ERROR,
+                  G_IO_ERROR_UNKNOWN,
+                  "#measure-path() needs exactly 1 argument of type %s,"
+                  "got %u",
+                  g_type_name (GSK_TYPE_PATH),
+                  n_expr_values);
+              return NULL;
+            }
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_cclosure_source_value (
+              spec,
+              key,
+              GSK_TYPE_PATH_MEASURE,
+              _marshal_DIRECT__ARGS_DIRECT,
+              G_CALLBACK (measure_path_closure),
+              (const char *const *) expr_values,
+              (GType[]){ GSK_TYPE_PATH },
+              n_expr_values,
+              NULL, NULL,
+              &local_error);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
+      else if (g_strcmp0 (token, "#path-length") == 0)
+        {
+          g_autofree char *key           = NULL;
+          guint            n_expr_values = 0;
+          g_auto (GStrv) expr_values     = NULL;
+          g_autofree GType *expr_types   = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column, NULL,
+                          (GType[]){ GSK_TYPE_PATH_MEASURE }, 1,
+                          &expr_values, &expr_types, &n_expr_values,
+                          ARGS_PARSE_PARENS, &local_error);
+          RETURN_ERROR_UNLESS (p != NULL);
+
+          if (n_expr_values != 1)
+            {
+              g_set_error (
+                  error,
+                  G_IO_ERROR,
+                  G_IO_ERROR_UNKNOWN,
+                  "#path-length() needs exactly 1 argument of type %s,"
+                  "got %u",
+                  g_type_name (GSK_TYPE_PATH_MEASURE),
+                  n_expr_values);
+              return NULL;
+            }
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_cclosure_source_value (
+              spec,
+              key,
+              G_TYPE_DOUBLE,
+              _marshal_DIRECT__ARGS_DIRECT,
+              G_CALLBACK (path_length_closure),
+              (const char *const *) expr_values,
+              (GType[]){ GSK_TYPE_PATH_MEASURE },
+              n_expr_values,
+              NULL, NULL,
+              &local_error);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
+      else if (g_strcmp0 (token, "#path-point") == 0)
+        {
+          g_autofree char *key           = NULL;
+          guint            n_expr_values = 0;
+          g_auto (GStrv) expr_values     = NULL;
+          g_autofree GType *expr_types   = NULL;
+
+          GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column, NULL,
+                          (GType[]){ GSK_TYPE_PATH_MEASURE, G_TYPE_DOUBLE }, 2,
+                          &expr_values, &expr_types, &n_expr_values,
+                          ARGS_PARSE_PARENS, &local_error);
+          RETURN_ERROR_UNLESS (p != NULL);
+
+          if (n_expr_values != 2)
+            {
+              g_set_error (
+                  error,
+                  G_IO_ERROR,
+                  G_IO_ERROR_UNKNOWN,
+                  "#path-point() needs exactly 2 arguments "
+                  "of types %s and %s,"
+                  "got %u",
+                  g_type_name (GSK_TYPE_PATH_MEASURE),
+                  g_type_name (G_TYPE_DOUBLE),
+                  n_expr_values);
+              return NULL;
+            }
+
+          key    = make_anon_name ((*n_anon_vals)++);
+          result = bge_wdgt_spec_add_cclosure_source_value (
+              spec,
+              key,
+              GSK_TYPE_PATH_POINT,
+              _marshal_DIRECT__ARGS_DIRECT,
+              G_CALLBACK (path_point_closure),
+              (const char *const *) expr_values,
+              (GType[]){ GSK_TYPE_PATH_MEASURE, G_TYPE_DOUBLE },
+              n_expr_values,
+              NULL, NULL,
+              &local_error);
+          RETURN_ERROR_UNLESS (result);
+
+          g_strv_builder_take (builder, g_steal_pointer (&key));
+          n_args++;
+          need_comma = TRUE;
+        }
       else if (g_strcmp0 (token, "#transition") == 0)
         {
           g_autofree char *key           = NULL;
@@ -1719,7 +2012,7 @@ parse_args (const char        *p,
           g_auto (GStrv) spec_values     = NULL;
 
           GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
-          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, NULL,
+          p = parse_args (p, spec, state, NULL, macro_replacements, n_anon_vals, type_hints, line, column, NULL,
                           (GType[]){ G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE }, 4,
                           &spec_values, NULL, &n_spec_values, ARGS_PARSE_PARENS, &local_error);
           RETURN_ERROR_UNLESS (p != NULL);
@@ -1837,7 +2130,8 @@ parse_args (const char        *p,
                 {
                   if (expect_closing_paren)
                     GET_TOKEN (&token, TOKEN_PARSE_DEFAULT);
-                  key = parse_token_fundamental (token, spec, n_anon_vals, &local_error);
+                  key = parse_token_fundamental (token, spec, n_anon_vals,
+                                                 line, column, &local_error);
                   RETURN_ERROR_UNLESS (key != NULL);
                 }
               else if (type == G_TYPE_STRING)
@@ -2003,7 +2297,7 @@ parse_args (const char        *p,
 
                   p = parse_args (p, spec, state, enclosing_object,
                                   macro_replacements,
-                                  n_anon_vals, type_hints, NULL,
+                                  n_anon_vals, type_hints, line, column, NULL,
                                   (GType[]){ G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE }, 4,
                                   &component_args, NULL, &n_component_args, ARGS_PARSE_PARENS,
                                   &local_error);
@@ -2143,7 +2437,7 @@ parse_args (const char        *p,
                       GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "=");
 
                       p = parse_args (p, spec, state, key, macro_replacements,
-                                      n_anon_vals, type_hints,
+                                      n_anon_vals, type_hints, line, column,
                                       NULL, (GType[]){ prop_type }, 1, &value_args,
                                       NULL, &n_value_args, ARGS_PARSE_RIGHT_ASSIGN,
                                       &local_error);
@@ -2207,7 +2501,8 @@ parse_args (const char        *p,
                       GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
                       p = parse_args (p, spec, state, enclosing_object,
                                       macro_replacements, n_anon_vals,
-                                      type_hints, NULL, NULL, 0, &value_args, NULL,
+                                      type_hints, line, column,
+                                      NULL, NULL, 0, &value_args, NULL,
                                       &n_value_args, ARGS_PARSE_PARENS, &local_error);
                       RETURN_ERROR_UNLESS (p != NULL);
                       GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ";");
@@ -2259,7 +2554,8 @@ parse_args (const char        *p,
                       GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, "(");
                       p = parse_args (p, spec, state, enclosing_object,
                                       macro_replacements, n_anon_vals,
-                                      type_hints, NULL, NULL, 0, &call_args, NULL,
+                                      type_hints, line, column,
+                                      NULL, NULL, 0, &call_args, NULL,
                                       &n_call_args, ARGS_PARSE_PARENS, &local_error);
                       RETURN_ERROR_UNLESS (p != NULL);
                       GET_TOKEN_EXPECT (&token, TOKEN_PARSE_DEFAULT, ";");
@@ -2314,7 +2610,7 @@ parse_args (const char        *p,
 
                   p = parse_args (p, spec, state, enclosing_object,
                                   macro_replacements,
-                                  n_anon_vals, type_hints, NULL,
+                                  n_anon_vals, type_hints, line, column, NULL,
                                   types, G_N_ELEMENTS (types),
                                   &component_args, NULL, &n_component_args, ARGS_PARSE_PARENS,
                                   &local_error);
@@ -2411,6 +2707,8 @@ static char *
 parse_token_fundamental (const char  *token,
                          BgeWdgtSpec *spec,
                          guint       *n_anon_vals,
+                         guint       *line,
+                         guint       *column,
                          GError     **error)
 {
   g_autoptr (GError) local_error = NULL;
@@ -2478,11 +2776,14 @@ consume_token (const char    **pp,
                TokenParseFlags flags,
                gboolean       *was_quoted,
                GHashTable     *macro_replacements,
+               guint          *line,
+               guint          *column,
                GError        **error)
 {
   g_autofree char *token = NULL;
 
-  token = consume_token_inner (pp, single_chars, flags, was_quoted, error);
+  token = consume_token_inner (pp, single_chars, flags,
+                               was_quoted, line, column, error);
   if (token == NULL)
     return NULL;
 
@@ -2563,6 +2864,8 @@ consume_token_inner (const char    **pp,
                      const char     *single_chars,
                      TokenParseFlags flags,
                      gboolean       *was_quoted,
+                     guint          *line,
+                     guint          *column,
                      GError        **error)
 {
   const char *p             = *pp;
@@ -2614,7 +2917,15 @@ consume_token_inner (const char    **pp,
       gboolean is_whitespace = FALSE;
       gboolean is_quotes     = FALSE;
 
-      ch            = g_utf8_get_char (p);
+      ch = g_utf8_get_char (p);
+      if (ch == '\n')
+        {
+          (*line)++;
+          *column = 0;
+        }
+      else
+        (*column)++;
+
       is_whitespace = ch == '\n' || g_unichar_isspace (ch);
       is_quotes     = ch == '"';
 

@@ -50,7 +50,7 @@ template $BzEntryInspector: Adw.Window {
       Box {
         orientation: horizontal;
         spacing: 5;
-          
+
         Image {
           pixel-size: 16;
           paintable: bind template.result as <$BzResult>.object as <$BzEntry>.icon-paintable;
@@ -71,7 +71,7 @@ template $BzEntryInspector: Adw.Window {
 
       Box {
         orientation: horizontal;
-          
+
         Button {
           label: "Serialize";
           clicked => $gen_serialized(template);
@@ -84,12 +84,12 @@ template $BzEntryInspector: Adw.Window {
 
       ScrolledWindow {
         propagate-natural-height: true;
-        child: TextView {
+        child: $GtkSourceView {
           styles [
             "monospace",
           ]
           // wrap-mode: word_char;
-          buffer: TextBuffer text_buffer {};
+          buffer: $GtkSourceBuffer text_buffer {};
         };
       }
     };

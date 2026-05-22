@@ -352,31 +352,34 @@ get_safety_rating_icon (gpointer object,
   return icon;
 }
 
-static char *
-get_safety_rating_style (gpointer object,
-                         BzEntry *entry)
+const char *
+bz_safety_style_for_importance (BzImportance importance)
 {
-  BzImportance importance;
-
-  if (entry == NULL)
-    return g_strdup ("grey");
-
-  importance = bz_safety_calculator_calculate_rating (entry);
-
   switch (importance)
     {
     case BZ_IMPORTANCE_UNIMPORTANT:
     case BZ_IMPORTANCE_NEUTRAL:
-      return g_strdup ("grey");
+      return "grey";
     case BZ_IMPORTANCE_INFORMATION:
-      return g_strdup ("warning");
+      return "warning";
     case BZ_IMPORTANCE_WARNING:
-      return g_strdup ("orange");
+      return "orange";
     case BZ_IMPORTANCE_IMPORTANT:
-      return g_strdup ("error");
+      return "error";
     default:
-      return g_strdup ("grey");
+      return "grey";
     }
+}
+
+static char *
+get_safety_rating_style (gpointer object,
+                         BzEntry *entry)
+{
+  if (entry == NULL)
+    return g_strdup ("grey");
+
+  return g_strdup (bz_safety_style_for_importance (
+      bz_safety_calculator_calculate_rating (entry)));
 }
 
 static char *

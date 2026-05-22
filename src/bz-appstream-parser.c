@@ -202,7 +202,6 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
   g_autoptr (GdkPaintable) thumbnail_paintable         = NULL;
   g_autoptr (GListStore) share_urls                    = NULL;
   g_autofree char *donation_url                        = NULL;
-  g_autofree char *forge_url                           = NULL;
   g_autofree char *ratings_summary                     = NULL;
   g_autoptr (GListStore) version_history               = NULL;
   const char *accent_color_light                       = NULL;
@@ -300,9 +299,8 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
       flathub_url = g_strdup_printf ("https://flathub.org/apps/%s", id);
 
       url = bz_url_new ();
-      bz_url_set_name (url, C_ ("Project URL Type", "Flathub Page"));
+      bz_url_set_id (url, "flathub");
       bz_url_set_url (url, flathub_url);
-      bz_url_set_icon_name (url, "flathub-symbolic");
 
       g_list_store_append (share_urls, url);
     }
@@ -314,51 +312,13 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
       url = as_component_get_url (component, e);
       if (url != NULL)
         {
-          const char *enum_string     = NULL;
-          const char *icon_name       = NULL;
           g_autoptr (BzUrl) share_url = NULL;
 
           switch (e)
             {
-            case AS_URL_KIND_HOMEPAGE:
-              enum_string = C_ ("Project URL Type", "Project Website");
-              icon_name   = "globe-symbolic";
-              break;
-            case AS_URL_KIND_BUGTRACKER:
-              enum_string = C_ ("Project URL Type", "Issue Tracker");
-              icon_name   = "computer-fail-symbolic";
-              break;
-            case AS_URL_KIND_FAQ:
-              enum_string = C_ ("Project URL Type", "FAQ");
-              icon_name   = "help-faq-symbolic";
-              break;
-            case AS_URL_KIND_HELP:
-              enum_string = C_ ("Project URL Type", "Help");
-              icon_name   = "help-browser-symbolic";
-              break;
             case AS_URL_KIND_DONATION:
-              enum_string = C_ ("Project URL Type", "Donate");
-              icon_name   = "heart-filled-symbolic";
               g_clear_pointer (&donation_url, g_free);
               donation_url = g_strdup (url);
-              break;
-            case AS_URL_KIND_TRANSLATE:
-              enum_string = C_ ("Project URL Type", "Translate");
-              icon_name   = "translations-symbolic";
-              break;
-            case AS_URL_KIND_CONTACT:
-              enum_string = C_ ("Project URL Type", "Contact");
-              icon_name   = "mail-send-symbolic";
-              break;
-            case AS_URL_KIND_VCS_BROWSER:
-              enum_string = C_ ("Project URL Type", "Source Code");
-              icon_name   = "code-symbolic";
-              g_clear_pointer (&forge_url, g_free);
-              forge_url = g_strdup (url);
-              break;
-            case AS_URL_KIND_CONTRIBUTE:
-              enum_string = C_ ("Project URL Type", "Contribute");
-              icon_name   = "system-users-symbolic";
               break;
             default:
               break;
@@ -366,9 +326,8 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
 
           share_url = g_object_new (
               BZ_TYPE_URL,
-              "name", enum_string,
+              "id", as_url_kind_to_string (e),
               "url", url,
-              "icon-name", icon_name,
               NULL);
           g_list_store_append (share_urls, share_url);
         }
@@ -698,7 +657,6 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
       "thumbnail-paintable", thumbnail_paintable,
       "share-urls", share_urls,
       "donation-url", donation_url,
-      "forge-url", forge_url,
       "ratings-summary", ratings_summary,
       "version-history", version_history,
       "light-accent-color", accent_color_light,
