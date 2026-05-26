@@ -16,6 +16,7 @@ webkit_dep           = dependency('webkitgtk-6.0', version: '>= 2.50.2')
 libsecret_dep        = dependency('libsecret-1', version: '>= 0.20')
 libproxy_dep         = dependency('libproxy-1.0', version: '>= 0.5')
 malcontent_dep 	     = dependency('malcontent-0', version: '>= 0.12.0')
+gtksourceview_dep    = dependency('gtksourceview-5', version: '>= 5.17')
 
 
 dl_worker_sources = [
@@ -185,6 +186,7 @@ bz_deps = [
   libsecret_dep,
   libproxy_dep,
   malcontent_dep,
+  gtksourceview_dep,
 ]
 
 gen_gobject = find_program('./gen_gobject.sh')

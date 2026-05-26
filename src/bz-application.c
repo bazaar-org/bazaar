@@ -191,6 +191,9 @@ static DexFuture *
 enumerate_disk_entries_fiber (GWeakRef *wr);
 
 static DexFuture *
+check_for_updates_fiber (GWeakRef *wr);
+
+static DexFuture *
 cache_flathub_fiber (GWeakRef *wr);
 
 static DexFuture *
@@ -763,7 +766,7 @@ bz_application_about_action (GSimpleAction *action,
       "version", PACKAGE_VCS_VERSION,
       "copyright", "© 2025-2026 The Bazaar Contributors",
       "license-type", GTK_LICENSE_GPL_3_0,
-      "website", "https://github.com/bazaar-org/bazaar",
+      "website", "https://usebazaar.org",
       "issue-url", "https://github.com/bazaar-org/bazaar/issues",
       NULL);
 
@@ -1289,7 +1292,27 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
   gtk_filter_changed (GTK_FILTER (self->group_filter), GTK_FILTER_CHANGE_LESS_STRICT);
   gtk_filter_changed (GTK_FILTER (self->appid_filter), GTK_FILTER_CHANGE_LESS_STRICT);
 
+  dex_future_disown (dex_scheduler_spawn (
+      dex_scheduler_get_default (),
+      bz_get_dex_stack_size (),
+      (DexFiberFunc) check_for_updates_fiber,
+      bz_track_weak (self),
+      bz_weak_release));
+
   return dex_future_new_for_boolean (has_flathub_entry);
+}
+
+static DexFuture *
+check_for_updates_fiber (GWeakRef *wr)
+{
+  g_autoptr (BzApplication) self = NULL;
+
+  bz_weak_get_or_return_reject (self, wr);
+
+  fiber_check_for_updates (self);
+  finish_with_background_task_label (self);
+
+  return dex_future_new_true ();
 }
 
 static DexFuture *
@@ -1833,9 +1856,8 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
       GtkWindow             *window        = NULL;
       BzEntry               *entry         = NULL;
       BzFlatpakRepo         *repo          = NULL;
-      BzBundleInstallDialog *install_ui    = NULL;
+      BzBundleInstallDialog *dialog        = NULL;
       BzFlatpakBundleResult *bundle_result = NULL;
-      AdwDialog             *dialog        = NULL;
       const char            *id            = NULL;
 
       window = get_or_create_window (self);
@@ -1858,19 +1880,13 @@ open_flatpakref_fiber (OpenFlatpakrefData *data)
             bz_entry_set_installed (entry, TRUE);
         }
 
-      install_ui = g_object_new (
+      dialog = g_object_new (
           BZ_TYPE_BUNDLE_INSTALL_DIALOG,
           "state", self->state,
           "entry", entry,
           "runtime-repo", repo,
           NULL);
-
-      dialog = adw_dialog_new ();
-      adw_dialog_set_content_width (dialog, 500);
-      adw_dialog_set_content_height (dialog, -1);
-      adw_dialog_set_child (dialog, GTK_WIDGET (install_ui));
-
-      adw_dialog_present (dialog, GTK_WIDGET (window));
+      adw_dialog_present (ADW_DIALOG (dialog), GTK_WIDGET (window));
     }
 
   return dex_future_new_true ();
@@ -3473,9 +3489,11 @@ open_generic_id (BzApplication *self,
       gtk_widget_activate_action (GTK_WIDGET (window), "window.show-group", "s", matched_id);
 
       if (case_fixed)
-        bz_show_error_for_widget (GTK_WIDGET (window),
-                                  _ ("Malformed Link"),
-                                  _ ("The link used to open this app has incorrect capitalisation and may stop working in the future.\n\nThis is most likely caused by KRunner sending incorrect app IDs"));
+        bz_show_error_for_widget (
+            GTK_WIDGET (window),
+            _ ("Malformed Link"),
+            _ ("The link used to open this app has incorrect capitalization and may stop working in the future.\n\n"
+               "This is most likely caused by KRunner sending incorrect app IDs"));
     }
   else
     {

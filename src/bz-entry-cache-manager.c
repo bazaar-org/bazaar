@@ -37,49 +37,6 @@
 G_DEFINE_QUARK (bz-entry-cache-error-quark, bz_entry_cache_error);
 /* clang-format on */
 
-BZ_DEFINE_DATA (
-    ongoing_task,
-    OngoingTask,
-    {
-      GWeakRef *self;
-
-      DexScheduler *scheduler;
-      DexPromise   *init;
-
-      GHashTable *alive_hash;
-      GHashTable *writing_hash;
-      GHashTable *reading_hash;
-
-      BzGuard *ongoing_gates[MAX_CONCURRENT_WRITES];
-      GMutex   ongoing_mutexes[MAX_CONCURRENT_WRITES];
-      guint    ongoing_queued[MAX_CONCURRENT_WRITES];
-      GMutex   ongoing_queueing_mutex;
-
-      BzGuard *alive_gate;
-      GMutex   alive_mutex;
-      BzGuard *reading_gate;
-      GMutex   reading_mutex;
-      BzGuard *writing_gate;
-      GMutex   writing_mutex;
-    },
-    BZ_RELEASE_DATA (self, bz_weak_release);
-    BZ_RELEASE_DATA (scheduler, dex_unref);
-    BZ_RELEASE_DATA (init, dex_unref);
-    BZ_RELEASE_DATA (alive_hash, g_hash_table_unref);
-    BZ_RELEASE_DATA (writing_hash, g_hash_table_unref);
-    BZ_RELEASE_DATA (reading_hash, g_hash_table_unref);
-    for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_gates); i++)
-        BZ_RELEASE_DATA (ongoing_gates[i], bz_guard_destroy);
-    for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_mutexes); i++)
-        g_mutex_clear (&self->ongoing_mutexes[i]);
-    g_mutex_clear (&self->ongoing_queueing_mutex);
-    BZ_RELEASE_DATA (alive_gate, bz_guard_destroy);
-    BZ_RELEASE_DATA (reading_gate, bz_guard_destroy);
-    BZ_RELEASE_DATA (writing_gate, bz_guard_destroy);
-    g_mutex_clear (&self->alive_mutex);
-    g_mutex_clear (&self->reading_mutex);
-    g_mutex_clear (&self->writing_mutex););
-
 struct _BzEntryCacheManager
 {
   GObject parent_instance;
@@ -90,8 +47,25 @@ struct _BzEntryCacheManager
   DexScheduler *scheduler;
   guint64       memory_usage;
 
-  OngoingTaskData *task_data;
-  DexFuture       *watch_task;
+  DexPromise *init;
+
+  GHashTable *alive_hash;
+  GHashTable *writing_hash;
+  GHashTable *reading_hash;
+
+  BzGuard *ongoing_gates[MAX_CONCURRENT_WRITES];
+  GMutex   ongoing_mutexes[MAX_CONCURRENT_WRITES];
+  guint    ongoing_queued[MAX_CONCURRENT_WRITES];
+  GMutex   ongoing_queueing_mutex;
+
+  BzGuard *alive_gate;
+  GMutex   alive_mutex;
+  BzGuard *reading_gate;
+  GMutex   reading_mutex;
+  BzGuard *writing_gate;
+  GMutex   writing_mutex;
+
+  DexFuture *watch_task;
 };
 
 G_DEFINE_FINAL_TYPE (BzEntryCacheManager, bz_entry_cache_manager, G_TYPE_OBJECT);
@@ -107,14 +81,14 @@ enum
 static GParamSpec *props[LAST_PROP] = { 0 };
 
 static DexFuture *
-watch_init_fiber (OngoingTaskData *task_data);
+watch_init_fiber (GWeakRef *wr);
 
 static DexFuture *
-watch_cb (DexFuture       *future,
-          OngoingTaskData *task_data);
+watch_cb (DexFuture *future,
+          GWeakRef  *wr);
 
 static DexFuture *
-watch_work_fiber (OngoingTaskData *task_data);
+watch_work_fiber (GWeakRef *wr);
 
 static DexFuture *
 notify_props_fiber (GWeakRef *wr);
@@ -137,11 +111,11 @@ BZ_DEFINE_DATA (
     write_task,
     WriteTask,
     {
-      OngoingTaskData *task_data;
-      char            *unique_id_checksum;
-      BzEntry         *entry;
+      GWeakRef *self;
+      char     *unique_id_checksum;
+      BzEntry  *entry;
     },
-    BZ_RELEASE_DATA (task_data, ongoing_task_data_unref);
+    BZ_RELEASE_DATA (self, bz_weak_release);
     BZ_RELEASE_DATA (unique_id_checksum, g_free);
     BZ_RELEASE_DATA (entry, g_object_unref);)
 static DexFuture *
@@ -151,16 +125,16 @@ BZ_DEFINE_DATA (
     read_task,
     ReadTask,
     {
-      OngoingTaskData *task_data;
-      char            *unique_id_checksum;
+      GWeakRef *self;
+      char     *unique_id_checksum;
     },
-    BZ_RELEASE_DATA (task_data, ongoing_task_data_unref);
+    BZ_RELEASE_DATA (self, bz_weak_release);
     BZ_RELEASE_DATA (unique_id_checksum, g_free))
 static DexFuture *
 read_task_fiber (ReadTaskData *data);
 
 static DexFuture *
-enumerate_disk_fiber (OngoingTaskData *data);
+enumerate_disk_fiber (GWeakRef *wr);
 
 static void
 bz_entry_cache_manager_dispose (GObject *object)
@@ -171,7 +145,22 @@ bz_entry_cache_manager_dispose (GObject *object)
 
   dex_clear (&self->scheduler);
   dex_clear (&self->watch_task);
-  g_clear_pointer (&self->task_data, ongoing_task_data_unref);
+
+  g_clear_pointer (&self->init, dex_unref);
+  g_clear_pointer (&self->alive_hash, g_hash_table_unref);
+  g_clear_pointer (&self->writing_hash, g_hash_table_unref);
+  g_clear_pointer (&self->reading_hash, g_hash_table_unref);
+  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_gates); i++)
+    g_clear_pointer (&self->ongoing_gates[i], bz_guard_destroy);
+  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_mutexes); i++)
+    g_mutex_clear (&self->ongoing_mutexes[i]);
+  g_mutex_clear (&self->ongoing_queueing_mutex);
+  g_clear_pointer (&self->alive_gate, bz_guard_destroy);
+  g_clear_pointer (&self->reading_gate, bz_guard_destroy);
+  g_clear_pointer (&self->writing_gate, bz_guard_destroy);
+  g_mutex_clear (&self->alive_mutex);
+  g_mutex_clear (&self->reading_mutex);
+  g_mutex_clear (&self->writing_mutex);
 
   G_OBJECT_CLASS (bz_entry_cache_manager_parent_class)->dispose (object);
 }
@@ -234,41 +223,29 @@ bz_entry_cache_manager_class_init (BzEntryCacheManagerClass *klass)
 static void
 bz_entry_cache_manager_init (BzEntryCacheManager *self)
 {
-  static DexScheduler *global_scheduler = NULL;
-  g_autoptr (OngoingTaskData) task_data = NULL;
-
-  if (g_once_init_enter_pointer (&global_scheduler))
-    g_once_init_leave_pointer (&global_scheduler, dex_thread_pool_scheduler_new ());
-
   g_mutex_init (&self->mutex);
 
-  self->scheduler    = dex_ref (global_scheduler);
-  self->memory_usage = 0;
+  self->scheduler = dex_thread_pool_scheduler_new ();
 
-  task_data             = ongoing_task_data_new ();
-  task_data->self       = bz_track_weak (self);
-  task_data->scheduler  = dex_ref (self->scheduler);
-  task_data->init       = dex_promise_new ();
-  task_data->alive_hash = g_hash_table_new_full (
+  self->init       = dex_promise_new ();
+  self->alive_hash = g_hash_table_new_full (
       g_str_hash, g_str_equal, g_free, living_entry_data_unref);
-  task_data->writing_hash = g_hash_table_new_full (
+  self->writing_hash = g_hash_table_new_full (
       g_str_hash, g_str_equal, g_free, dex_unref);
-  task_data->reading_hash = g_hash_table_new_full (
+  self->reading_hash = g_hash_table_new_full (
       g_str_hash, g_str_equal, g_free, dex_unref);
-  for (guint i = 0; i < G_N_ELEMENTS (task_data->ongoing_mutexes); i++)
-    g_mutex_init (&task_data->ongoing_mutexes[i]);
-  g_mutex_init (&task_data->ongoing_queueing_mutex);
-  g_mutex_init (&task_data->alive_mutex);
-  g_mutex_init (&task_data->reading_mutex);
-  g_mutex_init (&task_data->writing_mutex);
-  self->task_data = g_steal_pointer (&task_data);
+  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_mutexes); i++)
+    g_mutex_init (&self->ongoing_mutexes[i]);
+  g_mutex_init (&self->ongoing_queueing_mutex);
+  g_mutex_init (&self->alive_mutex);
+  g_mutex_init (&self->reading_mutex);
+  g_mutex_init (&self->writing_mutex);
 
   self->watch_task = dex_scheduler_spawn (
       self->scheduler,
       bz_get_dex_stack_size (),
       (DexFiberFunc) watch_init_fiber,
-      ongoing_task_data_ref (self->task_data),
-      ongoing_task_data_unref);
+      bz_track_weak (self), bz_weak_release);
 }
 
 BzEntryCacheManager *
@@ -300,7 +277,7 @@ bz_entry_cache_manager_add (BzEntryCacheManager *self,
   dex_return_error_if_fail (!bz_entry_is_holding (entry));
 
   data                     = write_task_data_new ();
-  data->task_data          = ongoing_task_data_ref (self->task_data);
+  data->self               = bz_track_weak (self);
   data->unique_id_checksum = g_strdup (bz_entry_get_unique_id_checksum (entry));
   data->entry              = g_object_ref (entry);
 
@@ -324,7 +301,7 @@ bz_entry_cache_manager_get (BzEntryCacheManager *self,
   dex_return_error_if_fail (unique_id != NULL);
 
   data                     = read_task_data_new ();
-  data->task_data          = ongoing_task_data_ref (self->task_data);
+  data->self               = bz_track_weak (self);
   data->unique_id_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, unique_id, -1);
 
   future = dex_scheduler_spawn (
@@ -347,7 +324,7 @@ bz_entry_cache_manager_get_by_checksum (BzEntryCacheManager *self,
   dex_return_error_if_fail (unique_id_checksum != NULL);
 
   data                     = read_task_data_new ();
-  data->task_data          = ongoing_task_data_ref (self->task_data);
+  data->self               = bz_track_weak (self);
   data->unique_id_checksum = g_strdup (unique_id_checksum);
 
   future = dex_scheduler_spawn (
@@ -370,17 +347,16 @@ bz_entry_cache_manager_enumerate_disk (BzEntryCacheManager *self)
       self->scheduler,
       bz_get_dex_stack_size (),
       (DexFiberFunc) enumerate_disk_fiber,
-      ongoing_task_data_ref (self->task_data),
-      ongoing_task_data_unref);
+      bz_track_weak (self), bz_weak_release);
   return g_steal_pointer (&future);
 }
 
 static DexFuture *
 write_task_fiber (WriteTaskData *data)
 {
-  OngoingTaskData *task_data              = data->task_data;
-  char            *unique_id_checksum     = data->unique_id_checksum;
-  BzEntry         *entry                  = data->entry;
+  g_autoptr (BzEntryCacheManager) self    = NULL;
+  char    *unique_id_checksum             = data->unique_id_checksum;
+  BzEntry *entry                          = data->entry;
   g_autoptr (GError) local_error          = NULL;
   g_autoptr (BzGuard) slot_guard          = NULL;
   g_autoptr (BzGuard) other_guard         = NULL;
@@ -406,6 +382,8 @@ write_task_fiber (WriteTaskData *data)
   gboolean result                         = FALSE;
   g_autoptr (GError) ret_error            = NULL;
 
+  bz_weak_get_or_return_reject (self, data->self);
+
   if (!BZ_IS_FLATPAK_ENTRY (entry))
     return dex_future_new_reject (
         BZ_ENTRY_CACHE_ERROR,
@@ -420,33 +398,33 @@ write_task_fiber (WriteTaskData *data)
    * Here we make sure to pick the slot with the
    * least tasks waiting in line
    */
-  locker = g_mutex_locker_new (&task_data->ongoing_queueing_mutex);
-  for (guint i = 0; i < G_N_ELEMENTS (task_data->ongoing_gates); i++)
+  locker = g_mutex_locker_new (&self->ongoing_queueing_mutex);
+  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_gates); i++)
     {
-      if (task_data->ongoing_queued[i] < slot_queued)
+      if (self->ongoing_queued[i] < slot_queued)
         {
-          slot_queued = task_data->ongoing_queued[i];
+          slot_queued = self->ongoing_queued[i];
           slot_index  = i;
         }
     }
-  task_data->ongoing_queued[slot_index]++;
+  self->ongoing_queued[slot_index]++;
   g_clear_pointer (&locker, g_mutex_locker_free);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&slot_guard,
-                               &task_data->ongoing_mutexes[slot_index],
-                               &task_data->ongoing_gates[slot_index]);
+                               &self->ongoing_mutexes[slot_index],
+                               &self->ongoing_gates[slot_index]);
 
-  locker = g_mutex_locker_new (&task_data->ongoing_queueing_mutex);
-  task_data->ongoing_queued[slot_index]--;
+  locker = g_mutex_locker_new (&self->ongoing_queueing_mutex);
+  self->ongoing_queued[slot_index]--;
   g_clear_pointer (&locker, g_mutex_locker_free);
 
-  dex_await (dex_ref (task_data->init), NULL);
+  dex_await (dex_ref (self->init), NULL);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&other_guard,
-                               &task_data->writing_mutex,
-                               &task_data->writing_gate);
+                               &self->writing_mutex,
+                               &self->writing_gate);
   {
-    writing_future = g_hash_table_lookup (task_data->writing_hash, unique_id_checksum);
+    writing_future = g_hash_table_lookup (self->writing_hash, unique_id_checksum);
     if (writing_future != NULL)
       return dex_future_new_reject (
           BZ_ENTRY_CACHE_ERROR,
@@ -455,17 +433,17 @@ write_task_fiber (WriteTaskData *data)
           unique_id_checksum);
 
     promise = dex_promise_new ();
-    g_hash_table_replace (task_data->writing_hash,
+    g_hash_table_replace (self->writing_hash,
                           g_strdup (unique_id_checksum),
                           dex_ref (promise));
   }
   bz_clear_guard (&other_guard);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&other_guard,
-                               &task_data->alive_mutex,
-                               &task_data->alive_gate);
+                               &self->alive_mutex,
+                               &self->alive_gate);
   {
-    living = g_hash_table_lookup (task_data->alive_hash, unique_id_checksum);
+    living = g_hash_table_lookup (self->alive_hash, unique_id_checksum);
     if (living != NULL)
       living_entry_data_ref (living);
     else
@@ -474,7 +452,7 @@ write_task_fiber (WriteTaskData *data)
         g_weak_ref_init (&living->wr, NULL);
         g_mutex_init (&living->mutex);
         living->cached = g_timer_new ();
-        g_hash_table_replace (task_data->alive_hash,
+        g_hash_table_replace (self->alive_hash,
                               g_strdup (unique_id_checksum),
                               living_entry_data_ref (living));
       }
@@ -565,15 +543,15 @@ done:
   bz_clear_guard (&slot_guard);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&other_guard,
-                               &task_data->writing_mutex,
-                               &task_data->writing_gate);
+                               &self->writing_mutex,
+                               &self->writing_gate);
   {
     if (ret_error != NULL)
       dex_promise_reject (promise, g_error_copy (ret_error));
     else
       dex_promise_resolve_boolean (promise, TRUE);
 
-    g_hash_table_remove (task_data->writing_hash, unique_id_checksum);
+    g_hash_table_remove (self->writing_hash, unique_id_checksum);
   }
   bz_clear_guard (&other_guard);
 
@@ -586,8 +564,8 @@ done:
 static DexFuture *
 read_task_fiber (ReadTaskData *data)
 {
-  OngoingTaskData *task_data           = data->task_data;
-  char            *unique_id_checksum  = data->unique_id_checksum;
+  g_autoptr (BzEntryCacheManager) self = NULL;
+  char *unique_id_checksum             = data->unique_id_checksum;
   g_autoptr (GError) local_error       = NULL;
   g_autoptr (BzGuard) guard            = NULL;
   g_autoptr (GMutexLocker) locker      = NULL;
@@ -604,13 +582,15 @@ read_task_fiber (ReadTaskData *data)
   gboolean result                      = FALSE;
   g_autoptr (GError) ret_error         = NULL;
 
-  dex_await (dex_ref (task_data->init), NULL);
+  bz_weak_get_or_return_reject (self, data->self);
+
+  dex_await (dex_ref (self->init), NULL);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&guard,
-                               &task_data->writing_mutex,
-                               &task_data->writing_gate);
+                               &self->writing_mutex,
+                               &self->writing_gate);
   {
-    writing_future = g_hash_table_lookup (task_data->writing_hash, unique_id_checksum);
+    writing_future = g_hash_table_lookup (self->writing_hash, unique_id_checksum);
     if (writing_future != NULL)
       {
         dex_ref (writing_future);
@@ -621,24 +601,24 @@ read_task_fiber (ReadTaskData *data)
   bz_clear_guard (&guard);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&guard,
-                               &task_data->reading_mutex,
-                               &task_data->reading_gate);
+                               &self->reading_mutex,
+                               &self->reading_gate);
   {
-    reading_future = g_hash_table_lookup (task_data->reading_hash, unique_id_checksum);
+    reading_future = g_hash_table_lookup (self->reading_hash, unique_id_checksum);
     if (reading_future != NULL)
       return dex_ref (reading_future);
     promise = dex_promise_new ();
-    g_hash_table_replace (task_data->reading_hash,
+    g_hash_table_replace (self->reading_hash,
                           g_strdup (unique_id_checksum),
                           dex_ref (promise));
   }
   bz_clear_guard (&guard);
 
   BZ_BEGIN_GUARD_WITH_CONTEXT (&guard,
-                               &task_data->alive_mutex,
-                               &task_data->alive_gate);
+                               &self->alive_mutex,
+                               &self->alive_gate);
   {
-    living = g_hash_table_lookup (task_data->alive_hash, unique_id_checksum);
+    living = g_hash_table_lookup (self->alive_hash, unique_id_checksum);
     if (living != NULL)
       {
         g_autoptr (BzEntry) living_entry = NULL;
@@ -652,10 +632,10 @@ read_task_fiber (ReadTaskData *data)
           {
             bz_clear_guard (&guard);
             BZ_BEGIN_GUARD_WITH_CONTEXT (&guard,
-                                         &task_data->reading_mutex,
-                                         &task_data->reading_gate);
+                                         &self->reading_mutex,
+                                         &self->reading_gate);
             {
-              g_hash_table_remove (task_data->reading_hash, unique_id_checksum);
+              g_hash_table_remove (self->reading_hash, unique_id_checksum);
             }
             bz_clear_guard (&guard);
 
@@ -670,7 +650,7 @@ read_task_fiber (ReadTaskData *data)
         g_mutex_init (&living->mutex);
         living->cached = g_timer_new ();
 
-        g_hash_table_replace (task_data->alive_hash,
+        g_hash_table_replace (self->alive_hash,
                               g_strdup (unique_id_checksum),
                               living_entry_data_ref (living));
         bz_clear_guard (&guard);
@@ -722,15 +702,15 @@ read_task_fiber (ReadTaskData *data)
 
 done:
   BZ_BEGIN_GUARD_WITH_CONTEXT (&guard,
-                               &task_data->reading_mutex,
-                               &task_data->reading_gate);
+                               &self->reading_mutex,
+                               &self->reading_gate);
   {
     if (ret_error != NULL)
       dex_promise_reject (promise, g_error_copy (ret_error));
     else
       dex_promise_resolve_object (promise, g_object_ref (entry));
 
-    g_hash_table_remove (task_data->reading_hash, unique_id_checksum);
+    g_hash_table_remove (self->reading_hash, unique_id_checksum);
   }
   bz_clear_guard (&guard);
 
@@ -741,8 +721,9 @@ done:
 }
 
 static DexFuture *
-enumerate_disk_fiber (OngoingTaskData *data)
+enumerate_disk_fiber (GWeakRef *wr)
 {
+  g_autoptr (BzEntryCacheManager) self   = NULL;
   g_autoptr (GError) local_error         = NULL;
   g_autoptr (BzGuard) guard              = NULL;
   g_autoptr (GHashTable) set             = NULL;
@@ -750,11 +731,13 @@ enumerate_disk_fiber (OngoingTaskData *data)
   g_autoptr (GFile) main_cache_file      = NULL;
   g_autoptr (GFileEnumerator) enumerator = NULL;
 
+  bz_weak_get_or_return_reject (self, wr);
+
   set = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard, &data->alive_mutex, &data->alive_gate);
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard, &data->reading_mutex, &data->reading_gate);
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard, &data->writing_mutex, &data->writing_gate);
+  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard, &self->alive_mutex, &self->alive_gate);
+  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard, &self->reading_mutex, &self->reading_gate);
+  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard, &self->writing_mutex, &self->writing_gate);
 
   main_cache = bz_dup_module_dir ();
   if (!g_file_test (main_cache, G_FILE_TEST_EXISTS))
@@ -810,32 +793,38 @@ done:
 }
 
 static DexFuture *
-watch_init_fiber (OngoingTaskData *task_data)
+watch_init_fiber (GWeakRef *wr)
 {
+  g_autoptr (BzEntryCacheManager) self = NULL;
+
+  bz_weak_get_or_return_reject (self, wr);
+
   // bz_discard_module_dir ();
-  dex_promise_resolve_boolean (task_data->init, TRUE);
+  dex_promise_resolve_boolean (self->init, TRUE);
 
   return dex_future_finally_loop (
       dex_timeout_new_msec (WATCH_CLEANUP_INTERVAL_MSEC),
       (DexFutureCallback) watch_cb,
-      ongoing_task_data_ref (task_data),
-      ongoing_task_data_unref);
+      bz_track_weak (self), bz_weak_release);
 }
 
 static DexFuture *
-watch_cb (DexFuture       *future,
-          OngoingTaskData *task_data)
+watch_cb (DexFuture *future,
+          GWeakRef  *wr)
 {
+  g_autoptr (BzEntryCacheManager) self = NULL;
+
+  bz_weak_get_or_return_reject (self, wr);
+
   return dex_scheduler_spawn (
-      task_data->scheduler,
+      self->scheduler,
       bz_get_dex_stack_size (),
       (DexFiberFunc) watch_work_fiber,
-      ongoing_task_data_ref (task_data),
-      ongoing_task_data_unref);
+      bz_track_weak (self), bz_weak_release);
 }
 
 static DexFuture *
-watch_work_fiber (OngoingTaskData *task_data)
+watch_work_fiber (GWeakRef *wr)
 {
   g_autoptr (BzEntryCacheManager) self = NULL;
   g_autoptr (BzGuard) guard0           = NULL;
@@ -846,13 +835,15 @@ watch_work_fiber (OngoingTaskData *task_data)
   guint alive                          = 0;
   guint pruned                         = 0;
 
+  bz_weak_get_or_return_reject (self, wr);
+
   timer = g_timer_new ();
 
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard0, &task_data->alive_mutex, &task_data->alive_gate);
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard0, &task_data->reading_mutex, &task_data->reading_gate);
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard0, &task_data->writing_mutex, &task_data->writing_gate);
+  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard0, &self->alive_mutex, &self->alive_gate);
+  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard0, &self->reading_mutex, &self->reading_gate);
+  BZ_BEGIN_GUARD_WITH_CONTEXT (&guard0, &self->writing_mutex, &self->writing_gate);
 
-  g_hash_table_iter_init (&iter, task_data->alive_hash);
+  g_hash_table_iter_init (&iter, self->alive_hash);
   for (;;)
     {
       char            *unique_id_checksum = NULL;
@@ -864,8 +855,8 @@ watch_work_fiber (OngoingTaskData *task_data)
         break;
       total++;
 
-      if (g_hash_table_contains (task_data->reading_hash, unique_id_checksum) ||
-          g_hash_table_contains (task_data->writing_hash, unique_id_checksum))
+      if (g_hash_table_contains (self->reading_hash, unique_id_checksum) ||
+          g_hash_table_contains (self->writing_hash, unique_id_checksum))
         {
           active++;
           continue;
@@ -898,7 +889,6 @@ watch_work_fiber (OngoingTaskData *task_data)
            g_timer_elapsed (timer, NULL),
            total, active, alive, pruned, WATCH_CLEANUP_INTERVAL_MSEC);
 
-  bz_weak_get_or_return_reject (self, task_data->self);
   g_mutex_lock (&self->mutex);
   self->living_entries = active + alive;
   g_mutex_unlock (&self->mutex);

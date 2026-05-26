@@ -117,7 +117,7 @@ format_size (gpointer object,
 }
 
 static gboolean
-is_app_id (gpointer object,
+is_app_id (gpointer    object,
            const char *id)
 {
   return g_strcmp0 (id, g_application_get_application_id (g_application_get_default ())) == 0;
@@ -155,7 +155,7 @@ delete_cache_cb (GtkWidget       *widget,
   if (self->group == NULL)
     return;
 
-  bz_entry_group_reap_user_cache (self->group);
+  dex_future_disown (bz_entry_group_reap_user_cache (self->group));
 }
 
 static void

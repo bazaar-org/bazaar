@@ -717,7 +717,7 @@ bz_app_permissions_new_from_metadata (GKeyFile *keyfile,
               else if (g_str_equal (bus_policy_str, "own"))
                 bus_policy = BZ_BUS_POLICY_PERMISSION_OWN;
               else
-                bus_policy = BZ_BUS_POLICY_PERMISSION_UNKNOWN;
+                continue;
 
               if (app_id != NULL &&
                   bus_policy_types[h].bus_type == G_BUS_TYPE_SESSION &&

@@ -53,6 +53,8 @@ template $BzFullView: Adw.Bin {
               context_bar.homogeneous: false;
               header_box.spacing: 12;
               app_name_box.spacing: 0;
+              formfactor_support_tile_wide.visible: false;
+              formfactor_support_tile_narrow.visible: true;
               screenshots.compact: true;
               header_bar.show-title: false;
             }
@@ -336,12 +338,38 @@ template $BzFullView: Adw.Bin {
                         Box {
                           homogeneous: true;
 
-                          $BzContextTile {
+                          $BzContextTile formfactor_support_tile_wide {
                             label: bind $get_formfactor_label(template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly) as <string>;
                             has-tooltip: true;
                             tooltip-text: bind $get_formfactor_tooltip(template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly) as <string>;
                             clicked => $formfactor_cb(template);
                             lozenge-style: "grey";
+
+                            lozenge-child: Box {
+                              Image {
+                                visible: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly as <bool>;
+                                icon-name: "device-support-adaptive-symbolic";
+                                pixel-size: 56;
+
+                                styles [
+                                  "wide-image",
+                                ]
+                              }
+
+                              Image {
+                                visible: bind $invert_boolean(template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly) as <bool>;
+                                icon-name: "device-support-desktop-symbolic";
+                              }
+                            };
+                          }
+
+                          $BzContextTile formfactor_support_tile_narrow {
+                            label: bind $get_formfactor_label(template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly) as <string>;
+                            has-tooltip: true;
+                            tooltip-text: bind $get_formfactor_tooltip(template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly) as <string>;
+                            clicked => $formfactor_cb(template);
+                            lozenge-style: bind $bool_to_string(template.ui-entry as <$BzResult>.object as <$BzEntry>.is-mobile-friendly, "grey", "error") as <string>;
+                            visible: false;
 
                             lozenge-child: Box {
                               Image {
@@ -562,37 +590,78 @@ template $BzFullView: Adw.Bin {
                           };
                         }
 
-                        Adw.PreferencesGroup {
-                          visible: bind $logical_and($invert_boolean($is_null(template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.addons) as <bool>) as <bool>, $invert_boolean($is_zero(template.entry-group as <$BzEntryGroup>.removable) as <bool>) as <bool>) as <bool>;
-
-                          Adw.ActionRow {
-                            [prefix]
-                            Image {
-                              icon-name: "puzzle-piece-symbolic";
-                            }
-
-                            [suffix]
-                            Image {
-                              icon-name: "go-next-symbolic";
-
-                              styles [
-                                "dimmed",
-                              ]
-                            }
-
-                            title: _("Manage Add-Ons");
-                            activatable: true;
-                            activated => $install_addons_cb(template);
-                          }
-                        }
-
                         $BzReleasesList releases_list {
                           version-history: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.version-history;
                           installed-versions: bind template.entry-group as <$BzEntryGroup>.installed-versions;
                         }
 
-                        $BzShareList {
-                          urls: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.share-urls;
+                        Box {
+                          orientation: vertical;
+                          spacing: bind $choose(addons_more_btn.visible, 15, 3) as <int>;
+                          Box {
+                            orientation: vertical;
+                            visible: bind $invert_boolean($is_zero(addon_model.n-items) as <int>) as <bool>;
+
+                            Label {
+                              styles ["heading"]
+                              halign: start;
+                              label: _("Add-ons");
+                              margin-top: 5;
+                              margin-start: 3;
+                            }
+
+                            ListView {
+                              styles [
+                                "navigation-sidebar",
+                                "installed-list-view",
+                                "full-view-addons"
+                              ]
+                              overflow: visible;
+
+                              model: NoSelection addon_model {
+                                model: bind $get_addon_groups(template.entry-group);
+                              };
+
+                              factory: BuilderListItemFactory {
+                                template ListItem {
+                                  activatable: false;
+                                  selectable: false;
+                                  focusable: false;
+
+                                  child: $BzAddonTile {
+                                    group: bind template.item as <$BzEntryGroup>;
+                                    activated => $addon_tile_activated_cb();
+                                  };
+                                }
+                              };
+                            }
+
+                            Adw.PreferencesGroup addons_more_btn {
+                              visible: bind $should_show_addon_overflow(template.entry-group);
+
+                              Adw.ButtonRow {
+                                title: _("More Add-Ons");
+                                end-icon-name: "go-next-symbolic";
+                                activated => $install_addons_cb(template);
+                              }
+                            }
+                          }
+                          Box {
+                            orientation: vertical;
+
+                            Label {
+                              styles ["heading"]
+                              halign: start;
+                              label: _("Links");
+                              margin-top: 5;
+                              margin-bottom: 8;
+                              margin-start: 3;
+                            }
+
+                            $BzShareList {
+                              urls: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.share-urls;
+                            }
+                          }
                         }
 
                         Box {
@@ -609,7 +678,8 @@ template $BzFullView: Adw.Bin {
                             xalign: 0;
                             wrap: true;
                             wrap-mode: word_char;
-                            margin-bottom: 6;
+                            margin-top: 5;
+                            margin-bottom: 8;
                             margin-start: 3;
                           }
 
@@ -634,7 +704,7 @@ template $BzFullView: Adw.Bin {
                             visible: bind $is_longer(template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.developer-apps, 6) as <bool>;
                             clicked => $more_apps_button_clicked_cb(template);
                             halign: center;
-                            margin-top: 11;
+                            margin-top: 15;
                             margin-bottom: 8;
 
                             child: Label {

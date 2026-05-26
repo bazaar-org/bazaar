@@ -48,6 +48,7 @@ struct _BzInstallControls
 
   /* Template widgets */
   GtkWidget *open_button;
+  GtkWidget *update_button;
   GtkWidget *animated_button;
 };
 
@@ -343,9 +344,16 @@ idle_grab_focus (GWeakRef *wr)
     goto done;
 
   if (gtk_widget_is_visible (GTK_WIDGET (self)))
-    gtk_widget_grab_focus (self->group != NULL && bz_entry_group_get_removable (self->group) > 0
-                               ? self->open_button
-                               : self->install_button);
+    {
+      GtkWidget *target = self->install_button;
+
+      if (self->group != NULL && bz_entry_group_get_removable (self->group) > 0)
+        target = find_matching_updates (self, bz_state_info_get_available_updates (self->state)) != NULL
+                     ? self->update_button
+                     : self->open_button;
+
+      gtk_widget_grab_focus (target);
+    }
 
 done:
   return G_SOURCE_REMOVE;
@@ -529,6 +537,7 @@ bz_install_controls_class_init (BzInstallControlsClass *klass)
   bz_widget_class_bind_all_util_callbacks (widget_class);
 
   gtk_widget_class_bind_template_child (widget_class, BzInstallControls, open_button);
+  gtk_widget_class_bind_template_child (widget_class, BzInstallControls, update_button);
   gtk_widget_class_bind_template_child (widget_class, BzInstallControls, animated_button);
 
   gtk_widget_class_bind_template_callback (widget_class, install_cancel_cb);

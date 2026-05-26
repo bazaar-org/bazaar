@@ -23,8 +23,8 @@
 
 #include "bz-data-graph.h"
 #include "bz-stats-dialog.h"
-#include "bz-world-map.h"
 #include "bz-template-callbacks.h"
+#include "bz-world-map.h"
 
 struct _BzStatsDialog
 {
@@ -102,10 +102,6 @@ bz_stats_dialog_set_property (GObject      *object,
     case PROP_MODEL:
       g_clear_object (&self->model);
       self->model = g_value_dup_object (value);
-      if (self->model == NULL || g_list_model_get_n_items (self->model) < 10)
-        adw_view_stack_set_visible_child_name (ADW_VIEW_STACK (self->stack), "map");
-      else
-        adw_view_stack_set_visible_child_name (ADW_VIEW_STACK (self->stack), "graph");
       break;
     case PROP_COUNTRY_MODEL:
       g_clear_object (&self->country_model);
@@ -127,16 +123,16 @@ format_total_downloads (gpointer object,
     return g_strdup ("---");
   if (value >= 1000000)
     /* Translators: M is the suffix for millions */
-    return g_strdup_printf (_("%.2fM Total Installs"), value / 1000000.0);
+    return g_strdup_printf (_ ("%.2fM Total Installs"), value / 1000000.0);
   else if (value >= 1000)
     /* Translators: K is the suffix for thousands*/
-    return g_strdup_printf (_("%.2fK Total Installs"), value / 1000.0);
+    return g_strdup_printf (_ ("%.2fK Total Installs"), value / 1000.0);
   else
-    return g_strdup_printf (_("%'d Total Installs"), value);
+    return g_strdup_printf (_ ("%'d Total Installs"), value);
 }
 
 static gboolean
-model_has_enough_points (gpointer object,
+model_has_enough_points (gpointer    object,
                          GListModel *model)
 {
   if (model == NULL)

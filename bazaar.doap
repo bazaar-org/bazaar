@@ -12,7 +12,7 @@
     applications and addons from Flatpak remotes, particularly Flathub.
   </description>
 
-  <homepage rdf:resource="https://github.com/bazaar-org/bazaar" />
+  <homepage rdf:resource="https://usebazaar.org" />
   <download-page rdf:resource="https://github.com/bazaar-org/bazaar/releases" />
   <bug-database rdf:resource="https://github.com/bazaar-org/bazaar/issues" />
 

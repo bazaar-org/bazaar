@@ -184,15 +184,6 @@ template $BzSearchPage: Adw.Bin {
             orientation: vertical;
             vexpand: true;
 
-            Adw.StatusPage {
-              visible: bind $is_empty(template.state as <$BzStateInfo>.flathub as <$BzFlathubState>.categories) as <bool>;
-              hexpand: true;
-              vexpand: true;
-              icon-name: "system-search-symbolic";
-              title: _("Categories Unavailable");
-              description: _("Search for apps using the search bar above.");
-            }
-
             ScrolledWindow {
               hscrollbar-policy: never;
               vexpand: true;
@@ -201,7 +192,6 @@ template $BzSearchPage: Adw.Bin {
               child: Adw.Clamp {
                 maximum-size: 1000;
                 tightening-threshold: 900;
-                valign: start;
 
                 child: Box empty_box {
                   margin-start: 30;
@@ -242,6 +232,15 @@ template $BzSearchPage: Adw.Bin {
                     model: bind template.state as <$BzStateInfo>.flathub as <$BzFlathubState>.categories;
                     bind-widget => $bind_category_tile_cb(template);
                     unbind-widget => $unbind_category_tile_cb(template);
+                  }
+
+                  Adw.StatusPage {
+                    visible: bind $is_empty(template.state as <$BzStateInfo>.flathub as <$BzFlathubState>.categories) as <bool>;
+                    hexpand: true;
+                    vexpand: true;
+                    icon-name: "system-search-symbolic";
+                    title: _("Categories Unavailable");
+                    description: _("Search for apps using the search bar above.");
                   }
                 };
               };

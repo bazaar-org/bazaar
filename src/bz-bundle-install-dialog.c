@@ -38,7 +38,7 @@
 
 struct _BzBundleInstallDialog
 {
-  AdwBreakpointBin parent_instance;
+  AdwDialog parent_instance;
 
   BzStateInfo   *state;
   BzEntry       *entry;
@@ -59,7 +59,7 @@ struct _BzBundleInstallDialog
   guint pulse_source_id;
 };
 
-G_DEFINE_FINAL_TYPE (BzBundleInstallDialog, bz_bundle_install_dialog, ADW_TYPE_BREAKPOINT_BIN);
+G_DEFINE_FINAL_TYPE (BzBundleInstallDialog, bz_bundle_install_dialog, ADW_TYPE_DIALOG);
 
 enum
 {

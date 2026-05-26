@@ -23,6 +23,8 @@
 #include <glib/gi18n.h>
 #include <json-glib/json-glib.h>
 
+#include "bz-addon-tile.h"
+#include "bz-addons-dialog.h"
 #include "bz-age-rating-dialog.h"
 #include "bz-app-size-dialog.h"
 #include "bz-app-tile.h"
@@ -575,6 +577,45 @@ support_cb (BzFullView *self,
     }
 }
 
+static GListModel *
+get_addon_groups (BzFullView   *self,
+                  BzEntryGroup *group)
+{
+  BzApplicationMapFactory *factory = NULL;
+  GListModel              *ids     = NULL;
+  GListModel              *groups  = NULL;
+
+  if (group == NULL)
+    return NULL;
+
+  ids = bz_entry_group_get_addon_group_ids (group);
+  if (ids == NULL)
+    return NULL;
+
+  factory = bz_state_info_get_application_factory (self->state);
+  groups  = bz_application_map_factory_generate (factory, ids);
+  if (groups == NULL)
+    return NULL;
+
+  return G_LIST_MODEL (gtk_slice_list_model_new (groups, 0, 3));
+}
+
+static gboolean
+should_show_addon_overflow (gpointer      object,
+                            BzEntryGroup *group)
+{
+  GListModel *ids = NULL;
+
+  if (group == NULL)
+    return FALSE;
+
+  ids = bz_entry_group_get_addon_group_ids (group);
+  if (ids == NULL)
+    return FALSE;
+
+  return g_list_model_get_n_items (ids) > 3;
+}
+
 static void
 install_addons_cb (BzFullView *self,
                    GtkButton  *button)
@@ -584,6 +625,23 @@ install_addons_cb (BzFullView *self,
 
   gtk_widget_activate_action (GTK_WIDGET (self), "window.addons-group", "s",
                               bz_entry_group_get_id (self->group));
+}
+
+static void
+addon_tile_activated_cb (BzAddonTile *tile)
+{
+  BzFullView   *self   = NULL;
+  BzEntryGroup *group  = NULL;
+  AdwDialog    *dialog = NULL;
+
+  self  = BZ_FULL_VIEW (gtk_widget_get_ancestor (GTK_WIDGET (tile), BZ_TYPE_FULL_VIEW));
+  group = bz_addon_tile_get_group (tile);
+
+  if (group == NULL)
+    return;
+
+  dialog = bz_addons_dialog_new_single (group);
+  adw_dialog_present (dialog, GTK_WIDGET (self));
 }
 
 static int
@@ -723,6 +781,7 @@ bz_full_view_class_init (BzFullViewClass *klass)
   g_type_ensure (BZ_TYPE_SHARE_LIST);
   g_type_ensure (BZ_TYPE_TAG_LIST);
   g_type_ensure (BZ_TYPE_CONTEXT_TILE);
+  g_type_ensure (BZ_TYPE_ADDON_TILE);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-full-view.ui");
   bz_widget_class_bind_all_util_callbacks (widget_class);
@@ -752,7 +811,10 @@ bz_full_view_class_init (BzFullViewClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, delete_user_data_cb);
   gtk_widget_class_bind_template_callback (widget_class, support_cb);
   gtk_widget_class_bind_template_callback (widget_class, pick_license_warning);
+  gtk_widget_class_bind_template_callback (widget_class, get_addon_groups);
+  gtk_widget_class_bind_template_callback (widget_class, should_show_addon_overflow);
   gtk_widget_class_bind_template_callback (widget_class, install_addons_cb);
+  gtk_widget_class_bind_template_callback (widget_class, addon_tile_activated_cb);
   gtk_widget_class_bind_template_callback (widget_class, bind_app_tile_cb);
   gtk_widget_class_bind_template_callback (widget_class, unbind_app_tile_cb);
   gtk_widget_class_bind_template_callback (widget_class, get_description_max_height);

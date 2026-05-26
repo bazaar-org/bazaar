@@ -41,7 +41,7 @@ template $BzScreenshotsCarousel: Gtk.Widget {
           model: bind template.model;
 
           notify::selected => $on_notify_selected(template);
-          notify::n-items => $on_notify_n_items(template);
+          notify::model => $on_notify_model(template);
         };
       }
 

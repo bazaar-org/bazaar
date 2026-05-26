@@ -18,6 +18,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * BgeMarkdownRender:
+ *
+ * Renders markdown input using regular GTK widgets.
+ *
+ * For code blocks with a specified language, BgeMarkdownRender will attempt to
+ * apply gtksourceview styling.
+ */
+
 #define G_LOG_DOMAIN "BGE::MARKDOWN-RENDER"
 
 #include <gtksourceview/gtksource.h>
@@ -226,12 +235,22 @@ bge_markdown_render_class_init (BgeMarkdownRenderClass *klass)
   object_class->get_property = bge_markdown_render_get_property;
   object_class->dispose      = bge_markdown_render_dispose;
 
+  /**
+   * BgeMarkdownRender:markdown:
+   *
+   * Raw markdown text.
+   */
   props[PROP_MARKDOWN] =
       g_param_spec_string (
           "markdown",
           NULL, NULL, NULL,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * BgeMarkdownRender:dark:
+   *
+   * Whether to apply dark styling to widgets where applicable.
+   */
   props[PROP_DARK] =
       g_param_spec_boolean (
           "dark",
@@ -240,6 +259,19 @@ bge_markdown_render_class_init (BgeMarkdownRenderClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
+  /**
+   * BgeMarkdownRender::bind-inline-uri:
+   * @markdown: the object that received the signal
+   * @title: a string title
+   * @src: a string source uri
+   *
+   * Emitted when an inline image is encountered during parsing. The callback
+   * should respond with a new widget to add to represent the uri. If no
+   * callback is registered for this signal, or if the callback returns NULL, a
+   * [class@Gtk.Picture] is automatically constructed and used.
+   *
+   * Return: a newly allocated widget to add to the markdown view
+   */
   signals[SIGNAL_BIND_INLINE_URI] =
       g_signal_new (
           "bind-inline-uri",
@@ -272,12 +304,27 @@ bge_markdown_render_init (BgeMarkdownRender *self)
   self->source_views = g_ptr_array_new ();
 }
 
+/**
+ * bge_markdown_render_new:
+ *
+ * Creates a new `BgeMarkdownRender` object.
+ *
+ * Returns: The newly created `BgeMarkdownRender` object.
+ */
 GtkWidget *
 bge_markdown_render_new (void)
 {
   return g_object_new (BGE_TYPE_MARKDOWN_RENDER, NULL);
 }
 
+/**
+ * bge_markdown_render_get_markdown:
+ * @self: a `BgeMarkdown`
+ *
+ * Gets [property@Bge.MarkdownRender:markdown].
+ *
+ * Returns: (nullable) (transfer none): the value of the property
+ */
 const char *
 bge_markdown_render_get_markdown (BgeMarkdownRender *self)
 {
@@ -285,6 +332,14 @@ bge_markdown_render_get_markdown (BgeMarkdownRender *self)
   return self->markdown;
 }
 
+/**
+ * bge_markdown_render_get_dark:
+ * @self: a `BgeMarkdown`
+ *
+ * Gets [property@Bge.MarkdownRender:dark].
+ *
+ * Returns: the value of the property
+ */
 gboolean
 bge_markdown_render_get_dark (BgeMarkdownRender *self)
 {
@@ -292,6 +347,13 @@ bge_markdown_render_get_dark (BgeMarkdownRender *self)
   return self->dark;
 }
 
+/**
+ * bge_markdown_render_set_markdown:
+ * @self: a `BgeMarkdownRender`
+ * @markdown: a string
+ *
+ * Sets [property@Bge.MarkdownRender:markdown].
+ */
 void
 bge_markdown_render_set_markdown (BgeMarkdownRender *self,
                                   const char        *markdown)
@@ -308,6 +370,13 @@ bge_markdown_render_set_markdown (BgeMarkdownRender *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MARKDOWN]);
 }
 
+/**
+ * bge_markdown_render_set_dark:
+ * @self: a `BgeMarkdownRender`
+ * @dark: a boolean
+ *
+ * Sets [property@Bge.MarkdownRender:dark].
+ */
 void
 bge_markdown_render_set_dark (BgeMarkdownRender *self,
                               gboolean           dark)

@@ -23,6 +23,7 @@
 #include "bz-addon-tile.h"
 #include "bz-addons-dialog.h"
 #include "bz-entry-group.h"
+#include "bz-full-view.h"
 #include "bz-state-info.h"
 #include "bz-window.h"
 
@@ -193,7 +194,8 @@ bz_addon_tile_realize (GtkWidget *widget)
 {
   BzAddonTile *self          = BZ_ADDON_TILE (widget);
   GtkWidget   *parent        = widget;
-  GtkWidget   *addons_dialog = NULL;
+  GtkWidget   *source        = NULL;
+  const char  *prop          = NULL;
 
   GTK_WIDGET_CLASS (bz_addon_tile_parent_class)->realize (widget);
 
@@ -201,17 +203,24 @@ bz_addon_tile_realize (GtkWidget *widget)
     {
       if (BZ_IS_ADDONS_DIALOG (parent))
         {
-          addons_dialog = parent;
+          source = parent;
+          prop   = "parent-ui-entry";
+          break;
+        }
+      else if (BZ_IS_FULL_VIEW (parent))
+        {
+          source = parent;
+          prop   = "ui-entry";
           break;
         }
     }
 
-  if (addons_dialog == NULL)
+  if (source == NULL)
     return;
 
   g_object_bind_property (
-      addons_dialog, "parent-ui-entry",
-      self,          "parent-ui-entry",
+      source, prop,
+      self,   "parent-ui-entry",
       G_BINDING_SYNC_CREATE);
 }
 

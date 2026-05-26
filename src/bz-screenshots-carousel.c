@@ -144,8 +144,13 @@ on_notify_selected (BzScreenshotsCarousel *self)
 }
 
 static void
-on_notify_n_items (BzScreenshotsCarousel *self)
+on_notify_model (BzScreenshotsCarousel *self)
 {
+  guint n_items = g_list_model_get_n_items (G_LIST_MODEL (self->selection));
+
+  if (!self->compact && n_items >= 3)
+    gtk_single_selection_set_selected (self->selection, 1);
+
   update_button_visibility (self);
 }
 
@@ -457,7 +462,7 @@ bz_screenshots_carousel_class_init (BzScreenshotsCarouselClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_prev_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_next_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_notify_selected);
-  gtk_widget_class_bind_template_callback (widget_class, on_notify_n_items);
+  gtk_widget_class_bind_template_callback (widget_class, on_notify_model);
   gtk_widget_class_bind_template_callback (widget_class, on_create_widget);
   gtk_widget_class_bind_template_callback (widget_class, on_remove_widget);
   gtk_widget_class_bind_template_callback (widget_class, on_expand_clicked);

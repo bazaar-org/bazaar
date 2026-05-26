@@ -44,9 +44,11 @@ bge_marshalers = gnome.genmarshal('bge-marshalers',
 )
 
 bge_lib = shared_library(
-  'bge-' + api_version,
+  'bge',
   bge_sources, bge_marshalers,
   dependencies: bge_deps,
+       version: api_version,
+       soversion: version_split[0],
        install: true,
 )
 
@@ -59,10 +61,10 @@ pkg.generate(
   description: 'Bazaar GTK Extensions',
     libraries: bge_lib,
          name: 'libbge',
-     filebase: 'bge-' + api_version,
+     filebase: 'bge',
       version: api_version,
       subdirs: 'bge',
-     requires: ['gtk4', 'md4c'],
+     requires: ['gtk4', 'md4c', 'gtksourceview-5'],
   install_dir: get_option('libdir') / 'pkgconfig'
 )
 

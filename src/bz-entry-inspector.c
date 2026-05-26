@@ -18,6 +18,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include <gtksourceview/gtksource.h>
 #include <json-glib/json-glib.h>
 
 #include "bz-entry-inspector.h"
@@ -31,8 +32,8 @@ struct _BzEntryInspector
   BzResult *result;
 
   /* Template widgets */
-  GtkTextBuffer  *text_buffer;
-  GtkCheckButton *convert_to_json;
+  GtkSourceBuffer *text_buffer;
+  GtkCheckButton  *convert_to_json;
 };
 
 G_DEFINE_FINAL_TYPE (BzEntryInspector, bz_entry_inspector, ADW_TYPE_WINDOW);
@@ -113,6 +114,8 @@ gen_serialized (BzEntryInspector *self,
         {
           g_autoptr (JsonNode) node           = NULL;
           g_autoptr (JsonGenerator) generator = NULL;
+          GtkSourceLanguageManager *lang_mgr  = NULL;
+          GtkSourceLanguage        *language  = NULL;
 
           node = json_gvariant_serialize (variant);
 
@@ -121,14 +124,26 @@ gen_serialized (BzEntryInspector *self,
           json_generator_set_root (generator, node);
 
           string = json_generator_to_data (generator, NULL);
+
+          lang_mgr = gtk_source_language_manager_get_default ();
+          language = gtk_source_language_manager_get_language (lang_mgr, "json");
+          gtk_source_buffer_set_language (self->text_buffer, language);
         }
       else
-        string = g_variant_print (variant, FALSE);
+        {
+          string = g_variant_print (variant, FALSE);
+          gtk_source_buffer_set_language (self->text_buffer, NULL);
+        }
 
-      gtk_text_buffer_set_text (self->text_buffer, string, -1);
+      gtk_text_buffer_set_text (GTK_TEXT_BUFFER (self->text_buffer), string, -1);
     }
   else
-    gtk_text_buffer_set_text (self->text_buffer, "!!! The entry has not resolved", -1);
+    {
+      gtk_source_buffer_set_language (self->text_buffer, NULL);
+      gtk_text_buffer_set_text (
+          GTK_TEXT_BUFFER (self->text_buffer),
+          "!!! The entry has not resolved", -1);
+    }
 }
 
 static void
@@ -159,7 +174,14 @@ bz_entry_inspector_class_init (BzEntryInspectorClass *klass)
 static void
 bz_entry_inspector_init (BzEntryInspector *self)
 {
+  GtkSourceStyleSchemeManager *scheme_mgr = NULL;
+  GtkSourceStyleScheme        *scheme     = NULL;
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  scheme_mgr = gtk_source_style_scheme_manager_get_default ();
+  scheme     = gtk_source_style_scheme_manager_get_scheme (scheme_mgr, "Adwaita-dark");
+  gtk_source_buffer_set_style_scheme (self->text_buffer, scheme);
 }
 
 BzEntryInspector *

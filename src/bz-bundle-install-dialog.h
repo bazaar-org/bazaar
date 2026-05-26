@@ -30,7 +30,7 @@
 G_BEGIN_DECLS
 
 #define BZ_TYPE_BUNDLE_INSTALL_DIALOG (bz_bundle_install_dialog_get_type ())
-G_DECLARE_FINAL_TYPE (BzBundleInstallDialog, bz_bundle_install_dialog, BZ, BUNDLE_INSTALL_DIALOG, AdwBreakpointBin)
+G_DECLARE_FINAL_TYPE (BzBundleInstallDialog, bz_bundle_install_dialog, BZ, BUNDLE_INSTALL_DIALOG, AdwDialog)
 
 BzBundleInstallDialog *
 bz_bundle_install_dialog_new (void);
