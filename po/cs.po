@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-27 01:52+0200\n"
-"PO-Revision-Date: 2026-05-27 17:48+0200\n"
+"POT-Creation-Date: 2026-05-30 21:42+0200\n"
+"PO-Revision-Date: 2026-05-31 00:34+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -132,11 +132,11 @@ msgstr ""
 msgid "Add-on Page"
 msgstr "Stránka doplňků"
 
-#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:409
+#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:410
 msgid "Downloads/Month"
 msgstr "Stažení/měsíc"
 
-#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:445
+#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:446
 msgid "Stopped Receiving Core Updates"
 msgstr "Příjem základních aktualizací zastaven"
 
@@ -153,11 +153,11 @@ msgstr ""
 msgid "Add-on for %s"
 msgstr "Doplněk pro %s"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:658
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657
 msgid "Show Less"
 msgstr "Zobrazit méně"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:658
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657
 msgid "Show More"
 msgstr "Zobrazit více"
 
@@ -860,7 +860,7 @@ msgstr "Zobrazit vše"
 msgid "All \"%s\""
 msgstr "Všechny „%s“"
 
-#: src/bz-apps-page.c:487 src/bz-tag-list.c:91
+#: src/bz-apps-page.c:487
 #, c-format
 msgid "%d Applications"
 msgstr "%d aplikací"
@@ -1192,7 +1192,7 @@ msgstr "Podrobnosti"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: src/bz-error-dialog.c:56 src/bz-share-list.c:94
+#: src/bz-error-dialog.c:56 src/bz-share-list.c:363
 msgid "Copied!"
 msgstr "Zkopírováno!"
 
@@ -1596,21 +1596,21 @@ msgstr "Zkuste jiný dotaz"
 msgid "Content"
 msgstr "Obsah"
 
-#: src/bz-full-view.blp:105
+#: src/bz-full-view.blp:106
 msgid ""
 "This is a local preview, some details may differ from the published listing"
 msgstr ""
 "Toto je místní náhled, některé podrobnosti se mohou lišit od zveřejněné verze"
 
-#: src/bz-full-view.blp:108
+#: src/bz-full-view.blp:109
 msgid "Preview Store Appearance"
 msgstr "Náhled vzhledu obchodu"
 
-#: src/bz-full-view.blp:234
+#: src/bz-full-view.blp:235
 msgid "_Support"
 msgstr "_Podpořit"
 
-#: src/bz-full-view.blp:459
+#: src/bz-full-view.blp:460
 msgid ""
 "This app uses a runtime that no longer receives updates or security fixes. "
 "It may become unsafe to use."
@@ -1618,31 +1618,27 @@ msgstr ""
 "Tato aplikace používá běhové prostředí, které již nedostává aktualizace ani "
 "opravy zabezpečení. Její používání nemusí být bezpečné."
 
-#: src/bz-full-view.blp:546
+#: src/bz-full-view.blp:548
 msgid "Trash Data"
 msgstr "Vymazat data"
 
-#: src/bz-full-view.blp:608
+#: src/bz-full-view.blp:610
 msgid "Add-ons"
 msgstr "Doplňky"
 
-#: src/bz-full-view.blp:643
+#: src/bz-full-view.blp:645
 msgid "More Add-Ons"
 msgstr "Více doplňků"
 
-#: src/bz-full-view.blp:655
+#: src/bz-full-view.blp:656
 msgid "Links"
 msgstr "Odkazy"
 
-#: src/bz-full-view.blp:728
-msgid "Tags:"
-msgstr "Štítky:"
-
-#: src/bz-full-view.c:182
+#: src/bz-full-view.c:181
 msgid "No URL"
 msgstr "Žádná adresa URL"
 
-#: src/bz-full-view.c:200
+#: src/bz-full-view.c:199
 msgid ""
 "This application has a FLOSS license, meaning the source code can be audited "
 "for safety."
@@ -1650,7 +1646,7 @@ msgstr ""
 "Tato aplikace má licenci FLOSS. To znamená, že její zdrojový kód může být "
 "ověřen pro bezpečnost."
 
-#: src/bz-full-view.c:201
+#: src/bz-full-view.c:200
 msgid ""
 "This application has a proprietary license, meaning the source code is "
 "developed privately and cannot be audited by an independent third party."
@@ -1658,35 +1654,35 @@ msgstr ""
 "Tato aplikace má proprietární licenci. To znamená, že její zdrojový kód je "
 "vyvíjen v soukromí a nemůže být ověřen třetí stranou."
 
-#: src/bz-full-view.c:208
+#: src/bz-full-view.c:207
 msgid "More Apps"
 msgstr "Více aplikací"
 
-#: src/bz-full-view.c:209
+#: src/bz-full-view.c:208
 #, c-format
 msgid "More Apps by %s"
 msgstr "Více aplikací od %s"
 
-#: src/bz-full-view.c:216
+#: src/bz-full-view.c:215
 msgid "Other Apps by this Developer"
 msgstr "Další aplikace od tohoto vývojáře"
 
-#: src/bz-full-view.c:218 src/bz-full-view.c:318
+#: src/bz-full-view.c:217 src/bz-full-view.c:317
 #, c-format
 msgid "Other Apps by %s"
 msgstr "Další aplikace od %s"
 
-#: src/bz-full-view.c:227
+#: src/bz-full-view.c:226
 #, c-format
 msgid "%s is not installed, but it still has <b>%s</b> of data present."
 msgstr ""
 "Aplikace %s není nainstalována, ale má stále k dispozici <b>%s</b> dat."
 
-#: src/bz-full-view.c:320
+#: src/bz-full-view.c:319
 msgid "Other Apps"
 msgstr "Další aplikace"
 
-#: src/bz-full-view.c:322
+#: src/bz-full-view.c:321
 #, c-format
 msgid "%d Application"
 msgid_plural "%d Applications"
@@ -1694,7 +1690,7 @@ msgstr[0] "%d aplikace"
 msgstr[1] "%d aplikace"
 msgstr[2] "%d aplikací"
 
-#: src/bz-full-view.c:538 src/bz-user-data-tile.c:144
+#: src/bz-full-view.c:537 src/bz-user-data-tile.c:144
 msgid "Failed to Remove User Data"
 msgstr "Nezdařilo se odstranit uživatelská data"
 
@@ -2059,12 +2055,8 @@ msgid "Hide apps which are no longer supported by their developers"
 msgstr "Skrýt aplikace, které již nejsou podporované jejich vývojáři"
 
 #: src/bz-preferences-dialog.blp:55
-msgid "Progress Bar"
-msgstr "Ukazatel postupu"
-
-#: src/bz-preferences-dialog.blp:56
-msgid "Choose a theme for the progress bar!"
-msgstr "Vyberte téma pro ukazatel postupu!"
+msgid "Progress Bar Theme"
+msgstr "Motiv ukazatele postupu"
 
 #: src/bz-preferences-dialog.c:32
 msgid "Accent Color"
@@ -2755,63 +2747,59 @@ msgstr "Torrent"
 msgid "Emulator"
 msgstr "Emulátor"
 
-#: src/bz-share-list.c:55
+#: src/bz-share-list.c:58
 msgctxt "Project URL Type"
 msgid "Flathub Page"
 msgstr "Stránka na Flathubu"
 
-#: src/bz-share-list.c:56
+#: src/bz-share-list.c:59
 msgctxt "Project URL Type"
 msgid "Project Website"
 msgstr "Stránky projektu"
 
-#: src/bz-share-list.c:57
+#: src/bz-share-list.c:60
 msgctxt "Project URL Type"
 msgid "Issue Tracker"
 msgstr "Sledování problémů"
 
-#: src/bz-share-list.c:58
+#: src/bz-share-list.c:61
 msgctxt "Project URL Type"
 msgid "FAQ"
 msgstr "Časté otázky"
 
-#: src/bz-share-list.c:59
+#: src/bz-share-list.c:62
 msgctxt "Project URL Type"
 msgid "Help"
 msgstr "Nápověda"
 
-#: src/bz-share-list.c:60
+#: src/bz-share-list.c:63
 msgctxt "Project URL Type"
 msgid "Donate"
 msgstr "Věnovat dar"
 
-#: src/bz-share-list.c:61
+#: src/bz-share-list.c:64
 msgctxt "Project URL Type"
 msgid "Translate"
 msgstr "Překlad"
 
-#: src/bz-share-list.c:62
+#: src/bz-share-list.c:65
 msgctxt "Project URL Type"
 msgid "Contact"
 msgstr "Kontakt"
 
-#: src/bz-share-list.c:63
+#: src/bz-share-list.c:66
 msgctxt "Project URL Type"
 msgid "Source Code"
 msgstr "Zdrojový kód"
 
-#: src/bz-share-list.c:64
+#: src/bz-share-list.c:67
 msgctxt "Project URL Type"
 msgid "Contribute"
 msgstr "Přispět"
 
-#: src/bz-share-list.c:153
+#: src/bz-share-list.c:325
 msgid "Copy Link"
 msgstr "Kopírovat odkaz"
-
-#: src/bz-share-list.c:164
-msgid "Open Link"
-msgstr "Otevřít odkaz"
 
 #: src/bz-stats-dialog.blp:27
 msgid "Timeline"
@@ -2845,19 +2833,6 @@ msgstr "%.2f tis. celkových instalací"
 #, c-format
 msgid "%'d Total Installs"
 msgstr "%'d celkových instalací"
-
-#: src/bz-tag-list.c:78
-msgid "No Results Found"
-msgstr "Nenalezeny žádné výsledky"
-
-#: src/bz-tag-list.c:90
-#, c-format
-msgid "Apps Tagged \"%s\""
-msgstr "Aplikace se štítkem „%s“"
-
-#: src/bz-tag-list.c:103
-msgid "Search failed"
-msgstr "Vyhledávání se nezdařilo"
 
 #: src/bz-transaction-dialog.c:154
 msgid "Keep User Data"
