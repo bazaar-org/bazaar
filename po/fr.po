@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 21:42+0200\n"
-"PO-Revision-Date: 2026-06-01 12:47+0200\n"
+"POT-Creation-Date: 2026-06-02 07:02+0200\n"
+"PO-Revision-Date: 2026-06-03 11:12+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -23,8 +23,8 @@ msgstr ""
 "X-Generator: Lokalize 26.04.1\n"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:45
-#: src/bz-window.blp:199 src/bz-window.c:373 src/bz-window.c:374
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:46
+#: src/bz-window.blp:202 src/bz-window.c:373 src/bz-window.c:374
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -1211,7 +1211,7 @@ msgstr "Détails"
 msgid "Copy"
 msgstr "Copier"
 
-#: src/bz-error-dialog.c:56 src/bz-share-list.c:363
+#: src/bz-error-dialog.c:56 src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -1232,7 +1232,7 @@ msgid "Log In"
 msgstr "Se connecter"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:334
+#: src/bz-window.blp:337
 msgid "Favorites"
 msgstr "Favoris"
 
@@ -1252,7 +1252,7 @@ msgstr "Pas de favoris"
 msgid "Applications you mark as favorite will appear here"
 msgstr "Les applications que vous marquerez comme favorites apparaîtront ici"
 
-#: src/bz-favorites-tile.blp:60 src/bz-installed-tile.blp:69
+#: src/bz-favorites-tile.blp:60
 msgid "Support This Application"
 msgstr "Soutenez cette application"
 
@@ -1274,7 +1274,7 @@ msgstr "Suivant"
 
 #: src/bz-flathub-category.c:93
 msgid "Editing"
-msgstr "Édition"
+msgstr "Montage"
 
 #: src/bz-flathub-category.c:94
 msgid "Midi"
@@ -1294,19 +1294,19 @@ msgstr "Musique"
 
 #: src/bz-flathub-category.c:97
 msgid "Player"
-msgstr "Lecteur"
+msgstr "Lecteurs"
 
 #: src/bz-flathub-category.c:98
 msgid "Recorder"
-msgstr "Enregistreur"
+msgstr "Enregistreurs"
 
 #: src/bz-flathub-category.c:99
 msgid "Sequencer"
-msgstr "Séquenceur"
+msgstr "Séquenceurs"
 
 #: src/bz-flathub-category.c:100
 msgid "Tuner"
-msgstr "Accordeur"
+msgstr "Accordeurs"
 
 #: src/bz-flathub-category.c:101
 msgid "TV"
@@ -1369,180 +1369,196 @@ msgid "Strategy"
 msgstr "Jeux de stratégie"
 
 #: src/bz-flathub-category.c:124
+msgid "Browsers"
+msgstr "Navigateurs"
+
+#: src/bz-flathub-category.c:125
+msgid "Chat"
+msgstr "Messageries"
+
+#: src/bz-flathub-category.c:126
+msgid "Mail"
+msgstr "Emails"
+
+#: src/bz-flathub-category.c:127
+msgid "File Sharing"
+msgstr "Partage de fichiers"
+
+#: src/bz-flathub-category.c:132
 msgid "Audio & Video"
 msgstr "Audio & Vidéo"
 
-#: src/bz-flathub-category.c:124
+#: src/bz-flathub-category.c:132
 msgid "Media"
 msgstr "Média"
 
-#: src/bz-flathub-category.c:124
+#: src/bz-flathub-category.c:132
 msgid "More Audio & Video"
 msgstr "Plus d’applis audio & vidéo"
 
-#: src/bz-flathub-category.c:125
+#: src/bz-flathub-category.c:133
 msgid "Developer Tools"
 msgstr "Outils de Développement"
 
-#: src/bz-flathub-category.c:125
+#: src/bz-flathub-category.c:133
 msgid "Develop"
 msgstr "Coder"
 
-#: src/bz-flathub-category.c:125
+#: src/bz-flathub-category.c:133
 msgid "More Developer Tools"
 msgstr "Plus d’outils de développement"
 
-#: src/bz-flathub-category.c:126
+#: src/bz-flathub-category.c:134
 msgid "Education"
 msgstr "Éducation"
 
-#: src/bz-flathub-category.c:126
+#: src/bz-flathub-category.c:134
 msgid "Learn"
 msgstr "Apprendre"
 
-#: src/bz-flathub-category.c:126
+#: src/bz-flathub-category.c:134
 msgid "More Education"
 msgstr "Plus d’applis éducatives"
 
-#: src/bz-flathub-category.c:127
+#: src/bz-flathub-category.c:135
 msgid "Gaming"
 msgstr "Jeux vidéos"
 
-#: src/bz-flathub-category.c:127
+#: src/bz-flathub-category.c:135
 msgid "Play"
 msgstr "Jouer"
 
-#: src/bz-flathub-category.c:127
+#: src/bz-flathub-category.c:135
 msgid "More Gaming"
 msgstr "Plus de jeux"
 
-#: src/bz-flathub-category.c:128
+#: src/bz-flathub-category.c:136
 msgid "Graphics & Photography"
 msgstr "Graphisme & Photographie"
 
-#: src/bz-flathub-category.c:128
+#: src/bz-flathub-category.c:136
 msgid "Create"
 msgstr "Créer"
 
-#: src/bz-flathub-category.c:128
+#: src/bz-flathub-category.c:136
 msgid "More Graphics & Photography"
 msgstr "Plus d’applis de graphisme et photographie"
 
-#: src/bz-flathub-category.c:129
+#: src/bz-flathub-category.c:137
 msgid "Networking"
 msgstr "Réseau"
 
-#: src/bz-flathub-category.c:129
+#: src/bz-flathub-category.c:137
 msgid "Internet"
 msgstr "Internet"
 
-#: src/bz-flathub-category.c:129
+#: src/bz-flathub-category.c:137
 msgid "More Networking"
 msgstr "Plus d’applis réseau"
 
-#: src/bz-flathub-category.c:130
+#: src/bz-flathub-category.c:138
 msgid "Productivity"
 msgstr "Productivité"
 
-#: src/bz-flathub-category.c:130
+#: src/bz-flathub-category.c:138
 msgid "Work"
 msgstr "Travailler"
 
-#: src/bz-flathub-category.c:130
+#: src/bz-flathub-category.c:138
 msgid "More Productivity"
 msgstr "Plus d’applis de productivité"
 
-#: src/bz-flathub-category.c:131
+#: src/bz-flathub-category.c:139
 msgid "Science"
 msgstr "Sciences"
 
-#: src/bz-flathub-category.c:131
+#: src/bz-flathub-category.c:139
 msgid "More Science"
 msgstr "Plus d’applis scientifiques"
 
-#: src/bz-flathub-category.c:132
+#: src/bz-flathub-category.c:140
 msgid "System"
 msgstr "Système"
 
-#: src/bz-flathub-category.c:132
+#: src/bz-flathub-category.c:140
 msgid "More System"
 msgstr "Plus d’applis système"
 
-#: src/bz-flathub-category.c:133
+#: src/bz-flathub-category.c:141
 msgid "Utilities"
 msgstr "Utilitaires"
 
-#: src/bz-flathub-category.c:133
+#: src/bz-flathub-category.c:141
 msgid "Tools"
 msgstr "Outils"
 
-#: src/bz-flathub-category.c:133
+#: src/bz-flathub-category.c:141
 msgid "More Utilities"
 msgstr "Plus d’utilitaires"
 
-#: src/bz-flathub-category.c:134 src/bz-flathub-page.blp:109
+#: src/bz-flathub-category.c:142 src/bz-flathub-page.blp:109
 #: src/bz-flathub-page.blp:141
 msgid "Trending"
 msgstr "Tendances"
 
-#: src/bz-flathub-category.c:134
+#: src/bz-flathub-category.c:142
 msgid "More Trending"
 msgstr "Plus de tendances"
 
-#: src/bz-flathub-category.c:135 src/bz-flathub-page.blp:115
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:115
 #: src/bz-flathub-page.blp:171
 msgid "Popular"
 msgstr "Populaires"
 
-#: src/bz-flathub-category.c:135
+#: src/bz-flathub-category.c:143
 msgid "More Popular"
 msgstr "Plus d’applis populaires"
 
-#: src/bz-flathub-category.c:136 src/bz-flathub-page.blp:161
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:161
 msgid "Recently Added"
 msgstr "Ajoutées récemment"
 
-#: src/bz-flathub-category.c:136 src/bz-flathub-page.blp:121
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:121
 msgid "New"
 msgstr "Nouveautés"
 
-#: src/bz-flathub-category.c:136
+#: src/bz-flathub-category.c:144
 msgid "More New"
 msgstr "Plus de nouveautés"
 
-#: src/bz-flathub-category.c:137 src/bz-flathub-page.blp:151
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:151
 msgid "Recently Updated"
 msgstr "Mises à jour récemment"
 
-#: src/bz-flathub-category.c:137 src/bz-flathub-page.blp:127
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:127
 msgid "Updated"
 msgstr "Mises à jour"
 
-#: src/bz-flathub-category.c:137
+#: src/bz-flathub-category.c:145
 msgid "More Updated"
 msgstr "Plus d’applis mises à jour"
 
-#: src/bz-flathub-category.c:138
+#: src/bz-flathub-category.c:146
 msgid "Mobile"
 msgstr "Mobile"
 
-#: src/bz-flathub-category.c:138
+#: src/bz-flathub-category.c:146
 msgid "More Mobile"
 msgstr "Plus d’applis mobiles"
 
-#: src/bz-flathub-category.c:139
+#: src/bz-flathub-category.c:147
 msgid "Adwaita"
 msgstr "Adwaita"
 
-#: src/bz-flathub-category.c:139
+#: src/bz-flathub-category.c:147
 msgid "More Adwaita"
 msgstr "Plus d’applis Adwaita"
 
-#: src/bz-flathub-category.c:140
+#: src/bz-flathub-category.c:148
 msgid "KDE Apps"
 msgstr "KDE"
 
-#: src/bz-flathub-category.c:140
+#: src/bz-flathub-category.c:148
 msgid "More KDE Apps"
 msgstr "Plus d’applis KDE"
 
@@ -1857,7 +1873,7 @@ msgstr "Rechercher plutôt dans la logithèque"
 
 # "Bibliothèque" est trop long sous un format "mobile"
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:112
+#: src/bz-library-page.blp:100 src/bz-window.blp:113
 msgid "Library"
 msgstr "Bibliothèque"
 
@@ -1982,25 +1998,25 @@ msgstr ""
 msgid "License"
 msgstr "Licence"
 
-#: src/bz-login-page.blp:5 src/bz-login-page.blp:44
+#: src/bz-login-page.blp:6 src/bz-login-page.blp:45
 msgid "Connect to Flathub"
 msgstr "Se connecter à Flathub"
 
-#: src/bz-login-page.blp:34
+#: src/bz-login-page.blp:35
 msgid "Something Went Wrong"
 msgstr "Une erreur s’est produite"
 
-#: src/bz-login-page.blp:45
+#: src/bz-login-page.blp:46
 msgid "Log in to sync your favorited apps across devices"
 msgstr ""
-"Connectez-vous pour synchroniser vos applications favorites d'un appareil à l'"
-"autre"
+"Connectez-vous pour synchroniser vos applications favorites d'un appareil à "
+"l'autre"
 
-#: src/bz-login-page.blp:112
+#: src/bz-login-page.blp:113
 msgid "Finish"
 msgstr "Terminer"
 
-#: src/bz-login-page.c:664
+#: src/bz-login-page.c:665
 #, c-format
 msgid "Hello, %s!"
 msgstr "Bonjour, %s !"
@@ -2035,7 +2051,7 @@ msgstr ""
 "La connexion réseau est limitée — l’actualisation automatique de la "
 "logithèque est suspendue"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:232
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:235
 msgid "Refresh Manually"
 msgstr "Actualiser manuellement"
 
@@ -2049,7 +2065,8 @@ msgstr "Logiciels libres seulement"
 
 #: src/bz-preferences-dialog.blp:35
 msgid "Hide proprietary applications when browsing and searching"
-msgstr "Masque les applications propriétaires dans les résultats de recherche"
+msgstr ""
+"Masque les applications propriétaires dans les résultats des recherches"
 
 #: src/bz-preferences-dialog.blp:39
 msgid "Flathub Results Only"
@@ -2059,7 +2076,8 @@ msgstr "Logiciels Flathub seulement"
 msgid ""
 "Limit search and browse results to applications only available on Flathub"
 msgstr ""
-"Restreint les résultats de recherche aux applications disponibles sur Flathub"
+"Restreint les résultats des recherches aux applications disponibles sur "
+"Flathub"
 
 #: src/bz-preferences-dialog.blp:44
 msgid "Verified Results Only"
@@ -2830,7 +2848,12 @@ msgctxt "Project URL Type"
 msgid "Contribute"
 msgstr "Contribuer"
 
-#: src/bz-share-list.c:325
+#: src/bz-share-list.c:68
+msgctxt "Project URL Type"
+msgid "Manifest"
+msgstr "Manifeste"
+
+#: src/bz-share-list.c:326
 msgid "Copy Link"
 msgstr "Copier le lien"
 
@@ -3090,74 +3113,74 @@ msgstr "Mettre les données utilisateurs à la corbeille"
 msgid "Trashed User Data for %s"
 msgstr "Les données utilisateur de %s ont été mise à la corbeille"
 
-#: src/bz-window.blp:70
+#: src/bz-window.blp:71
 msgid "Refreshing"
 msgstr "Actualisation"
 
-#: src/bz-window.blp:88
+#: src/bz-window.blp:89
 msgid "Curated"
 msgstr "Sélection"
 
-#: src/bz-window.blp:100
+#: src/bz-window.blp:101
 msgid "Explore"
 msgstr "Explorer"
 
-#: src/bz-window.blp:127
+#: src/bz-window.blp:128
 msgid "Search"
 msgstr "Recherche"
 
-#: src/bz-window.blp:212
+#: src/bz-window.blp:215
 msgid "Main Menu"
 msgstr "Menu principal"
 
-#: src/bz-window.blp:223
+#: src/bz-window.blp:226
 msgid "You are running a new version of Bazaar!"
 msgstr "Bazaar a été mis à jour !"
 
-#: src/bz-window.blp:224
+#: src/bz-window.blp:227
 msgid "See What's New"
 msgstr "Voir les nouveautés"
 
-#: src/bz-window.blp:231
+#: src/bz-window.blp:234
 msgid ""
 "You have a network connection but are viewing a cached version of Flathub"
 msgstr ""
 "Votre appareil est connecté à Internet, mais vous consultez une version hors-"
 "ligne de la logithèque"
 
-#: src/bz-window.blp:276
+#: src/bz-window.blp:279
 msgid "_Donate to Bazaar"
 msgstr "Faire un _don à Bazaar"
 
-#: src/bz-window.blp:283
+#: src/bz-window.blp:286
 msgid "_Refresh"
 msgstr "_Actualiser"
 
-#: src/bz-window.blp:288
+#: src/bz-window.blp:291
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: src/bz-window.blp:293
+#: src/bz-window.blp:296
 msgid "_Login With Flathub"
 msgstr "Se _connecter avec Flathub"
 
-#: src/bz-window.blp:299
+#: src/bz-window.blp:302
 msgid "_Manage Leftover User Data"
 msgstr "_Gérer les données utilisateurs orphelines"
 
-#: src/bz-window.blp:304
+#: src/bz-window.blp:307
 msgid "_Keyboard Shortcuts"
 msgstr "_Raccourcis clavier"
 
-#: src/bz-window.blp:309
+#: src/bz-window.blp:312
 msgid "_About Bazaar"
 msgstr "À propos de _Bazaar"
 
-#: src/bz-window.blp:316
+#: src/bz-window.blp:319
 msgid "_Quit Bazaar"
 msgstr "_Quitter Bazaar"
 
-#: src/bz-window.blp:341
+#: src/bz-window.blp:344
 msgid "Log Out"
 msgstr "Se déconnecter"
 
