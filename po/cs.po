@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 21:42+0200\n"
-"PO-Revision-Date: 2026-05-31 00:34+0200\n"
+"POT-Creation-Date: 2026-06-02 07:02+0200\n"
+"PO-Revision-Date: 2026-06-03 15:40+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -22,8 +22,8 @@ msgstr ""
 "X-Generator: Poedit 3.9\n"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:45
-#: src/bz-window.blp:199 src/bz-window.c:373 src/bz-window.c:374
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:46
+#: src/bz-window.blp:202 src/bz-window.c:373 src/bz-window.c:374
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -1192,7 +1192,7 @@ msgstr "Podrobnosti"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: src/bz-error-dialog.c:56 src/bz-share-list.c:363
+#: src/bz-error-dialog.c:56 src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Zkopírováno!"
 
@@ -1213,7 +1213,7 @@ msgid "Log In"
 msgstr "Přihlásit se"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:334
+#: src/bz-window.blp:337
 msgid "Favorites"
 msgstr "Oblíbené"
 
@@ -1233,7 +1233,7 @@ msgstr "Žádné oblíbené aplikace"
 msgid "Applications you mark as favorite will appear here"
 msgstr "Aplikace, které označíte jako oblíbené, se zobrazí zde"
 
-#: src/bz-favorites-tile.blp:60 src/bz-installed-tile.blp:69
+#: src/bz-favorites-tile.blp:60
 msgid "Support This Application"
 msgstr "Podpořit tuto aplikaci"
 
@@ -1350,180 +1350,196 @@ msgid "Strategy"
 msgstr "Strategické"
 
 #: src/bz-flathub-category.c:124
+msgid "Browsers"
+msgstr "Prohlížeče"
+
+#: src/bz-flathub-category.c:125
+msgid "Chat"
+msgstr "Konverzace"
+
+#: src/bz-flathub-category.c:126
+msgid "Mail"
+msgstr "Pošta"
+
+#: src/bz-flathub-category.c:127
+msgid "File Sharing"
+msgstr "Sdílení souborů"
+
+#: src/bz-flathub-category.c:132
 msgid "Audio & Video"
 msgstr "Audio a video"
 
-#: src/bz-flathub-category.c:124
+#: src/bz-flathub-category.c:132
 msgid "Media"
 msgstr "Multimédia"
 
-#: src/bz-flathub-category.c:124
+#: src/bz-flathub-category.c:132
 msgid "More Audio & Video"
 msgstr "Více z Audio a video"
 
-#: src/bz-flathub-category.c:125
+#: src/bz-flathub-category.c:133
 msgid "Developer Tools"
 msgstr "Vývojářské nástroje"
 
-#: src/bz-flathub-category.c:125
+#: src/bz-flathub-category.c:133
 msgid "Develop"
 msgstr "Vývoj"
 
-#: src/bz-flathub-category.c:125
+#: src/bz-flathub-category.c:133
 msgid "More Developer Tools"
 msgstr "Více z Vývojářské nástroje"
 
-#: src/bz-flathub-category.c:126
+#: src/bz-flathub-category.c:134
 msgid "Education"
 msgstr "Vzdělávání"
 
-#: src/bz-flathub-category.c:126
+#: src/bz-flathub-category.c:134
 msgid "Learn"
 msgstr "Učení"
 
-#: src/bz-flathub-category.c:126
+#: src/bz-flathub-category.c:134
 msgid "More Education"
 msgstr "Více z Vzdělávání"
 
-#: src/bz-flathub-category.c:127
+#: src/bz-flathub-category.c:135
 msgid "Gaming"
 msgstr "Hraní her"
 
-#: src/bz-flathub-category.c:127
+#: src/bz-flathub-category.c:135
 msgid "Play"
 msgstr "Hraní"
 
-#: src/bz-flathub-category.c:127
+#: src/bz-flathub-category.c:135
 msgid "More Gaming"
 msgstr "Více z Hraní her"
 
-#: src/bz-flathub-category.c:128
+#: src/bz-flathub-category.c:136
 msgid "Graphics & Photography"
 msgstr "Grafika a fotografie"
 
-#: src/bz-flathub-category.c:128
+#: src/bz-flathub-category.c:136
 msgid "Create"
 msgstr "Vytváření"
 
-#: src/bz-flathub-category.c:128
+#: src/bz-flathub-category.c:136
 msgid "More Graphics & Photography"
 msgstr "Více z Grafika a fotografie"
 
-#: src/bz-flathub-category.c:129
+#: src/bz-flathub-category.c:137
 msgid "Networking"
 msgstr "Síť"
 
-#: src/bz-flathub-category.c:129
+#: src/bz-flathub-category.c:137
 msgid "Internet"
 msgstr "Internet"
 
-#: src/bz-flathub-category.c:129
+#: src/bz-flathub-category.c:137
 msgid "More Networking"
 msgstr "Více z Síť"
 
-#: src/bz-flathub-category.c:130
+#: src/bz-flathub-category.c:138
 msgid "Productivity"
 msgstr "Produktivita"
 
-#: src/bz-flathub-category.c:130
+#: src/bz-flathub-category.c:138
 msgid "Work"
 msgstr "Práce"
 
-#: src/bz-flathub-category.c:130
+#: src/bz-flathub-category.c:138
 msgid "More Productivity"
 msgstr "Více z Produktivita"
 
-#: src/bz-flathub-category.c:131
+#: src/bz-flathub-category.c:139
 msgid "Science"
 msgstr "Věda"
 
-#: src/bz-flathub-category.c:131
+#: src/bz-flathub-category.c:139
 msgid "More Science"
 msgstr "Více z Věda"
 
-#: src/bz-flathub-category.c:132
+#: src/bz-flathub-category.c:140
 msgid "System"
 msgstr "Systém"
 
-#: src/bz-flathub-category.c:132
+#: src/bz-flathub-category.c:140
 msgid "More System"
 msgstr "Více z Systém"
 
-#: src/bz-flathub-category.c:133
+#: src/bz-flathub-category.c:141
 msgid "Utilities"
 msgstr "Utility"
 
-#: src/bz-flathub-category.c:133
+#: src/bz-flathub-category.c:141
 msgid "Tools"
 msgstr "Nástroje"
 
-#: src/bz-flathub-category.c:133
+#: src/bz-flathub-category.c:141
 msgid "More Utilities"
 msgstr "Více z Utility"
 
-#: src/bz-flathub-category.c:134 src/bz-flathub-page.blp:109
+#: src/bz-flathub-category.c:142 src/bz-flathub-page.blp:109
 #: src/bz-flathub-page.blp:141
 msgid "Trending"
 msgstr "Trendy"
 
-#: src/bz-flathub-category.c:134
+#: src/bz-flathub-category.c:142
 msgid "More Trending"
 msgstr "Více z Trendů"
 
-#: src/bz-flathub-category.c:135 src/bz-flathub-page.blp:115
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:115
 #: src/bz-flathub-page.blp:171
 msgid "Popular"
 msgstr "Populární"
 
-#: src/bz-flathub-category.c:135
+#: src/bz-flathub-category.c:143
 msgid "More Popular"
 msgstr "Více z Populárních"
 
-#: src/bz-flathub-category.c:136 src/bz-flathub-page.blp:161
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:161
 msgid "Recently Added"
 msgstr "Nedávno přidané"
 
-#: src/bz-flathub-category.c:136 src/bz-flathub-page.blp:121
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:121
 msgid "New"
 msgstr "Nové"
 
-#: src/bz-flathub-category.c:136
+#: src/bz-flathub-category.c:144
 msgid "More New"
 msgstr "Více z Nových"
 
-#: src/bz-flathub-category.c:137 src/bz-flathub-page.blp:151
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:151
 msgid "Recently Updated"
 msgstr "Nedávno aktualizované"
 
-#: src/bz-flathub-category.c:137 src/bz-flathub-page.blp:127
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:127
 msgid "Updated"
 msgstr "Aktualizované"
 
-#: src/bz-flathub-category.c:137
+#: src/bz-flathub-category.c:145
 msgid "More Updated"
 msgstr "Více z Aktualizovaných"
 
-#: src/bz-flathub-category.c:138
+#: src/bz-flathub-category.c:146
 msgid "Mobile"
 msgstr "Mobilní"
 
-#: src/bz-flathub-category.c:138
+#: src/bz-flathub-category.c:146
 msgid "More Mobile"
 msgstr "Více z Mobilních"
 
-#: src/bz-flathub-category.c:139
+#: src/bz-flathub-category.c:147
 msgid "Adwaita"
 msgstr "Adwaita"
 
-#: src/bz-flathub-category.c:139
+#: src/bz-flathub-category.c:147
 msgid "More Adwaita"
 msgstr "Více z Adwaita"
 
-#: src/bz-flathub-category.c:140
+#: src/bz-flathub-category.c:148
 msgid "KDE Apps"
 msgstr "KDE aplikace"
 
-#: src/bz-flathub-category.c:140
+#: src/bz-flathub-category.c:148
 msgid "More KDE Apps"
 msgstr "Více z KDE aplikací"
 
@@ -1836,7 +1852,7 @@ msgid "Search Store Instead"
 msgstr "Hledat v obchodě"
 
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:112
+#: src/bz-library-page.blp:100 src/bz-window.blp:113
 msgid "Library"
 msgstr "Knihovna"
 
@@ -1961,23 +1977,23 @@ msgstr ""
 msgid "License"
 msgstr "Licence"
 
-#: src/bz-login-page.blp:5 src/bz-login-page.blp:44
+#: src/bz-login-page.blp:6 src/bz-login-page.blp:45
 msgid "Connect to Flathub"
 msgstr "Připojit se k Flathubu"
 
-#: src/bz-login-page.blp:34
+#: src/bz-login-page.blp:35
 msgid "Something Went Wrong"
 msgstr "Něco se pokazilo"
 
-#: src/bz-login-page.blp:45
+#: src/bz-login-page.blp:46
 msgid "Log in to sync your favorited apps across devices"
 msgstr "Přihlaste se a synchronizujte své oblíbené aplikace napříč zařízeními"
 
-#: src/bz-login-page.blp:112
+#: src/bz-login-page.blp:113
 msgid "Finish"
 msgstr "Dokončit"
 
-#: src/bz-login-page.c:664
+#: src/bz-login-page.c:665
 #, c-format
 msgid "Hello, %s!"
 msgstr "Ahoj, %s!"
@@ -2011,7 +2027,7 @@ msgid "Network connection is metered — automatic store data refresh is paused"
 msgstr ""
 "Připojení k síti je měřené – automatické obnovení dat obchodu je pozastaveno"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:232
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:235
 msgid "Refresh Manually"
 msgstr "Obnovit ručně"
 
@@ -2797,7 +2813,12 @@ msgctxt "Project URL Type"
 msgid "Contribute"
 msgstr "Přispět"
 
-#: src/bz-share-list.c:325
+#: src/bz-share-list.c:68
+msgctxt "Project URL Type"
+msgid "Manifest"
+msgstr "Manifest"
+
+#: src/bz-share-list.c:326
 msgid "Copy Link"
 msgstr "Kopírovat odkaz"
 
@@ -3057,73 +3078,73 @@ msgstr "Vymazat uživatelská data"
 msgid "Trashed User Data for %s"
 msgstr "Uživatelská data aplikace %s byla vymazána"
 
-#: src/bz-window.blp:70
+#: src/bz-window.blp:71
 msgid "Refreshing"
 msgstr "Obnovuje se"
 
-#: src/bz-window.blp:88
+#: src/bz-window.blp:89
 msgid "Curated"
 msgstr "Vybrané"
 
-#: src/bz-window.blp:100
+#: src/bz-window.blp:101
 msgid "Explore"
 msgstr "Procházet"
 
-#: src/bz-window.blp:127
+#: src/bz-window.blp:128
 msgid "Search"
 msgstr "Vyhledávání"
 
-#: src/bz-window.blp:212
+#: src/bz-window.blp:215
 msgid "Main Menu"
 msgstr "Hlavní nabídka"
 
-#: src/bz-window.blp:223
+#: src/bz-window.blp:226
 msgid "You are running a new version of Bazaar!"
 msgstr "Používáte novou verzi Bazaaru!"
 
-#: src/bz-window.blp:224
+#: src/bz-window.blp:227
 msgid "See What's New"
 msgstr "Podívejte se, co je nového"
 
-#: src/bz-window.blp:231
+#: src/bz-window.blp:234
 msgid ""
 "You have a network connection but are viewing a cached version of Flathub"
 msgstr ""
 "Máte připojení k síti, ale prohlížíte si verzi Flathubu uloženou v mezipaměti"
 
-#: src/bz-window.blp:276
+#: src/bz-window.blp:279
 msgid "_Donate to Bazaar"
 msgstr "Po_dpořit Bazaar"
 
-#: src/bz-window.blp:283
+#: src/bz-window.blp:286
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/bz-window.blp:288
+#: src/bz-window.blp:291
 msgid "_Preferences"
 msgstr "_Předvolby"
 
-#: src/bz-window.blp:293
+#: src/bz-window.blp:296
 msgid "_Login With Flathub"
 msgstr "Přih_lásit se pomocí Flathubu"
 
-#: src/bz-window.blp:299
+#: src/bz-window.blp:302
 msgid "_Manage Leftover User Data"
 msgstr "Sp_ravovat zbylá uživatelská data"
 
-#: src/bz-window.blp:304
+#: src/bz-window.blp:307
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/bz-window.blp:309
+#: src/bz-window.blp:312
 msgid "_About Bazaar"
 msgstr "O _aplikaci Bazaar"
 
-#: src/bz-window.blp:316
+#: src/bz-window.blp:319
 msgid "_Quit Bazaar"
 msgstr "_Ukončit Bazaar"
 
-#: src/bz-window.blp:341
+#: src/bz-window.blp:344
 msgid "Log Out"
 msgstr "Odhlásit se"
 
