@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 12:02+0700\n"
-"PO-Revision-Date: 2026-06-04 12:30+0700\n"
+"POT-Creation-Date: 2026-06-07 19:06+0700\n"
+"PO-Revision-Date: 2026-06-07 19:10+0700\n"
 "Last-Translator: Jill Fiore <contact@lumaeris.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -741,7 +741,7 @@ msgstr "Установлено"
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 #: src/bz-application.c:765
 msgid "translator-credits"
-msgstr "Джилл Фиори <contact@lumaeris.com>, 2025, 2026"
+msgstr "Jill Fiore <contact@lumaeris.com>, 2025, 2026"
 
 #: src/bz-application.c:775
 msgid "Special Thanks"
@@ -1221,7 +1221,7 @@ msgid "Log In"
 msgstr "Войти"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:337
+#: src/bz-window.blp:335
 msgid "Favorites"
 msgstr "Избранные"
 
@@ -1816,24 +1816,24 @@ msgstr "%s работает лучше на определённых устро�
 msgid "%s works on most devices"
 msgstr "%s работает на большинстве устройств"
 
-#: src/bz-install-controls.blp:62
+#: src/bz-install-controls.blp:58
 msgid "_Open"
 msgstr "_Открыть"
 
-#: src/bz-install-controls.blp:77 src/bz-install-controls.blp:134
+#: src/bz-install-controls.blp:73 src/bz-install-controls.blp:128
 msgid "Uninstall Application"
 msgstr "Удалить приложение"
 
-#: src/bz-install-controls.blp:87 src/bz-transaction-dialog.c:230
+#: src/bz-install-controls.blp:83 src/bz-transaction-dialog.c:230
 msgid "_Remove"
 msgstr "_Удалить"
 
-#: src/bz-install-controls.blp:121 src/bz-updates-card.c:164
+#: src/bz-install-controls.blp:115 src/bz-updates-card.c:164
 #: src/bz-updates-card.c:183
 msgid "Update"
 msgstr "Обновить"
 
-#: src/bz-install-controls.blp:144 src/bz-installed-tile.blp:105
+#: src/bz-install-controls.blp:138 src/bz-installed-tile.blp:105
 msgid "Remove"
 msgstr "Удалить"
 
@@ -2675,6 +2675,10 @@ msgid "Filter out End-of-Life apps"
 msgstr "Отфильтровать неподдерживаемые приложения"
 
 #: src/bz-search-filter-popover.blp:57
+msgid "_Mobile Friendly"
+msgstr "_Для мобильных"
+
+#: src/bz-search-filter-popover.blp:64
 msgid "Categories"
 msgstr "Категории"
 
@@ -3136,35 +3140,35 @@ msgstr ""
 msgid "_Donate to Bazaar"
 msgstr "_Поддержать Bazaar"
 
-#: src/bz-window.blp:286
+#: src/bz-window.blp:285
 msgid "_Refresh"
 msgstr "_Обновить"
 
-#: src/bz-window.blp:291
-msgid "_Preferences"
-msgstr "П_араметры"
-
-#: src/bz-window.blp:296
+#: src/bz-window.blp:289
 msgid "_Login With Flathub"
 msgstr "_Войти в Flathub"
 
-#: src/bz-window.blp:302
+#: src/bz-window.blp:295
 msgid "_Manage Leftover User Data"
 msgstr "_Управлять оставшимися данными"
 
-#: src/bz-window.blp:307
+#: src/bz-window.blp:301
+msgid "_Preferences"
+msgstr "П_араметры"
+
+#: src/bz-window.blp:306
 msgid "_Keyboard Shortcuts"
 msgstr "_Сочетание клавиш"
 
-#: src/bz-window.blp:312
+#: src/bz-window.blp:311
 msgid "_About Bazaar"
 msgstr "О _Bazaar"
 
-#: src/bz-window.blp:319
+#: src/bz-window.blp:317
 msgid "_Quit Bazaar"
 msgstr "_Завершить Bazaar"
 
-#: src/bz-window.blp:344
+#: src/bz-window.blp:342
 msgid "Log Out"
 msgstr "Выйти"
 
