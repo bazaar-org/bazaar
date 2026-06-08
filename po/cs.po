@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 07:02+0200\n"
-"PO-Revision-Date: 2026-06-03 15:40+0200\n"
+"POT-Creation-Date: 2026-06-08 10:17+0200\n"
+"PO-Revision-Date: 2026-06-08 11:42+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -715,7 +715,13 @@ msgstr "Instalovaná velikost prostředí"
 msgid "Runtime Download Size"
 msgstr "Stahovaná velikost prostředí"
 
-#: src/bz-app-size-dialog.c:220
+#: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
+#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:392
+#: src/bz-context-tile-callbacks.c:409
+msgid "N/A"
+msgstr "N/A"
+
+#: src/bz-app-size-dialog.c:226
 msgid "App Size"
 msgstr "Velikost aplikace"
 
@@ -914,11 +920,6 @@ msgstr "Neznámá velikost instalace"
 #, c-format
 msgid "About %s to install"
 msgstr "Přibližně %s k instalaci"
-
-#: src/bz-bundle-install-dialog.c:185 src/bz-context-tile-callbacks.c:104
-#: src/bz-context-tile-callbacks.c:392 src/bz-context-tile-callbacks.c:409
-msgid "N/A"
-msgstr "N/A"
 
 #: src/bz-bundle-install-dialog.c:214
 msgid "No special permissions"
@@ -1213,7 +1214,7 @@ msgid "Log In"
 msgstr "Přihlásit se"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:337
+#: src/bz-window.blp:335
 msgid "Favorites"
 msgstr "Oblíbené"
 
@@ -1634,19 +1635,19 @@ msgstr ""
 "Tato aplikace používá běhové prostředí, které již nedostává aktualizace ani "
 "opravy zabezpečení. Její používání nemusí být bezpečné."
 
-#: src/bz-full-view.blp:548
+#: src/bz-full-view.blp:544
 msgid "Trash Data"
 msgstr "Vymazat data"
 
-#: src/bz-full-view.blp:610
+#: src/bz-full-view.blp:606
 msgid "Add-ons"
 msgstr "Doplňky"
 
-#: src/bz-full-view.blp:645
+#: src/bz-full-view.blp:641
 msgid "More Add-Ons"
 msgstr "Více doplňků"
 
-#: src/bz-full-view.blp:656
+#: src/bz-full-view.blp:652
 msgid "Links"
 msgstr "Odkazy"
 
@@ -1804,24 +1805,24 @@ msgstr "Aplikace %s funguje nejlépe na konkrétním hardware"
 msgid "%s works on most devices"
 msgstr "Aplikace %s funguje na většině zařízení"
 
-#: src/bz-install-controls.blp:62
+#: src/bz-install-controls.blp:58
 msgid "_Open"
 msgstr "_Otevřít"
 
-#: src/bz-install-controls.blp:77 src/bz-install-controls.blp:134
+#: src/bz-install-controls.blp:73 src/bz-install-controls.blp:128
 msgid "Uninstall Application"
 msgstr "Odinstalovat aplikaci"
 
-#: src/bz-install-controls.blp:87 src/bz-transaction-dialog.c:230
+#: src/bz-install-controls.blp:83 src/bz-transaction-dialog.c:230
 msgid "_Remove"
 msgstr "Odeb_rat"
 
-#: src/bz-install-controls.blp:121 src/bz-updates-card.c:164
+#: src/bz-install-controls.blp:115 src/bz-updates-card.c:164
 #: src/bz-updates-card.c:183
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: src/bz-install-controls.blp:144 src/bz-installed-tile.blp:105
+#: src/bz-install-controls.blp:138 src/bz-installed-tile.blp:105
 msgid "Remove"
 msgstr "Odebrat"
 
@@ -2553,15 +2554,15 @@ msgstr "Integrace KDE Connect"
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "Může komunikovat se zařízeními spárovanými přes KDE Connect"
 
-#: src/bz-safety-dialog.blp:59
+#: src/bz-safety-dialog.blp:60
 msgid "App ID"
 msgstr "ID aplikace"
 
-#: src/bz-safety-dialog.blp:69
+#: src/bz-safety-dialog.blp:70
 msgid "SDK"
 msgstr "SDK"
 
-#: src/bz-safety-dialog.blp:100
+#: src/bz-safety-dialog.blp:101
 msgid ""
 "This app uses an outdated version of the software platform (SDK) and might "
 "contain bugs or security vulnerabilities which will not be fixed."
@@ -2626,11 +2627,15 @@ msgstr "Oddálit"
 msgid "Zoom In"
 msgstr "Přiblížit"
 
-#: src/bz-screenshots-carousel.blp:5
+#: src/bz-screenshots-carousel.blp:6
 msgid "Screenshots Carousel"
 msgstr "Prohlížeč snímků obrazovky"
 
-#: src/bz-screenshots-carousel.blp:117
+#: src/bz-screenshots-carousel.blp:104
+msgid "No Screenshots"
+msgstr "Žádné snímky obrazovky"
+
+#: src/bz-screenshots-carousel.blp:128
 msgid "Open Screenshot Viewer"
 msgstr "Otevřít prohlížeč snímků obrazovky"
 
@@ -2655,6 +2660,10 @@ msgid "Filter out End-of-Life apps"
 msgstr "Filtrovat zastaralé aplikace"
 
 #: src/bz-search-filter-popover.blp:57
+msgid "_Mobile Friendly"
+msgstr "_Mobilní aplikace"
+
+#: src/bz-search-filter-popover.blp:64
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -3116,35 +3125,35 @@ msgstr ""
 msgid "_Donate to Bazaar"
 msgstr "Po_dpořit Bazaar"
 
-#: src/bz-window.blp:286
+#: src/bz-window.blp:285
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/bz-window.blp:291
-msgid "_Preferences"
-msgstr "_Předvolby"
-
-#: src/bz-window.blp:296
+#: src/bz-window.blp:289
 msgid "_Login With Flathub"
 msgstr "Přih_lásit se pomocí Flathubu"
 
-#: src/bz-window.blp:302
+#: src/bz-window.blp:295
 msgid "_Manage Leftover User Data"
 msgstr "Sp_ravovat zbylá uživatelská data"
 
-#: src/bz-window.blp:307
+#: src/bz-window.blp:301
+msgid "_Preferences"
+msgstr "_Předvolby"
+
+#: src/bz-window.blp:306
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/bz-window.blp:312
+#: src/bz-window.blp:311
 msgid "_About Bazaar"
 msgstr "O _aplikaci Bazaar"
 
-#: src/bz-window.blp:319
+#: src/bz-window.blp:317
 msgid "_Quit Bazaar"
 msgstr "_Ukončit Bazaar"
 
-#: src/bz-window.blp:344
+#: src/bz-window.blp:342
 msgid "Log Out"
 msgstr "Odhlásit se"
 
