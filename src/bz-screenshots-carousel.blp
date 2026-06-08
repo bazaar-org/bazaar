@@ -1,6 +1,7 @@
 using Gtk 4.0;
 
 template $BzScreenshotsCarousel: Gtk.Widget {
+  valign: start;
   accessibility {
     label: _("Screenshots Carousel");
   }
@@ -15,17 +16,14 @@ template $BzScreenshotsCarousel: Gtk.Widget {
 
   Gtk.Overlay {
     halign: fill;
-    valign: fill;
 
     child: Gtk.Box {
       orientation: vertical;
       halign: fill;
-      valign: fill;
 
       $BgeCarousel carousel {
         vexpand: true;
         hexpand: true;
-        valign: fill;
         height-request: bind $get_carousel_height(template.compact) as <int>;
 
         allow-mouse-drag: true;
@@ -44,18 +42,6 @@ template $BzScreenshotsCarousel: Gtk.Widget {
           notify::model => $on_notify_model(template);
         };
       }
-
-      // $BzCarouselIndicatorDots carousel_indicator {
-      //   carousel: carousel;
-      //   opacity: 0;
-      //   hexpand: true;
-      //   halign: center;
-      //
-      //   styles [
-      //     "boxed-indicator",
-      //     "indicator-box",
-      //   ]
-      // }
     };
 
     [overlay]
@@ -100,6 +86,30 @@ template $BzScreenshotsCarousel: Gtk.Widget {
     }
 
     [overlay]
+    Gtk.Box no_screenshots_overlay {
+      orientation: vertical;
+      halign: center;
+      valign: center;
+      spacing: 12;
+      visible: bind $is_empty(template.model) as <bool>;
+
+      Gtk.Image {
+        icon-name: "image-missing-symbolic";
+        pixel-size: 96;
+        styles [
+          "dim-label",
+        ]
+      }
+      Gtk.Label {
+        label: _("No Screenshots");
+        styles [
+          "dim-label",
+          "title-2",
+        ]
+      }
+    }
+
+    [overlay]
     Box {
       styles [
         "osd-box",
@@ -110,7 +120,8 @@ template $BzScreenshotsCarousel: Gtk.Widget {
       margin-bottom: 8;
       halign: end;
       valign: end;
-      can-focus:false;
+      can-focus: false;
+      visible: bind $not($is_empty(template.model) as <bool>) as <bool>;
 
       Gtk.Button {
         icon-name: "pip-out-symbolic";

@@ -54,7 +54,6 @@
 #include "bz-spdx.h"
 #include "bz-state-info.h"
 #include "bz-stats-dialog.h"
-#include "bz-tag-list.h"
 #include "bz-template-callbacks.h"
 #include "bz-util.h"
 #include "bz-window.h"
@@ -779,7 +778,6 @@ bz_full_view_class_init (BzFullViewClass *klass)
   g_type_ensure (BZ_TYPE_RELEASES_LIST);
   g_type_ensure (BZ_TYPE_SCREENSHOTS_CAROUSEL);
   g_type_ensure (BZ_TYPE_SHARE_LIST);
-  g_type_ensure (BZ_TYPE_TAG_LIST);
   g_type_ensure (BZ_TYPE_CONTEXT_TILE);
   g_type_ensure (BZ_TYPE_ADDON_TILE);
 

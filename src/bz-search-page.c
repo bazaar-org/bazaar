@@ -471,6 +471,8 @@ bz_search_page_init (BzSearchPage *self)
                             G_CALLBACK (update_filter), self);
   g_signal_connect_swapped (self->filter_popover, "notify::only-non-eol",
                             G_CALLBACK (update_filter), self);
+  g_signal_connect_swapped (self->filter_popover, "notify::only-mobile",
+                            G_CALLBACK (update_filter), self);
 }
 
 GtkWidget *
@@ -635,20 +637,10 @@ static void
 search_changed (GtkEditable  *editable,
                 BzSearchPage *self)
 {
-  GSettings *settings = NULL;
-
   g_clear_handle_id (&self->search_update_timeout, g_source_remove);
-
-  settings = bz_state_info_get_settings (self->state);
-  if (settings != NULL &&
-      g_settings_get_boolean (settings, "search-debounce"))
-    {
-      self->search_update_timeout = g_timeout_add_once (
-          150, (GSourceOnceFunc) update_filter, self);
-      gtk_widget_set_visible (GTK_WIDGET (self->search_busy), TRUE);
-    }
-  else
-    update_filter (self);
+  self->search_update_timeout = g_timeout_add_once (
+      150, (GSourceOnceFunc) update_filter, self);
+  gtk_widget_set_visible (GTK_WIDGET (self->search_busy), TRUE);
 }
 
 static void
@@ -727,6 +719,7 @@ search_query_then (DexFuture *future,
   gboolean               only_verified = FALSE;
   gboolean               only_free     = FALSE;
   gboolean               only_non_eol  = FALSE;
+  gboolean               only_mobile   = FALSE;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -736,6 +729,7 @@ search_query_then (DexFuture *future,
   only_verified = bz_search_filter_popover_get_only_verified (self->filter_popover);
   only_free     = bz_search_filter_popover_get_only_free (self->filter_popover);
   only_non_eol  = bz_search_filter_popover_get_only_non_eol (self->filter_popover);
+  only_mobile   = bz_search_filter_popover_get_only_mobile (self->filter_popover);
 
   filtered = g_ptr_array_new_with_free_func (g_object_unref);
 
@@ -759,6 +753,9 @@ search_query_then (DexFuture *future,
         continue;
 
       if (only_non_eol && bz_entry_group_get_eol (group))
+        continue;
+
+      if (only_mobile && !bz_entry_group_get_is_mobile_friendly (group))
         continue;
 
       g_ptr_array_add (filtered, g_object_ref (result));

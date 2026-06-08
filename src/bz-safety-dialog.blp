@@ -45,10 +45,11 @@ template $BzSafetyDialog: Adw.Bin {
             margin-top: 10;
             title: _("Details");
 
-            Adw.ActionRow {
+            Adw.ActionRow license_row {
               title: _("License");
               subtitle: bind template.entry as <$BzEntry>.project-license;
               subtitle-selectable: true;
+              visible: bind $not($is_empty_string(license_row.subtitle) as <bool>) as <bool>;
 
               styles [
                 "property",

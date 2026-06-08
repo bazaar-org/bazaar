@@ -221,6 +221,16 @@ update_cb (BzInstallControls *self,
     g_signal_emit (self, signals[SIGNAL_UPDATE], 0, G_LIST_MODEL (store));
 }
 
+static gboolean
+is_not_empty_page (gpointer    object,
+                   const char *page_name)
+{
+  if (page_name == NULL)
+    return FALSE;
+
+  return g_strcmp0 (page_name, "empty") != 0;
+}
+
 static char *
 get_visible_page (gpointer    object,
                   int         installable,
@@ -454,11 +464,6 @@ bz_install_controls_set_property (GObject      *object,
                 "changed::global-progress-bar-theme",
                 G_CALLBACK (pride_flag_changed),
                 self);
-            g_signal_connect_swapped (
-                self->settings,
-                "changed::rotate-flag",
-                G_CALLBACK (pride_flag_changed),
-                self);
           }
         ensure_draw_css (self);
       }
@@ -544,6 +549,7 @@ bz_install_controls_class_init (BzInstallControlsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, remove_cb);
   gtk_widget_class_bind_template_callback (widget_class, run_cb);
   gtk_widget_class_bind_template_callback (widget_class, update_cb);
+  gtk_widget_class_bind_template_callback (widget_class, is_not_empty_page);
   gtk_widget_class_bind_template_callback (widget_class, get_visible_page);
   gtk_widget_class_bind_template_callback (widget_class, get_install_btn_state);
   gtk_widget_class_bind_template_callback (widget_class, install_btn_state_fallback);
@@ -679,12 +685,10 @@ ensure_draw_css (BzInstallControls *self)
       g_autofree char *id       = NULL;
       g_autofree char *final_id = NULL;
       g_autofree char *class    = NULL;
-      gboolean         rotate   = FALSE;
 
-      id     = g_settings_get_string (self->settings, "global-progress-bar-theme");
-      rotate = g_settings_get_boolean (self->settings, "rotate-flag");
+      id = g_settings_get_string (self->settings, "global-progress-bar-theme");
 
-      if (rotate && g_strcmp0 (id, "accent-color") != 0)
+      if (g_strcmp0 (id, "accent-color") != 0)
         final_id = g_strdup_printf ("%s-horizontal", id);
       else
         final_id = g_strdup (id);

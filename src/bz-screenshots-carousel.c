@@ -97,7 +97,13 @@ update_button_visibility (BzScreenshotsCarousel *self)
   position = gtk_single_selection_get_selected (self->selection);
   n_pages  = g_list_model_get_n_items (G_LIST_MODEL (self->selection));
 
-  /* gtk_widget_set_opacity (self->carousel_indicator, n_pages > 1); */
+  if (n_pages == 0)
+  {
+    gtk_revealer_set_reveal_child (GTK_REVEALER (self->prev_button_revealer), FALSE);
+    gtk_revealer_set_reveal_child (GTK_REVEALER (self->next_button_revealer), FALSE);
+    return;
+  }
+
   gtk_revealer_set_reveal_child (GTK_REVEALER (self->prev_button_revealer), position >= 0.5);
   gtk_revealer_set_reveal_child (GTK_REVEALER (self->next_button_revealer), position < n_pages - 1.5);
 }

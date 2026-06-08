@@ -120,13 +120,21 @@ static const Subcategory game_subcategories[] = {
   {                NULL,            NULL }
 };
 
+static const Subcategory network_subcategories[] = {
+  {     N_ ("Browsers"), "WebBrowser"  },
+  {         N_ ("Chat"), "Chat"        },
+  {         N_ ("Mail"), "Email"       },
+  { N_ ("File Sharing"), "FileTransfer"},
+  {               NULL,  NULL          }
+};
+
 static const CategoryInfo category_info[] = {
   {       "audiovideo",          N_ ("Audio & Video"),    N_ ("Media"),          N_ ("More Audio & Video"),  TRUE, "io.github.kolumni.Bazaar.Audiovideo", "applications-multimedia-symbolic", audiovideo_subcategories },
   {      "development",        N_ ("Developer Tools"),  N_ ("Develop"),        N_ ("More Developer Tools"),  TRUE,    "io.github.kolumni.Bazaar.Develop",                    "code-symbolic",                     NULL },
   {        "education",              N_ ("Education"),    N_ ("Learn"),              N_ ("More Education"),  TRUE,      "io.github.kolumni.Bazaar.Learn",               "open-book-symbolic",                     NULL },
   {             "game",                 N_ ("Gaming"),     N_ ("Play"),                 N_ ("More Gaming"),  TRUE,       "io.github.kolumni.Bazaar.Play",      "applications-games-symbolic",       game_subcategories },
   {         "graphics", N_ ("Graphics & Photography"),   N_ ("Create"), N_ ("More Graphics & Photography"),  TRUE,     "io.github.kolumni.Bazaar.Create",              "paintbrush-symbolic",                     NULL },
-  {          "network",             N_ ("Networking"), N_ ("Internet"),             N_ ("More Networking"),  TRUE,    "io.github.kolumni.Bazaar.Network",                   "globe-symbolic",                     NULL },
+  {          "network",             N_ ("Networking"), N_ ("Internet"),             N_ ("More Networking"),  TRUE,    "io.github.kolumni.Bazaar.Network",                   "globe-symbolic",    network_subcategories },
   {           "office",           N_ ("Productivity"),     N_ ("Work"),           N_ ("More Productivity"),  TRUE,       "io.github.kolumni.Bazaar.Work",                 "meeting-symbolic",                     NULL },
   {          "science",                N_ ("Science"),  N_ ("Science"),                N_ ("More Science"),  TRUE,    "io.github.kolumni.Bazaar.Science",    "applications-science-symbolic",                     NULL },
   {           "system",                 N_ ("System"),   N_ ("System"),                 N_ ("More System"),  TRUE,     "io.github.kolumni.Bazaar.System",     "applications-system-symbolic",                     NULL },

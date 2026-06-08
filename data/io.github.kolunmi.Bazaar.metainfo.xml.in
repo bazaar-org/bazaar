@@ -73,6 +73,24 @@
   </screenshots>
 
   <releases>
+    <release version="0.8.2" date="2026-06-07">
+      <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.8.2</url>
+      <description translate="no">
+        <p>
+          <em>Maintenance Release</em>
+        </p>
+        <ul>
+          <li>Add mobile search filter</li>
+          <li>Fix infinite fetching of user data folder size</li>
+          <li>Add Network subcategories</li>
+          <li>Remove tag list SEO-ism</li>
+          <li>Rework some UI components</li>
+        </ul>
+        <p>
+          Thanks for reading, and have a great day!
+        </p>
+      </description>
+    </release>
     <release version="0.8.1" date="2026-05-22">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.8.1</url>
       <description translate="no">

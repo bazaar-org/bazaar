@@ -713,6 +713,13 @@ bz_entry_group_get_is_verified (BzEntryGroup *self)
   return self->is_verified;
 }
 
+gboolean
+bz_entry_group_get_is_mobile_friendly (BzEntryGroup *self)
+{
+  g_return_val_if_fail (BZ_IS_ENTRY_GROUP (self), FALSE);
+  return (self->categories & BZ_CATEGORY_FLAGS_MOBILE) != 0;
+}
+
 const char *
 bz_entry_group_get_search_tokens (BzEntryGroup *self)
 {
@@ -1573,9 +1580,10 @@ user_data_size_then (DexFuture *future,
   g_autoptr (BzEntryGroup) self  = NULL;
   g_autoptr (GError) error       = NULL;
   g_autoptr (BzSizeResult) sizes = NULL;
+  guint64 new_user_data_size     = 0;
+  guint64 new_cache_size         = 0;
 
   bz_weak_get_or_return_reject (self, wr);
-  dex_clear (&self->user_data_size_future);
 
   sizes = g_value_dup_object (dex_future_get_value (future, &error));
   if (error != NULL || sizes == NULL)
@@ -1584,11 +1592,20 @@ user_data_size_then (DexFuture *future,
       return dex_future_new_true ();
     }
 
-  self->user_data_size = bz_size_result_get_user_data_size (sizes);
-  self->cache_size     = bz_size_result_get_cache_size (sizes);
+  new_user_data_size = bz_size_result_get_user_data_size (sizes);
+  new_cache_size     = bz_size_result_get_cache_size (sizes);
 
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CACHE_SIZE]);
+  if (new_user_data_size != self->user_data_size)
+    {
+      self->user_data_size = new_user_data_size;
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USER_DATA_SIZE]);
+    }
+
+  if (new_cache_size != self->cache_size)
+    {
+      self->cache_size = new_cache_size;
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CACHE_SIZE]);
+    }
 
   return dex_future_new_true ();
 }

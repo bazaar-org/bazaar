@@ -21,11 +21,6 @@
       <summary>Show Only Verified Content</summary>
       <description>Hide applications which are not verified on Flathub</description>
     </key>
-    <key name="search-debounce" type="b">
-      <default>true</default>
-      <summary>Debounce Search Inputs</summary>
-      <description>Add a delay before searching to prevent instant replies while typing</description>
-    </key>
     <key name="global-progress-bar-theme" type="s">
       <choices>
         <choice value="accent-color"/>
@@ -54,10 +49,6 @@
       <default>'accent-color'</default>
       <summary>Global Progress Bar Theme</summary>
       <description>Describes the look of the global progress bar</description>
-    </key>
-    <key name="rotate-flag" type="b">
-      <default>false</default>
-      <summary>Rotate selected flag by 90 degrees</summary>
     </key>
     <key name="window-dimensions" type="(ii)">
       <default>(1220, 900)</default>

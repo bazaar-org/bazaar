@@ -118,7 +118,6 @@ src/bz-serializable.c
 src/bz-share-list.c
 src/bz-stats-dialog.blp
 src/bz-stats-dialog.c
-src/bz-tag-list.c
 src/bz-transact-icon.wdgt
 src/bz-transaction-dialog.c
 src/bz-transaction-list-dialog.blp

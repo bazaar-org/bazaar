@@ -42,6 +42,9 @@ bz_search_filter_popover_get_only_free (BzSearchFilterPopover *self);
 gboolean
 bz_search_filter_popover_get_only_non_eol (BzSearchFilterPopover *self);
 
+gboolean
+bz_search_filter_popover_get_only_mobile (BzSearchFilterPopover *self);
+
 void
 bz_search_filter_popover_clear (BzSearchFilterPopover *self);
 

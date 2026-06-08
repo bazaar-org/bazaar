@@ -43,7 +43,7 @@ template $BzBundleInstallDialog: Adw.Dialog {
                 hexpand: true;
                 valign: fill;
 
-                Box page_info {
+                Box {
                   orientation: vertical;
                   spacing: 16;
                   valign: start;
@@ -356,8 +356,8 @@ template $BzBundleInstallDialog: Adw.Dialog {
                   width-request: 250;
                 }
               }
-              ScrolledWindow {
-                Box page_finish {
+              ScrolledWindow page_finish {
+                Box {
                   orientation: vertical;
                   spacing: 8;
                   valign: center;

@@ -146,7 +146,6 @@ bz_sources = files(
   'bz-spdx.c',
   'bz-stats-dialog.c',
   'bz-subcategory-list.c',
-  'bz-tag-list.c',
   'bz-template-callbacks.c',
   'bz-themed-entry-group-rect.c',
   'bz-transact-icon.c',

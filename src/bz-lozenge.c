@@ -332,19 +332,19 @@ bz_lozenge_rebuild (BzLozenge *self)
         }
     }
   else if (self->label != NULL && *self->label != '\0')
-      {
-        const gchar *new_classes[3] = { "circular-lozenge", "large", NULL };
+    {
+      const gchar *new_classes[3] = { "circular-lozenge", "large", NULL };
 
-        gtk_widget_set_visible (self->icon_box, FALSE);
-        gtk_widget_set_visible (self->label_widget, TRUE);
+      gtk_widget_set_visible (self->icon_box, FALSE);
+      gtk_widget_set_visible (self->label_widget, TRUE);
 
-        gtk_label_set_markup (GTK_LABEL (self->label_widget), self->label);
+      gtk_label_set_markup (GTK_LABEL (self->label_widget), self->label);
 
-        gtk_widget_set_css_classes (self->label_widget, new_classes);
+      gtk_widget_set_css_classes (self->label_widget, new_classes);
 
-        css_class = bz_context_row_importance_to_css_class (self->importance);
-        gtk_widget_add_css_class (self->label_widget, css_class);
-      }
+      css_class = bz_context_row_importance_to_css_class (self->importance);
+      gtk_widget_add_css_class (self->label_widget, css_class);
+    }
   else
     {
       gtk_widget_set_visible (self->icon_box, FALSE);

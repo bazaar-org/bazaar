@@ -332,6 +332,19 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
           g_list_store_append (share_urls, share_url);
         }
     }
+
+  // make it even so the link colums stay neat.
+  if (g_strcmp0 (remote_name, "flathub") == 0 &&
+      g_list_model_get_n_items (G_LIST_MODEL (share_urls)) % 2 != 0)
+    {
+      g_autofree char  *manifest_url = NULL;
+      g_autoptr (BzUrl) url          = NULL;
+
+      manifest_url = g_strdup_printf ("https://github.com/flathub/%s", id);
+      url          = g_object_new (BZ_TYPE_URL, "id", "manifest", "url", manifest_url, NULL);
+      g_list_store_append (share_urls, url);
+    }
+
   if (g_list_model_get_n_items (G_LIST_MODEL (share_urls)) == 0)
     g_clear_object (&share_urls);
 
@@ -595,6 +608,9 @@ bz_appstream_parser_populate_entry (BzEntry     *entry,
           categories = bz_category_flags_add (categories, name);
         }
     }
+
+  if (is_mobile_friendly)
+    categories = bz_category_flags_add (categories, "mobile");
 
   if (g_strcmp0 (remote_name, "flathub") == 0)
     {

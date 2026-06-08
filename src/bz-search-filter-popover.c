@@ -37,6 +37,7 @@ struct _BzSearchFilterPopover
   gboolean        only_verified;
   gboolean        only_free;
   gboolean        only_non_eol;
+  gboolean        only_mobile;
   gboolean        has_active_filters;
   gboolean        state_forced_verified;
   gboolean        state_forced_free;
@@ -46,6 +47,7 @@ struct _BzSearchFilterPopover
   GtkWidget  *verified_button;
   GtkWidget  *free_button;
   GtkWidget  *non_eol_button;
+  GtkWidget  *mobile_button;
 };
 
 G_DEFINE_FINAL_TYPE (BzSearchFilterPopover, bz_search_filter_popover, GTK_TYPE_POPOVER)
@@ -57,6 +59,7 @@ enum
   PROP_ONLY_VERIFIED,
   PROP_ONLY_FREE,
   PROP_ONLY_NON_EOL,
+  PROP_ONLY_MOBILE,
   PROP_HAS_ACTIVE_FILTERS,
   LAST_PROP
 };
@@ -116,6 +119,9 @@ bz_search_filter_popover_get_property (GObject    *object,
     case PROP_ONLY_NON_EOL:
       g_value_set_boolean (value, self->only_non_eol);
       break;
+    case PROP_ONLY_MOBILE:
+      g_value_set_boolean (value, self->only_mobile);
+      break;
     case PROP_HAS_ACTIVE_FILTERS:
       g_value_set_boolean (value, self->has_active_filters);
       break;
@@ -165,6 +171,13 @@ bz_search_filter_popover_class_init (BzSearchFilterPopoverClass *klass)
           FALSE,
           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PROP_ONLY_MOBILE] =
+      g_param_spec_boolean (
+          "only-mobile",
+          NULL, NULL,
+          FALSE,
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   props[PROP_HAS_ACTIVE_FILTERS] =
       g_param_spec_boolean (
           "has-active-filters",
@@ -179,6 +192,7 @@ bz_search_filter_popover_class_init (BzSearchFilterPopoverClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzSearchFilterPopover, verified_button);
   gtk_widget_class_bind_template_child (widget_class, BzSearchFilterPopover, free_button);
   gtk_widget_class_bind_template_child (widget_class, BzSearchFilterPopover, non_eol_button);
+  gtk_widget_class_bind_template_child (widget_class, BzSearchFilterPopover, mobile_button);
   gtk_widget_class_bind_template_callback (widget_class, on_filter_button_clicked);
 }
 
@@ -237,6 +251,13 @@ bz_search_filter_popover_get_only_non_eol (BzSearchFilterPopover *self)
   return self->only_non_eol;
 }
 
+gboolean
+bz_search_filter_popover_get_only_mobile (BzSearchFilterPopover *self)
+{
+  g_return_val_if_fail (BZ_IS_SEARCH_FILTER_POPOVER (self), FALSE);
+  return self->only_mobile;
+}
+
 void
 bz_search_filter_popover_clear (BzSearchFilterPopover *self)
 {
@@ -250,6 +271,7 @@ bz_search_filter_popover_clear (BzSearchFilterPopover *self)
     apply_filter_button (self, PROP_ONLY_FREE, FALSE);
   if (!self->state_forced_non_eol)
     apply_filter_button (self, PROP_ONLY_NON_EOL, FALSE);
+  apply_filter_button (self, PROP_ONLY_MOBILE, FALSE);
 
   for (child = gtk_widget_get_first_child (GTK_WIDGET (self->wrap_box));
        child != NULL;
@@ -272,6 +294,7 @@ update_has_active_filters (BzSearchFilterPopover *self)
   active = (self->only_verified && !self->state_forced_verified) ||
            (self->only_free && !self->state_forced_free) ||
            (self->only_non_eol && !self->state_forced_non_eol) ||
+           self->only_mobile ||
            self->selected_categories != BZ_CATEGORY_FLAGS_NONE;
 
   if (self->has_active_filters == active)
@@ -295,6 +318,7 @@ apply_filter_button (BzSearchFilterPopover *self,
     { PROP_ONLY_VERIFIED, &self->only_verified, &self->verified_button },
     {     PROP_ONLY_FREE,     &self->only_free,     &self->free_button },
     {  PROP_ONLY_NON_EOL,  &self->only_non_eol,  &self->non_eol_button },
+    {   PROP_ONLY_MOBILE,   &self->only_mobile,   &self->mobile_button },
   };
 
   for (guint i = 0; i < G_N_ELEMENTS (map); i++)
@@ -398,6 +422,8 @@ on_filter_button_clicked (GtkButton *button,
     apply_filter_button (self, PROP_ONLY_FREE, !self->only_free);
   else if (g_str_equal (name, "non-eol"))
     apply_filter_button (self, PROP_ONLY_NON_EOL, !self->only_non_eol);
+  else if (g_str_equal (name, "mobile"))
+    apply_filter_button (self, PROP_ONLY_MOBILE, !self->only_mobile);
 }
 
 static void

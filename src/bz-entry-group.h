@@ -76,6 +76,9 @@ bz_entry_group_get_is_flathub (BzEntryGroup *self);
 gboolean
 bz_entry_group_get_is_verified (BzEntryGroup *self);
 
+gboolean
+bz_entry_group_get_is_mobile_friendly (BzEntryGroup *self);
+
 const char *
 bz_entry_group_get_search_tokens (BzEntryGroup *self);
 

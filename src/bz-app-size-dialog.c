@@ -101,11 +101,17 @@ get_runtime_size_title (gpointer object,
 
 static char *
 format_size (gpointer object,
-             guint64  value)
+             guint64  value,
+             gboolean use_fallback)
 {
-  g_autofree char *size_str = g_format_size (value);
-  char            *space    = g_strrstr (size_str, "\xC2\xA0");
+  g_autofree char *size_str = NULL;
+  char            *space    = NULL;
 
+  if (value == 0 && use_fallback)
+    return g_strdup (_("N/A"));
+
+  size_str = g_format_size (value);
+  space    = g_strrstr (size_str, "\xC2\xA0");
   if (space != NULL)
     {
       *space = '\0';

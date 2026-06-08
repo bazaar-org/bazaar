@@ -27,6 +27,7 @@
 #include "bz-flathub-auth-provider.h"
 #include "bz-global-net.h"
 #include "bz-login-page.h"
+#include "bz-template-callbacks.h"
 #include "bz-util.h"
 
 struct _BzLoginPage
@@ -685,6 +686,7 @@ bz_login_page_class_init (BzLoginPageClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/io/github/kolunmi/Bazaar/bz-login-page.ui");
+  bz_widget_class_bind_all_util_callbacks (widget_class);
 
   gtk_widget_class_bind_template_child (widget_class, BzLoginPage, main_stack);
   gtk_widget_class_bind_template_child (widget_class, BzLoginPage, error_status_page);

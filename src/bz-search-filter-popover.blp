@@ -28,7 +28,7 @@ template $BzSearchFilterPopover: Gtk.Popover {
         child-spacing: 6;
         line-spacing: 6;
         natural-line-length: 320;
-        justify-last-line: true;
+        justify-last-line: false;
 
         Button verified_button {
           name: "verified";
@@ -50,6 +50,13 @@ template $BzSearchFilterPopover: Gtk.Popover {
           clicked => $on_filter_button_clicked();
           use-underline: true;
           tooltip-text: _("Filter out End-of-Life apps");
+        }
+
+        Button mobile_button {
+          name: "mobile";
+          label: _("_Mobile Friendly");
+          clicked => $on_filter_button_clicked();
+          use-underline: true;
         }
       }
 

@@ -52,17 +52,7 @@ template $BzPreferencesDialog: Adw.PreferencesDialog {
     }
 
     Adw.PreferencesGroup {
-      title: _("Search");
-
-      Adw.SwitchRow search_debounce_switch {
-        title: _("Delay Search Results");
-        subtitle: _("Improve results performance by debouncing search terms");
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("Progress Bar");
-      description: _("Choose a theme for the progress bar!");
+      title: _("Progress Bar Theme");
 
       Adw.ActionRow {
         child: Box {
@@ -80,15 +70,10 @@ template $BzPreferencesDialog: Adw.PreferencesDialog {
             row-spacing: 4;
             halign: center;
             homogeneous: true;
-            max-children-per-line: 12;
+            max-children-per-line: 11;
             selection-mode: none;
           }
         };
-      }
-      Adw.SwitchRow rotate_switch {
-        title: _("Vertical Stripes");
-        subtitle: _("Display flag colors from left to right");
-        notify::active => $on_rotate_switch_changed();
       }
     }
   }

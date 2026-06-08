@@ -730,7 +730,7 @@ initialize_fiber (GWeakRef *wr)
   ADD_REQUEST (added_f, "/collection/recently-added?page=0&per_page=%d", COLLECTION_FETCH_SIZE);
   ADD_REQUEST (popular_f, "/collection/popular?page=0&per_page=%d", COLLECTION_FETCH_SIZE);
   ADD_REQUEST (trending_f, "/collection/trending?page=0&per_page=%d", COLLECTION_FETCH_SIZE);
-  ADD_REQUEST (mobile_f, "/collection/mobile?page=0&per_page=%d", COLLECTION_FETCH_SIZE);
+  ADD_REQUEST (mobile_f, "/collection/mobile?page=0&per_page=%d", CATEGORY_FETCH_SIZE);
 
 #undef ADD_REQUEST
 
