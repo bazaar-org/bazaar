@@ -30,6 +30,7 @@
 #include "bz-rich-app-tile.h"
 #include "bz-screenshot.h"
 #include "bz-search-filter-popover.h"
+#include "bz-search-bar.h"
 #include "bz-search-page.h"
 #include "bz-search-pill-list.h"
 #include "bz-search-result.h"
@@ -54,8 +55,7 @@ struct _BzSearchPage
   DexFuture         *search_query;
 
   /* Template widgets */
-  GtkText               *search_bar;
-  AdwSpinner            *search_busy;
+  BzSearchBar           *search_bar;
   GtkBox                *content_box;
   GtkStack              *search_stack;
   GtkGridView           *grid_view;
@@ -75,15 +75,8 @@ enum
 
   LAST_PROP
 };
+
 static GParamSpec *props[LAST_PROP] = { 0 };
-
-static void
-search_changed (GtkEditable  *editable,
-                BzSearchPage *self);
-
-static void
-search_activate (GtkText      *text,
-                 BzSearchPage *self);
 
 static void
 grid_activate (GtkGridView  *grid_view,
@@ -300,6 +293,48 @@ bind_category_tile_cb (BzSearchPage      *self,
 }
 
 static void
+search_changed (BzSearchPage *self,
+                GtkEditable  *editable)
+{
+  g_clear_handle_id (&self->search_update_timeout, g_source_remove);
+  self->search_update_timeout = g_timeout_add_once (
+      150, (GSourceOnceFunc) update_filter, self);
+  bz_search_bar_set_busy (BZ_SEARCH_BAR (editable), TRUE);
+}
+
+static void
+search_activate (BzSearchPage *self,
+                 BzSearchBar  *search_bar)
+{
+  GtkSelectionModel *model          = NULL;
+  guint              n_items        = 0;
+  g_autoptr (BzSearchResult) result = NULL;
+  BzEntryGroup *group               = NULL;
+
+  model   = gtk_grid_view_get_model (self->grid_view);
+  n_items = g_list_model_get_n_items (G_LIST_MODEL (model));
+
+  bz_search_bar_set_busy (self->search_bar, FALSE);
+
+  if (n_items > 0)
+    {
+      result = g_list_model_get_item (G_LIST_MODEL (model), 0);
+      group  = bz_search_result_get_group (result);
+
+      if (bz_entry_group_get_removable_and_available (group) > 0)
+        {
+          gtk_widget_activate_action (GTK_WIDGET (self), "window.remove-group", "(sb)",
+                                      bz_entry_group_get_id (group), FALSE);
+        }
+      else if (bz_entry_group_get_installable_and_available (group) > 0)
+        {
+          gtk_widget_activate_action (GTK_WIDGET (self), "window.install-group", "(sb)",
+                                      bz_entry_group_get_id (group), FALSE);
+        }
+    }
+}
+
+static void
 unbind_category_tile_cb (BzSearchPage      *self,
                          BzCategoryTile    *tile,
                          BzFlathubCategory *category,
@@ -422,7 +457,6 @@ bz_search_page_class_init (BzSearchPageClass *klass)
   bz_widget_class_bind_all_util_callbacks (widget_class);
 
   gtk_widget_class_bind_template_child (widget_class, BzSearchPage, search_bar);
-  gtk_widget_class_bind_template_child (widget_class, BzSearchPage, search_busy);
   gtk_widget_class_bind_template_child (widget_class, BzSearchPage, content_box);
   gtk_widget_class_bind_template_child (widget_class, BzSearchPage, search_stack);
   gtk_widget_class_bind_template_child (widget_class, BzSearchPage, grid_view);
@@ -444,6 +478,8 @@ bz_search_page_class_init (BzSearchPageClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, tile_activated_cb);
   gtk_widget_class_bind_template_callback (widget_class, copy_id_cb);
   gtk_widget_class_bind_template_callback (widget_class, debug_id_inspect_cb);
+  gtk_widget_class_bind_template_callback (widget_class, search_activate);
+  gtk_widget_class_bind_template_callback (widget_class, search_changed);
 }
 
 static void
@@ -459,8 +495,6 @@ bz_search_page_init (BzSearchPage *self)
   gtk_no_selection_set_model (GTK_NO_SELECTION (self->selection_model), G_LIST_MODEL (self->search_model));
   gtk_grid_view_set_model (self->grid_view, self->selection_model);
 
-  g_signal_connect (self->search_bar, "changed", G_CALLBACK (search_changed), self);
-  g_signal_connect (self->search_bar, "activate", G_CALLBACK (search_activate), self);
   g_signal_connect (self->grid_view, "activate", G_CALLBACK (grid_activate), self);
 
   g_signal_connect_swapped (self->filter_popover, "notify::selected-categories",
@@ -634,49 +668,6 @@ bz_search_page_ensure_active (BzSearchPage *self,
 }
 
 static void
-search_changed (GtkEditable  *editable,
-                BzSearchPage *self)
-{
-  g_clear_handle_id (&self->search_update_timeout, g_source_remove);
-  self->search_update_timeout = g_timeout_add_once (
-      150, (GSourceOnceFunc) update_filter, self);
-  gtk_widget_set_visible (GTK_WIDGET (self->search_busy), TRUE);
-}
-
-static void
-search_activate (GtkText      *text,
-                 BzSearchPage *self)
-{
-  GtkSelectionModel *model          = NULL;
-  guint              n_items        = 0;
-  g_autoptr (BzSearchResult) result = NULL;
-  BzEntryGroup *group               = NULL;
-
-  model   = gtk_grid_view_get_model (self->grid_view);
-  n_items = g_list_model_get_n_items (G_LIST_MODEL (model));
-
-  if (gtk_widget_get_visible (GTK_WIDGET (self->search_busy)))
-    return;
-
-  if (n_items > 0)
-    {
-      result = g_list_model_get_item (G_LIST_MODEL (model), 0);
-      group  = bz_search_result_get_group (result);
-
-      if (bz_entry_group_get_removable_and_available (group) > 0)
-        {
-          gtk_widget_activate_action (GTK_WIDGET (self), "window.remove-group", "(sb)",
-                                      bz_entry_group_get_id (group), FALSE);
-        }
-      else if (bz_entry_group_get_installable_and_available (group) > 0)
-        {
-          gtk_widget_activate_action (GTK_WIDGET (self), "window.install-group", "(sb)",
-                                      bz_entry_group_get_id (group), FALSE);
-        }
-    }
-}
-
-static void
 grid_activate (GtkGridView  *grid_view,
                guint         position,
                BzSearchPage *self)
@@ -766,7 +757,7 @@ search_query_then (DexFuture *future,
       self->search_model,
       0, old_length,
       (gpointer *) filtered->pdata, filtered->len);
-  gtk_widget_set_visible (GTK_WIDGET (self->search_busy), FALSE);
+  bz_search_bar_set_busy (self->search_bar, FALSE);
 
   if (filtered->len > 0)
     {
@@ -808,7 +799,7 @@ update_filter (BzSearchPage *self)
   self->current_query = bz_finished_search_query_new ();
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_QUERY]);
 
-  gtk_widget_set_visible (GTK_WIDGET (self->search_busy), FALSE);
+  bz_search_bar_set_busy (self->search_bar, FALSE);
 
   if (self->state == NULL)
     return;
@@ -853,9 +844,8 @@ update_filter (BzSearchPage *self)
   future = bz_search_engine_query (
       engine,
       (const char *const *) terms);
-  gtk_widget_set_visible (
-      GTK_WIDGET (self->search_busy),
-      dex_future_is_pending (future));
+
+  bz_search_bar_set_busy (self->search_bar, dex_future_is_pending (future));
 
   future = dex_future_then (
       future,

@@ -37,73 +37,34 @@ template $BzSearchPage: Adw.Bin {
       Adw.Clamp search_box_clamp {
         margin-start: 12;
         margin-end: 12;
+        margin-top: 10;
+        margin-bottom: 10;
         maximum-size: 375;
 
-        child: Adw.Bin {
-          halign: fill;
-          margin-top: 10;
-          margin-bottom: 10;
+        child: $BzSearchBar search_bar {
+          placeholder: _("Search Apps, Games, Software");
+          search-activated => $search_activate(template);
+          search-changed => $search_changed(template);
 
-          child: Box {
-            spacing: 8;
-            height-request: 40;
+          end-widget: MenuButton filter_button {
+            visible: bind $is_valid_string(search_bar.text) as <bool>;
+            icon-name: "sliders-horizontal-symbolic";
+            tooltip-text: _("Search Filters");
+            valign: center;
 
-            Image {
-              icon-name: "system-search-symbolic";
-            }
-
-            Text search_bar {
-              hexpand: true;
-              max-length: 50;
-              placeholder-text: _("Search Apps, Games, Software");
-            }
-
-            Adw.Spinner search_busy {
-              visible: false;
-              width-request: 16;
-              height-request: 16;
-            }
-
-            MenuButton filter_button {
-              visible: bind $is_valid_string(search_bar.text) as <bool>;
-              icon-name: "sliders-horizontal-symbolic";
-              tooltip-text: _("Search Filters");
-
-              popover: $BzSearchFilterPopover filter_popover {
-                notify::has-active-filters => $has_active_filters_cb();
-              };
-
-              styles [
-                "flat",
-                "circular",
-                "searchbar-button",
-              ]
-
-              accessibility {
-                label: _("Filters");
-              }
-            }
-
-            Button clear_button {
-              visible: bind $is_valid_string(search_bar.text) as <bool>;
-              icon-name: "edit-clear-symbolic";
-
-              styles [
-                "flat",
-                "circular",
-                "searchbar-button",
-              ]
-
-              clicked => $reset_search_cb(template);
-
-              accessibility {
-                label: _("Clear Search");
-              }
-            }
+            popover: $BzSearchFilterPopover filter_popover {
+              notify::has-active-filters => $has_active_filters_cb();
+            };
 
             styles [
-              "search-box",
+              "flat",
+              "circular",
+              "searchbar-button",
             ]
+
+            accessibility {
+              label: _("Filters");
+            }
           };
         };
       }
