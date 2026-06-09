@@ -23,6 +23,7 @@
 #include "bz-entry-group.h"
 #include "bz-installed-tile.h"
 #include "bz-library-page.h"
+#include "bz-search-bar.h"
 #include "bz-section-view.h"
 #include "bz-template-callbacks.h"
 #include "bz-transaction-tile.h"
@@ -39,7 +40,7 @@ struct _BzLibraryPage
 
   /* Template widgets */
   AdwViewStack       *stack;
-  GtkText            *search_bar;
+  BzSearchBar        *search_bar;
   GtkScrolledWindow  *scroll;
   GtkFilterListModel *filter_model;
   GtkCustomFilter    *filter;
@@ -248,8 +249,7 @@ tile_activated_cb (BzListTile *tile)
 
 static void
 search_text_changed (BzLibraryPage *self,
-                     GParamSpec    *pspec,
-                     GtkText       *entry)
+                     BzSearchBar   *search_bar)
 {
   gtk_filter_changed (GTK_FILTER (self->filter),
                       GTK_FILTER_CHANGE_DIFFERENT);
@@ -258,7 +258,7 @@ search_text_changed (BzLibraryPage *self,
 
 static void
 search_text_activate (BzLibraryPage *self,
-                      GtkText       *entry)
+                      BzSearchBar   *search_bar)
 {
   const char *text = NULL;
 
@@ -273,7 +273,7 @@ static void
 reset_search_cb (BzLibraryPage *self,
                  GtkButton     *button)
 {
-  gtk_text_set_buffer (self->search_bar, NULL);
+  gtk_editable_set_text (GTK_EDITABLE (self->search_bar), "");
 }
 
 static void
@@ -567,7 +567,7 @@ bz_library_page_reset_search (BzLibraryPage *self)
   vadjustment = gtk_scrolled_window_get_vadjustment (self->scroll);
   gtk_adjustment_set_value (vadjustment, 0.0);
 
-  gtk_text_set_buffer (self->search_bar, NULL);
+  gtk_editable_set_text (GTK_EDITABLE (self->search_bar), "");
 }
 
 static void

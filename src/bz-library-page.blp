@@ -8,53 +8,15 @@ template $BzLibraryPage: Adw.Bin {
     Adw.Clamp search_box_clamp {
       margin-start: 12;
       margin-end: 12;
+      margin-top: 10;
+      margin-bottom: 10;
       maximum-size: 375;
-
       visible: bind template.has-apps;
 
-      child: Adw.Bin {
-        halign: fill;
-        margin-top: 10;
-        margin-bottom: 10;
-
-        child: Box {
-          orientation: horizontal;
-          spacing: 8;
-          height-request: 40;
-
-          Image {
-            icon-name: "system-search-symbolic";
-          }
-
-          Text search_bar {
-            hexpand: true;
-            max-length: 50;
-            placeholder-text: _("Search installed apps");
-            notify::text => $search_text_changed(template);
-            activate => $search_text_activate(template);
-          }
-
-          Button clear_button {
-            icon-name: "edit-clear-symbolic";
-            visible: bind $not($is_empty_string(search_bar.text) as <bool>) as <bool>;
-
-            styles [
-              "flat",
-              "circular",
-              "searchbar-button",
-            ]
-
-            clicked => $reset_search_cb(template);
-
-            accessibility {
-              label: _("Clear search");
-            }
-          }
-
-          styles [
-            "search-box",
-          ]
-        };
+      child: $BzSearchBar search_bar {
+        placeholder: _("Search installed apps");
+        search-activated => $search_text_activate(template);
+        search-changed => $search_text_changed(template);
       };
     }
 
