@@ -107,6 +107,14 @@ emit_idx (BzSearchPage *self,
           GListModel   *model,
           guint         selected_idx);
 
+static gboolean
+bz_search_page_grab_focus (GtkWidget *widget)
+{
+  BzSearchPage *self = BZ_SEARCH_PAGE (widget);
+
+  return gtk_widget_grab_focus (GTK_WIDGET (self->search_bar));
+}
+
 static void
 bz_search_page_dispose (GObject *object)
 {
@@ -421,6 +429,8 @@ bz_search_page_class_init (BzSearchPageClass *klass)
   object_class->get_property = bz_search_page_get_property;
   object_class->set_property = bz_search_page_set_property;
 
+  widget_class->grab_focus = bz_search_page_grab_focus;
+
   props[PROP_STATE] =
       g_param_spec_object (
           "state",
@@ -652,19 +662,11 @@ gboolean
 bz_search_page_ensure_active (BzSearchPage *self,
                               const char   *initial)
 {
-  const char *text = NULL;
-
   g_return_val_if_fail (BZ_IS_SEARCH_PAGE (self), FALSE);
 
-  text = gtk_editable_get_text (GTK_EDITABLE (self->search_bar));
-  if (text != NULL && *text != '\0' &&
-      gtk_widget_has_focus (GTK_WIDGET (self->search_bar)))
-    return FALSE;
-
-  gtk_widget_grab_focus (GTK_WIDGET (self->search_bar));
   bz_search_page_set_text (self, initial);
 
-  return TRUE;
+  return gtk_widget_grab_focus (GTK_WIDGET (self));
 }
 
 static void
