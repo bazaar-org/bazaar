@@ -592,9 +592,13 @@ has_transactions_changed (BzLibraryPage        *self,
 static void
 set_page (BzLibraryPage *self)
 {
-  guint    n_apps           = 0;
-  guint    n_filtered       = 0;
-  gboolean has_transactions = FALSE;
+  guint       n_apps           = 0;
+  guint       n_filtered       = 0;
+  gboolean    has_transactions = FALSE;
+  const char *message          = NULL;
+  const char *search_text      = NULL;
+
+  search_text = gtk_editable_get_text (GTK_EDITABLE (self->search_bar));
 
   if (self->model != NULL)
     {
@@ -619,6 +623,13 @@ set_page (BzLibraryPage *self)
     adw_view_stack_set_visible_child_name (self->stack, "no-results");
   else
     adw_view_stack_set_visible_child_name (self->stack, "content");
+
+  if (search_text && *search_text)
+    {
+      message = n_filtered == 0 ? _ ("No applications found") : g_strdup_printf (ngettext ("One application found", "%u applications found", n_filtered), n_filtered);
+
+      gtk_accessible_announce (GTK_ACCESSIBLE (self), message, GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_HIGH);
+    }
 }
 
 static gboolean
