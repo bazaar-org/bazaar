@@ -713,6 +713,7 @@ search_query_then (DexFuture *future,
   gboolean               only_free     = FALSE;
   gboolean               only_non_eol  = FALSE;
   gboolean               only_mobile   = FALSE;
+  const char *search_text              = NULL;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -725,6 +726,7 @@ search_query_then (DexFuture *future,
   only_mobile   = bz_search_filter_popover_get_only_mobile (self->filter_popover);
 
   filtered = g_ptr_array_new_with_free_func (g_object_unref);
+  search_text = gtk_editable_get_text (GTK_EDITABLE (self->search_bar));
 
   for (guint i = 0; i < results->len; i++)
     {
@@ -768,11 +770,19 @@ search_query_then (DexFuture *future,
     }
   else
     {
-      const char *search_text = NULL;
-
-      search_text = gtk_editable_get_text (GTK_EDITABLE (self->search_bar));
-      page_name   = (search_text && *search_text) ? "no-results" : "empty";
+      page_name = (search_text && *search_text) ? "no-results" : "empty";
     }
+
+  if (search_text && *search_text) {
+    const char *message = NULL;
+
+    message = filtered->len == 0 ? _("No applications found") : g_strdup_printf (ngettext ("One application found",
+                                                                                "%u applications found",
+                                                                                filtered->len),
+                                                                            filtered->len);
+
+    gtk_accessible_announce (GTK_ACCESSIBLE (self), message, GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_MEDIUM);
+  }
 
   self->current_query = g_object_ref (finished);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_QUERY]);
