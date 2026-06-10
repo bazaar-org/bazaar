@@ -3099,7 +3099,7 @@ msgstr "Recomendados"
 
 #: src/bz-window.blp:100
 msgid "Explore"
-msgstr "Exporar"
+msgstr "Explorar"
 
 #: src/bz-window.blp:127
 msgid "Search"
