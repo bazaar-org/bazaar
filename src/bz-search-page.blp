@@ -274,13 +274,14 @@ template $BzSearchPage: Adw.Bin {
 
                   factory: BuilderListItemFactory {
                     template ListItem {
-                      focusable: false;
+
                       child: Box {
                         orientation: vertical;
                         spacing: 5;
 
                         $BzRichAppTile {
                           group: bind template.item as <$BzSearchResult>.group as <$BzEntryGroup>;
+                          focusable: false;
                           activated => $tile_activated_cb(template);
                         }
 
