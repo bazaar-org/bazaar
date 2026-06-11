@@ -1,0 +1,10 @@
+prefix=bz
+name=curated_appids_info
+parent-prefix=g
+parent-name=object
+author=AUTOGEN
+
+include=<gtk/gtk.h>
+
+property=list GListModel G_TYPE_LIST_MODEL object
+property=enable_bulk_install gboolean G_TYPE_BOOLEAN boolean

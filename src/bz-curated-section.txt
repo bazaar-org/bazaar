@@ -7,7 +7,7 @@ author=AUTOGEN
 include=<gtk/gtk.h>
 
 include="bz-entry-group.h"
-include="bz-curated-category-info.h"
+include="bz-curated-appids-info.h"
 include="bz-curated-markdown-info.h"
 include="bz-curated-image-info.h"
 
@@ -18,6 +18,6 @@ property=classes GListModel G_TYPE_LIST_MODEL object
 property=light_classes GListModel G_TYPE_LIST_MODEL object
 property=dark_classes GListModel G_TYPE_LIST_MODEL object
 
-property=category BzCuratedCategoryInfo BZ_TYPE_CURATED_CATEGORY_INFO object
+property=appids BzCuratedAppidsInfo BZ_TYPE_CURATED_APPIDS_INFO object
 property=markdown BzCuratedMarkdownInfo BZ_TYPE_CURATED_MARKDOWN_INFO object
 property=image BzCuratedImageInfo BZ_TYPE_CURATED_IMAGE_INFO object

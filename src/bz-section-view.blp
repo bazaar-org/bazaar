@@ -3,6 +3,11 @@ using Gio 2.0;
 using Adw 1;
 
 template $BzSectionView: Adw.Bin {
+  margin-start: 30;
+  margin-end: 30;
+  margin-top: 3;
+  margin-bottom: 3;
+
   hexpand: bind template.section as <$BzCuratedSection>.expand_horizontally;
   vexpand: bind template.section as <$BzCuratedSection>.expand_vertically;
 
@@ -13,121 +18,20 @@ template $BzSectionView: Adw.Bin {
     valign: fill;
 
     Box {
-      visible: bind $invert_boolean($is_null(template.section as <$BzCuratedSection>.category) as <bool>) as <bool>;
+      hexpand: true;
+      vexpand: true;
+      visible: bind $invert_boolean($is_null(template.section as <$BzCuratedSection>.appids) as <bool>) as <bool>;
 
       orientation: vertical;
-      spacing: 5;
-
-      Overlay {
-        hexpand: true;
-
-        child: Picture {
-          css-name: "banner";
-          height-request: bind $clamp_banner_height(template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-height) as <int>;
-
-          styles [
-            "browser-banner",
-          ]
-
-          can-shrink: true;
-          paintable: bind $get_banner(template.section as <$BzCuratedSection>.category) as <$GdkPaintable>;
-          content-fit: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-fit;
-        };
-
-        [overlay]
-        Overlay banner_text_overlay {
-          css-name: "banner-text-overlay";
-          hexpand: false;
-          vexpand: false;
-
-          child: Box banner_text_bg {
-            css-name: "banner-text-bg";
-          };
-
-          halign: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-text-halign;
-          valign: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-text-valign;
-
-          [overlay]
-          Box banner_text {
-            css-name: "banner-text";
-            hexpand: false;
-            vexpand: false;
-            halign: center;
-            valign: center;
-            orientation: vertical;
-            spacing: 5;
-
-            Label {
-              css-name: "title";
-
-              styles [
-                "browser-banner-title",
-              ]
-
-              wrap: true;
-              wrap-mode: word_char;
-              ellipsize: end;
-              lines: 3;
-              margin-start: 25;
-              margin-end: 25;
-
-              visible: bind $invert_boolean($is_null(template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.title) as <bool>) as <bool>;
-              xalign: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-text-label-xalign;
-              label: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.title;
-            }
-
-            Label {
-              css-name: "subtitle";
-
-              styles [
-                "browser-banner-subtitle",
-              ]
-
-              wrap: true;
-              wrap-mode: word_char;
-              ellipsize: end;
-              lines: 3;
-              margin-start: 25;
-              margin-end: 25;
-
-              visible: bind $invert_boolean($is_null(template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.subtitle) as <bool>) as <bool>;
-              xalign: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-text-label-xalign;
-              label: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.subtitle;
-            }
-
-            Label {
-              css-name: "description";
-
-              styles [
-                "browser-banner-description",
-              ]
-
-              wrap: true;
-              wrap-mode: word_char;
-              ellipsize: end;
-              lines: 10;
-              margin-start: 25;
-              margin-end: 25;
-
-              visible: bind $invert_boolean($is_null(template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.description) as <bool>) as <bool>;
-              xalign: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.banner-text-label-xalign;
-              label: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.description;
-            }
-          }
-        }
-      }
+      spacing: 10;
 
       $BzDynamicListView {
-        margin-start: 25;
-        margin-end: 25;
-        margin-top: 20;
-        margin-bottom: 20;
         hexpand: true;
         scroll: false;
         noscroll-kind: flow-box;
         child-type: "BzCuratedAppTile";
         child-prop: "group";
-        model: bind $convert_to_groups(template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.appids) as <Gio.ListModel>;
+        model: bind $convert_to_groups(template.section as <$BzCuratedSection>.appids as <$BzCuratedAppidsInfo>.list) as <Gio.ListModel>;
         bind-widget => $bind_widget_cb(template);
         unbind-widget => $unbind_widget_cb(template);
       }
@@ -140,7 +44,7 @@ template $BzSectionView: Adw.Bin {
         margin-end: 25;
         margin-bottom: 20;
         halign: center;
-        visible: bind template.section as <$BzCuratedSection>.category as <$BzCuratedCategoryInfo>.enable-bulk-install as <bool>;
+        visible: bind template.section as <$BzCuratedSection>.appids as <$BzCuratedAppidsInfo>.enable-bulk-install as <bool>;
         label: _("Install All");
         clicked => $install_all_clicked(template);
       }
@@ -167,8 +71,8 @@ template $BzSectionView: Adw.Bin {
       Picture {
         css-name: "image";
         paintable: bind $get_image(template.section as <$BzCuratedSection>.image) as <$GdkPaintable>;
-        can-shrink: bind template.section as <$BzCuratedSection>.category as <$BzCuratedImageInfo>.can-shrink;
-        content-fit: bind template.section as <$BzCuratedSection>.category as <$BzCuratedImageInfo>.fit;
+        can-shrink: bind template.section as <$BzCuratedSection>.image as <$BzCuratedImageInfo>.can-shrink;
+        content-fit: bind template.section as <$BzCuratedSection>.image as <$BzCuratedImageInfo>.fit;
       }
     }
   };

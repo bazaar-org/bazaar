@@ -41,9 +41,6 @@ struct _BzSectionView
   GListModel      *applied_classes;
 
   /* Template widgets */
-  GtkOverlay        *banner_text_overlay;
-  GtkBox            *banner_text_bg;
-  GtkBox            *banner_text;
   BgeMarkdownRender *markdown;
 };
 
@@ -151,23 +148,23 @@ is_null (gpointer object,
   return value == NULL;
 }
 
-static BzAsyncTexture *
-get_banner (gpointer               object,
-            BzCuratedCategoryInfo *info)
-{
-  const char *banner       = NULL;
-  const char *light_banner = NULL;
-  const char *dark_banner  = NULL;
-
-  if (!BZ_IS_CURATED_CATEGORY_INFO (info))
-    return NULL;
-
-  banner       = bz_curated_category_info_get_banner (info);
-  light_banner = bz_curated_category_info_get_light_banner (info);
-  dark_banner  = bz_curated_category_info_get_dark_banner (info);
-
-  return choose_image (banner, light_banner, dark_banner);
-}
+// static BzAsyncTexture *
+// get_banner (gpointer               object,
+//             BzCuratedCategoryInfo *info)
+// {
+//   const char *banner       = NULL;
+//   const char *light_banner = NULL;
+//   const char *dark_banner  = NULL;
+//
+//   if (!BZ_IS_CURATED_CATEGORY_INFO (info))
+//     return NULL;
+//
+//   banner       = bz_curated_category_info_get_banner (info);
+//   light_banner = bz_curated_category_info_get_light_banner (info);
+//   dark_banner  = bz_curated_category_info_get_dark_banner (info);
+//
+//   return choose_image (banner, light_banner, dark_banner);
+// }
 
 static BzAsyncTexture *
 get_image (gpointer            object,
@@ -241,8 +238,8 @@ install_all_clicked (BzSectionView *self,
                      GtkButton     *button)
 {
   GtkWidget               *window   = NULL;
-  BzCuratedCategoryInfo   *category = NULL;
-  GListModel              *appids   = NULL;
+  BzCuratedAppidsInfo     *appids   = NULL;
+  GListModel              *list     = NULL;
   guint                    n_appids = 0;
   BzStateInfo             *info     = NULL;
   BzApplicationMapFactory *factory  = NULL;
@@ -253,11 +250,11 @@ install_all_clicked (BzSectionView *self,
     return;
 
   /* If the button is visible and the user clicked it, this must be non-null */
-  category = bz_curated_section_get_category (self->section);
-  appids   = bz_curated_category_info_get_appids (category);
-  if (appids == NULL)
+  appids = bz_curated_section_get_appids (self->section);
+  list   = bz_curated_appids_info_get_list (appids);
+  if (list == NULL)
     return;
-  n_appids = g_list_model_get_n_items (appids);
+  n_appids = g_list_model_get_n_items (list);
   if (n_appids == 0)
     return;
 
@@ -265,7 +262,7 @@ install_all_clicked (BzSectionView *self,
   info    = bz_state_info_get_default ();
   factory = bz_state_info_get_application_factory (info);
 
-  groups = bz_application_map_factory_generate (factory, appids);
+  groups = bz_application_map_factory_generate (factory, list);
   /* TODO: use signals to chain up the blueprints; it is cleaner, but more
      work... :( */
   bz_window_bulk_install (BZ_WINDOW (window), groups);
@@ -365,13 +362,10 @@ bz_section_view_class_init (BzSectionViewClass *klass)
   g_type_ensure (BZ_TYPE_ASYNC_TEXTURE);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/io/github/kolunmi/Bazaar/bz-section-view.ui");
-  gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text_overlay);
-  gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text_bg);
-  gtk_widget_class_bind_template_child (widget_class, BzSectionView, banner_text);
   gtk_widget_class_bind_template_child (widget_class, BzSectionView, markdown);
   gtk_widget_class_bind_template_callback (widget_class, invert_boolean);
   gtk_widget_class_bind_template_callback (widget_class, is_null);
-  gtk_widget_class_bind_template_callback (widget_class, get_banner);
+  // gtk_widget_class_bind_template_callback (widget_class, get_banner);
   gtk_widget_class_bind_template_callback (widget_class, get_image);
   gtk_widget_class_bind_template_callback (widget_class, clamp_banner_height);
   gtk_widget_class_bind_template_callback (widget_class, clamp_image_dimension);
@@ -401,15 +395,6 @@ static void
 bz_section_view_init (BzSectionView *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  gtk_overlay_set_measure_overlay (
-      self->banner_text_overlay,
-      GTK_WIDGET (self->banner_text),
-      TRUE);
-  gtk_overlay_set_clip_overlay (
-      self->banner_text_overlay,
-      GTK_WIDGET (self->banner_text),
-      TRUE);
 
   self->style_manager = g_object_ref (
       adw_style_manager_get_default ());
