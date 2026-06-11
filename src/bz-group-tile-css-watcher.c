@@ -291,10 +291,22 @@ refresh (BzGroupTileCssWatcher *self)
               : "flathub-lotion");
 
       css_string = g_strdup_printf (
-          ".%s{background-color:%s;}\n"
-          ".%s{background-color:%s;}",
+          ".%s{background-color:%s;transition:background-color 200ms;}\n"
+          ".%s:hover{background-color:shade(%s, 1.05);}\n"
+          ".%s:active{background-color:shade(%s, 1.10);}\n"
+          ".%s{background-color:%s;transition:background-color 200ms;}\n"
+          ".%s:hover{background-color:shade(%s, 1.05);}\n"
+          ".%s:active{background-color:shade(%s, 1.10);}",
           self->light_class,
           light_accent_color != NULL ? light_accent_color : dark_accent_color,
+          self->light_class,
+          light_accent_color != NULL ? light_accent_color : dark_accent_color,
+          self->light_class,
+          light_accent_color != NULL ? light_accent_color : dark_accent_color,
+          self->dark_class,
+          dark_accent_color != NULL ? dark_accent_color : light_accent_color,
+          self->dark_class,
+          dark_accent_color != NULL ? dark_accent_color : light_accent_color,
           self->dark_class,
           dark_accent_color != NULL ? dark_accent_color : light_accent_color);
 
