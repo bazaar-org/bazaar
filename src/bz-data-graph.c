@@ -21,10 +21,10 @@
 #include "config.h"
 
 #include <adwaita.h>
+#include <math.h>
 
 #include "bz-data-graph.h"
 #include "bz-data-point.h"
-#include <math.h>
 
 #define LABEL_MARGIN       75.0
 #define LABEL_MARGIN_RIGHT 35.0
@@ -47,6 +47,9 @@ struct _BzDataGraph
 
   GskPath        *path;
   GskPathMeasure *path_measure;
+
+  GskPath        *trend;
+  GskPathMeasure *trend_measure;
 
   GskRenderNode *other;
   GskRenderNode *graph;
@@ -131,6 +134,8 @@ bz_data_graph_dispose (GObject *object)
   g_clear_pointer (&self->tooltip_prefix, g_free);
   g_clear_pointer (&self->path, gsk_path_unref);
   g_clear_pointer (&self->path_measure, gsk_path_measure_unref);
+  g_clear_pointer (&self->trend, gsk_path_unref);
+  g_clear_pointer (&self->trend_measure, gsk_path_measure_unref);
   g_clear_pointer (&self->other, gsk_render_node_unref);
   g_clear_pointer (&self->graph, gsk_render_node_unref);
   g_clear_pointer (&self->overlay, gsk_render_node_unref);
@@ -749,6 +754,10 @@ refresh_path (BzDataGraph *self,
   double            min_independent        = 0.0;
   double            max_independent        = 0.0;
   double            max_dependent          = 0.0;
+  double            sum_independent        = 0.0;
+  double            sum_dependent          = 0.0;
+  double            mean_independent       = 0.0;
+  double            mean_dependent         = 0.0;
   PangoContext     *pango                  = NULL;
   PangoFontMetrics *metrics                = NULL;
   double            font_height            = 0.0;
@@ -758,12 +767,20 @@ refresh_path (BzDataGraph *self,
   g_autoptr (GskPathBuilder) grid_builder  = NULL;
   g_autoptr (GskPath) grid                 = NULL;
   g_autoptr (GskStroke) grid_stroke        = NULL;
+  double trend_slope_numerator             = 0.0;
+  double trend_slope_denominator           = 0.0;
+  double trend_slope                       = 0.0;
+  double trend_intercept                   = 0.0;
+  g_autoptr (GskPathBuilder) trend_builder = NULL;
+  g_autoptr (GskPath) trend                = NULL;
   double rounded_axis_max                  = 0.0;
   double tick_spacing                      = 0.0;
   int    num_ticks                         = 0;
 
   g_clear_pointer (&self->path, gsk_path_unref);
   g_clear_pointer (&self->path_measure, gsk_path_measure_unref);
+  g_clear_pointer (&self->trend, gsk_path_unref);
+  g_clear_pointer (&self->trend_measure, gsk_path_measure_unref);
   g_clear_pointer (&self->other, gsk_render_node_unref);
 
   if (self->model == NULL)
@@ -797,9 +814,15 @@ refresh_path (BzDataGraph *self,
           max_independent = MAX (independent, max_independent);
           max_dependent   = MAX (dependent, max_dependent);
         }
+
+      sum_independent += independent;
+      sum_dependent += dependent;
     }
 
   rounded_axis_max = calculate_axis_tick_value (max_dependent, TRUE);
+
+  mean_independent = sum_independent / (double) n_items;
+  mean_dependent   = sum_dependent / (double) n_items;
 
   pango       = gtk_widget_get_pango_context (GTK_WIDGET (self));
   metrics     = pango_context_get_metrics (pango, NULL, NULL);
@@ -892,6 +915,9 @@ refresh_path (BzDataGraph *self,
           gsk_path_builder_move_to (grid_builder, x, height);
           gsk_path_builder_line_to (grid_builder, x, height + TICK_LENGTH);
         }
+
+      trend_slope_numerator += (independent - mean_independent) * (dependent - mean_dependent);
+      trend_slope_denominator += (independent - mean_independent) * (independent - mean_independent);
     }
 
   gsk_path_builder_move_to (grid_builder, 0.0, height);
@@ -947,22 +973,42 @@ refresh_path (BzDataGraph *self,
   gtk_snapshot_append_stroke (snapshot, grid, grid_stroke, &(GdkRGBA){ 1.0, 1.0, 1.0, 1.0 });
   gtk_snapshot_restore (snapshot);
 
-  self->path         = gsk_path_builder_to_path (curve_builder);
-  self->path_measure = gsk_path_measure_new (self->path);
-  self->other        = gtk_snapshot_to_node (snapshot);
+  if (!G_APPROX_VALUE (trend_slope_denominator, 0.0, 0.00001))
+    trend_slope = trend_slope_numerator / trend_slope_denominator;
+  trend_intercept = mean_dependent - trend_slope * mean_independent;
+
+  trend_builder = gsk_path_builder_new ();
+  gsk_path_builder_move_to (
+      trend_builder,
+      0.0,
+      (1.0 - (trend_intercept + trend_slope * min_independent) /
+                 rounded_axis_max) *
+          height);
+  gsk_path_builder_line_to (
+      trend_builder,
+      width,
+      (1.0 - (trend_intercept + trend_slope * max_independent) /
+                 rounded_axis_max) *
+          height);
+
+  self->path          = gsk_path_builder_to_path (curve_builder);
+  self->path_measure  = gsk_path_measure_new (self->path);
+  self->trend         = gsk_path_builder_to_path (trend_builder);
+  self->trend_measure = gsk_path_measure_new (self->trend);
+  self->other         = gtk_snapshot_to_node (snapshot);
 }
 
 static void
 refresh_graph (BzDataGraph *self)
 {
-  double           widget_width     = 0.0;
-  double           widget_height    = 0.0;
-  AdwStyleManager *style_manager    = NULL;
-  g_autoptr (GdkRGBA) accent_color  = NULL;
-  GdkRGBA widget_color              = { 0 };
-  g_autoptr (GskPath) transitioning = NULL;
-  g_autoptr (GskStroke) stroke      = NULL;
-  g_autoptr (GtkSnapshot) snapshot  = NULL;
+  double           widget_width           = 0.0;
+  double           widget_height          = 0.0;
+  AdwStyleManager *style_manager          = NULL;
+  g_autoptr (GdkRGBA) accent_color        = NULL;
+  GdkRGBA widget_color                    = { 0 };
+  g_autoptr (GskPath) transitioning       = NULL;
+  g_autoptr (GskPath) trend_transitioning = NULL;
+  g_autoptr (GtkSnapshot) snapshot        = NULL;
 
   if (self->path == NULL)
     {
@@ -993,9 +1039,21 @@ refresh_graph (BzDataGraph *self)
       gsk_path_builder_add_segment (builder, self->path, &point0, &point1);
       transitioning = gsk_path_builder_to_path (builder);
     }
+  if (self->transition_progress > 0.0 && self->transition_progress < 1.0)
+    {
+      GskPathPoint point0                = { 0 };
+      double       path_distance         = 0.0;
+      GskPathPoint point1                = { 0 };
+      g_autoptr (GskPathBuilder) builder = NULL;
 
-  stroke = gsk_stroke_new (3.0);
-  gsk_stroke_set_line_cap (stroke, GSK_LINE_CAP_ROUND);
+      gsk_path_get_start_point (self->trend, &point0);
+      path_distance = gsk_path_measure_get_length (self->trend_measure) * self->transition_progress;
+      gsk_path_measure_get_point (self->trend_measure, path_distance, &point1);
+
+      builder = gsk_path_builder_new ();
+      gsk_path_builder_add_segment (builder, self->trend, &point0, &point1);
+      trend_transitioning = gsk_path_builder_to_path (builder);
+    }
 
   snapshot = gtk_snapshot_new ();
   gtk_snapshot_save (snapshot);
@@ -1003,6 +1061,8 @@ refresh_graph (BzDataGraph *self)
 
   if (self->transition_progress > 0.0)
     {
+      g_autoptr (GskStroke) stroke       = NULL;
+      g_autoptr (GskStroke) trend_stroke = NULL;
       g_autoptr (GskPathBuilder) builder = NULL;
       GskPathPoint     point0            = { 0 };
       GskPathPoint     point1            = { 0 };
@@ -1059,6 +1119,19 @@ refresh_graph (BzDataGraph *self)
          },
          },
       };
+      const GdkRGBA trend_color = {
+        .red   = widget_color.red,
+        .green = widget_color.green,
+        .blue  = widget_color.blue,
+        .alpha = 0.8,
+      };
+
+      stroke = gsk_stroke_new (3.0);
+      gsk_stroke_set_line_cap (stroke, GSK_LINE_CAP_ROUND);
+
+      trend_stroke = gsk_stroke_new (2.0);
+      gsk_stroke_set_line_cap (trend_stroke, GSK_LINE_CAP_ROUND);
+      gsk_stroke_set_dash (trend_stroke, (const float[]){ 12, 16 }, 2);
 
       gtk_snapshot_append_stroke (
           snapshot,
@@ -1142,6 +1215,14 @@ refresh_graph (BzDataGraph *self)
 
       gtk_snapshot_pop (snapshot); /* Push Mask (image) */
       gtk_snapshot_pop (snapshot); /* Push Fill */
+
+      /* Trend line */
+      gtk_snapshot_append_stroke (
+          snapshot,
+          trend_transitioning != NULL
+              ? trend_transitioning
+              : self->trend,
+          trend_stroke, &trend_color);
     }
   gtk_snapshot_restore (snapshot);
 
