@@ -225,7 +225,8 @@ bz_entry_cache_manager_init (BzEntryCacheManager *self)
 {
   g_mutex_init (&self->mutex);
 
-  self->scheduler = dex_thread_pool_scheduler_new ();
+  // self->scheduler = dex_thread_pool_scheduler_new ();
+  self->scheduler = dex_ref (dex_thread_pool_scheduler_get_default ());
 
   self->init       = dex_promise_new ();
   self->alive_hash = g_hash_table_new_full (
