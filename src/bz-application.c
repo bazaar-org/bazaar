@@ -23,6 +23,8 @@
 
 #define MAX_IDS_PER_BLOCKLIST 2048
 
+#define CACHE_ENUM_BATCH_SIZE 64
+
 #include "config.h"
 
 #include <glib/gi18n.h>
@@ -1327,7 +1329,6 @@ enumerate_disk_io_fiber (EnumerateDiskIoData *data)
 {
   g_autoptr (GError) local_error    = NULL;
   g_autoptr (GHashTable) cached_set = NULL;
-  g_autoptr (GPtrArray) futures     = NULL;
   g_autoptr (GPtrArray) entries     = NULL;
   GHashTableIter iter               = { 0 };
 
@@ -1337,45 +1338,47 @@ enumerate_disk_io_fiber (EnumerateDiskIoData *data)
   if (cached_set == NULL)
     return dex_future_new_for_error (g_steal_pointer (&local_error));
 
-  futures = g_ptr_array_new_with_free_func (dex_unref);
   entries = g_ptr_array_new_with_free_func (g_object_unref);
 
   g_hash_table_iter_init (&iter, cached_set);
   for (;;)
     {
-      char *checksum = NULL;
+      g_autoptr (GPtrArray) batch = NULL;
+      char *checksum              = NULL;
 
-      if (!g_hash_table_iter_next (
-              &iter, (gpointer *) &checksum, NULL))
-        break;
+      batch = g_ptr_array_new_with_free_func (dex_unref);
 
-      g_ptr_array_add (
-          futures,
-          bz_entry_cache_manager_get_by_checksum (
-              data->cache, checksum));
-    }
+      while (batch->len < CACHE_ENUM_BATCH_SIZE &&
+             g_hash_table_iter_next (&iter, (gpointer *) &checksum, NULL))
+        g_ptr_array_add (
+            batch,
+            bz_entry_cache_manager_get_by_checksum (
+                data->cache, checksum));
 
-  if (futures->len > 0)
-    dex_await (dex_future_allv (
-                   (DexFuture *const *) futures->pdata,
-                   futures->len),
-               NULL);
+      if (batch->len > 0)
+        dex_await (dex_future_allv (
+                       (DexFuture *const *) batch->pdata,
+                       batch->len),
+                   NULL);
 
-  for (guint i = 0; i < futures->len; i++)
-    {
-      DexFuture    *future = NULL;
-      const GValue *value  = NULL;
-
-      future = g_ptr_array_index (futures, i);
-      value  = dex_future_get_value (future, &local_error);
-
-      if (value != NULL)
-        g_ptr_array_add (entries, g_value_dup_object (value));
-      else
+      for (guint i = 0; i < batch->len; i++)
         {
-          g_warning ("Unable to retrieve cached entry: %s", local_error->message);
-          g_clear_error (&local_error);
+          DexFuture    *future = NULL;
+          const GValue *value  = NULL;
+
+          future = g_ptr_array_index (batch, i);
+          value  = dex_future_get_value (future, &local_error);
+          if (value != NULL)
+            g_ptr_array_add (entries, g_value_dup_object (value));
+          else
+            {
+              g_warning ("Unable to retrieve cached entry: %s", local_error->message);
+              g_clear_error (&local_error);
+            }
         }
+
+      if (batch->len < CACHE_ENUM_BATCH_SIZE)
+        break;
     }
 
   return dex_future_new_take_boxed (G_TYPE_PTR_ARRAY, g_steal_pointer (&entries));
