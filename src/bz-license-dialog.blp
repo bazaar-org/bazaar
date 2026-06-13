@@ -2,7 +2,6 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BzLicenseDialog: Adw.Bin {
-
   child: Adw.ToolbarView {
     [top]
     Adw.HeaderBar {
@@ -21,7 +20,7 @@ template $BzLicenseDialog: Adw.Bin {
 
         Box {
           orientation: vertical;
-          margin-bottom: 24;
+          margin-bottom: 16;
           valign: center;
           vexpand: true;
 
@@ -54,66 +53,74 @@ template $BzLicenseDialog: Adw.Bin {
 
         Box {
           orientation: vertical;
-          spacing: 12;
+          spacing: 6;
+          margin-bottom: 12;
 
-          ListBox {
-            selection-mode: none;
+          Label {
+            label: bind $get_license_info(template.entry as <$BzEntry>) as <string>;
+            valign: start;
+            margin-bottom: 18;
+            margin-start: 18;
+            margin-end: 18;
+            use-markup: true;
+            xalign: 0.50;
+            wrap: true;
+            wrap-mode: word_char;
+            justify: center;
+          }
 
+          Button {
             styles [
-              "boxed-list",
+              "pill",
             ]
 
-            ListBoxRow {
-              vexpand: true;
-              activatable: false;
+            visible: bind template.entry as <$BzEntry>.is-floss as <bool>;
+            clicked => $contribute_cb(template);
+            tooltip-text: bind $get_involved_tooltip(template.entry) as <string>;
+            halign: center;
+
+            child: Box {
+              orientation: horizontal;
+              spacing: 10;
 
               Label {
-                label: bind $get_license_info(template.entry as <$BzEntry>) as <string>;
-                valign: start;
-                margin-top: 12;
-                margin-bottom: 12;
-                margin-start: 12;
-                margin-end: 12;
-                use-markup: true;
-                xalign: 0;
+                label: _("Get Involved");
                 wrap: true;
                 wrap-mode: word_char;
+                justify: right;
               }
-            }
+
+              Image {
+                icon-name: "external-link-symbolic";
+              }
+            };
           }
 
-          ListBox {
-            visible: bind template.entry as <$BzEntry>.is-floss as <bool>;
-            selection-mode: none;
-
+          Button {
             styles [
-              "boxed-list",
+              "pill",
             ]
 
-            Adw.ButtonRow {
-              title: _("Get Involved");
-              end-icon-name: "external-link-symbolic";
-              activated => $contribute_cb(template);
-              has-tooltip: true;
-              tooltip-text: bind $get_involved_tooltip(template.entry) as <string>;
-            }
-          }
-
-          ListBox {
             visible: bind $should_show_eula(template.entry as <$BzEntry>) as <bool>;
-            selection-mode: none;
+            clicked => $eula_cb(template);
+            tooltip-text: bind $eula_tooltip(template.entry) as <string>;
+            halign: center;
 
-            styles [
-              "boxed-list",
-            ]
+            child: Box {
+              orientation: horizontal;
+              spacing: 10;
 
-            Adw.ButtonRow {
-              title: _("Learn More");
-              end-icon-name: "external-link-symbolic";
-              activated => $eula_cb(template);
-              has-tooltip: true;
-              tooltip-text: bind $eula_tooltip(template.entry) as <string>;
-            }
+              Label {
+                label: _("Learn More");
+                wrap: true;
+                wrap-mode: word_char;
+                justify: right;
+              }
+
+              Image {
+                icon-name: "external-link-symbolic";
+              }
+            };
           }
         }
       };

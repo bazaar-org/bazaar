@@ -340,7 +340,7 @@ bz_license_dialog_new (BzEntry *entry)
   widget = g_object_new (BZ_TYPE_LICENSE_DIALOG, "entry", entry, NULL);
 
   dialog = adw_dialog_new ();
-  adw_dialog_set_content_width (dialog, 400);
+  adw_dialog_set_content_width (dialog, 425);
   adw_dialog_set_child (dialog, GTK_WIDGET (widget));
 
   return dialog;
