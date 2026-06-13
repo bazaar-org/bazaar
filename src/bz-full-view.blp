@@ -37,6 +37,12 @@ template $BzFullView: Adw.Bin {
       }
 
       Adw.ViewStackPage {
+        name: "loading";
+        title: _("Empty");
+        child: Adw.Bin {};
+      }
+
+      Adw.ViewStackPage {
         name: "content";
         title: _("Content");
 
@@ -95,12 +101,6 @@ template $BzFullView: Adw.Bin {
                   vexpand: false;
                   margin-bottom: 15;
                   spacing: 20;
-
-                  // Adw.Banner {
-                  //   title: _("Installing .flatpak bundles is not yet supported");
-                  //   visible: bind template.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.is-bundle as <bool>;
-                  //   revealed: true;
-                  // }
 
                   Adw.Banner {
                     title: _("This is a local preview, some details may differ from the published listing");
@@ -469,21 +469,14 @@ template $BzFullView: Adw.Bin {
                     };
                   }
 
-                  Box screenshot_box {
-                    Adw.Spinner {
-                      vexpand: true;
-                      visible: bind $invert_boolean(template.ui-entry as <$BzResult>.resolved as <bool>) as <bool>;
-                    }
+                  $BzScreenshotsCarousel screenshots {
+                    vexpand: true;
+                    hexpand: true;
+                    clicked => $screenshot_clicked_cb() swapped;
+                    light-accent-color: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.light-accent-color;
+                    dark-accent-color: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.dark-accent-color;
 
-                    $BzScreenshotsCarousel screenshots {
-                      vexpand: true;
-                      hexpand: true;
-                      clicked => $screenshot_clicked_cb() swapped;
-                      light-accent-color: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.light-accent-color;
-                      dark-accent-color: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.dark-accent-color;
-
-                      model: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.screenshot-paintables;
-                    }
+                    model: bind template.ui-entry as <$BzResult>.object as <$BzEntry>.screenshot-paintables;
                   }
 
                   Adw.Clamp {

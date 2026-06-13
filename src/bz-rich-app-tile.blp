@@ -36,10 +36,10 @@ template $BzRichAppTile: $BzListTile {
           valign: center;
           hexpand: true;
 
-          visible: bind $is_null(template.ui-entry as <$BzEntry>.thumbnail-paintable) as <bool>;
+          visible: bind screenshot.visible inverted;
         }
 
-        $BzRoundedPicture {
+        $BzRoundedPicture screenshot {
           halign: center;
           hexpand: true;
           valign: center;

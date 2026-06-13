@@ -855,6 +855,8 @@ on_ui_entry_resolved (DexFuture *future,
         self->runtime = bz_flatpak_entry_dup_runtime_result (BZ_FLATPAK_ENTRY (ui_entry));
     }
 
+  adw_view_stack_set_visible_child_name (self->stack, "content");
+
   return dex_future_new_for_boolean (TRUE);
 }
 
@@ -912,6 +914,8 @@ bz_full_view_set_entry_group (BzFullView   *self,
             {
               g_autoptr (DexFuture) ui_future = NULL;
 
+              adw_view_stack_set_visible_child_name (self->stack, "loading");
+
               ui_future = bz_result_dup_future (self->ui_entry);
               ui_future = dex_future_then (
                   ui_future,
@@ -921,8 +925,6 @@ bz_full_view_set_entry_group (BzFullView   *self,
               self->ui_future = g_steal_pointer (&ui_future);
             }
         }
-
-      adw_view_stack_set_visible_child_name (self->stack, "content");
     }
   else
     adw_view_stack_set_visible_child_name (self->stack, "empty");
