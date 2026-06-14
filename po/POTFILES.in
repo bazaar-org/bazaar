@@ -104,8 +104,10 @@ src/bz-safety-calculator.c
 src/bz-safety-dialog.blp
 src/bz-safety-dialog.c
 src/bz-screenshot-page.blp
+src/bz-screenshot-page.c
 src/bz-screenshot.c
 src/bz-screenshots-carousel.blp
+src/bz-screenshots-carousel.c
 src/bz-search-engine.c
 src/bz-search-filter-popover.blp
 src/bz-search-filter-popover.c
@@ -118,6 +120,7 @@ src/bz-serializable.c
 src/bz-share-list.c
 src/bz-stats-dialog.blp
 src/bz-stats-dialog.c
+src/bz-subcategory-list.c
 src/bz-transact-icon.wdgt
 src/bz-transaction-dialog.c
 src/bz-transaction-list-dialog.blp
