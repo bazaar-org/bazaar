@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-14 10:50+0200\n"
-"PO-Revision-Date: 2026-06-14 11:12+0200\n"
+"POT-Creation-Date: 2026-06-14 16:13+0200\n"
+"PO-Revision-Date: 2026-06-15 03:08+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -866,7 +866,7 @@ msgstr "Zobrazit vše"
 msgid "All \"%s\""
 msgstr "Všechny „%s“"
 
-#: src/bz-apps-page.c:487
+#: src/bz-apps-page.c:487 src/bz-subcategory-list.c:89
 #, c-format
 msgid "%d Applications"
 msgstr "%d aplikací"
@@ -1193,7 +1193,8 @@ msgstr "Podrobnosti"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: src/bz-error-dialog.c:56 src/bz-share-list.c:364
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:408
+#: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Zkopírováno!"
 
@@ -2663,6 +2664,11 @@ msgstr "Žádné snímky obrazovky"
 msgid "Open Screenshot Viewer"
 msgstr "Otevřít prohlížeč snímků obrazovky"
 
+#: src/bz-screenshots-carousel.c:287
+#, c-format
+msgid "Screenshot %u of %u"
+msgstr "Snímek %u z %u"
+
 #: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:83
 msgid "Filters"
 msgstr "Filtry"
@@ -2887,6 +2893,14 @@ msgstr "%.2f tis. celkových instalací"
 #, c-format
 msgid "%'d Total Installs"
 msgstr "%'d celkových instalací"
+
+#: src/bz-subcategory-list.c:78
+msgid "No Results Found"
+msgstr "Nenalezeny žádné výsledky"
+
+#: src/bz-subcategory-list.c:100
+msgid "Search failed"
+msgstr "Hledání se nezdařilo"
 
 #: src/bz-transaction-dialog.c:154
 msgid "Keep User Data"
