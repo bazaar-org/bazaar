@@ -115,6 +115,7 @@ bz_sources = files(
   'bz-install-controls.c',
   'bz-installed-tile.c',
   'bz-io.c',
+  'bz-lazy-wdgt.c',
   'bz-library-page.c',
   'bz-license-dialog.c',
   'bz-list-tile.c',

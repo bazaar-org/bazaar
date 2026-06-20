@@ -21,6 +21,7 @@
 #include <bge.h>
 
 #include "bz-application.h"
+#include "bz-lazy-wdgt.h"
 #include "bz-transact-icon.h"
 #include "progress-bar-designs/common.h"
 
@@ -37,7 +38,7 @@ struct _BzTransactIcon
 
   char *pride_class;
 
-  BgeWdgtRenderer *wdgt;
+  BzLazyWdgt *wdgt;
 };
 
 G_DEFINE_FINAL_TYPE (BzTransactIcon, bz_transact_icon, ADW_TYPE_BIN);
@@ -98,6 +99,11 @@ static void
 pride_flag_changed (BzTransactIcon *self,
                     const char     *key,
                     GSettings      *settings);
+
+static gboolean
+next_frame_tick_cb (GtkWidget     *widget,
+                    GdkFrameClock *frame_clock,
+                    char          *apply_state);
 
 static void
 bz_transact_icon_dispose (GObject *object)
@@ -192,14 +198,19 @@ bz_transact_icon_class_init (BzTransactIconClass *klass)
 static void
 bz_transact_icon_init (BzTransactIcon *self)
 {
-  self->wdgt = bge_wdgt_renderer_new ();
-  g_object_set (
-      self->wdgt,
-      "resource", "/io/github/kolunmi/Bazaar/bz-transact-icon.wdgt",
-      "state", "inactive",
-      NULL);
-  g_object_bind_property (self, "info", self->wdgt, "reference", G_BINDING_DEFAULT);
+  GtkWidget *placeholder_icon = NULL;
+
+  self->wdgt = bz_lazy_wdgt_new ();
+  bz_lazy_wdgt_set_wdgt_resource (self->wdgt, "/io/github/kolunmi/Bazaar/bz-transact-icon.wdgt");
+  g_object_bind_property (self, "info", self->wdgt, "wdgt-reference", G_BINDING_DEFAULT);
   adw_bin_set_child (ADW_BIN (self), GTK_WIDGET (self->wdgt));
+
+  placeholder_icon = gtk_image_new ();
+  gtk_widget_add_css_class (placeholder_icon, "icon-dropshadow");
+  g_object_bind_property (self, "height-request", placeholder_icon, "pixel-size", G_BINDING_SYNC_CREATE);
+
+  adw_bin_set_child (ADW_BIN (self->wdgt), placeholder_icon);
+  update_icon (self);
 }
 
 BzTransactIcon *
@@ -391,16 +402,37 @@ check_tracker (BzTransactIcon *self)
   else
     state = "inactive";
 
-  bge_wdgt_renderer_set_state (self->wdgt, state);
+  if (!bz_lazy_wdgt_get_activated (self->wdgt))
+    {
+      /* Ensure smooth animation from idle; hacky but if we schedule the state
+         change on the next animation tick, then it will appear to smoothly
+         animate from the placeholder */
+      bz_lazy_wdgt_set_wdgt_state (self->wdgt, "inactive");
+      gtk_widget_add_tick_callback (
+          GTK_WIDGET (self),
+          (GtkTickCallback) next_frame_tick_cb,
+          g_strdup (state), g_free);
+    }
+  else
+    bz_lazy_wdgt_set_wdgt_state (self->wdgt, state);
+
+  update_icon (self);
+  ensure_draw_css (self);
 }
 
 static void
 ensure_draw_css (BzTransactIcon *self)
 {
+  GtkWidget *renderer          = NULL;
   g_autoptr (GtkWidget) widget = NULL;
   g_autofree char *id          = NULL;
   g_autofree char *class       = NULL;
-  widget = bge_wdgt_renderer_lookup_object (self->wdgt, "flag");
+
+  renderer = adw_bin_get_child (ADW_BIN (self->wdgt));
+  if (!BGE_IS_WDGT_RENDERER (renderer))
+    return;
+
+  widget = bge_wdgt_renderer_lookup_object (BGE_WDGT_RENDERER (renderer), "flag");
 
   if (self->settings == NULL)
     {
@@ -427,18 +459,23 @@ ensure_draw_css (BzTransactIcon *self)
 static void
 update_icon (BzTransactIcon *self)
 {
-  g_autoptr (GtkImage) icon = NULL;
-  GdkPaintable *paintable   = NULL;
+  GtkWidget *renderer        = NULL;
+  g_autoptr (GtkWidget) icon = NULL;
+  GdkPaintable *paintable    = NULL;
 
-  icon = bge_wdgt_renderer_lookup_object (self->wdgt, "icon");
+  renderer = adw_bin_get_child (ADW_BIN (self->wdgt));
+  if (BGE_IS_WDGT_RENDERER (renderer))
+    icon = bge_wdgt_renderer_lookup_object (BGE_WDGT_RENDERER (renderer), "icon");
+  else
+    icon = g_object_ref (renderer);
 
   if (self->info != NULL)
     paintable = bz_transact_icon_info_get_paintable (self->info);
 
   if (paintable != NULL)
-    gtk_image_set_from_paintable (icon, paintable);
+    gtk_image_set_from_paintable (GTK_IMAGE (icon), paintable);
   else
-    gtk_image_set_from_icon_name (icon, "application-x-executable");
+    gtk_image_set_from_icon_name (GTK_IMAGE (icon), "application-x-executable");
 }
 
 static void
@@ -489,6 +526,17 @@ pride_flag_changed (BzTransactIcon *self,
                     GSettings      *settings)
 {
   ensure_draw_css (self);
+}
+
+static gboolean
+next_frame_tick_cb (GtkWidget     *widget,
+                    GdkFrameClock *frame_clock,
+                    char          *apply_state)
+{
+  BzTransactIcon *self = BZ_TRANSACT_ICON (widget);
+
+  bz_lazy_wdgt_set_wdgt_state (self->wdgt, apply_state);
+  return G_SOURCE_REMOVE;
 }
 
 /* End of bz-transact-icon.c */
