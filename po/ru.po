@@ -2627,7 +2627,7 @@ msgstr ""
 
 #: src/bz-safety-dialog.blp:52
 msgid "View Other Permissions"
-msgstr "Посмотреть произвольные разрешения"
+msgstr "Посмотреть другие разрешения"
 
 #: src/bz-safety-dialog.blp:112
 msgid "App ID"
