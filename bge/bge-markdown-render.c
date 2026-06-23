@@ -87,6 +87,11 @@ typedef struct
   GPtrArray         *source_views;
   GString           *alt_text;
   gboolean           in_image;
+  GtkWidget         *grid;
+  guint              grid_rows;
+  guint              grid_columns;
+  guint              grid_row_idx;
+  guint              grid_column_idx;
 } ParseCtx;
 
 static int
@@ -119,7 +124,8 @@ static const MD_PARSER parser = {
   .flags       = MD_FLAG_COLLAPSEWHITESPACE |
                  MD_FLAG_NOHTMLBLOCKS |
                  MD_FLAG_NOHTMLSPANS |
-                 MD_FLAG_STRIKETHROUGH,
+                 MD_FLAG_STRIKETHROUGH |
+                 MD_FLAG_TABLES,
   .enter_block = enter_block,
   .leave_block = leave_block,
   .enter_span  = enter_span,
@@ -495,6 +501,8 @@ regenerate (BgeMarkdownRender *self)
     g_string_free (ctx.markup, TRUE);
   if (ctx.alt_text != NULL)
     g_string_free (ctx.alt_text, TRUE);
+  if (ctx.grid != NULL)
+    g_object_unref (ctx.grid);
   g_array_unref (ctx.block_stack);
 
   if (iresult != 0)
@@ -946,15 +954,96 @@ terminate_block (MD_BLOCKTYPE type,
       }
       break;
 
-    case MD_BLOCK_HTML:
     case MD_BLOCK_TABLE:
+      {
+        MD_BLOCK_TABLE_DETAIL *table_detail = detail;
+
+        g_assert (ctx->grid == NULL);
+
+        ctx->grid = gtk_grid_new ();
+        gtk_widget_set_halign (ctx->grid, GTK_ALIGN_CENTER);
+        gtk_grid_set_column_spacing (GTK_GRID (ctx->grid), 6);
+        gtk_grid_set_row_spacing (GTK_GRID (ctx->grid), 3);
+
+        ctx->grid_rows       = table_detail->head_row_count + table_detail->body_row_count;
+        ctx->grid_columns    = table_detail->col_count;
+        ctx->grid_row_idx    = 0;
+        ctx->grid_column_idx = 0;
+
+        for (guint col = 1; col < ctx->grid_columns; col++)
+          {
+            GtkWidget *separator = NULL;
+
+            separator = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+            gtk_grid_attach (
+                GTK_GRID (ctx->grid),
+                separator,
+                col * 2 + 1, 0,
+                1, ctx->grid_rows);
+          }
+      }
+      break;
+
     case MD_BLOCK_THEAD:
     case MD_BLOCK_TBODY:
     case MD_BLOCK_TR:
+      break;
+
     case MD_BLOCK_TH:
     case MD_BLOCK_TD:
+      {
+        MD_BLOCK_TD_DETAIL *td_detail = detail;
+        GtkWidget          *label     = NULL;
+        GtkAlign            align     = 0;
+
+        g_assert (ctx->markup != NULL);
+
+        label = gtk_label_new (ctx->markup->str);
+        SET_DEFAULTS (label);
+        gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+
+        if (type == MD_BLOCK_TH)
+          gtk_widget_add_css_class (label, "heading");
+
+        switch (td_detail->align)
+          /* TODO: rtl langs ? */
+          {
+          case MD_ALIGN_LEFT:
+            align = GTK_ALIGN_START;
+            break;
+          case MD_ALIGN_CENTER:
+            align = GTK_ALIGN_CENTER;
+            break;
+          case MD_ALIGN_RIGHT:
+            align = GTK_ALIGN_END;
+            break;
+          case MD_ALIGN_DEFAULT:
+          default:
+            break;
+          }
+        gtk_widget_set_halign (label, align);
+
+        gtk_grid_attach (
+            GTK_GRID (ctx->grid),
+            label,
+            ctx->grid_column_idx * 2, ctx->grid_row_idx,
+            1, 1);
+
+        ctx->grid_column_idx++;
+        if (ctx->grid_column_idx > ctx->grid_columns)
+          {
+            ctx->grid_row_idx++;
+            ctx->grid_column_idx = 0;
+
+            if (ctx->grid_row_idx >= ctx->grid_rows)
+              child = g_steal_pointer (&ctx->grid);
+          }
+      }
+      break;
+
+    case MD_BLOCK_HTML:
     default:
-      g_warning ("Unsupported markdown event (Did you use html/tables?)");
+      g_warning ("Unsupported markdown event (Did you use html?)");
       return 1;
     }
 
