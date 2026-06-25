@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-19 21:43+0200\n"
-"PO-Revision-Date: 2026-06-20 02:06+0200\n"
+"POT-Creation-Date: 2026-06-25 19:30+0200\n"
+"PO-Revision-Date: 2026-06-25 20:08+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -104,15 +104,15 @@ msgctxt "Install Controls"
 msgid "Uninstall"
 msgstr "Odinstalovat"
 
-#: src/bz-addon-tile.c:170 src/bz-bundle-install-dialog.blp:145
-#: src/bz-bundle-install-dialog.blp:159 src/bz-favorites-tile.c:157
+#: src/bz-addon-tile.c:170 src/bz-bundle-install-dialog.blp:148
+#: src/bz-bundle-install-dialog.blp:162 src/bz-favorites-tile.c:157
 #: src/bz-install-controls.wdgt:29
 msgctxt "Install Controls"
 msgid "Install"
 msgstr "Instalovat"
 
 #: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
-#: src/bz-addons-dialog.blp:70 src/bz-installed-tile.blp:92
+#: src/bz-addons-dialog.blp:70 src/bz-installed-tile.blp:96
 msgid "Manage Add-Ons"
 msgstr "Spravovat doplňky"
 
@@ -132,15 +132,15 @@ msgstr ""
 msgid "Add-on Page"
 msgstr "Stránka doplňků"
 
-#: src/bz-addons-dialog.blp:202 src/bz-full-view.blp:411
+#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:411
 msgid "Downloads/Month"
 msgstr "Stažení/měsíc"
 
-#: src/bz-addons-dialog.blp:229 src/bz-full-view.blp:447
+#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:447
 msgid "Stopped Receiving Core Updates"
 msgstr "Příjem základních aktualizací zastaven"
 
-#: src/bz-addons-dialog.blp:243
+#: src/bz-addons-dialog.blp:245
 msgid ""
 "This add-on uses a runtime that no longer receives updates or security "
 "fixes. It may become unsafe to use."
@@ -157,7 +157,7 @@ msgstr "Doplněk pro %s"
 msgid "Show Less"
 msgstr "Zobrazit méně"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657 src/bz-section-view.blp:71
 msgid "Show More"
 msgstr "Zobrazit více"
 
@@ -716,8 +716,8 @@ msgid "Runtime Download Size"
 msgstr "Stahovaná velikost prostředí"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:392
-#: src/bz-context-tile-callbacks.c:409
+#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:393
+#: src/bz-context-tile-callbacks.c:410
 msgid "N/A"
 msgstr "N/A"
 
@@ -804,11 +804,11 @@ msgstr "Nastavit Flathub"
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1826 src/bz-application.c:4006
+#: src/bz-application.c:1826 src/bz-application.c:4024
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:1990 src/bz-application.c:4004
+#: src/bz-application.c:1990 src/bz-application.c:4022
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
@@ -829,11 +829,11 @@ msgstr "Kontrolují se aktualizace…"
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3717
+#: src/bz-application.c:3735
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3718
+#: src/bz-application.c:3736
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -845,15 +845,15 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3726
+#: src/bz-application.c:3744
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:3757
+#: src/bz-application.c:3775
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:4008
+#: src/bz-application.c:4026
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -871,15 +871,19 @@ msgstr "Všechny „%s“"
 msgid "%d Applications"
 msgstr "%d aplikací"
 
+#: src/bz-article.blp:86
+msgid "Failed to Load Article"
+msgstr "Nezdařilo se načíst článek"
+
 #: src/bz-bundle-install-dialog.blp:21 src/bz-bundle-install-dialog.blp:27
 msgid "Bundle Installation"
 msgstr "Instalace balíčku"
 
-#: src/bz-bundle-install-dialog.blp:195
+#: src/bz-bundle-install-dialog.blp:198
 msgid "Additional dependencies may take extra space"
 msgstr "Dodatečné závislosti mohou zabírat další místo"
 
-#: src/bz-bundle-install-dialog.blp:229
+#: src/bz-bundle-install-dialog.blp:232
 msgid ""
 "Installing this app may require adding a new software source. Other apps "
 "from this source will show up in Bazaar.\n"
@@ -891,24 +895,24 @@ msgstr ""
 "\n"
 "Tento zdroj přidejte, pouze pokud jste si jisti, že mu důvěřujete."
 
-#: src/bz-bundle-install-dialog.blp:406
+#: src/bz-bundle-install-dialog.blp:412
 msgid "Successfully Installed!"
 msgstr "Úspěšně nainstalováno!"
 
-#: src/bz-bundle-install-dialog.blp:430 src/bz-bundle-install-dialog.blp:513
+#: src/bz-bundle-install-dialog.blp:437 src/bz-bundle-install-dialog.blp:522
 #: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:298
 msgid "Open"
 msgstr "Otevřít"
 
-#: src/bz-bundle-install-dialog.blp:440 src/bz-bundle-install-dialog.blp:523
+#: src/bz-bundle-install-dialog.blp:447 src/bz-bundle-install-dialog.blp:532
 msgid "Show App Details"
 msgstr "Zobrazit podrobnosti o aplikaci"
 
-#: src/bz-bundle-install-dialog.blp:490
+#: src/bz-bundle-install-dialog.blp:498
 msgid "Already Installed"
 msgstr "Již nainstalováno"
 
-#: src/bz-bundle-install-dialog.blp:535
+#: src/bz-bundle-install-dialog.blp:544
 msgid "Installation Failed"
 msgstr "Instalace se nezdařila"
 
@@ -982,7 +986,7 @@ msgid "Suitable for ages %d and up"
 msgstr "Vhodné pro věk %d a více"
 
 #: src/bz-context-tile-callbacks.c:243 src/bz-context-tile-callbacks.c:248
-#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:284
+#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:285
 msgid "Unknown"
 msgstr "Neznámé"
 
@@ -1004,61 +1008,62 @@ msgstr "Uzavřený software"
 msgid "Special License: %s"
 msgstr "Zvláštní licence: %s"
 
-#: src/bz-context-tile-callbacks.c:281
-msgid "Free"
+#. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
+#: src/bz-context-tile-callbacks.c:282
+msgid "Free Software"
 msgstr "Svobodné"
 
-#: src/bz-context-tile-callbacks.c:287 src/bz-license-dialog.c:133
+#: src/bz-context-tile-callbacks.c:288 src/bz-license-dialog.c:133
 msgid "Proprietary"
 msgstr "Uzavřené"
 
-#: src/bz-context-tile-callbacks.c:289 src/bz-license-dialog.c:135
+#: src/bz-context-tile-callbacks.c:290 src/bz-license-dialog.c:135
 msgid "Special License"
 msgstr "Zvláštní licence"
 
-#: src/bz-context-tile-callbacks.c:309
+#: src/bz-context-tile-callbacks.c:310
 msgid "Adaptive"
 msgstr "Adaptivní"
 
-#: src/bz-context-tile-callbacks.c:309
+#: src/bz-context-tile-callbacks.c:310
 msgid "Desktop Only"
 msgstr "Pouze pro PC"
 
-#: src/bz-context-tile-callbacks.c:315
+#: src/bz-context-tile-callbacks.c:316
 msgid "Works on desktop, tablets, and phones"
 msgstr "Funguje na PC, tabletech a telefonech"
 
-#: src/bz-context-tile-callbacks.c:316
+#: src/bz-context-tile-callbacks.c:317
 msgid "May not work on mobile devices"
 msgstr "Možná nefunguje na mobilních zařízeních"
 
-#: src/bz-context-tile-callbacks.c:399 src/bz-safety-dialog.blp:79
+#: src/bz-context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
 msgid "Safe"
 msgstr "Bezpečné"
 
-#: src/bz-context-tile-callbacks.c:401 src/bz-context-tile-callbacks.c:403
+#: src/bz-context-tile-callbacks.c:402 src/bz-context-tile-callbacks.c:404
 msgid "Low Risk"
 msgstr "Nízké riziko"
 
-#: src/bz-context-tile-callbacks.c:405
+#: src/bz-context-tile-callbacks.c:406
 msgid "Medium Risk"
 msgstr "Střední riziko"
 
-#: src/bz-context-tile-callbacks.c:407
+#: src/bz-context-tile-callbacks.c:408
 msgid "High Risk"
 msgstr "Vysoké riziko"
 
-#: src/bz-curated-view.blp:11 src/bz-favorites-page.blp:46
+#: src/bz-curated-view.blp:24 src/bz-favorites-page.blp:46
 #: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30 src/bz-full-view.blp:41
 #: src/bz-library-page.blp:67 src/bz-user-data-page.blp:30
 msgid "Empty"
 msgstr "Prázdné"
 
-#: src/bz-curated-view.blp:15
+#: src/bz-curated-view.blp:28
 msgid "No Curation"
 msgstr "Žádné vybrané aplikace"
 
-#: src/bz-curated-view.blp:16
+#: src/bz-curated-view.blp:30
 msgid ""
 "There is no curation information provided on this system. You can still "
 "browse apps on Flathub"
@@ -1066,11 +1071,11 @@ msgstr ""
 "V tomto systému nejsou k dispozici žádné informace o vybraných aplikacích. "
 "Aplikace si stále můžete prohlížet na Flathubu"
 
-#: src/bz-curated-view.blp:18
+#: src/bz-curated-view.blp:34
 msgid "Browse Flathub"
 msgstr "Procházet Flathub"
 
-#: src/bz-curated-view.blp:29 src/bz-curated-view.blp:33
+#: src/bz-curated-view.blp:47 src/bz-curated-view.blp:51
 msgid "Offline"
 msgstr "Off-line"
 
@@ -1078,7 +1083,7 @@ msgstr "Off-line"
 #. search regardless of what you put here, so don't worry about the string
 #. yielding poor search results. Focus on correctness and friendliness,
 #. etc
-#: src/bz-curated-view.blp:39 src/bz-flathub-page.blp:61
+#: src/bz-curated-view.blp:57 src/bz-flathub-page.blp:61
 #: src/bz-search-pill-list.c:67
 msgid "Browser"
 msgstr "Prohlížeč"
@@ -1219,7 +1224,7 @@ msgstr "Přihlásit se"
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:144
+#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:86
 msgid "Install All"
 msgstr "Instalovat vše"
 
@@ -1851,9 +1856,19 @@ msgstr "Odeb_rat"
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: src/bz-install-controls.blp:138 src/bz-installed-tile.blp:105
+#: src/bz-install-controls.blp:138 src/bz-installed-tile.blp:109
 msgid "Remove"
 msgstr "Odebrat"
+
+#: src/bz-install-controls.c:638
+#, c-format
+msgid "Install %s from %s"
+msgstr "Nainstalovat %s od %s"
+
+#: src/bz-install-controls.c:640
+#, c-format
+msgid "Install %s"
+msgstr "Nainstalovat %s"
 
 #: src/bz-install-controls.wdgt:32
 msgctxt "Install Controls"
@@ -1864,6 +1879,10 @@ msgstr "Zrušit"
 msgctxt "Install Controls"
 msgid "Cancelling"
 msgstr "Ruší se"
+
+#: src/bz-installed-tile.blp:80
+msgid "Donate Button"
+msgstr "Tlačítko darování"
 
 #: src/bz-library-page.blp:32
 msgid "Search installed apps"
