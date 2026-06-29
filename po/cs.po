@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-25 19:30+0200\n"
-"PO-Revision-Date: 2026-06-25 20:08+0200\n"
+"POT-Creation-Date: 2026-06-27 10:28+0200\n"
+"PO-Revision-Date: 2026-06-30 01:36+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -804,11 +804,11 @@ msgstr "Nastavit Flathub"
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1826 src/bz-application.c:4024
+#: src/bz-application.c:1826 src/bz-application.c:4045
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:1990 src/bz-application.c:4022
+#: src/bz-application.c:1990 src/bz-application.c:4043
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
@@ -817,23 +817,23 @@ msgstr "Načítá se %d aplikací…"
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:2141
+#: src/bz-application.c:2159
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2535
+#: src/bz-application.c:2553
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2591
+#: src/bz-application.c:2609
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3735
+#: src/bz-application.c:3755
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3736
+#: src/bz-application.c:3756
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -845,15 +845,15 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3744
+#: src/bz-application.c:3764
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:3775
+#: src/bz-application.c:3795
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:4026
+#: src/bz-application.c:4047
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1220,7 +1220,7 @@ msgid "Log In"
 msgstr "Přihlásit se"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:335
+#: src/bz-window.blp:346
 msgid "Favorites"
 msgstr "Oblíbené"
 
@@ -1851,8 +1851,8 @@ msgstr "Odinstalovat aplikaci"
 msgid "_Remove"
 msgstr "Odeb_rat"
 
-#: src/bz-install-controls.blp:115 src/bz-updates-card.c:164
-#: src/bz-updates-card.c:183
+#: src/bz-install-controls.blp:115 src/bz-updates-card.c:168
+#: src/bz-updates-card.c:187
 msgid "Update"
 msgstr "Aktualizovat"
 
@@ -1942,7 +1942,7 @@ msgstr "Velikost"
 msgid "No matches found for \"%s\" in the list of installed apps"
 msgstr "Žádné shody pro výraz „%s“ v seznamu nainstalovaných aplikací"
 
-#: src/bz-library-page.c:193 src/bz-updates-card.c:433
+#: src/bz-library-page.c:193 src/bz-updates-card.c:437
 #, c-format
 msgid "%u Available Update"
 msgid_plural "%u Available Updates"
@@ -2080,7 +2080,7 @@ msgid "Network connection is metered — automatic store data refresh is paused"
 msgstr ""
 "Připojení k síti je měřené – automatické obnovení dat obchodu je pozastaveno"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:235
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:235 src/bz-window.blp:246
 msgid "Refresh Manually"
 msgstr "Obnovit ručně"
 
@@ -2212,7 +2212,7 @@ msgstr "Barvy hrdosti femboyů"
 msgid "Neutrois Pride Colors"
 msgstr "Barvy neutrois hrdosti"
 
-#: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:155
+#: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:159
 msgid "Version History"
 msgstr "Historie verzí"
 
@@ -2643,31 +2643,31 @@ msgstr ""
 "Tato aplikace používá zastaralou verzi softwarové platformy (SDK) a může "
 "obsahovat chyby nebo slabá místa zabezpečení, která nebudou opravena."
 
-#: src/bz-safety-dialog.c:278
+#: src/bz-safety-dialog.c:287
 msgid "Safety"
 msgstr "Bezpečnost"
 
-#: src/bz-safety-dialog.c:344
+#: src/bz-safety-dialog.c:347
 #, c-format
 msgid "%s is Safe"
 msgstr "Aplikace %s je bezpečná"
 
-#: src/bz-safety-dialog.c:349
+#: src/bz-safety-dialog.c:352
 #, c-format
 msgid "%s has no Unsafe Permissions"
 msgstr "Aplikace %s nemá žádná nebezpečná oprávnění"
 
-#: src/bz-safety-dialog.c:354
+#: src/bz-safety-dialog.c:357
 #, c-format
 msgid "%s is Probably Safe"
 msgstr "Aplikace %s je pravděpodobně bezpečná"
 
-#: src/bz-safety-dialog.c:359
+#: src/bz-safety-dialog.c:362
 #, c-format
 msgid "%s is Possibly Unsafe"
 msgstr "Aplikace %s pravděpodobně není bezpečná"
 
-#: src/bz-safety-dialog.c:364
+#: src/bz-safety-dialog.c:367
 #, c-format
 msgid "%s is Unsafe"
 msgstr "Aplikace %s není bezpečná"
@@ -3153,7 +3153,7 @@ msgstr "Čeká"
 msgid "_Update All"
 msgstr "Akt_ualizovat vše"
 
-#: src/bz-updates-card.c:211
+#: src/bz-updates-card.c:215
 #, c-format
 msgid "%u Runtime Update"
 msgid_plural "%u Runtime Updates"
@@ -3216,39 +3216,43 @@ msgid ""
 msgstr ""
 "Máte připojení k síti, ale prohlížíte si verzi Flathubu uloženou v mezipaměti"
 
-#: src/bz-window.blp:279
+#: src/bz-window.blp:245
+msgid "Network connection is metered — automatic refreshes disabled"
+msgstr "Připojení k síti je měřené – automatická obnovení jsou zakázána"
+
+#: src/bz-window.blp:290
 msgid "_Donate to Bazaar"
 msgstr "Po_dpořit Bazaar"
 
-#: src/bz-window.blp:285
+#: src/bz-window.blp:296
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/bz-window.blp:289
+#: src/bz-window.blp:300
 msgid "_Login With Flathub"
 msgstr "Přih_lásit se pomocí Flathubu"
 
-#: src/bz-window.blp:295
+#: src/bz-window.blp:306
 msgid "_Manage Leftover User Data"
 msgstr "Sp_ravovat zbylá uživatelská data"
 
-#: src/bz-window.blp:301
+#: src/bz-window.blp:312
 msgid "_Preferences"
 msgstr "_Předvolby"
 
-#: src/bz-window.blp:306
+#: src/bz-window.blp:317
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/bz-window.blp:311
+#: src/bz-window.blp:322
 msgid "_About Bazaar"
 msgstr "O _aplikaci Bazaar"
 
-#: src/bz-window.blp:317
+#: src/bz-window.blp:328
 msgid "_Quit Bazaar"
 msgstr "_Ukončit Bazaar"
 
-#: src/bz-window.blp:342
+#: src/bz-window.blp:353
 msgid "Log Out"
 msgstr "Odhlásit se"
 
@@ -3266,7 +3270,7 @@ msgstr "Aplikaci se nezdařilo spustit"
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Bazaar nelze odstranit z Bazaaru!"
 
-#: src/bz-window.c:1127 src/bz-window.c:1161
+#: src/bz-window.c:1132 src/bz-window.c:1166
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
 
