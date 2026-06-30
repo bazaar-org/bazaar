@@ -1,0 +1,58 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $BzSearchBar: Widget {
+  height-request: 40;
+  accessible-role: search_box;
+
+  styles [
+    "search-box",
+  ]
+
+  layout-manager: BoxLayout {
+    spacing: 8;
+  };
+
+  Image search_icon {
+    icon-name: "system-search-symbolic";
+    accessible-role: presentation;
+  }
+
+  Text search_text {
+    hexpand: true;
+    placeholder-text: bind template.placeholder;
+    activate => $text_activated_cb(template);
+    changed => $text_changed_cb(template);
+  }
+
+  Adw.Spinner search_busy {
+    visible: bind template.busy;
+    width-request: 16;
+    height-request: 16;
+  }
+
+  Adw.Bin end_widget_bin {
+    EventControllerFocus {
+      enter => $end_widget_focus_enter_cb(template);
+      leave => $end_widget_focus_leave_cb(template);
+    }
+  }
+
+  Button clear_button {
+    icon-name: "edit-clear";
+    valign: center;
+    focusable: false;
+    visible: bind $has_text_cb(search_text.text);
+    clicked => $clear_text_cb(template);
+
+    styles [
+      "flat",
+      "circular",
+      "searchbar-button",
+    ]
+
+    accessibility {
+      label: _("Clear Search");
+    }
+  }
+}

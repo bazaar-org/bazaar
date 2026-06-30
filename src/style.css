@@ -70,7 +70,7 @@
   outline-offset: 6px;
   transition-property: outline, outline-offset;
   transition-duration: 200ms;
-  padding: 8px 12px;
+  padding: 0px 12px;
   border-radius: 9999px;
   background-color: var(--card-bg-color);
 }
@@ -79,6 +79,10 @@
   outline-color: color-mix(in srgb, var(--accent-color), transparent);
   outline-offset: 0;
   outline-width: 2px;
+}
+
+.search-box.hide-focus:focus-within {
+  outline-color: transparent;
 }
 
 @media (prefers-color-scheme: light) {

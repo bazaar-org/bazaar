@@ -62,6 +62,7 @@
     <file preprocess="xml-stripblanks">bz-screenshot-page.ui</file>
     <file preprocess="xml-stripblanks">bz-screenshots-carousel.ui</file>
     <file preprocess="xml-stripblanks">bz-search-filter-popover.ui</file>
+    <file preprocess="xml-stripblanks">bz-search-bar.ui</file>
     <file preprocess="xml-stripblanks">bz-search-page.ui</file>
     <file preprocess="xml-stripblanks">bz-section-view.ui</file>
     <file preprocess="xml-stripblanks">bz-stats-dialog.ui</file>
