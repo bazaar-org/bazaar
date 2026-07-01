@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-27 10:28+0200\n"
-"PO-Revision-Date: 2026-06-30 01:36+0200\n"
+"POT-Creation-Date: 2026-07-01 22:08+0200\n"
+"PO-Revision-Date: 2026-07-02 00:54+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -22,8 +22,8 @@ msgstr ""
 "X-Generator: Poedit 3.9\n"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:46
-#: src/bz-window.blp:202 src/bz-window.c:373 src/bz-window.c:374
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
+#: src/bz-window.blp:203 src/bz-window.c:386 src/bz-window.c:387
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -153,11 +153,11 @@ msgstr ""
 msgid "Add-on for %s"
 msgstr "Doplněk pro %s"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626
 msgid "Show Less"
 msgstr "Zobrazit méně"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657 src/bz-section-view.blp:71
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626 src/bz-section-view.blp:71
 msgid "Show More"
 msgstr "Zobrazit více"
 
@@ -752,15 +752,45 @@ msgstr "Zvláštní poděkování patří"
 msgid "Logged Out Successfully!"
 msgstr "Úspěšně odhlášeni!"
 
-#: src/bz-application.c:995
+#: src/bz-application.c:1037
+msgid "Ubuntu Troubles!"
+msgstr "Problémy s Ubuntu!"
+
+#: src/bz-application.c:1040
+msgid ""
+"The more recent versions of Ubuntu have messed up default security rules, "
+"making it <b>impossible to install apps</b> from the Flatpak version of "
+"Bazaar, please just use the normal package for now by using\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"You can then remove this Flatpak version with\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+msgstr ""
+"Novější verze Ubuntu mají porušená výchozí bezpečnostní pravidla, takže "
+"<b>není možné instalovat aplikace</b> z Flatpak verze Bazaaru. Prozatím "
+"prosím použijte normální balíček pomocí\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"Tuto Flatpak verzi pak můžete odstranit pomocí\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+
+#: src/bz-application.c:1046
+msgid "Continue Anyway"
+msgstr "Přesto pokračovat"
+
+#: src/bz-application.c:1062
 msgid "Performing setup…"
 msgstr "Provádí se nastavení…"
 
-#: src/bz-application.c:1087
+#: src/bz-application.c:1154
 msgid "Set Up System Flathub?"
 msgstr "Nastavit systémový Flathub?"
 
-#: src/bz-application.c:1090
+#: src/bz-application.c:1157
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -775,11 +805,11 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1097
+#: src/bz-application.c:1164
 msgid "Set Up Flathub?"
 msgstr "Nastavit Flathub?"
 
-#: src/bz-application.c:1100
+#: src/bz-application.c:1167
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -792,48 +822,48 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1106
+#: src/bz-application.c:1173
 msgid "Later"
 msgstr "Později"
 
-#: src/bz-application.c:1107
+#: src/bz-application.c:1174
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1626
+#: src/bz-application.c:1696
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1826 src/bz-application.c:4045
+#: src/bz-application.c:1896 src/bz-application.c:4111
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:1990 src/bz-application.c:4043
+#: src/bz-application.c:2060 src/bz-application.c:4109
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:2043
+#: src/bz-application.c:2113
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:2159
+#: src/bz-application.c:2234
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2553
+#: src/bz-application.c:2628
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2609
+#: src/bz-application.c:2684
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3755
+#: src/bz-application.c:3821
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3756
+#: src/bz-application.c:3822
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -845,15 +875,15 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3764
+#: src/bz-application.c:3830
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:3795
+#: src/bz-application.c:3861
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:4047
+#: src/bz-application.c:4113
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1198,7 +1228,7 @@ msgstr "Podrobnosti"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:408
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:415
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Zkopírováno!"
@@ -1220,7 +1250,7 @@ msgid "Log In"
 msgstr "Přihlásit se"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:346
+#: src/bz-window.blp:337
 msgid "Favorites"
 msgstr "Oblíbené"
 
@@ -1669,19 +1699,19 @@ msgstr ""
 "Tato aplikace používá běhové prostředí, které již nedostává aktualizace ani "
 "opravy zabezpečení. Její používání nemusí být bezpečné."
 
-#: src/bz-full-view.blp:540
+#: src/bz-full-view.blp:539
 msgid "Trash Data"
 msgstr "Vymazat data"
 
-#: src/bz-full-view.blp:603
+#: src/bz-full-view.blp:602
 msgid "Add-ons"
 msgstr "Doplňky"
 
-#: src/bz-full-view.blp:638
+#: src/bz-full-view.blp:637
 msgid "More Add-Ons"
 msgstr "Více doplňků"
 
-#: src/bz-full-view.blp:649
+#: src/bz-full-view.blp:648
 msgid "Links"
 msgstr "Odkazy"
 
@@ -1741,7 +1771,7 @@ msgstr[0] "%d aplikace"
 msgstr[1] "%d aplikace"
 msgstr[2] "%d aplikací"
 
-#: src/bz-full-view.c:537 src/bz-user-data-tile.c:144
+#: src/bz-full-view.c:506 src/bz-user-data-tile.c:144
 msgid "Failed to Remove User Data"
 msgstr "Nezdařilo se odstranit uživatelská data"
 
@@ -1901,7 +1931,7 @@ msgid "Search Store Instead"
 msgstr "Hledat v obchodě"
 
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:113
+#: src/bz-library-page.blp:100 src/bz-window.blp:114
 msgid "Library"
 msgstr "Knihovna"
 
@@ -2080,7 +2110,7 @@ msgid "Network connection is metered — automatic store data refresh is paused"
 msgstr ""
 "Připojení k síti je měřené – automatické obnovení dat obchodu je pozastaveno"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:235 src/bz-window.blp:246
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:236
 msgid "Refresh Manually"
 msgstr "Obnovit ručně"
 
@@ -2672,31 +2702,31 @@ msgstr "Aplikace %s pravděpodobně není bezpečná"
 msgid "%s is Unsafe"
 msgstr "Aplikace %s není bezpečná"
 
-#: src/bz-screenshot-page.blp:5
-msgid "Screenshots"
-msgstr "Snímky obrazovky"
+#: src/bz-screenshot-page.blp:41
+msgid "Back"
+msgstr "Zpět"
 
-#: src/bz-screenshot-page.blp:61
+#: src/bz-screenshot-page.blp:71
 msgid "Previous Screenshot"
 msgstr "Předchozí snímek obrazovky"
 
-#: src/bz-screenshot-page.blp:71
+#: src/bz-screenshot-page.blp:81
 msgid "Next Screenshot"
 msgstr "Následující snímek obrazovky"
 
-#: src/bz-screenshot-page.blp:87
+#: src/bz-screenshot-page.blp:97
 msgid "Copy Image"
 msgstr "Kopírovat obrázek"
 
-#: src/bz-screenshot-page.blp:150
+#: src/bz-screenshot-page.blp:160
 msgid "Reset View"
 msgstr "Původní"
 
-#: src/bz-screenshot-page.blp:161
+#: src/bz-screenshot-page.blp:171
 msgid "Zoom Out"
 msgstr "Oddálit"
 
-#: src/bz-screenshot-page.blp:171
+#: src/bz-screenshot-page.blp:181
 msgid "Zoom In"
 msgstr "Přiblížit"
 
@@ -2712,12 +2742,12 @@ msgstr "Žádné snímky obrazovky"
 msgid "Open Screenshot Viewer"
 msgstr "Otevřít prohlížeč snímků obrazovky"
 
-#: src/bz-screenshots-carousel.c:301
+#: src/bz-screenshots-carousel.c:308
 #, c-format
 msgid "Screenshot %u %s"
 msgstr "Snímek %u %s"
 
-#: src/bz-screenshots-carousel.c:303
+#: src/bz-screenshots-carousel.c:310
 #, c-format
 msgid "Screenshot %u"
 msgstr "Snímek %u"
@@ -3182,95 +3212,91 @@ msgstr "Vymazat uživatelská data"
 msgid "Trashed User Data for %s"
 msgstr "Uživatelská data aplikace %s byla vymazána"
 
-#: src/bz-window.blp:71
+#: src/bz-window.blp:72
 msgid "Refreshing"
 msgstr "Obnovuje se"
 
-#: src/bz-window.blp:89
+#: src/bz-window.blp:90
 msgid "Curated"
 msgstr "Vybrané"
 
-#: src/bz-window.blp:101
+#: src/bz-window.blp:102
 msgid "Explore"
 msgstr "Procházet"
 
-#: src/bz-window.blp:128
+#: src/bz-window.blp:129
 msgid "Search"
 msgstr "Vyhledávání"
 
-#: src/bz-window.blp:215
+#: src/bz-window.blp:216
 msgid "Main Menu"
 msgstr "Hlavní nabídka"
 
-#: src/bz-window.blp:226
+#: src/bz-window.blp:227
 msgid "You are running a new version of Bazaar!"
 msgstr "Používáte novou verzi Bazaaru!"
 
-#: src/bz-window.blp:227
+#: src/bz-window.blp:228
 msgid "See What's New"
 msgstr "Podívejte se, co je nového"
 
-#: src/bz-window.blp:234
+#: src/bz-window.blp:235
 msgid ""
 "You have a network connection but are viewing a cached version of Flathub"
 msgstr ""
 "Máte připojení k síti, ale prohlížíte si verzi Flathubu uloženou v mezipaměti"
 
-#: src/bz-window.blp:245
-msgid "Network connection is metered — automatic refreshes disabled"
-msgstr "Připojení k síti je měřené – automatická obnovení jsou zakázána"
-
-#: src/bz-window.blp:290
+#: src/bz-window.blp:281
 msgid "_Donate to Bazaar"
 msgstr "Po_dpořit Bazaar"
 
-#: src/bz-window.blp:296
+#: src/bz-window.blp:287
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/bz-window.blp:300
+#: src/bz-window.blp:291
 msgid "_Login With Flathub"
 msgstr "Přih_lásit se pomocí Flathubu"
 
-#: src/bz-window.blp:306
+#: src/bz-window.blp:297
 msgid "_Manage Leftover User Data"
 msgstr "Sp_ravovat zbylá uživatelská data"
 
-#: src/bz-window.blp:312
+#: src/bz-window.blp:303
 msgid "_Preferences"
 msgstr "_Předvolby"
 
-#: src/bz-window.blp:317
+#: src/bz-window.blp:308
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/bz-window.blp:322
+#: src/bz-window.blp:313
 msgid "_About Bazaar"
 msgstr "O _aplikaci Bazaar"
 
-#: src/bz-window.blp:328
+#: src/bz-window.blp:319
 msgid "_Quit Bazaar"
 msgstr "_Ukončit Bazaar"
 
-#: src/bz-window.blp:353
+#: src/bz-window.blp:344
 msgid "Log Out"
 msgstr "Odhlásit se"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:376
+#: src/bz-window.c:389
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar – %s"
 
-#: src/bz-window.c:596 src/bz-window.c:634
+#: src/bz-window.c:609 src/bz-window.c:647
 msgid "Failed to launch application"
 msgstr "Aplikaci se nezdařilo spustit"
 
-#: src/bz-window.c:843
+#: src/bz-window.c:860
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Bazaar nelze odstranit z Bazaaru!"
 
-#: src/bz-window.c:1132 src/bz-window.c:1166
+#: src/bz-window.c:1166 src/bz-window.c:1200
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
 
