@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 07:25+0200\n"
-"PO-Revision-Date: 2026-06-28 21:11+0200\n"
+"POT-Creation-Date: 2026-07-01 22:08+0200\n"
+"PO-Revision-Date: 2026-07-02 11:08+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -23,8 +23,8 @@ msgstr ""
 "X-Generator: Gtranslator 50.0\n"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:46
-#: src/bz-window.blp:202 src/bz-window.c:373 src/bz-window.c:374
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
+#: src/bz-window.blp:203 src/bz-window.c:386 src/bz-window.c:387
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -155,11 +155,11 @@ msgstr ""
 msgid "Add-on for %s"
 msgstr "Extension pour %s"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626
 msgid "Show Less"
 msgstr "Montrer moins"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:657 src/bz-section-view.blp:71
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626 src/bz-section-view.blp:71
 msgid "Show More"
 msgstr "Montrer plus"
 
@@ -766,15 +766,46 @@ msgstr "Remerciements particuliers à"
 msgid "Logged Out Successfully!"
 msgstr "Déconnexion réussie !"
 
-#: src/bz-application.c:995
+#: src/bz-application.c:1037
+msgid "Ubuntu Troubles!"
+msgstr "À l'attention des utilisateurs d'Ubuntu"
+
+#: src/bz-application.c:1040
+msgid ""
+"The more recent versions of Ubuntu have messed up default security rules, "
+"making it <b>impossible to install apps</b> from the Flatpak version of "
+"Bazaar, please just use the normal package for now by using\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"You can then remove this Flatpak version with\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+msgstr ""
+"Les versions récentes d'Ubuntu ont mis du désordre dans les règles de "
+"sécurité par défaut, ce qui <b>rend impossible l'installation "
+"d'applications</b> depuis la version Flatpak de Bazaar. Pour le moment, "
+"veuillez utiliser le paquet apt à la place – installez-le avec \n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"Vous pourrez ensuite enlever la version Flatpak avec\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+
+#: src/bz-application.c:1046
+msgid "Continue Anyway"
+msgstr "Continuer quand même"
+
+#: src/bz-application.c:1062
 msgid "Performing setup…"
 msgstr "Configuration en cours…"
 
-#: src/bz-application.c:1087
+#: src/bz-application.c:1154
 msgid "Set Up System Flathub?"
 msgstr "Configurer Flathub sur le système ? "
 
-#: src/bz-application.c:1090
+#: src/bz-application.c:1157
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -789,11 +820,11 @@ msgstr ""
 "Vous pouvez toujours utiliser Bazaar pour parcourir et désinstaller des "
 "applis déjà installées."
 
-#: src/bz-application.c:1097
+#: src/bz-application.c:1164
 msgid "Set Up Flathub?"
 msgstr "Configurer Flathub ?"
 
-#: src/bz-application.c:1100
+#: src/bz-application.c:1167
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -806,48 +837,48 @@ msgstr ""
 "Vous pouvez toujours utiliser Bazaar pour parcourir et désinstaller des "
 "applis déjà installées."
 
-#: src/bz-application.c:1106
+#: src/bz-application.c:1173
 msgid "Later"
 msgstr "Plus tard"
 
-#: src/bz-application.c:1107
+#: src/bz-application.c:1174
 msgid "Set Up Flathub"
 msgstr "Configurer Flathub"
 
-#: src/bz-application.c:1626
+#: src/bz-application.c:1696
 msgid "A backend error occurred"
 msgstr "Une erreur de backend est survenue"
 
-#: src/bz-application.c:1826 src/bz-application.c:4045
+#: src/bz-application.c:1896 src/bz-application.c:4111
 msgid "Refreshing…"
 msgstr "Actualisation…"
 
-#: src/bz-application.c:1990 src/bz-application.c:4043
+#: src/bz-application.c:2060 src/bz-application.c:4109
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Chargement de %d applis…"
 
-#: src/bz-application.c:2043
+#: src/bz-application.c:2113
 msgid "Failed to open file"
 msgstr "Échec de l’ouverture du fichier"
 
-#: src/bz-application.c:2159
+#: src/bz-application.c:2234
 msgid "An initialization error occurred"
 msgstr "Une erreur d'initialisation s'est produite"
 
-#: src/bz-application.c:2553
+#: src/bz-application.c:2628
 msgid "Checking for updates…"
 msgstr "Recherche de mises à jour…"
 
-#: src/bz-application.c:2609
+#: src/bz-application.c:2684
 msgid "Failed to check for updates"
 msgstr "Échec de la vérification des mises à jour"
 
-#: src/bz-application.c:3755
+#: src/bz-application.c:3821
 msgid "Malformed Link"
 msgstr "Lien corrigé"
 
-#: src/bz-application.c:3756
+#: src/bz-application.c:3822
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -860,15 +891,15 @@ msgstr ""
 "Il s'agit très probablement de KRunner qui envoie des identifiants "
 "d'application incorrects."
 
-#: src/bz-application.c:3764
+#: src/bz-application.c:3830
 msgid "Could not find app"
 msgstr "Impossible de trouver l'application"
 
-#: src/bz-application.c:3795
+#: src/bz-application.c:3861
 msgid "Failed to load metainfo"
 msgstr "Échec du chargement des métainfos"
 
-#: src/bz-application.c:4047
+#: src/bz-application.c:4113
 msgid "Writing to cache…"
 msgstr "Écriture dans le cache…"
 
@@ -1217,7 +1248,7 @@ msgstr "Détails"
 msgid "Copy"
 msgstr "Copier"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:408
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:415
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Copié !"
@@ -1239,7 +1270,7 @@ msgid "Log In"
 msgstr "Se connecter"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:346
+#: src/bz-window.blp:337
 msgid "Favorites"
 msgstr "Favoris"
 
@@ -1691,19 +1722,19 @@ msgstr ""
 "mises à jour ni de correctifs de sécurité.\n"
 "Son utilisation pourrait devenir risquée."
 
-#: src/bz-full-view.blp:540
+#: src/bz-full-view.blp:539
 msgid "Trash Data"
 msgstr "Supprimer les données"
 
-#: src/bz-full-view.blp:603
+#: src/bz-full-view.blp:602
 msgid "Add-ons"
 msgstr "Extensions"
 
-#: src/bz-full-view.blp:638
+#: src/bz-full-view.blp:637
 msgid "More Add-Ons"
 msgstr "Plus d'extensions"
 
-#: src/bz-full-view.blp:649
+#: src/bz-full-view.blp:648
 msgid "Links"
 msgstr "Liens"
 
@@ -1761,7 +1792,7 @@ msgid_plural "%d Applications"
 msgstr[0] "%d application"
 msgstr[1] "%d applications"
 
-#: src/bz-full-view.c:537 src/bz-user-data-tile.c:144
+#: src/bz-full-view.c:506 src/bz-user-data-tile.c:144
 msgid "Failed to Remove User Data"
 msgstr "Échec de la suppression des données utilisateurs"
 
@@ -1922,7 +1953,7 @@ msgstr "Rechercher plutôt dans la logithèque"
 
 # "Bibliothèque" est trop long sous un format "mobile"
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:113
+#: src/bz-library-page.blp:100 src/bz-window.blp:114
 msgid "Library"
 msgstr "Bibliothèque"
 
@@ -2104,7 +2135,7 @@ msgstr ""
 "La connexion réseau est limitée — l’actualisation automatique de la "
 "logithèque est suspendue"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:235 src/bz-window.blp:246
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:236
 msgid "Refresh Manually"
 msgstr "Actualiser manuellement"
 
@@ -2708,31 +2739,31 @@ msgstr "%s n'est peut-être pas fiable"
 msgid "%s is Unsafe"
 msgstr "%s n’est pas fiable"
 
-#: src/bz-screenshot-page.blp:5
-msgid "Screenshots"
-msgstr "Captures d’écran"
+#: src/bz-screenshot-page.blp:41
+msgid "Back"
+msgstr "Retour"
 
-#: src/bz-screenshot-page.blp:61
+#: src/bz-screenshot-page.blp:71
 msgid "Previous Screenshot"
 msgstr "Capture d’écran précédente"
 
-#: src/bz-screenshot-page.blp:71
+#: src/bz-screenshot-page.blp:81
 msgid "Next Screenshot"
 msgstr "Capture d’écran suivante"
 
-#: src/bz-screenshot-page.blp:87
+#: src/bz-screenshot-page.blp:97
 msgid "Copy Image"
 msgstr "Copier l’image"
 
-#: src/bz-screenshot-page.blp:150
+#: src/bz-screenshot-page.blp:160
 msgid "Reset View"
 msgstr "Réinitialiser l’affichage"
 
-#: src/bz-screenshot-page.blp:161
+#: src/bz-screenshot-page.blp:171
 msgid "Zoom Out"
 msgstr "Zoom arrière"
 
-#: src/bz-screenshot-page.blp:171
+#: src/bz-screenshot-page.blp:181
 msgid "Zoom In"
 msgstr "Zoom avant"
 
@@ -2748,12 +2779,12 @@ msgstr "Aucune capture d’écran"
 msgid "Open Screenshot Viewer"
 msgstr "Ouvrir la visionneuse de captures d’écran"
 
-#: src/bz-screenshots-carousel.c:301
+#: src/bz-screenshots-carousel.c:308
 #, c-format
 msgid "Screenshot %u %s"
 msgstr "Captures d’écran %u %s"
 
-#: src/bz-screenshots-carousel.c:303
+#: src/bz-screenshots-carousel.c:310
 #, c-format
 msgid "Screenshot %u"
 msgstr "Captures d’écran %u"
@@ -3218,96 +3249,92 @@ msgstr "Mettre les données utilisateurs à la corbeille"
 msgid "Trashed User Data for %s"
 msgstr "Les données utilisateur de %s ont été mise à la corbeille"
 
-#: src/bz-window.blp:71
+#: src/bz-window.blp:72
 msgid "Refreshing"
 msgstr "Actualisation"
 
-#: src/bz-window.blp:89
+#: src/bz-window.blp:90
 msgid "Curated"
 msgstr "Sélection"
 
-#: src/bz-window.blp:101
+#: src/bz-window.blp:102
 msgid "Explore"
 msgstr "Explorer"
 
-#: src/bz-window.blp:128
+#: src/bz-window.blp:129
 msgid "Search"
 msgstr "Recherche"
 
-#: src/bz-window.blp:215
+#: src/bz-window.blp:216
 msgid "Main Menu"
 msgstr "Menu principal"
 
-#: src/bz-window.blp:226
+#: src/bz-window.blp:227
 msgid "You are running a new version of Bazaar!"
 msgstr "Bazaar a été mis à jour !"
 
-#: src/bz-window.blp:227
+#: src/bz-window.blp:228
 msgid "See What's New"
 msgstr "Voir les nouveautés"
 
-#: src/bz-window.blp:234
+#: src/bz-window.blp:235
 msgid ""
 "You have a network connection but are viewing a cached version of Flathub"
 msgstr ""
 "Votre appareil est connecté à Internet, mais vous consultez une version hors-"
 "ligne de la logithèque"
 
-#: src/bz-window.blp:245
-msgid "Network connection is metered — automatic refreshes disabled"
-msgstr "Connexion réseau limitée — l’actualisation automatique est désactivée"
-
-#: src/bz-window.blp:290
+#: src/bz-window.blp:281
 msgid "_Donate to Bazaar"
 msgstr "Faire un _don à Bazaar"
 
-#: src/bz-window.blp:296
+#: src/bz-window.blp:287
 msgid "_Refresh"
 msgstr "_Actualiser"
 
-#: src/bz-window.blp:300
+#: src/bz-window.blp:291
 msgid "_Login With Flathub"
 msgstr "Se _connecter avec Flathub"
 
-#: src/bz-window.blp:306
+#: src/bz-window.blp:297
 msgid "_Manage Leftover User Data"
 msgstr "_Gérer les données utilisateurs orphelines"
 
-#: src/bz-window.blp:312
+#: src/bz-window.blp:303
 msgid "_Preferences"
 msgstr "_Préférences"
 
-#: src/bz-window.blp:317
+#: src/bz-window.blp:308
 msgid "_Keyboard Shortcuts"
 msgstr "_Raccourcis clavier"
 
-#: src/bz-window.blp:322
+#: src/bz-window.blp:313
 msgid "_About Bazaar"
 msgstr "À propos de _Bazaar"
 
-#: src/bz-window.blp:328
+#: src/bz-window.blp:319
 msgid "_Quit Bazaar"
 msgstr "_Quitter Bazaar"
 
-#: src/bz-window.blp:353
+#: src/bz-window.blp:344
 msgid "Log Out"
 msgstr "Se déconnecter"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:376
+#: src/bz-window.c:389
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar — %s"
 
-#: src/bz-window.c:596 src/bz-window.c:634
+#: src/bz-window.c:609 src/bz-window.c:647
 msgid "Failed to launch application"
 msgstr "Échec du lancement de l'application"
 
-#: src/bz-window.c:843
+#: src/bz-window.c:860
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Vous ne pouvez supprimer Bazaar depuis Bazaar !"
 
-#: src/bz-window.c:1132 src/bz-window.c:1166
+#: src/bz-window.c:1166 src/bz-window.c:1200
 msgid "Can't do that right now!"
 msgstr "Impossible de faire ceci pour le moment !"
 
@@ -3372,6 +3399,13 @@ msgstr "Fermer la fenêtre"
 msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Quitter Bazaar"
+
+#~ msgid "Screenshots"
+#~ msgstr "Captures d’écran"
+
+#~ msgid "Network connection is metered — automatic refreshes disabled"
+#~ msgstr ""
+#~ "Connexion réseau limitée — l’actualisation automatique est désactivée"
 
 #~ msgid "Free"
 #~ msgstr "Libre"
