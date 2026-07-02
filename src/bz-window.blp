@@ -236,6 +236,17 @@ template $BzWindow: Adw.ApplicationWindow {
                     button-label: _("Refresh Manually");
                     button-clicked => $sync_cb(template);
                   }
+
+                  Adw.Banner {
+                    sensitive: bind $invert_boolean(template.state as <$BzStateInfo>.syncing as <bool>) as <bool>;
+                    revealed: bind $logical_and(
+                        $invert_boolean(template.state as <$BzStateInfo>.recently-synced as <bool>) as <bool>,
+                        $logical_and(template.state as <$BzStateInfo>.metered_connection as <bool>, template.state as <$BzStateInfo>.have_connection as <bool>) as <bool>
+                    ) as <bool>;
+                    title: _("Network connection is metered — automatic refreshes disabled");
+                    button-label: _("Refresh Manually");
+                    button-clicked => $sync_cb(template);
+                  }
                 }
 
                 [bottom]
