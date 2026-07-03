@@ -268,8 +268,8 @@
                                         {
                                             "type": "git",
                                             "url": "https://github.com/ostreedev/ostree",
-                                            "tag": "v2026.1",
-                                            "commit": "84fcfe17adcc69b926e8205782c1f735c09bfdd9",
+                                            "tag": "v2026.2",
+                                            "commit": "4672e91445451660eaa4405630692ade1b48c914",
                                             "x-checker-data": {
                                                 "type": "anitya",
                                                 "project-id": 10899,

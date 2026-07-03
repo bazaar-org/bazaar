@@ -127,6 +127,7 @@ struct _BzApplication
   GtkStringList              *txt_blocklists;
   gboolean                    flathub_remote_initialized;
   gboolean                    running;
+  gboolean                    had_cache_on_init;
   guint                       periodic_timeout_source;
   int                         n_entries_incoming;
   int                         n_remotes_syncing;
@@ -1238,6 +1239,8 @@ init_fiber (GWeakRef *wr)
           bz_weak_release),
       NULL);
 
+  self->had_cache_on_init = g_list_model_get_n_items (G_LIST_MODEL (self->groups)) > 0;
+
   flathub_cache_file = fiber_dup_cache_file ("flathub-cache", &flathub_cache, &local_error);
   if (flathub_cache_file != NULL)
     {
@@ -2178,7 +2181,7 @@ init_fiber_finally (DexFuture *future,
           bz_track_weak (self),
           bz_weak_release);
 
-      if (!bz_state_info_get_metered_connection (self->state))
+      if (!bz_state_info_get_metered_connection (self->state) || !self->had_cache_on_init)
         {
           g_autoptr (DexFuture) sync_future = NULL;
 
