@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-02 23:15+0200\n"
-"PO-Revision-Date: 2026-07-03 00:58+0200\n"
+"POT-Creation-Date: 2026-07-04 08:38+0200\n"
+"PO-Revision-Date: 2026-07-04 11:16+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
-#: src/bz-window.blp:203 src/bz-window.c:386 src/bz-window.c:387
+#: src/bz-window.blp:203 src/bz-window.c:387 src/bz-window.c:388
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -157,7 +157,7 @@ msgstr "Doplněk pro %s"
 msgid "Show Less"
 msgstr "Zobrazit méně"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626 src/bz-section-view.blp:71
+#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626 src/bz-section-view.blp:72
 msgid "Show More"
 msgstr "Zobrazit více"
 
@@ -1085,7 +1085,7 @@ msgstr "Vysoké riziko"
 
 #: src/bz-curated-view.blp:24 src/bz-favorites-page.blp:46
 #: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30 src/bz-full-view.blp:41
-#: src/bz-library-page.blp:67 src/bz-user-data-page.blp:30
+#: src/bz-library-page.blp:29 src/bz-user-data-page.blp:30
 msgid "Empty"
 msgstr "Prázdné"
 
@@ -1228,7 +1228,7 @@ msgstr "Podrobnosti"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:415
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:452
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Zkopírováno!"
@@ -1254,7 +1254,7 @@ msgstr "Přihlásit se"
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:86
+#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:87
 msgid "Install All"
 msgstr "Instalovat vše"
 
@@ -1664,8 +1664,8 @@ msgstr "Máme ♥​ hry"
 msgid "Games and apps to run your favorite titles"
 msgstr "Hry a aplikace pro spuštění vašich oblíbených titulů"
 
-#: src/bz-full-view.blp:34 src/bz-library-page.blp:78
-#: src/bz-library-page.blp:82
+#: src/bz-full-view.blp:34 src/bz-library-page.blp:40
+#: src/bz-library-page.blp:44
 msgid "No Results"
 msgstr "Žádné výsledky"
 
@@ -1914,65 +1914,61 @@ msgstr "Ruší se"
 msgid "Donate Button"
 msgstr "Tlačítko darování"
 
-#: src/bz-library-page.blp:32
+#: src/bz-library-page.blp:17
 msgid "Search installed apps"
 msgstr "hledat nainstalované aplikace"
 
-#: src/bz-library-page.blp:50
-msgid "Clear search"
-msgstr "Vymazat hledání"
-
-#: src/bz-library-page.blp:71
+#: src/bz-library-page.blp:33
 msgid "No Apps Found"
 msgstr "Nenalezeny žádné aplikace"
 
-#: src/bz-library-page.blp:90
+#: src/bz-library-page.blp:52
 msgid "Search Store Instead"
 msgstr "Hledat v obchodě"
 
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:114
+#: src/bz-library-page.blp:62 src/bz-window.blp:114
 msgid "Library"
 msgstr "Knihovna"
 
-#: src/bz-library-page.blp:129
+#: src/bz-library-page.blp:91
 msgid "Pending Updates"
 msgstr "Čekající aktualizace"
 
-#: src/bz-library-page.blp:156
+#: src/bz-library-page.blp:118
 msgid "Downloads"
 msgstr "Stažení"
 
-#: src/bz-library-page.blp:199
+#: src/bz-library-page.blp:161
 msgid "Recently Uninstalled"
 msgstr "Nedávno odinstalované"
 
-#: src/bz-library-page.blp:250
+#: src/bz-library-page.blp:212
 msgid "Clear Finished Tasks"
 msgstr "Vymazat dokončené úlohy"
 
-#: src/bz-library-page.blp:277
+#: src/bz-library-page.blp:239
 msgid "Sort Options"
 msgstr "Možnosti řazení"
 
-#: src/bz-library-page.blp:336
+#: src/bz-library-page.blp:298
 msgid "Sort By"
 msgstr "Řadit podle"
 
-#: src/bz-library-page.blp:350
+#: src/bz-library-page.blp:312
 msgid "Name"
 msgstr "Název"
 
-#: src/bz-library-page.blp:356
+#: src/bz-library-page.blp:318
 msgid "Size"
 msgstr "Velikost"
 
-#: src/bz-library-page.c:180
+#: src/bz-library-page.c:181
 #, c-format
 msgid "No matches found for \"%s\" in the list of installed apps"
 msgstr "Žádné shody pro výraz „%s“ v seznamu nainstalovaných aplikací"
 
-#: src/bz-library-page.c:193 src/bz-updates-card.c:437
+#: src/bz-library-page.c:194 src/bz-updates-card.c:437
 #, c-format
 msgid "%u Available Update"
 msgid_plural "%u Available Updates"
@@ -1980,13 +1976,25 @@ msgstr[0] "%u dostupná aktualizace"
 msgstr[1] "%u dostupné aktualizace"
 msgstr[2] "%u dostupných aktualizací"
 
-#: src/bz-library-page.c:203
+#: src/bz-library-page.c:204
 #, c-format
 msgid "%u Installed App"
 msgid_plural "%u Installed Apps"
 msgstr[0] "%u nainstalovaná aplikace"
 msgstr[1] "%u nainstalované aplikace"
 msgstr[2] "%u nainstalovaných aplikací"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:773
+msgid "No applications found"
+msgstr "Nenalezeny žádné aplikace"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:773
+#, c-format
+msgid "One application found"
+msgid_plural "%u applications found"
+msgstr[0] "Nalezena jedna aplikace"
+msgstr[1] "Nalezeny %u aplikace"
+msgstr[2] "Nalezeno %u aplikací"
 
 #: src/bz-license-dialog.blp:87
 msgid "Get Involved"
@@ -2752,7 +2760,7 @@ msgstr "Snímek %u %s"
 msgid "Screenshot %u"
 msgstr "Snímek %u"
 
-#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:83
+#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:66
 msgid "Filters"
 msgstr "Filtry"
 
@@ -2780,35 +2788,31 @@ msgstr "_Mobilní aplikace"
 msgid "Categories"
 msgstr "Kategorie"
 
-#: src/bz-search-page.blp:58
+#: src/bz-search-page.blp:45
 msgid "Search Apps, Games, Software"
 msgstr "hledat aplikace, hry, software"
 
-#: src/bz-search-page.blp:70
+#: src/bz-search-page.blp:52
 msgid "Search Filters"
 msgstr "Filtry vyhledávání"
 
-#: src/bz-search-page.blp:100
-msgid "Clear Search"
-msgstr "Vymazat hledání"
-
-#: src/bz-search-page.blp:209
+#: src/bz-search-page.blp:170
 msgid "Browse Categories"
 msgstr "Procházet kategorie"
 
-#: src/bz-search-page.blp:245
+#: src/bz-search-page.blp:206
 msgid "Categories Unavailable"
 msgstr "Kategorie nejsou k dispozici"
 
-#: src/bz-search-page.blp:246
+#: src/bz-search-page.blp:207
 msgid "Search for apps using the search bar above."
 msgstr "Vyhledejte aplikace pomocí vyhledávacího panelu výše."
 
-#: src/bz-search-page.blp:364
+#: src/bz-search-page.blp:325
 msgid "No Applications Found"
 msgstr "Nenalezeny žádné aplikace"
 
-#: src/bz-search-page.c:248
+#: src/bz-search-page.c:249
 #, c-format
 msgid "No results found for \"%s\" in Flathub"
 msgstr "Žádné výsledky pro „%s“ v Flathubu"
@@ -3287,20 +3291,20 @@ msgid "Log Out"
 msgstr "Odhlásit se"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:389
+#: src/bz-window.c:390
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar – %s"
 
-#: src/bz-window.c:609 src/bz-window.c:647
+#: src/bz-window.c:610 src/bz-window.c:648
 msgid "Failed to launch application"
 msgstr "Aplikaci se nezdařilo spustit"
 
-#: src/bz-window.c:860
+#: src/bz-window.c:862
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Bazaar nelze odstranit z Bazaaru!"
 
-#: src/bz-window.c:1166 src/bz-window.c:1200
+#: src/bz-window.c:1168 src/bz-window.c:1202
 msgid "Can't do that right now!"
 msgstr "Toto teď nelze provést!"
 
