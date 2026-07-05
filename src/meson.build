@@ -3,7 +3,7 @@ xmllint = find_program('xmllint', required: true)
 
 gtk_dep              = dependency('gtk4', version: '>= 4.22.1')
 libadwaita_dep       = dependency('libadwaita-1', version: '>= 1.8')
-libdex_dep           = dependency('libdex-1', version: '>= 1.0.0')
+libdex_dep           = dependency('libdex-1', version: '>= 1.2')
 flatpak_dep          = dependency('flatpak', version: '>= 1.9')
 appstream_dep        = dependency('appstream', version: '>= 1.0')
 xmlb_dep             = dependency('xmlb', version: '>= 0.3.4')

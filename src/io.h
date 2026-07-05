@@ -34,6 +34,9 @@ bz_dup_user_cache_path (const char *app_id);
 DexScheduler *
 bz_get_io_scheduler (void);
 
+DexLimiter *
+bz_get_io_limiter (void);
+
 void
 bz_reap_file (GFile *file);
 
