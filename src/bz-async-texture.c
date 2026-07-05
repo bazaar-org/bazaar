@@ -20,8 +20,6 @@
 
 #define G_LOG_DOMAIN "BAZAAR::ASYNC-TEXTURE"
 
-#define MAX_CONCURRENT_IO      8
-#define MAX_CONCURRENT_GLYCIN  32
 #define CACHE_INVALID_AGE      (G_TIME_SPAN_DAY * 1)
 #define HTTP_TIMEOUT_SECONDS   5
 #define MAX_LOAD_RETRIES       3
@@ -565,7 +563,8 @@ maybe_load (BzAsyncTexture *self)
   data->retries         = self->retries;
   g_weak_ref_init (&data->self, self);
 
-  future = dex_scheduler_spawn (
+  future = dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) load_fiber_work,
@@ -580,18 +579,6 @@ maybe_load (BzAsyncTexture *self)
 static DexFuture *
 load_fiber_work (LoadData *data)
 {
-  static GMutex queueing_mutex = { 0 };
-
-  static guint    concurrent_io                 = MAX_CONCURRENT_IO;
-  static guint    io_queued[MAX_CONCURRENT_IO]  = { 0 };
-  static BzGuard *io_gates[MAX_CONCURRENT_IO]   = { 0 };
-  static GMutex   io_mutexes[MAX_CONCURRENT_IO] = { 0 };
-
-  static guint    concurrent_glycin                     = 0;
-  static guint    glycin_queued[MAX_CONCURRENT_GLYCIN]  = { 0 };
-  static BzGuard *glycin_gates[MAX_CONCURRENT_GLYCIN]   = { 0 };
-  static GMutex   glycin_mutexes[MAX_CONCURRENT_GLYCIN] = { 0 };
-
   GFile        *source                  = data->source;
   char         *source_uri              = data->source_uri;
   GFile        *cache_into              = data->cache_into;
@@ -601,76 +588,12 @@ load_fiber_work (LoadData *data)
   g_autoptr (GError) local_error        = NULL;
   g_autoptr (GMutexLocker) locker       = NULL;
   g_autoptr (BzGuard) slot_guard        = NULL;
-  guint    slot_queued                  = G_MAXUINT;
   gboolean is_http                      = FALSE;
   g_autoptr (GDateTime) now             = NULL;
   g_autofree char *async_tex_data_path  = NULL;
   g_autoptr (GFile) async_tex_data_file = NULL;
   g_autoptr (GdkTexture) texture        = NULL;
   g_autoptr (GlyFrame) frame            = NULL;
-
-  locker = g_mutex_locker_new (&queueing_mutex);
-  if (concurrent_glycin == 0)
-    {
-      /* Ensure we don't overload the system with work; aim for # of logical
-         processors divided by 2
-
-        See:
-          https://github.com/bazaar-org/bazaar/issues/497
-          https://docs.gtk.org/glib/func.get_num_processors.html
-
-        Eva Thu, 23 Oct 2025 14:19:44 -0700
-        */
-      concurrent_glycin = MIN (
-          MAX_CONCURRENT_GLYCIN,
-          MAX (1, g_get_num_processors () / 2));
-
-      g_debug ("Allowing %d concurrent texture glycin", concurrent_glycin);
-    }
-  g_clear_pointer (&locker, g_mutex_locker_free);
-
-#define FIND_LOCK(name, _idx)                       \
-  G_STMT_START                                      \
-  {                                                 \
-    locker = g_mutex_locker_new (&queueing_mutex);  \
-                                                    \
-    for (guint i = 0; i < concurrent_##name; i++)   \
-      {                                             \
-        if (name##_queued[i] < slot_queued)         \
-          {                                         \
-            slot_queued = name##_queued[i];         \
-            (_idx)      = i;                        \
-          }                                         \
-      }                                             \
-                                                    \
-    name##_queued[(_idx)]++;                        \
-    g_clear_pointer (&locker, g_mutex_locker_free); \
-  }                                                 \
-  G_STMT_END
-
-#define FINISH_LOCK(name, _idx)                     \
-  G_STMT_START                                      \
-  {                                                 \
-    locker = g_mutex_locker_new (&queueing_mutex);  \
-    name##_queued[(_idx)]--;                        \
-    g_clear_pointer (&locker, g_mutex_locker_free); \
-  }                                                 \
-  G_STMT_END
-
-#define RATE_LIMIT_BEGIN(name)                                 \
-  G_STMT_START                                                 \
-  {                                                            \
-    guint _slot_index = 0;                                     \
-                                                               \
-    FIND_LOCK (name, _slot_index);                             \
-    BZ_BEGIN_GUARD_WITH_CONTEXT (&slot_guard,                  \
-                                 &name##_mutexes[_slot_index], \
-                                 &name##_gates[_slot_index]);  \
-    FINISH_LOCK (name, _slot_index);                           \
-  }                                                            \
-  G_STMT_END
-
-#define RATE_LIMIT_END() bz_clear_guard (&slot_guard)
 
   is_http = g_str_has_prefix (source_uri, "http");
   now     = g_date_time_new_now_utc ();
@@ -682,8 +605,6 @@ load_fiber_work (LoadData *data)
 
   if (cache_into != NULL)
     {
-      RATE_LIMIT_BEGIN (io);
-
       if (g_file_query_exists (cache_into, NULL) &&
           g_file_query_exists (async_tex_data_file, NULL))
         {
@@ -717,9 +638,6 @@ load_fiber_work (LoadData *data)
             {
               if (age_span < CACHE_INVALID_AGE)
                 {
-                  RATE_LIMIT_END ();
-                  RATE_LIMIT_BEGIN (glycin);
-
                   loader = gly_loader_new (cache_into);
                   /* We assume we exported this file, so uhhh it is safe to
                      not use sandboxing, since it is faster :-) */
@@ -728,9 +646,6 @@ load_fiber_work (LoadData *data)
                   image = gly_loader_load (loader, &local_error);
                   if (image != NULL)
                     frame = gly_image_next_frame (image, &local_error);
-
-                  RATE_LIMIT_END ();
-                  RATE_LIMIT_BEGIN (io);
                 }
               else
                 g_debug ("Metadata file %s for cached texture at %s indicates this resource is too old (GTimeSpan: %zu), "
@@ -763,8 +678,6 @@ load_fiber_work (LoadData *data)
                 }
             }
         }
-
-      RATE_LIMIT_END ();
     }
 
   if (frame == NULL)
@@ -779,8 +692,6 @@ load_fiber_work (LoadData *data)
           gboolean reconstruct     = FALSE;
 
           parent = g_file_get_parent (cache_into);
-
-          RATE_LIMIT_BEGIN (io);
 
           if (g_file_query_exists (parent, NULL))
             {
@@ -811,8 +722,6 @@ load_fiber_work (LoadData *data)
                     return dex_future_new_for_error (g_steal_pointer (&local_error));
                 }
             }
-
-          RATE_LIMIT_END ();
         }
 
       if (is_http)
@@ -825,16 +734,12 @@ load_fiber_work (LoadData *data)
               g_autofree char *tmpl        = NULL;
               g_autoptr (GFileIOStream) io = NULL;
 
-              RATE_LIMIT_BEGIN (io);
-
               basename  = g_file_get_basename (source);
               tmpl      = g_strdup_printf ("XXXXXX-%s", basename);
               load_file = g_file_new_tmp (tmpl, &io, &local_error);
               if (load_file == NULL)
                 return dex_future_new_for_error (g_steal_pointer (&local_error));
               g_io_stream_close (G_IO_STREAM (io), NULL, NULL);
-
-              RATE_LIMIT_END ();
             }
 
           result = dex_await (
@@ -853,8 +758,6 @@ load_fiber_work (LoadData *data)
         {
           if (cache_into != NULL)
             {
-              RATE_LIMIT_BEGIN (io);
-
               result = g_file_copy (
                   source, cache_into,
                   G_FILE_COPY_OVERWRITE | G_FILE_COPY_ALL_METADATA,
@@ -862,15 +765,11 @@ load_fiber_work (LoadData *data)
               if (!result)
                 return dex_future_new_for_error (g_steal_pointer (&local_error));
 
-              RATE_LIMIT_END ();
-
               load_file = g_object_ref (cache_into);
             }
           else
             load_file = g_object_ref (source);
         }
-
-      RATE_LIMIT_BEGIN (glycin);
 
       loader = gly_loader_new (load_file);
 #ifdef SANDBOXED_LIBFLATPAK
@@ -887,8 +786,6 @@ load_fiber_work (LoadData *data)
       frame = gly_image_next_frame (image, &local_error);
       if (frame == NULL)
         return dex_future_new_for_error (g_steal_pointer (&local_error));
-
-      RATE_LIMIT_END ();
 
       if (async_tex_data_file != NULL)
         {
@@ -907,8 +804,6 @@ load_fiber_work (LoadData *data)
           variant = g_variant_builder_end (builder);
           bytes   = g_variant_get_data_as_bytes (variant);
 
-          RATE_LIMIT_BEGIN (io);
-
           output = g_file_replace (
               async_tex_data_file,
               NULL,
@@ -924,8 +819,6 @@ load_fiber_work (LoadData *data)
               if (bytes_written > 0)
                 g_output_stream_close (G_OUTPUT_STREAM (output), NULL, &local_error);
             }
-
-          RATE_LIMIT_END ();
 
           if (local_error != NULL)
             g_warning ("Failed to write async-tex cache metadata to %s ;"
