@@ -1941,7 +1941,7 @@ msgstr "Bouton Faire un don"
 
 #: src/bz-library-page.blp:17
 msgid "Search installed apps"
-msgstr "Rechercher des applis installees"
+msgstr "Rechercher des applis installées"
 
 #: src/bz-library-page.blp:33
 msgid "No Apps Found"
