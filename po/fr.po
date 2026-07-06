@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-06 14:03+0200\n"
-"PO-Revision-Date: 2026-07-06 14:13+0200\n"
+"PO-Revision-Date: 2026-07-06 22:30+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -139,7 +139,7 @@ msgstr "Téléchargements/mois"
 
 #: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:447
 msgid "Stopped Receiving Core Updates"
-msgstr "L'application utilise un environnement en fin de vie"
+msgstr "Utilise un environnement en fin de vie"
 
 #: src/bz-addons-dialog.blp:245
 msgid ""
