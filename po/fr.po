@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-02 23:15+0200\n"
-"PO-Revision-Date: 2026-07-02 11:08+0200\n"
+"POT-Creation-Date: 2026-07-06 14:03+0200\n"
+"PO-Revision-Date: 2026-07-06 14:13+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
-#: src/bz-window.blp:203 src/bz-window.c:386 src/bz-window.c:387
+#: src/bz-window.blp:203 src/bz-window.c:387 src/bz-window.c:388
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -150,20 +150,20 @@ msgstr ""
 "mises à jour ni de correctifs de sécurité.\n"
 "Son utilisation pourrait devenir risquée."
 
-#: src/bz-addons-dialog.c:333
+#: src/bz-addons-dialog.c:335
 #, c-format
 msgid "Add-on for %s"
 msgstr "Extension pour %s"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626
+#: src/bz-addons-dialog.c:349 src/bz-full-view.c:618
 msgid "Show Less"
 msgstr "Montrer moins"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626 src/bz-section-view.blp:71
+#: src/bz-addons-dialog.c:349 src/bz-full-view.c:618 src/bz-section-view.blp:72
 msgid "Show More"
 msgstr "Montrer plus"
 
-#: src/bz-addons-dialog.c:397
+#: src/bz-addons-dialog.c:399
 msgid "Download Stats"
 msgstr "Statistiques de téléchargement"
 
@@ -171,7 +171,7 @@ msgstr "Statistiques de téléchargement"
 #: src/bz-age-rating-dialog.c:736 src/bz-context-tile-callbacks.c:186
 #: src/bz-context-tile-callbacks.c:193
 msgid "Age Rating"
-msgstr "Classification d'âge"
+msgstr "Classification"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:88
@@ -181,17 +181,17 @@ msgstr "Violence animée"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:90
 msgid "No information regarding cartoon violence"
-msgstr "Aucune information concernant de la violence animée"
+msgstr "Aucune information à propos de la violence animée"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:94
 msgid "Fantasy Violence"
-msgstr "Violence fictive"
+msgstr "Violence fantastique"
 
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:96
 msgid "No information regarding fantasy violence"
-msgstr "Aucune information concernant des scènes de violence fictive"
+msgstr "Aucune information concernant la violence fantastique"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:100
@@ -201,7 +201,7 @@ msgstr "Violence réaliste"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:102
 msgid "No information regarding realistic violence"
-msgstr "Aucune information concernant des scènes de violence réaliste"
+msgstr "Aucune information concernant la violence réaliste"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:106
@@ -211,7 +211,7 @@ msgstr "Violence sanglante"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:108
 msgid "No information regarding bloodshed"
-msgstr "Aucune information concernant des scènes de violence sanglante"
+msgstr "Aucune information concernant la violence sanglante"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:112
@@ -221,7 +221,7 @@ msgstr "Violence sexuelle"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:114
 msgid "No information regarding sexual violence"
-msgstr "Aucune information concernant des scènes de violence sexuelle"
+msgstr "Aucune information concernant la violence sexuelle"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:118
@@ -231,7 +231,7 @@ msgstr "Alcool"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:120
 msgid "No information regarding references to alcohol"
-msgstr "Aucune information concernant des références à l’alcool"
+msgstr "Aucune information concernant les références à l'alcool"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:124
@@ -241,7 +241,7 @@ msgstr "Stupéfiants"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:126
 msgid "No information regarding references to illicit drugs"
-msgstr "Aucune information concernant des références aux drogues illicites"
+msgstr "Aucune information concernant les références à des drogues illicites"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:130
@@ -251,7 +251,7 @@ msgstr "Tabac"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:132
 msgid "No information regarding references to tobacco products"
-msgstr "Aucune information concernant des références aux produits du tabac"
+msgstr "Aucune information concernant les références aux produits du tabac"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:136 src/bz-age-rating-dialog.c:475
@@ -261,7 +261,7 @@ msgstr "Nudité"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:138
 msgid "No information regarding nudity of any sort"
-msgstr "Aucune information concernant des formes de nudité"
+msgstr "Aucune information concernant la nudité"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:142
@@ -272,7 +272,7 @@ msgstr "Thèmes sexuels"
 #: src/bz-age-rating-dialog.c:144
 msgid "No information regarding references to or depictions of sexual nature"
 msgstr ""
-"Aucune information concernant des références ou scènes à caractère sexuel"
+"Aucune information concernant les références ou scènes à caractère sexuel"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:148
@@ -282,7 +282,7 @@ msgstr "Vulgarité"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:150
 msgid "No information regarding profanity of any kind"
-msgstr "Aucune information concernant des formes de vulgarité"
+msgstr "Aucune information concernant la vulgarité"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:154
@@ -292,7 +292,7 @@ msgstr "Humour inapproprié"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:156
 msgid "No information regarding inappropriate humor"
-msgstr "Aucune information concernant de l’humour inapproprié"
+msgstr "Aucune information concernant l'humour inapproprié"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:160
@@ -302,7 +302,7 @@ msgstr "Discrimination"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:162
 msgid "No information regarding discriminatory language of any kind"
-msgstr "Aucune information concernant un langage à caractère discriminatoire"
+msgstr "Aucune information concernant le langage discriminatoire"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:166
@@ -312,7 +312,7 @@ msgstr "Publicité"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:168
 msgid "No information regarding advertising of any kind"
-msgstr "Aucune information concernant des formes de publicité"
+msgstr "Aucune information concernant la publicité"
 
 # Fait parti du système d'estimation d'âge et n'est pas une catégorie
 # (d'où l'utilisation du singuler par rapport au pluriel)
@@ -334,18 +334,18 @@ msgstr "Achat"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:180
 msgid "No information regarding the ability to spend money"
-msgstr "Aucune information concernant la faculté de dépenser de l’argent"
+msgstr "Aucune information concernant les achats intégrés"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:184
 msgid "Chat Between Users"
-msgstr "Discussions entre utilisateurs"
+msgstr "Discussions écrites entre utilisateurs"
 
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:186
 msgid "No information regarding ways to chat with other users"
 msgstr ""
-"Aucune information concernant des moyens de discuter avec d’autres "
+"Aucune information concernant les fonctionnalités de discussion entre "
 "utilisateurs"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
@@ -357,7 +357,8 @@ msgstr "Discussions vocales entre utilisateurs"
 #: src/bz-age-rating-dialog.c:192
 msgid "No information regarding ways to talk with other users"
 msgstr ""
-"Aucune information concernant les moyens de parler avec d’autres utilisateurs"
+"Aucune information concernant les fonctionnalités d'appels ou de messages "
+"vocaux entre utilisateurs"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:196
@@ -370,19 +371,18 @@ msgid ""
 "No information regarding sharing of social network usernames or email "
 "addresses"
 msgstr ""
-"Aucune information concernant le partage de pseudonymes ou d’adresses "
-"courriel"
+"Aucune information concernant le partage d’identifiants ou d’adresses e-mail"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:202
 msgid "Identifying Information"
-msgstr "Données d’identification"
+msgstr "Informations personnelles"
 
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:204
 msgid "No information regarding sharing of user information with third parties"
 msgstr ""
-"Aucune information concernant le partage d’information utilisateur avec des "
+"Aucune information concernant le partage de données personnelles avec des "
 "tiers"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
@@ -394,8 +394,8 @@ msgstr "Partage de position"
 #: src/bz-age-rating-dialog.c:210
 msgid "No information regarding sharing of physical location with other users"
 msgstr ""
-"Aucune information concernant la possibilité de partager sa position avec "
-"d’autres utilisateurs"
+"Aucune information concernant le partage de localisation avec d’autres "
+"utilisateurs"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:214
@@ -405,7 +405,7 @@ msgstr "Prostitution"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:216
 msgid "No information regarding references to prostitution"
-msgstr "Aucune information concernant des références à la prostitution"
+msgstr "Aucune information concernant les références à la prostitution"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:220
@@ -415,7 +415,7 @@ msgstr "Adultère"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:222
 msgid "No information regarding references to adultery"
-msgstr "Aucune information concernant des références à l’adultère"
+msgstr "Aucune information concernant les références à l’adultère"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:226
@@ -425,7 +425,7 @@ msgstr "Personnage sexualisés"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:228
 msgid "No information regarding sexualized characters"
-msgstr "Aucune information concernant des personnages sexualisés"
+msgstr "Aucune information concernant les personnages sexualisés"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:232
@@ -435,7 +435,7 @@ msgstr "Profanation"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:234
 msgid "No information regarding references to desecration"
-msgstr "Aucune information concernant des formes de profanation"
+msgstr "Aucune information concernant les références à la profanation"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:238
@@ -445,7 +445,7 @@ msgstr "Restes humains"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:240
 msgid "No information regarding visible dead human remains"
-msgstr "Aucune information concernant la visibilité de restes humains"
+msgstr "Aucune information concernant l'affichage de restes humains"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:244
@@ -455,33 +455,33 @@ msgstr "Esclavage"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:246
 msgid "No information regarding references to slavery"
-msgstr "Aucune information concernant des références à l’esclavage"
+msgstr "Aucune information concernant les références à l’esclavage"
 
 #: src/bz-age-rating-dialog.c:424
 msgid "Does not include references to drugs"
-msgstr "N’inclut pas de références aux drogues"
+msgstr "Ne contient aucune référence à de la drogue"
 
 #: src/bz-age-rating-dialog.c:426
 msgid ""
 "Does not include swearing, profanity, and other kinds of strong language"
 msgstr ""
-"Ne comporte pas de jurons, blasphèmes ou d’autres formes de langage grossier"
+"Ne contient aucune insulte, injure ou d’autres types de langage grossier"
 
 #: src/bz-age-rating-dialog.c:428
 msgid "Does not include ads or monetary transactions"
-msgstr "N’inclut pas de publicité, ni de transactions monétaires"
+msgstr "Ne contient pas de publicité ou de transactions monétaires"
 
 #: src/bz-age-rating-dialog.c:430
 msgid "Does not include sex or nudity"
-msgstr "N’inclut pas de sexe, ni de nudité"
+msgstr "Ne contient pas de sexe ou de nudité"
 
 #: src/bz-age-rating-dialog.c:432
 msgid "Does not include uncontrolled chat functionality"
-msgstr "N’inclut pas de fonctionnalités de discussion non modérées"
+msgstr "Ne contient pas de fonctionnalité de discussion non modérées"
 
 #: src/bz-age-rating-dialog.c:434
 msgid "Does not include violence"
-msgstr "N’inclut pas de violence"
+msgstr "Ne contient aucune violence"
 
 #: src/bz-age-rating-dialog.c:469
 msgid "Drugs"
@@ -738,13 +738,13 @@ msgstr "Inconnu"
 msgid "App Size"
 msgstr "Taille de l'appli"
 
-#: src/bz-app-tile.blp:57 src/bz-developer-badge.c:98
+#: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
 #: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
 msgid "Verified"
 msgstr "Vérifié"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
+#: src/bz-app-tile.blp:87 src/bz-context-tile-callbacks.c:135
 #: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Installée"
@@ -1072,7 +1072,7 @@ msgstr "Licence spéciale"
 
 #: src/bz-context-tile-callbacks.c:310
 msgid "Adaptive"
-msgstr "Adaptatif"
+msgstr "Adaptative"
 
 #: src/bz-context-tile-callbacks.c:310
 msgid "Desktop Only"
@@ -1104,7 +1104,7 @@ msgstr "Risque élevé"
 
 #: src/bz-curated-view.blp:24 src/bz-favorites-page.blp:46
 #: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30 src/bz-full-view.blp:41
-#: src/bz-library-page.blp:67 src/bz-user-data-page.blp:30
+#: src/bz-library-page.blp:29 src/bz-user-data-page.blp:30
 msgid "Empty"
 msgstr "Vide"
 
@@ -1248,7 +1248,7 @@ msgstr "Détails"
 msgid "Copy"
 msgstr "Copier"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:415
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:452
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Copié !"
@@ -1274,7 +1274,7 @@ msgstr "Se connecter"
 msgid "Favorites"
 msgstr "Favoris"
 
-#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:86
+#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:87
 msgid "Install All"
 msgstr "Tout installer"
 
@@ -1685,8 +1685,8 @@ msgstr "Nous + jeux = ♥"
 msgid "Games and apps to run your favorite titles"
 msgstr "Jeux et applis pour lancer vos titres préférés"
 
-#: src/bz-full-view.blp:34 src/bz-library-page.blp:78
-#: src/bz-library-page.blp:82
+#: src/bz-full-view.blp:34 src/bz-library-page.blp:40
+#: src/bz-library-page.blp:44
 msgid "No Results"
 msgstr "Aucun résultat"
 
@@ -1738,6 +1738,10 @@ msgstr "Plus d'extensions"
 msgid "Links"
 msgstr "Liens"
 
+#: src/bz-full-view.blp:679
+msgid "Similar Apps"
+msgstr "Applications similaires"
+
 #: src/bz-full-view.c:181
 msgid "No URL"
 msgstr "Aucune URL"
@@ -1771,7 +1775,7 @@ msgstr "Plus d’applis par %s"
 msgid "Other Apps by this Developer"
 msgstr "D’autres applis de ce développeur"
 
-#: src/bz-full-view.c:217 src/bz-full-view.c:317
+#: src/bz-full-view.c:217 src/bz-full-view.c:309
 #, c-format
 msgid "Other Apps by %s"
 msgstr "D’autres applis par %s"
@@ -1781,18 +1785,18 @@ msgstr "D’autres applis par %s"
 msgid "%s is not installed, but it still has <b>%s</b> of data present."
 msgstr "%s n’est pas installé, mais a toujours <b>%s</b> de données présentes."
 
-#: src/bz-full-view.c:319
+#: src/bz-full-view.c:311
 msgid "Other Apps"
 msgstr "D’autres applis"
 
-#: src/bz-full-view.c:321
+#: src/bz-full-view.c:313
 #, c-format
 msgid "%d Application"
 msgid_plural "%d Applications"
 msgstr[0] "%d application"
 msgstr[1] "%d applications"
 
-#: src/bz-full-view.c:506 src/bz-user-data-tile.c:144
+#: src/bz-full-view.c:498 src/bz-user-data-tile.c:144
 msgid "Failed to Remove User Data"
 msgstr "Échec de la suppression des données utilisateurs"
 
@@ -1874,11 +1878,11 @@ msgstr "Peut ne pas fonctionner correctement sur les appareils mobiles"
 
 #: src/bz-hardware-support-dialog.c:166
 msgid "Desktop support"
-msgstr "Prise en charge PC"
+msgstr "Prise en charge des ordinateurs"
 
 #: src/bz-hardware-support-dialog.c:167
 msgid "Works well on large screens"
-msgstr "Fonctionne bien sur grands écrans"
+msgstr "Adapté aux grands écrans"
 
 #: src/bz-hardware-support-dialog.c:201
 #, c-format
@@ -1935,78 +1939,85 @@ msgstr "Annulation"
 msgid "Donate Button"
 msgstr "Bouton Faire un don"
 
-#: src/bz-library-page.blp:32
+#: src/bz-library-page.blp:17
 msgid "Search installed apps"
-msgstr "Rechercher des applis installées"
+msgstr "Rechercher des applis installees"
 
-#: src/bz-library-page.blp:50
-msgid "Clear search"
-msgstr "Effacer la recherche"
-
-#: src/bz-library-page.blp:71
+#: src/bz-library-page.blp:33
 msgid "No Apps Found"
 msgstr "Aucune appli trouvée"
 
-#: src/bz-library-page.blp:90
+#: src/bz-library-page.blp:52
 msgid "Search Store Instead"
 msgstr "Rechercher plutôt dans la logithèque"
 
 # "Bibliothèque" est trop long sous un format "mobile"
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:114
+#: src/bz-library-page.blp:62 src/bz-window.blp:114
 msgid "Library"
 msgstr "Bibliothèque"
 
-#: src/bz-library-page.blp:129
+#: src/bz-library-page.blp:91
 msgid "Pending Updates"
 msgstr "Mises à jour en attente"
 
-#: src/bz-library-page.blp:156
+#: src/bz-library-page.blp:118
 msgid "Downloads"
 msgstr "Téléchargements"
 
-#: src/bz-library-page.blp:199
+#: src/bz-library-page.blp:161
 msgid "Recently Uninstalled"
 msgstr "Désinstallées récemment"
 
-#: src/bz-library-page.blp:250
+#: src/bz-library-page.blp:212
 msgid "Clear Finished Tasks"
 msgstr "Effacer les tâches effectuées"
 
-#: src/bz-library-page.blp:277
+#: src/bz-library-page.blp:239
 msgid "Sort Options"
 msgstr "Options de tri"
 
-#: src/bz-library-page.blp:336
+#: src/bz-library-page.blp:298
 msgid "Sort By"
 msgstr "Trier par"
 
-#: src/bz-library-page.blp:350
+#: src/bz-library-page.blp:312
 msgid "Name"
 msgstr "Nom"
 
-#: src/bz-library-page.blp:356
+#: src/bz-library-page.blp:318
 msgid "Size"
 msgstr "Taille"
 
-#: src/bz-library-page.c:180
+#: src/bz-library-page.c:181
 #, c-format
 msgid "No matches found for \"%s\" in the list of installed apps"
 msgstr "Aucune application installée ne correspond à « %s »"
 
-#: src/bz-library-page.c:193 src/bz-updates-card.c:437
+#: src/bz-library-page.c:194 src/bz-updates-card.c:437
 #, c-format
 msgid "%u Available Update"
 msgid_plural "%u Available Updates"
 msgstr[0] "%u mise à jour disponible"
 msgstr[1] "%u mises à jour disponibles"
 
-#: src/bz-library-page.c:203
+#: src/bz-library-page.c:204
 #, c-format
 msgid "%u Installed App"
 msgid_plural "%u Installed Apps"
 msgstr[0] "%u appli installée"
 msgstr[1] "%u applis installées"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:773
+msgid "No applications found"
+msgstr "Aucune application trouvée"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:773
+#, c-format
+msgid "One application found"
+msgid_plural "%u applications found"
+msgstr[0] "Une application trouvée"
+msgstr[1] "%u applications trouvées"
 
 #: src/bz-license-dialog.blp:87
 msgid "Get Involved"
@@ -2141,19 +2152,19 @@ msgstr "Actualiser manuellement"
 
 #: src/bz-preferences-dialog.blp:31
 msgid "Content Filters"
-msgstr "Filtres de contenus"
+msgstr "Filtres de contenu"
 
 #: src/bz-preferences-dialog.blp:34
 msgid "Free Software Only"
-msgstr "Logiciels libres seulement"
+msgstr "N'afficher que les logiciels libres"
 
 #: src/bz-preferences-dialog.blp:35
 msgid "Hide proprietary apps when browsing and searching"
-msgstr "Masque les applis propriétaires dans les résultats des recherches"
+msgstr "Masque les applis propriétaires pendant la navigation et la recherche"
 
 #: src/bz-preferences-dialog.blp:39
 msgid "Flathub Results Only"
-msgstr "Logiciels Flathub seulement"
+msgstr "N'afficher que les résultats issus de Flathub"
 
 #: src/bz-preferences-dialog.blp:40
 msgid "Limit search and browse results to apps only available on Flathub"
@@ -2162,7 +2173,7 @@ msgstr ""
 
 #: src/bz-preferences-dialog.blp:44
 msgid "Verified Results Only"
-msgstr "Résultats vérifiés seulement"
+msgstr "N'afficher que les développeurs vérifiés"
 
 #: src/bz-preferences-dialog.blp:45
 msgid "Hide results that are not verified on Flathub"
@@ -2366,7 +2377,7 @@ msgstr "L’application est entièrement sandboxée"
 
 #: src/bz-safety-calculator.c:108
 msgid "Network Access"
-msgstr "Accès à Internet"
+msgstr "Accès au réseau"
 
 #: src/bz-safety-calculator.c:109
 msgid "Can access the internet"
@@ -2374,7 +2385,7 @@ msgstr "Peut accéder à Internet"
 
 #: src/bz-safety-calculator.c:111
 msgid "No Network Access"
-msgstr "Aucun accès Internet"
+msgstr "Aucun accès au réseau"
 
 #: src/bz-safety-calculator.c:112
 msgid "Cannot access the internet"
@@ -2789,7 +2800,7 @@ msgstr "Captures d’écran %u %s"
 msgid "Screenshot %u"
 msgstr "Captures d’écran %u"
 
-#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:83
+#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:66
 msgid "Filters"
 msgstr "Filtres"
 
@@ -2817,35 +2828,35 @@ msgstr "_Disponibles sur mobile"
 msgid "Categories"
 msgstr "Catégories"
 
-#: src/bz-search-page.blp:58
-msgid "Search Apps, Games, Software"
-msgstr "Rechercher applis, jeux et logiciels"
-
-#: src/bz-search-page.blp:70
-msgid "Search Filters"
-msgstr "Filtres de recherche"
-
-#: src/bz-search-page.blp:100
+#: src/bz-search-bar.blp:55
 msgid "Clear Search"
 msgstr "Effacer la recherche"
 
-#: src/bz-search-page.blp:209
+#: src/bz-search-page.blp:45
+msgid "Search Apps, Games, Software"
+msgstr "Rechercher applis, jeux et logiciels"
+
+#: src/bz-search-page.blp:52
+msgid "Search Filters"
+msgstr "Filtres de recherche"
+
+#: src/bz-search-page.blp:170
 msgid "Browse Categories"
 msgstr "Parcourir les catégories"
 
-#: src/bz-search-page.blp:245
+#: src/bz-search-page.blp:206
 msgid "Categories Unavailable"
 msgstr "Catégories non disponibles"
 
-#: src/bz-search-page.blp:246
+#: src/bz-search-page.blp:207
 msgid "Search for apps using the search bar above."
-msgstr "Cherchez des applis en utilisant l'onglet « Rechercher »."
+msgstr "Cherchez des applis en utilisant la barre de recherche ci-dessus."
 
-#: src/bz-search-page.blp:364
+#: src/bz-search-page.blp:325
 msgid "No Applications Found"
 msgstr "Aucune application trouvée"
 
-#: src/bz-search-page.c:248
+#: src/bz-search-page.c:249
 #, c-format
 msgid "No results found for \"%s\" in Flathub"
 msgstr "Aucun résultat pour « %s » dans la logithèque"
@@ -2930,7 +2941,7 @@ msgstr "Page Flathub"
 #: src/bz-share-list.c:59
 msgctxt "Project URL Type"
 msgid "Project Website"
-msgstr "Site du projet"
+msgstr "Site web du projet"
 
 #: src/bz-share-list.c:60
 msgctxt "Project URL Type"
@@ -2955,12 +2966,12 @@ msgstr "Faire un don"
 #: src/bz-share-list.c:64
 msgctxt "Project URL Type"
 msgid "Translate"
-msgstr "Traduire"
+msgstr "Contribuer aux traductions"
 
 #: src/bz-share-list.c:65
 msgctxt "Project URL Type"
 msgid "Contact"
-msgstr "Contact"
+msgstr "Contacter"
 
 #: src/bz-share-list.c:66
 msgctxt "Project URL Type"
@@ -3325,20 +3336,20 @@ msgid "Log Out"
 msgstr "Se déconnecter"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:389
+#: src/bz-window.c:390
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar — %s"
 
-#: src/bz-window.c:609 src/bz-window.c:647
+#: src/bz-window.c:610 src/bz-window.c:648
 msgid "Failed to launch application"
 msgstr "Échec du lancement de l'application"
 
-#: src/bz-window.c:860
+#: src/bz-window.c:878
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Vous ne pouvez supprimer Bazaar depuis Bazaar !"
 
-#: src/bz-window.c:1166 src/bz-window.c:1200
+#: src/bz-window.c:1184 src/bz-window.c:1218
 msgid "Can't do that right now!"
 msgstr "Impossible de faire ceci pour le moment !"
 
