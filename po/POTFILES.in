@@ -119,6 +119,7 @@ src/bz-screenshots-carousel.c
 src/bz-search-engine.c
 src/bz-search-filter-popover.blp
 src/bz-search-filter-popover.c
+src/bz-search-bar.blp
 src/bz-search-page.blp
 src/bz-search-page.c
 src/bz-search-pill-list.c
