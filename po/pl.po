@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-01 22:08+0200\n"
-"PO-Revision-Date: 2026-07-02 18:44+0200\n"
+"POT-Creation-Date: 2026-07-10 10:22+0200\n"
+"PO-Revision-Date: 2026-07-10 12:01+0200\n"
 "Last-Translator: Marcel Mrówka <micro.mail88@gmail.com>\n"
 "Language-Team: Polish <>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
-#: src/bz-window.blp:203 src/bz-window.c:386 src/bz-window.c:387
+#: src/bz-window.blp:203 src/bz-window.c:387 src/bz-window.c:388
 msgid "Bazaar"
 msgstr "Bazaar"
 
@@ -71,7 +71,7 @@ msgstr "Zaloguj się do konta Flathub, aby zarządzać ulubionymi"
 msgid "Search apps directly from GNOME Shell"
 msgstr "Wyszukuj aplikacje prościutko z GNOME Shell"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:786
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:787
 msgid "The Bazaar Contributors"
 msgstr "Kontrybutorzy Bazaaru"
 
@@ -149,20 +149,20 @@ msgstr ""
 "Ten dodatek wykorzystuje bibliotekę, która już nie otrzymuje aktualizacji "
 "lub poprawek zabezpieczeń. Może się stać niebezpieczny."
 
-#: src/bz-addons-dialog.c:333
+#: src/bz-addons-dialog.c:346
 #, c-format
 msgid "Add-on for %s"
 msgstr "Dodatek dla aplikacji %s"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:618
 msgid "Show Less"
 msgstr "Pokaż mniej"
 
-#: src/bz-addons-dialog.c:347 src/bz-full-view.c:626 src/bz-section-view.blp:71
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:618 src/bz-section-view.blp:72
 msgid "Show More"
 msgstr "Pokaż więcej"
 
-#: src/bz-addons-dialog.c:397
+#: src/bz-addons-dialog.c:410
 msgid "Download Stats"
 msgstr "Statystyki pobrań"
 
@@ -726,39 +726,39 @@ msgstr "Rozmiar bibliotek do pobrania"
 msgid "N/A"
 msgstr "Niedostępne"
 
-#: src/bz-app-size-dialog.c:226
+#: src/bz-app-size-dialog.c:208
 msgid "App Size"
 msgstr "Rozmiar aplikacji"
 
-#: src/bz-app-tile.blp:57 src/bz-developer-badge.c:98
+#: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
 #: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
 msgid "Verified"
 msgstr "Zweryfikowano"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/context-tile-callbacks.c:135
-#: src/bz-releases-list.c:206
+#: src/bz-app-tile.blp:87 src/bz-releases-list.c:206
+#: src/context-tile-callbacks.c:135
 msgid "Installed"
 msgstr "Zainstalowano"
 
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:789
+#: src/bz-application.c:790
 msgid "translator-credits"
 msgstr "Marcel Mrówka (Microwave) <micro.mail88@gmail.com>, 2025, 2026"
 
-#: src/bz-application.c:799
+#: src/bz-application.c:800
 msgid "Special Thanks"
 msgstr "Specjalne podziękowania"
 
-#: src/bz-application.c:857
+#: src/bz-application.c:858
 msgid "Logged Out Successfully!"
 msgstr "Wylogowano pomyślnie!"
 
-#: src/bz-application.c:1037
+#: src/bz-application.c:1038
 msgid "Ubuntu Troubles!"
 msgstr "Kłopoty Ubuntu!"
 
-#: src/bz-application.c:1040
+#: src/bz-application.c:1041
 msgid ""
 "The more recent versions of Ubuntu have messed up default security rules, "
 "making it <b>impossible to install apps</b> from the Flatpak version of "
@@ -781,19 +781,19 @@ msgstr ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
-#: src/bz-application.c:1046
+#: src/bz-application.c:1047
 msgid "Continue Anyway"
 msgstr "Kontynuuj mimo to"
 
-#: src/bz-application.c:1062
+#: src/bz-application.c:1063
 msgid "Performing setup…"
 msgstr "Konfigurowanie…"
 
-#: src/bz-application.c:1154
+#: src/bz-application.c:1155
 msgid "Set Up System Flathub?"
 msgstr "Skonfigurować Flathub systemowo?"
 
-#: src/bz-application.c:1157
+#: src/bz-application.c:1158
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -808,11 +808,11 @@ msgstr ""
 "Nadal możesz używać Bazaaru do przeglądania i usuwania już zainstalowanych "
 "aplikacji."
 
-#: src/bz-application.c:1164
+#: src/bz-application.c:1165
 msgid "Set Up Flathub?"
 msgstr "Skonfigurować Flathub?"
 
-#: src/bz-application.c:1167
+#: src/bz-application.c:1168
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -825,48 +825,48 @@ msgstr ""
 "Nadal możesz używać Bazaaru do przeglądania i usuwania już zainstalowanych "
 "aplikacji."
 
-#: src/bz-application.c:1173
+#: src/bz-application.c:1174
 msgid "Later"
 msgstr "Później"
 
-#: src/bz-application.c:1174
+#: src/bz-application.c:1175
 msgid "Set Up Flathub"
 msgstr "Skonfiguruj Flathub"
 
-#: src/bz-application.c:1696
+#: src/bz-application.c:1699
 msgid "A backend error occurred"
 msgstr "Wystąpił błąd w backendzie"
 
-#: src/bz-application.c:1896 src/bz-application.c:4111
+#: src/bz-application.c:1899 src/bz-application.c:4117
 msgid "Refreshing…"
 msgstr "Odświeżanie…"
 
-#: src/bz-application.c:2060 src/bz-application.c:4109
+#: src/bz-application.c:2063 src/bz-application.c:4115
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Ładowanie %d aplikacji…"
 
-#: src/bz-application.c:2113
+#: src/bz-application.c:2116
 msgid "Failed to open file"
 msgstr "Otwieranie pliku nie powiodło się"
 
-#: src/bz-application.c:2234
+#: src/bz-application.c:2237
 msgid "An initialization error occurred"
 msgstr "Wystąpił błąd inicjalizacji"
 
-#: src/bz-application.c:2628
+#: src/bz-application.c:2631
 msgid "Checking for updates…"
 msgstr "Sprawdzanie dostępności aktualizacji…"
 
-#: src/bz-application.c:2684
+#: src/bz-application.c:2687
 msgid "Failed to check for updates"
 msgstr "Sprawdzanie dostępności aktualizacji nie powiodło się"
 
-#: src/bz-application.c:3821
+#: src/bz-application.c:3827
 msgid "Malformed Link"
 msgstr "Zniekształcone złącze"
 
-#: src/bz-application.c:3822
+#: src/bz-application.c:3828
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -879,15 +879,15 @@ msgstr ""
 "Jest to prawdopodobnie spowodowane KRunnerem nie dającym poprawnych "
 "identyfikatorów"
 
-#: src/bz-application.c:3830
+#: src/bz-application.c:3836
 msgid "Could not find app"
 msgstr "Nie można znaleźć aplikacji"
 
-#: src/bz-application.c:3861
+#: src/bz-application.c:3867
 msgid "Failed to load metainfo"
 msgstr "Ładowanie metainfo nie powiodło się"
 
-#: src/bz-application.c:4113
+#: src/bz-application.c:4119
 msgid "Writing to cache…"
 msgstr "Zapisywanie do pamięci podręcznej…"
 
@@ -963,137 +963,9 @@ msgstr "Około %s do zainstalowania"
 msgid "No special permissions"
 msgstr "Brak specjalnych uprawnień"
 
-#: src/context-tile-callbacks.c:68
-msgid "---"
-msgstr "---"
-
-#. Translators: M is the suffix for millions
-#: src/context-tile-callbacks.c:75
-#, c-format
-msgid "%.*fM"
-msgstr "%.*f mln"
-
-#. Translators: K is the suffix for thousands
-#: src/context-tile-callbacks.c:82
-#, c-format
-msgid "%.*fK"
-msgstr "%.*f tys."
-
-#: src/context-tile-callbacks.c:92
-#, c-format
-msgid "%d downloads in the last month"
-msgstr "%d pobrań w ciągu zeszłego miesiąca"
-
-#: src/context-tile-callbacks.c:132
-#, c-format
-msgid "+%s runtime"
-msgstr "+%s bibliotek"
-
-#: src/context-tile-callbacks.c:135
-msgid "Download"
-msgstr "Rozmiar do pobrania"
-
-#: src/context-tile-callbacks.c:155
-msgid "Size information unavailable"
-msgstr "Informacja o rozmiarze jest niedostępna"
-
-#: src/context-tile-callbacks.c:158
-#, c-format
-msgid "Download size of %s"
-msgstr "Rozmiar do pobrania aplikacji %s"
-
-#: src/context-tile-callbacks.c:191
-msgid "All Ages"
-msgstr "Próg wiekowy"
-
-#: src/context-tile-callbacks.c:203
-msgid "Age rating information unavailable"
-msgstr "Informacja o progu wiekowym jest niedostępna"
-
-#: src/context-tile-callbacks.c:208
-msgid "Suitable for all ages"
-msgstr "Odpowiednie od 3 lat"
-
-#: src/context-tile-callbacks.c:210
-#, c-format
-msgid "Suitable for ages %d and up"
-msgstr "Odpowiednie od %d lat"
-
-#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
-#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
-msgid "Unknown"
-msgstr "Nieznane"
-
-#: src/context-tile-callbacks.c:253
-#, c-format
-msgid "Free software licensed under %s"
-msgstr "Wolne oprogramowanie pod licencją %s"
-
-#: src/context-tile-callbacks.c:258
-msgid "Free software"
-msgstr "Wolne oprogramowanie"
-
-#: src/context-tile-callbacks.c:261
-msgid "Proprietary Software"
-msgstr "Oprogramowanie własnościowe"
-
-#: src/context-tile-callbacks.c:264
-#, c-format
-msgid "Special License: %s"
-msgstr "Licencja specjalna: %s"
-
-#. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/context-tile-callbacks.c:282
-msgid "Free Software"
-msgstr "Wolne"
-
-#: src/context-tile-callbacks.c:288 src/bz-license-dialog.c:133
-msgid "Proprietary"
-msgstr "Własnościowe"
-
-#: src/context-tile-callbacks.c:290 src/bz-license-dialog.c:135
-msgid "Special License"
-msgstr "Licencja specjalna"
-
-#: src/context-tile-callbacks.c:310
-msgid "Adaptive"
-msgstr ""
-"Na różne\n"
-"urządzenia"
-
-#: src/context-tile-callbacks.c:310
-msgid "Desktop Only"
-msgstr ""
-"Tylko na\n"
-"komputery"
-
-#: src/context-tile-callbacks.c:316
-msgid "Works on desktop, tablets, and phones"
-msgstr "Działa na komputerach, tabletach i telefonach"
-
-#: src/context-tile-callbacks.c:317
-msgid "May not work on mobile devices"
-msgstr "Może nie działać na urządzeniach mobilnych"
-
-#: src/context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
-msgid "Safe"
-msgstr "Bezpieczna"
-
-#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
-msgid "Low Risk"
-msgstr "Niskie ryzyko"
-
-#: src/context-tile-callbacks.c:406
-msgid "Medium Risk"
-msgstr "Średnie ryzyko"
-
-#: src/context-tile-callbacks.c:408
-msgid "High Risk"
-msgstr "Wysokie ryzyko"
-
 #: src/bz-curated-view.blp:24 src/bz-favorites-page.blp:46
 #: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30 src/bz-full-view.blp:41
-#: src/bz-library-page.blp:67 src/bz-user-data-page.blp:30
+#: src/bz-library-page.blp:29 src/bz-user-data-page.blp:30
 msgid "Empty"
 msgstr "Puste"
 
@@ -1232,8 +1104,8 @@ msgstr "ten użytkownik"
 msgid "all users"
 msgstr "wszyscy użytkownicy"
 
-#: src/bz-error-dialog.blp:36 src/error.c:69 src/error.c:88
-#: src/bz-safety-dialog.blp:98
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:98 src/error.c:69
+#: src/error.c:88
 msgid "Details"
 msgstr "Szczegóły"
 
@@ -1241,7 +1113,7 @@ msgstr "Szczegóły"
 msgid "Copy"
 msgstr "Kopiuj"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:415
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:452
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Skopiowano!"
@@ -1263,15 +1135,15 @@ msgid "Log In"
 msgstr "Zaloguj"
 
 #: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:337
+#: src/bz-window.blp:348
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:86
+#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:87
 msgid "Install All"
 msgstr "Zainstaluj wszystkie"
 
-#: src/bz-favorites-page.blp:34 src/bz-user-data-page.blp:19
+#: src/bz-favorites-page.blp:34 src/bz-user-data-page.blp:17
 msgid "Loading"
 msgstr "Ładowanie"
 
@@ -1677,8 +1549,8 @@ msgstr "My ♥ gry"
 msgid "Games and apps to run your favorite titles"
 msgstr "Gry i aplikacje do uruchamiania twoich ulubionych pozycji"
 
-#: src/bz-full-view.blp:34 src/bz-library-page.blp:78
-#: src/bz-library-page.blp:82
+#: src/bz-full-view.blp:34 src/bz-library-page.blp:40
+#: src/bz-library-page.blp:44
 msgid "No Results"
 msgstr "Brak wyników"
 
@@ -1729,6 +1601,10 @@ msgstr "Więcej dodatków"
 msgid "Links"
 msgstr "Łącza"
 
+#: src/bz-full-view.blp:679
+msgid "Similar Apps"
+msgstr "Podobne aplikacje"
+
 #: src/bz-full-view.c:181
 msgid "No URL"
 msgstr "Brak adresu URL"
@@ -1762,7 +1638,7 @@ msgstr "Więcej aplikacji od %s"
 msgid "Other Apps by this Developer"
 msgstr "Inne aplikacje od tego twórcy"
 
-#: src/bz-full-view.c:217 src/bz-full-view.c:317
+#: src/bz-full-view.c:217 src/bz-full-view.c:309
 #, c-format
 msgid "Other Apps by %s"
 msgstr "Inne aplikacje od %s"
@@ -1773,11 +1649,11 @@ msgid "%s is not installed, but it still has <b>%s</b> of data present."
 msgstr ""
 "Aplikacja %s nie jest zainstalowana, lecz nadal ma <b>%s</b> obecnych danych."
 
-#: src/bz-full-view.c:319
+#: src/bz-full-view.c:311
 msgid "Other Apps"
 msgstr "Inne aplikacje"
 
-#: src/bz-full-view.c:321
+#: src/bz-full-view.c:313
 #, c-format
 msgid "%d Application"
 msgid_plural "%d Applications"
@@ -1785,7 +1661,7 @@ msgstr[0] "%d aplikacja"
 msgstr[1] "%d aplikacje"
 msgstr[2] "%d aplikacji"
 
-#: src/bz-full-view.c:506 src/bz-user-data-tile.c:144
+#: src/bz-full-view.c:498 src/bz-user-data-tile.c:141
 msgid "Failed to Remove User Data"
 msgstr "Usunięcie danych użytkownika nie powiodło się"
 
@@ -1928,65 +1804,61 @@ msgstr "Anulowanie"
 msgid "Donate Button"
 msgstr "Przycisk „Przekaż darowiznę”"
 
-#: src/bz-library-page.blp:32
+#: src/bz-library-page.blp:17
 msgid "Search installed apps"
 msgstr "Wyszukuj wśród zainstalowanych aplikacji"
 
-#: src/bz-library-page.blp:50
-msgid "Clear search"
-msgstr "Wyczyść wyszukiwanie"
-
-#: src/bz-library-page.blp:71
+#: src/bz-library-page.blp:33
 msgid "No Apps Found"
 msgstr "Nie znaleziono aplikacji"
 
-#: src/bz-library-page.blp:90
+#: src/bz-library-page.blp:52
 msgid "Search Store Instead"
 msgstr "W zamian przeszukaj sklep"
 
 #. Translators: .
-#: src/bz-library-page.blp:100 src/bz-window.blp:114
+#: src/bz-library-page.blp:62 src/bz-window.blp:114
 msgid "Library"
 msgstr "Biblioteka"
 
-#: src/bz-library-page.blp:129
+#: src/bz-library-page.blp:91
 msgid "Pending Updates"
 msgstr "Aktualizacje w toku"
 
-#: src/bz-library-page.blp:156
+#: src/bz-library-page.blp:118
 msgid "Downloads"
 msgstr "Pobrania"
 
-#: src/bz-library-page.blp:199
+#: src/bz-library-page.blp:161
 msgid "Recently Uninstalled"
 msgstr "Niedawno odinstalowane"
 
-#: src/bz-library-page.blp:250
+#: src/bz-library-page.blp:212
 msgid "Clear Finished Tasks"
 msgstr "Wyczyść zakończone zadania"
 
-#: src/bz-library-page.blp:277
+#: src/bz-library-page.blp:239
 msgid "Sort Options"
 msgstr "Opcje sortowania"
 
-#: src/bz-library-page.blp:336
+#: src/bz-library-page.blp:298
 msgid "Sort By"
 msgstr "Sortuj wg"
 
-#: src/bz-library-page.blp:350
+#: src/bz-library-page.blp:312
 msgid "Name"
 msgstr "Nazwa"
 
-#: src/bz-library-page.blp:356
+#: src/bz-library-page.blp:318
 msgid "Size"
 msgstr "Rozmiar"
 
-#: src/bz-library-page.c:180
+#: src/bz-library-page.c:181
 #, c-format
 msgid "No matches found for \"%s\" in the list of installed apps"
 msgstr "Brak wyników dla „%s” na liście zainstalowanych aplikacji"
 
-#: src/bz-library-page.c:193 src/bz-updates-card.c:437
+#: src/bz-library-page.c:194 src/bz-updates-card.c:437
 #, c-format
 msgid "%u Available Update"
 msgid_plural "%u Available Updates"
@@ -1994,13 +1866,25 @@ msgstr[0] "%u aktualizacja dostępna"
 msgstr[1] "%u aktualizacje dostępne"
 msgstr[2] "%u aktualizacji dostępnych"
 
-#: src/bz-library-page.c:203
+#: src/bz-library-page.c:204
 #, c-format
 msgid "%u Installed App"
 msgid_plural "%u Installed Apps"
 msgstr[0] "%u zainstalowana aplikacja"
 msgstr[1] "%u zainstalowane aplikacje"
 msgstr[2] "%u zainstalowanych aplikacji"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:786
+msgid "No applications found"
+msgstr "Nie znaleziono aplikacji"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:788
+#, c-format
+msgid "One application found"
+msgid_plural "%u applications found"
+msgstr[0] "Znaleziono jedną aplikację"
+msgstr[1] "Znaleziono %u aplikacje"
+msgstr[2] "Znaleziono %u aplikacji"
 
 #: src/bz-license-dialog.blp:87
 msgid "Get Involved"
@@ -2017,6 +1901,14 @@ msgstr "Nieznana licencja"
 #: src/bz-license-dialog.c:130
 msgid "Community Built"
 msgstr "Stworzone przez społeczność"
+
+#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:288
+msgid "Proprietary"
+msgstr "Własnościowe"
+
+#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:290
+msgid "Special License"
+msgstr "Licencja specjalna"
 
 #: src/bz-license-dialog.c:203
 msgid ""
@@ -2127,7 +2019,7 @@ msgstr ""
 "Wykryto taryfowe połączenie internetowe - zatrzymano automatyczne "
 "odświeżanie danych sklepowych"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:236
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:236 src/bz-window.blp:247
 msgid "Refresh Manually"
 msgstr "Odśwież ręcznie"
 
@@ -2343,324 +2235,9 @@ msgstr "Odinstaluj"
 msgid "Get"
 msgstr "Pobierz"
 
-#: src/safety-calculator.c:87
-msgid "Unknown Permissions"
-msgstr "Nieznane uprawnienia"
-
-#: src/safety-calculator.c:88
-msgid "Permissions are missing for this app."
-msgstr "Brakuje uprawnień tej aplikacji."
-
-#: src/safety-calculator.c:101
-msgid "No Permissions"
-msgstr "Brak uprawnień"
-
-#: src/safety-calculator.c:102
-msgid "App is fully sandboxed"
-msgstr "Aplikacja jest w pełni uruchamiana w środowisku piaskownicy"
-
-#: src/safety-calculator.c:108
-msgid "Network Access"
-msgstr "Dostęp do sieci"
-
-#: src/safety-calculator.c:109
-msgid "Can access the internet"
-msgstr "Ma dostęp do internetu"
-
-#: src/safety-calculator.c:111
-msgid "No Network Access"
-msgstr "Brak dostępu do sieci"
-
-#: src/safety-calculator.c:112
-msgid "Cannot access the internet"
-msgstr "Nie ma dostępu do internetu"
-
-#: src/safety-calculator.c:117
-msgid "User Device Access"
-msgstr "Dostęp do urządzeń użytkownika"
-
-#: src/safety-calculator.c:118
-msgid "Can access devices such as webcams or gaming controllers"
-msgstr ""
-"Może uzyskać dostęp do urządzeń takich jak kamerki internetowe i kontrolery "
-"do gier"
-
-#: src/safety-calculator.c:120
-msgid "No User Device Access"
-msgstr "Brak dostępu do urządzeń użytkownika"
-
-#: src/safety-calculator.c:121
-msgid "Cannot access devices such as webcams or gaming controllers"
-msgstr ""
-"Nie może uzyskać dostęp do urządzeń takich jak kamerki internetowe i "
-"kontrolery do gier"
-
-#: src/safety-calculator.c:126
-msgid "Input Device Access"
-msgstr "Dostęp do urządzeń wprowadzania"
-
-#: src/safety-calculator.c:127
-msgid "Can access input devices"
-msgstr "Ma dostęp do urządzeń wprowadzania"
-
-#: src/safety-calculator.c:133
-msgid "Microphone Access and Audio Playback"
-msgstr "Dostęp do mikrofonu i odtwarzania dźwięku"
-
-#: src/safety-calculator.c:134
-msgid "Can listen using microphones and play audio without asking permission"
-msgstr ""
-"Może słuchać przy użyciu mikrofonów i odtwarzać dźwięk bez proszenia o "
-"pozwolenie"
-
-#: src/safety-calculator.c:140
-msgid "System Device Access"
-msgstr "Dostęp do urządzeń systemowych"
-
-#: src/safety-calculator.c:141
-msgid "Can access system devices which require elevated permissions"
-msgstr ""
-"Może uzyskać dostęp do urządzeń systemowych, które wymagają wysokich "
-"uprawnień"
-
-#: src/safety-calculator.c:147
-msgid "Screen Contents Access"
-msgstr "Dostęp do zawartości ekranu"
-
-#: src/safety-calculator.c:148
-msgid "Can access the contents of the screen or other windows"
-msgstr "Ma dostęp do zawartości ekranu i innych okien"
-
-#: src/safety-calculator.c:154
-msgid "Legacy Windowing System"
-msgstr "Przestarzały system okien"
-
-#: src/safety-calculator.c:155
-msgid "Always uses a legacy windowing system (X11)"
-msgstr "Zawsze wykorzystuje przestarzały system okien (X11)"
-
-#: src/safety-calculator.c:161 src/bz-safety-dialog.blp:31
+#: src/bz-safety-dialog.blp:31 src/safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Samowolne uprawnienia"
-
-#: src/safety-calculator.c:162
-msgid "Can acquire arbitrary permissions"
-msgstr "Może uzyskać samowolne uprawnienia"
-
-#: src/safety-calculator.c:168
-msgid "User Settings"
-msgstr "Ustawienia użytkownika"
-
-#: src/safety-calculator.c:169
-msgid "Can access and change user settings"
-msgstr "Ma dostęp do ustawień użytkownika i może je zmieniać"
-
-#: src/safety-calculator.c:175
-msgid "Full File System Read/Write Access"
-msgstr "Pełny dostęp do systemu plików"
-
-#: src/safety-calculator.c:176
-msgid "Can read and write all data on the file system"
-msgstr "Może odczytywać i zapisywać wszystkie dane na systemie plików"
-
-#: src/safety-calculator.c:183
-msgid "Home Folder Read/Write Access"
-msgstr "Dostęp do katalogu domowego"
-
-#: src/safety-calculator.c:184
-msgid "Can read and write all data in your home directory"
-msgstr "Może odczytywać i zapisywać wszystkie dane w twoim katalogu domowym"
-
-#: src/safety-calculator.c:191
-msgid "Full File System Read Access"
-msgstr "Pełny dostęp do odczytu systemu plików"
-
-#: src/safety-calculator.c:192
-msgid "Can read all data on the file system"
-msgstr "Może odczytywać wszystkie dane na systemie plików"
-
-#: src/safety-calculator.c:200
-msgid "Home Folder Read Access"
-msgstr "Dostęp do odczytu katalogu domowego"
-
-#: src/safety-calculator.c:201
-msgid "Can read all data in your home directory"
-msgstr "Może odczytywać dane w twoim katalogu domowym"
-
-#: src/safety-calculator.c:209
-msgid "Download Folder Read/Write Access"
-msgstr "Dostęp do folderu pobranych"
-
-#: src/safety-calculator.c:210
-msgid "Can read and write all data in your downloads directory"
-msgstr "Może odczytywać i zapisywać wszystkie dane w twoim folderze pobranych"
-
-#: src/safety-calculator.c:220
-msgid "Download Folder Read Access"
-msgstr "Dostęp do odczytu folderu pobranych"
-
-#: src/safety-calculator.c:221
-msgid "Can read all data in your downloads directory"
-msgstr "Może odczytywać dane w twoim folderze pobranych"
-
-#: src/safety-calculator.c:242
-msgid "Can read and write all data in the directory"
-msgstr "Może odczytywać i zapisywać wszystkie dane w katalogu"
-
-#: src/safety-calculator.c:266
-msgid "Can read all data in the directory"
-msgstr "Może odczytywać wszystkie dane w katalogu"
-
-#: src/safety-calculator.c:281
-msgid "No File System Access"
-msgstr "Brak dostępu do systemu plików"
-
-#: src/safety-calculator.c:282
-msgid "Cannot access the file system at all"
-msgstr "Absolutnie nie ma dostępu do systemu plików"
-
-#: src/safety-calculator.c:289
-msgid "Uses System Services"
-msgstr "Wykorzystuje usługi systemowe"
-
-#: src/safety-calculator.c:290
-msgid "Can request data from non-portal system services"
-msgstr "Może prosić o dane z poza-portalowych usług systemowych"
-
-#: src/safety-calculator.c:296
-msgid "Uses Session Services"
-msgstr "Usługi sesji użytkownika"
-
-#: src/safety-calculator.c:297
-msgid "Can request data from non-portal session services"
-msgstr "Może prosić o dane z poza-portalowych usług"
-
-#: src/safety-calculator.c:345
-msgid "No Service Access"
-msgstr "Brak dostępu do usług"
-
-#: src/safety-calculator.c:346
-msgid "Cannot access non-portal session or system services at all"
-msgstr "Absolutnie nie ma dostępu do usług systemowych, ani sesji"
-
-#: src/safety-calculator.c:354
-msgid "Verified App Developer"
-msgstr "Zweryfikowany twórca aplikacji"
-
-#: src/safety-calculator.c:355
-msgid "The developer of this app has been verified to be who they say they are"
-msgstr ""
-"Twórca tej aplikacji został zweryfikowany pod względem czy są kim za kogo "
-"się podają"
-
-#: src/safety-calculator.c:364
-msgid "Proprietary Code"
-msgstr "Własnościowy kod"
-
-#: src/safety-calculator.c:365
-msgid ""
-"The source code is not public, so it cannot be independently audited and "
-"might be unsafe"
-msgstr ""
-"Kod źródłowy nie jest publiczny, więc nie może być niezależnie audytowany, "
-"co sprawia, że aplikacja może być niebezpieczna"
-
-#: src/safety-calculator.c:375
-msgid "Auditable Code"
-msgstr "Audytowalny"
-
-#: src/safety-calculator.c:376
-msgid ""
-"The source code is public and can be independently audited, which makes the "
-"app more likely to be safe"
-msgstr ""
-"Kod źródłowy jest publiczny i może być niezależnie audytowany, co sprawia, "
-"że aplikacja jest raczej bardziej bezpieczna"
-
-#: src/safety-calculator.c:516
-#, c-format
-msgid "Use the %s System Service"
-msgstr "Korzysta z usługi systemowej %s"
-
-#: src/safety-calculator.c:520
-#, c-format
-msgid "Use the %s Session Service"
-msgstr "Korzysta z usługi sesji %s"
-
-#: src/safety-calculator.c:524
-#, c-format
-msgid "Use the %s Service"
-msgstr "Korzysta z usługi %s"
-
-#: src/safety-calculator.c:534
-msgid "Can see the non-portal service"
-msgstr "Może widzieć poza-portalowe usługi"
-
-#: src/safety-calculator.c:536
-msgid "Can talk to the non-portal service"
-msgstr "Może rozmawiać z poza-portalowymi usługami"
-
-#: src/safety-calculator.c:538
-msgid "Can own the non-portal service"
-msgstr "Może posiadać poza-portalowe usługi"
-
-#: src/safety-calculator.c:553
-msgid "Global Menu Integration"
-msgstr "Integracja z globalnym menu"
-
-#: src/safety-calculator.c:554
-msgid "Can display its menus in a global menu bar"
-msgstr "Może wyświetlać swoje menu w globalnym pasku menu"
-
-#: src/safety-calculator.c:559
-msgid "KDE Settings Integration"
-msgstr "Integracja z ustawieniami KDE"
-
-#: src/safety-calculator.c:560
-msgid "Can detect when KDE desktop settings change"
-msgstr "Może wykryć kiedy ustawienia pulpitu KDE się zmieniają"
-
-#: src/safety-calculator.c:565
-msgid "KDE Global Settings"
-msgstr "Globalne ustawienia KDE"
-
-#: src/safety-calculator.c:566
-msgid "Can read KDE desktop preferences like fonts and colors"
-msgstr "Może odczytywać preferencje pulpitu KDE, rzeczy jak czcionki i kolory"
-
-#: src/safety-calculator.c:571
-msgid "Secret Storage Service"
-msgstr "Usługa tajemnej pamięci"
-
-#: src/safety-calculator.c:572
-msgid "Can store and retrieve its own passwords using the system keyring"
-msgstr ""
-"Może przechowywać i otrzymywać swoje hasła korzystając z systemowego pęku "
-"kluczy"
-
-#: src/safety-calculator.c:577
-msgid "Desktop Notifications Service"
-msgstr "Usługa powiadomień pulpitowych"
-
-#: src/safety-calculator.c:578
-msgid "Can send desktop notifications"
-msgstr "Może wysyłać powiadomienia pulpitowe"
-
-#: src/safety-calculator.c:584
-msgid "System Tray Integration"
-msgstr "Integracja z zasobnikiem systemowym"
-
-#: src/safety-calculator.c:585
-msgid "Can display an icon in the system tray"
-msgstr "Może wyświetlać ikonę w zasobniku systemowym"
-
-#: src/safety-calculator.c:590
-msgid "KDE Connect Integration"
-msgstr "Integracja z KDE Connect"
-
-#: src/safety-calculator.c:591
-msgid "Can interact with devices paired via KDE Connect"
-msgstr "Może komunikować się z urządzeniami połączonymi przez KDE Connect"
 
 #: src/bz-safety-dialog.blp:48
 msgid ""
@@ -2676,15 +2253,19 @@ msgstr ""
 "Ta aplikacja ma uprawnienie do pozwalające jej okrężnie przyznać sobie "
 "<b>jakiekolwiek inne uprawnienia</b>, obchodząc piaskownicę Flatpaka.\n"
 "\n"
-"Zatem może ona robić wszystko co normalna niesandboxowana aplikacja "
-"w tym mieć dostęp do twoich plików oraz łączyć się z internetem.\n"
+"Zatem może ona robić wszystko co normalna niesandboxowana aplikacja w tym "
+"mieć dostęp do twoich plików oraz łączyć się z internetem.\n"
 "\n"
-"Obejrzenie innych uprawnień nadal jest dobrym pomysłem, by dowiedzieć się "
-"co aplikacja najprawdopodobniej będzie robić."
+"Obejrzenie innych uprawnień nadal jest dobrym pomysłem, by dowiedzieć się co "
+"aplikacja najprawdopodobniej będzie robić."
 
 #: src/bz-safety-dialog.blp:52
 msgid "View Other Permissions"
 msgstr "Pokaż inne uprawnienia"
+
+#: src/bz-safety-dialog.blp:79 src/context-tile-callbacks.c:400
+msgid "Safe"
+msgstr "Bezpieczna"
 
 #: src/bz-safety-dialog.blp:112
 msgid "App ID"
@@ -2781,7 +2362,11 @@ msgstr "Zrzut ekranu numer %u podpisany %s"
 msgid "Screenshot %u"
 msgstr "Zrzut ekranu numer %u"
 
-#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:83
+#: src/bz-search-bar.blp:55
+msgid "Clear Search"
+msgstr "Wyczyść wyszukiwanie"
+
+#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:66
 msgid "Filters"
 msgstr "Filtry"
 
@@ -2809,35 +2394,31 @@ msgstr "Przyjazne ko_mórkom"
 msgid "Categories"
 msgstr "Kategorie"
 
-#: src/bz-search-page.blp:58
+#: src/bz-search-page.blp:45
 msgid "Search Apps, Games, Software"
 msgstr "Wyszukuj aplikacji, gier i oprogramowania"
 
-#: src/bz-search-page.blp:70
+#: src/bz-search-page.blp:52
 msgid "Search Filters"
 msgstr "Filtry wyszukiwania"
 
-#: src/bz-search-page.blp:100
-msgid "Clear Search"
-msgstr "Wyczyść wyszukiwanie"
-
-#: src/bz-search-page.blp:209
+#: src/bz-search-page.blp:170
 msgid "Browse Categories"
 msgstr "Przeglądaj kategorie"
 
-#: src/bz-search-page.blp:245
+#: src/bz-search-page.blp:206
 msgid "Categories Unavailable"
 msgstr "Kategorie są niedostępne"
 
-#: src/bz-search-page.blp:246
+#: src/bz-search-page.blp:207
 msgid "Search for apps using the search bar above."
 msgstr "Wyszukuj aplikacji korzystając z powyższego paska wyszukiwania"
 
-#: src/bz-search-page.blp:364
+#: src/bz-search-page.blp:325
 msgid "No Applications Found"
 msgstr "Nie znaleziono aplikacji"
 
-#: src/bz-search-page.c:248
+#: src/bz-search-page.c:249
 #, c-format
 msgid "No results found for \"%s\" in Flathub"
 msgstr "Brak wyników dotyczących „%s” na Flathubie"
@@ -3224,19 +2805,23 @@ msgstr[2] "%u aktualizacji bibliotek"
 msgid "Manage Leftover User Data"
 msgstr "Zarządzaj pozostałymi danymi"
 
-#: src/bz-user-data-page.blp:33
+#: src/bz-user-data-page.blp:34
 msgid "No User Data Found"
 msgstr "Nie znaleziono pozostałych danych"
 
-#: src/bz-user-data-page.blp:38
+#: src/bz-user-data-page.blp:40
 msgid "User Data"
 msgstr "Dane użytkownika"
 
-#: src/bz-user-data-tile.blp:74
+#: src/bz-user-data-tile.blp:92
+msgid "Open User Data Folder"
+msgstr "Otwórz folder danych użytkownika"
+
+#: src/bz-user-data-tile.blp:103
 msgid "Trash User Data"
 msgstr "Przenieś do kosza dane użytkownika"
 
-#: src/bz-user-data-tile.c:150
+#: src/bz-user-data-tile.c:147
 #, c-format
 msgid "Trashed User Data for %s"
 msgstr "Przeniesiono do kosza dane użytkownika aplikacji %s"
@@ -3276,57 +2861,63 @@ msgstr ""
 "Masz połączenie z internetem, ale przeglądasz wersję Flathuba, która została "
 "zapisana w pamięci twojego komputera"
 
-#: src/bz-window.blp:281
+#: src/bz-window.blp:246
+msgid "Network connection is metered — automatic refreshes disabled"
+msgstr ""
+"Wykryto taryfowe połączenie internetowe — zatrzymano automatyczne "
+"odświeżanie"
+
+#: src/bz-window.blp:292
 msgid "_Donate to Bazaar"
 msgstr "_Wesprzyj Bazaar"
 
-#: src/bz-window.blp:287
+#: src/bz-window.blp:298
 msgid "_Refresh"
 msgstr "_Odśwież"
 
-#: src/bz-window.blp:291
+#: src/bz-window.blp:302
 msgid "_Login With Flathub"
 msgstr "Za_loguj się do Flathub"
 
-#: src/bz-window.blp:297
+#: src/bz-window.blp:308
 msgid "_Manage Leftover User Data"
 msgstr "Zarządzaj pozostały_mi danymi"
 
-#: src/bz-window.blp:303
+#: src/bz-window.blp:314
 msgid "_Preferences"
 msgstr "_Preferencje"
 
-#: src/bz-window.blp:308
+#: src/bz-window.blp:319
 msgid "_Keyboard Shortcuts"
 msgstr "Skróty _klawiszowe"
 
-#: src/bz-window.blp:313
+#: src/bz-window.blp:324
 msgid "_About Bazaar"
 msgstr "O _aplikacji Bazaar"
 
-#: src/bz-window.blp:319
+#: src/bz-window.blp:330
 msgid "_Quit Bazaar"
 msgstr "_Zamknij Bazaar"
 
-#: src/bz-window.blp:344
+#: src/bz-window.blp:355
 msgid "Log Out"
 msgstr "Wyloguj się"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:389
+#: src/bz-window.c:390
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar — %s"
 
-#: src/bz-window.c:609 src/bz-window.c:647
+#: src/bz-window.c:635 src/bz-window.c:673
 msgid "Failed to launch application"
 msgstr "Uruchomienie aplikacji nie powiodło się"
 
-#: src/bz-window.c:860
+#: src/bz-window.c:925
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Nie możesz usunąć Bazaaru z poziomu Bazaaru!"
 
-#: src/bz-window.c:1166 src/bz-window.c:1200
+#: src/bz-window.c:1238 src/bz-window.c:1272
 msgid "Can't do that right now!"
 msgstr "Nie możesz tego teraz zrobić!"
 
@@ -3337,6 +2928,437 @@ msgid_plural "Installs"
 msgstr[0] "instalacja"
 msgstr[1] "instalacje"
 msgstr[2] "instalacji"
+
+#: src/context-tile-callbacks.c:68
+msgid "---"
+msgstr "---"
+
+#. Translators: M is the suffix for millions
+#: src/context-tile-callbacks.c:75
+#, c-format
+msgid "%.*fM"
+msgstr "%.*f mln"
+
+#. Translators: K is the suffix for thousands
+#: src/context-tile-callbacks.c:82
+#, c-format
+msgid "%.*fK"
+msgstr "%.*f tys."
+
+#: src/context-tile-callbacks.c:92
+#, c-format
+msgid "%d downloads in the last month"
+msgstr "%d pobrań w ciągu zeszłego miesiąca"
+
+#: src/context-tile-callbacks.c:132
+#, c-format
+msgid "+%s runtime"
+msgstr "+%s bibliotek"
+
+#: src/context-tile-callbacks.c:135
+msgid "Download"
+msgstr "Rozmiar do pobrania"
+
+#: src/context-tile-callbacks.c:155
+msgid "Size information unavailable"
+msgstr "Informacja o rozmiarze jest niedostępna"
+
+#: src/context-tile-callbacks.c:158
+#, c-format
+msgid "Download size of %s"
+msgstr "Rozmiar do pobrania aplikacji %s"
+
+#: src/context-tile-callbacks.c:191
+msgid "All Ages"
+msgstr "Próg wiekowy"
+
+#: src/context-tile-callbacks.c:203
+msgid "Age rating information unavailable"
+msgstr "Informacja o progu wiekowym jest niedostępna"
+
+#: src/context-tile-callbacks.c:208
+msgid "Suitable for all ages"
+msgstr "Odpowiednie od 3 lat"
+
+#: src/context-tile-callbacks.c:210
+#, c-format
+msgid "Suitable for ages %d and up"
+msgstr "Odpowiednie od %d lat"
+
+#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
+#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
+msgid "Unknown"
+msgstr "Nieznane"
+
+#: src/context-tile-callbacks.c:253
+#, c-format
+msgid "Free software licensed under %s"
+msgstr "Wolne oprogramowanie pod licencją %s"
+
+#: src/context-tile-callbacks.c:258
+msgid "Free software"
+msgstr "Wolne oprogramowanie"
+
+#: src/context-tile-callbacks.c:261
+msgid "Proprietary Software"
+msgstr "Oprogramowanie własnościowe"
+
+#: src/context-tile-callbacks.c:264
+#, c-format
+msgid "Special License: %s"
+msgstr "Licencja specjalna: %s"
+
+#. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
+#: src/context-tile-callbacks.c:282
+msgid "Free Software"
+msgstr "Wolne"
+
+#: src/context-tile-callbacks.c:310
+msgid "Adaptive"
+msgstr ""
+"Na różne\n"
+"urządzenia"
+
+#: src/context-tile-callbacks.c:310
+msgid "Desktop Only"
+msgstr ""
+"Tylko na\n"
+"komputery"
+
+#: src/context-tile-callbacks.c:316
+msgid "Works on desktop, tablets, and phones"
+msgstr "Działa na komputerach, tabletach i telefonach"
+
+#: src/context-tile-callbacks.c:317
+msgid "May not work on mobile devices"
+msgstr "Może nie działać na urządzeniach mobilnych"
+
+#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
+msgid "Low Risk"
+msgstr "Niskie ryzyko"
+
+#: src/context-tile-callbacks.c:406
+msgid "Medium Risk"
+msgstr "Średnie ryzyko"
+
+#: src/context-tile-callbacks.c:408
+msgid "High Risk"
+msgstr "Wysokie ryzyko"
+
+#: src/safety-calculator.c:87
+msgid "Unknown Permissions"
+msgstr "Nieznane uprawnienia"
+
+#: src/safety-calculator.c:88
+msgid "Permissions are missing for this app."
+msgstr "Brakuje uprawnień tej aplikacji."
+
+#: src/safety-calculator.c:101
+msgid "No Permissions"
+msgstr "Brak uprawnień"
+
+#: src/safety-calculator.c:102
+msgid "App is fully sandboxed"
+msgstr "Aplikacja jest w pełni uruchamiana w środowisku piaskownicy"
+
+#: src/safety-calculator.c:108
+msgid "Network Access"
+msgstr "Dostęp do sieci"
+
+#: src/safety-calculator.c:109
+msgid "Can access the internet"
+msgstr "Ma dostęp do internetu"
+
+#: src/safety-calculator.c:111
+msgid "No Network Access"
+msgstr "Brak dostępu do sieci"
+
+#: src/safety-calculator.c:112
+msgid "Cannot access the internet"
+msgstr "Nie ma dostępu do internetu"
+
+#: src/safety-calculator.c:117
+msgid "User Device Access"
+msgstr "Dostęp do urządzeń użytkownika"
+
+#: src/safety-calculator.c:118
+msgid "Can access devices such as webcams or gaming controllers"
+msgstr ""
+"Może uzyskać dostęp do urządzeń takich jak kamerki internetowe i kontrolery "
+"do gier"
+
+#: src/safety-calculator.c:120
+msgid "No User Device Access"
+msgstr "Brak dostępu do urządzeń użytkownika"
+
+#: src/safety-calculator.c:121
+msgid "Cannot access devices such as webcams or gaming controllers"
+msgstr ""
+"Nie może uzyskać dostęp do urządzeń takich jak kamerki internetowe i "
+"kontrolery do gier"
+
+#: src/safety-calculator.c:126
+msgid "Input Device Access"
+msgstr "Dostęp do urządzeń wprowadzania"
+
+#: src/safety-calculator.c:127
+msgid "Can access input devices"
+msgstr "Ma dostęp do urządzeń wprowadzania"
+
+#: src/safety-calculator.c:133
+msgid "Microphone Access and Audio Playback"
+msgstr "Dostęp do mikrofonu i odtwarzania dźwięku"
+
+#: src/safety-calculator.c:134
+msgid "Can listen using microphones and play audio without asking permission"
+msgstr ""
+"Może słuchać przy użyciu mikrofonów i odtwarzać dźwięk bez proszenia o "
+"pozwolenie"
+
+#: src/safety-calculator.c:140
+msgid "System Device Access"
+msgstr "Dostęp do urządzeń systemowych"
+
+#: src/safety-calculator.c:141
+msgid "Can access system devices which require elevated permissions"
+msgstr ""
+"Może uzyskać dostęp do urządzeń systemowych, które wymagają wysokich "
+"uprawnień"
+
+#: src/safety-calculator.c:147
+msgid "Screen Contents Access"
+msgstr "Dostęp do zawartości ekranu"
+
+#: src/safety-calculator.c:148
+msgid "Can access the contents of the screen or other windows"
+msgstr "Ma dostęp do zawartości ekranu i innych okien"
+
+#: src/safety-calculator.c:154
+msgid "Legacy Windowing System"
+msgstr "Przestarzały system okien"
+
+#: src/safety-calculator.c:155
+msgid "Always uses a legacy windowing system (X11)"
+msgstr "Zawsze wykorzystuje przestarzały system okien (X11)"
+
+#: src/safety-calculator.c:162
+msgid "Can acquire arbitrary permissions"
+msgstr "Może uzyskać samowolne uprawnienia"
+
+#: src/safety-calculator.c:168
+msgid "User Settings"
+msgstr "Ustawienia użytkownika"
+
+#: src/safety-calculator.c:169
+msgid "Can access and change user settings"
+msgstr "Ma dostęp do ustawień użytkownika i może je zmieniać"
+
+#: src/safety-calculator.c:175
+msgid "Full File System Read/Write Access"
+msgstr "Pełny dostęp do systemu plików"
+
+#: src/safety-calculator.c:176
+msgid "Can read and write all data on the file system"
+msgstr "Może odczytywać i zapisywać wszystkie dane na systemie plików"
+
+#: src/safety-calculator.c:183
+msgid "Home Folder Read/Write Access"
+msgstr "Dostęp do katalogu domowego"
+
+#: src/safety-calculator.c:184
+msgid "Can read and write all data in your home directory"
+msgstr "Może odczytywać i zapisywać wszystkie dane w twoim katalogu domowym"
+
+#: src/safety-calculator.c:191
+msgid "Full File System Read Access"
+msgstr "Pełny dostęp do odczytu systemu plików"
+
+#: src/safety-calculator.c:192
+msgid "Can read all data on the file system"
+msgstr "Może odczytywać wszystkie dane na systemie plików"
+
+#: src/safety-calculator.c:200
+msgid "Home Folder Read Access"
+msgstr "Dostęp do odczytu katalogu domowego"
+
+#: src/safety-calculator.c:201
+msgid "Can read all data in your home directory"
+msgstr "Może odczytywać dane w twoim katalogu domowym"
+
+#: src/safety-calculator.c:209
+msgid "Download Folder Read/Write Access"
+msgstr "Dostęp do folderu pobranych"
+
+#: src/safety-calculator.c:210
+msgid "Can read and write all data in your downloads directory"
+msgstr "Może odczytywać i zapisywać wszystkie dane w twoim folderze pobranych"
+
+#: src/safety-calculator.c:220
+msgid "Download Folder Read Access"
+msgstr "Dostęp do odczytu folderu pobranych"
+
+#: src/safety-calculator.c:221
+msgid "Can read all data in your downloads directory"
+msgstr "Może odczytywać dane w twoim folderze pobranych"
+
+#: src/safety-calculator.c:242
+msgid "Can read and write all data in the directory"
+msgstr "Może odczytywać i zapisywać wszystkie dane w katalogu"
+
+#: src/safety-calculator.c:266
+msgid "Can read all data in the directory"
+msgstr "Może odczytywać wszystkie dane w katalogu"
+
+#: src/safety-calculator.c:281
+msgid "No File System Access"
+msgstr "Brak dostępu do systemu plików"
+
+#: src/safety-calculator.c:282
+msgid "Cannot access the file system at all"
+msgstr "Absolutnie nie ma dostępu do systemu plików"
+
+#: src/safety-calculator.c:289
+msgid "Uses System Services"
+msgstr "Wykorzystuje usługi systemowe"
+
+#: src/safety-calculator.c:290
+msgid "Can request data from non-portal system services"
+msgstr "Może prosić o dane z poza-portalowych usług systemowych"
+
+#: src/safety-calculator.c:296
+msgid "Uses Session Services"
+msgstr "Usługi sesji użytkownika"
+
+#: src/safety-calculator.c:297
+msgid "Can request data from non-portal session services"
+msgstr "Może prosić o dane z poza-portalowych usług"
+
+#: src/safety-calculator.c:345
+msgid "No Service Access"
+msgstr "Brak dostępu do usług"
+
+#: src/safety-calculator.c:346
+msgid "Cannot access non-portal session or system services at all"
+msgstr "Absolutnie nie ma dostępu do usług systemowych, ani sesji"
+
+#: src/safety-calculator.c:354
+msgid "Verified App Developer"
+msgstr "Zweryfikowany twórca aplikacji"
+
+#: src/safety-calculator.c:355
+msgid "The developer of this app has been verified to be who they say they are"
+msgstr ""
+"Twórca tej aplikacji został zweryfikowany pod względem czy są kim za kogo "
+"się podają"
+
+#: src/safety-calculator.c:364
+msgid "Proprietary Code"
+msgstr "Własnościowy kod"
+
+#: src/safety-calculator.c:365
+msgid ""
+"The source code is not public, so it cannot be independently audited and "
+"might be unsafe"
+msgstr ""
+"Kod źródłowy nie jest publiczny, więc nie może być niezależnie audytowany, "
+"co sprawia, że aplikacja może być niebezpieczna"
+
+#: src/safety-calculator.c:375
+msgid "Auditable Code"
+msgstr "Audytowalny"
+
+#: src/safety-calculator.c:376
+msgid ""
+"The source code is public and can be independently audited, which makes the "
+"app more likely to be safe"
+msgstr ""
+"Kod źródłowy jest publiczny i może być niezależnie audytowany, co sprawia, "
+"że aplikacja jest raczej bardziej bezpieczna"
+
+#: src/safety-calculator.c:516
+#, c-format
+msgid "Use the %s System Service"
+msgstr "Korzysta z usługi systemowej %s"
+
+#: src/safety-calculator.c:520
+#, c-format
+msgid "Use the %s Session Service"
+msgstr "Korzysta z usługi sesji %s"
+
+#: src/safety-calculator.c:524
+#, c-format
+msgid "Use the %s Service"
+msgstr "Korzysta z usługi %s"
+
+#: src/safety-calculator.c:534
+msgid "Can see the non-portal service"
+msgstr "Może widzieć poza-portalowe usługi"
+
+#: src/safety-calculator.c:536
+msgid "Can talk to the non-portal service"
+msgstr "Może rozmawiać z poza-portalowymi usługami"
+
+#: src/safety-calculator.c:538
+msgid "Can own the non-portal service"
+msgstr "Może posiadać poza-portalowe usługi"
+
+#: src/safety-calculator.c:553
+msgid "Global Menu Integration"
+msgstr "Integracja z globalnym menu"
+
+#: src/safety-calculator.c:554
+msgid "Can display its menus in a global menu bar"
+msgstr "Może wyświetlać swoje menu w globalnym pasku menu"
+
+#: src/safety-calculator.c:559
+msgid "KDE Settings Integration"
+msgstr "Integracja z ustawieniami KDE"
+
+#: src/safety-calculator.c:560
+msgid "Can detect when KDE desktop settings change"
+msgstr "Może wykryć kiedy ustawienia pulpitu KDE się zmieniają"
+
+#: src/safety-calculator.c:565
+msgid "KDE Global Settings"
+msgstr "Globalne ustawienia KDE"
+
+#: src/safety-calculator.c:566
+msgid "Can read KDE desktop preferences like fonts and colors"
+msgstr "Może odczytywać preferencje pulpitu KDE, rzeczy jak czcionki i kolory"
+
+#: src/safety-calculator.c:571
+msgid "Secret Storage Service"
+msgstr "Usługa tajemnej pamięci"
+
+#: src/safety-calculator.c:572
+msgid "Can store and retrieve its own passwords using the system keyring"
+msgstr ""
+"Może przechowywać i otrzymywać swoje hasła korzystając z systemowego pęku "
+"kluczy"
+
+#: src/safety-calculator.c:577
+msgid "Desktop Notifications Service"
+msgstr "Usługa powiadomień pulpitowych"
+
+#: src/safety-calculator.c:578
+msgid "Can send desktop notifications"
+msgstr "Może wysyłać powiadomienia pulpitowe"
+
+#: src/safety-calculator.c:584
+msgid "System Tray Integration"
+msgstr "Integracja z zasobnikiem systemowym"
+
+#: src/safety-calculator.c:585
+msgid "Can display an icon in the system tray"
+msgstr "Może wyświetlać ikonę w zasobniku systemowym"
+
+#: src/safety-calculator.c:590
+msgid "KDE Connect Integration"
+msgstr "Integracja z KDE Connect"
+
+#: src/safety-calculator.c:591
+msgid "Can interact with devices paired via KDE Connect"
+msgstr "Może komunikować się z urządzeniami połączonymi przez KDE Connect"
 
 #: src/shortcuts-dialog.blp:5
 msgctxt "shortcut window"
@@ -3392,6 +3414,9 @@ msgstr "Zamknij okno"
 msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Zamknij Bazaar"
+
+#~ msgid "Clear search"
+#~ msgstr "Wyczyść wyszukiwanie"
 
 #~ msgid "Free"
 #~ msgstr "Wolne"
