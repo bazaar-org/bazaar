@@ -403,7 +403,9 @@ bz_flatpak_instance_class_init (BzFlatpakInstanceClass *klass)
 static void
 bz_flatpak_instance_init (BzFlatpakInstance *self)
 {
-  self->scheduler   = dex_thread_pool_scheduler_new ();
+  // self->scheduler   = dex_thread_pool_scheduler_new ();
+  self->scheduler = dex_ref (dex_thread_pool_scheduler_get_default ());
+
   self->system_mute = 0;
   self->user_mute   = 0;
 

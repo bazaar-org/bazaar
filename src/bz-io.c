@@ -53,12 +53,14 @@ bz_dup_user_cache_path (const char *app_id)
 DexScheduler *
 bz_get_io_scheduler (void)
 {
-  static DexScheduler *scheduler = NULL;
+  // static DexScheduler *scheduler = NULL;
+  //
+  // if (g_once_init_enter_pointer (&scheduler))
+  //   g_once_init_leave_pointer (&scheduler, dex_thread_pool_scheduler_new ());
+  //
+  // return scheduler;
 
-  if (g_once_init_enter_pointer (&scheduler))
-    g_once_init_leave_pointer (&scheduler, dex_thread_pool_scheduler_new ());
-
-  return scheduler;
+  return dex_thread_pool_scheduler_get_default ();
 }
 
 void
