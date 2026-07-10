@@ -23,12 +23,12 @@
 #include <glib/gi18n.h>
 
 #include "bz-entry-group.h"
-#include "bz-env.h"
-#include "bz-error.h"
+#include "env.h"
+#include "error.h"
 #include "bz-state-info.h"
 #include "bz-user-data-page.h"
 #include "bz-user-data-tile.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-window.h"
 
 struct _BzUserDataTile

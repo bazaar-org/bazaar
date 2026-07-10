@@ -150,15 +150,15 @@ msgstr ""
 msgid "Browser"
 msgstr "مرورگر"
 
-#: src/bz-error.c:45
+#: src/error.c:45
 msgid "An Error Occurred"
 msgstr "یک خطا رخ داد"
 
-#: src/bz-error.c:51
+#: src/error.c:51
 msgid "Close"
 msgstr "بستن"
 
-#: src/bz-error.c:52
+#: src/error.c:52
 msgid "Copy and Close"
 msgstr "رونوشت و بستن"
 

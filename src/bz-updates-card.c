@@ -25,7 +25,7 @@
 #include "bz-entry.h"
 #include "bz-release.h"
 #include "bz-releases-list.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 #include "bz-updates-card.h"
 
 struct _BzUpdatesCard

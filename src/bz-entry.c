@@ -31,14 +31,14 @@
 #include "bz-country-data-point.h"
 #include "bz-data-point.h"
 #include "bz-entry.h"
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
+#include "env.h"
+#include "global-net.h"
+#include "io.h"
 #include "bz-release.h"
 #include "bz-repository.h"
 #include "bz-serializable.h"
 #include "bz-url.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-verification-status.h"
 
 G_DEFINE_FLAGS_TYPE (

@@ -1,4 +1,4 @@
-/* bz-io.c
+/* io.c
  *
  * Copyright 2025 Adam Masciola
  *
@@ -18,8 +18,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "bz-io.h"
-#include "bz-env.h"
+#include "io.h"
+#include "env.h"
 #include "bz-size-result.h"
 
 static DexFuture *

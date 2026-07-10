@@ -165,8 +165,8 @@ msgid "Download Stats"
 msgstr "Statistik Unduhan"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/bz-context-tile-callbacks.c:186
-#: src/bz-context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
+#: src/context-tile-callbacks.c:193
 msgid "Age Rating"
 msgstr "Peringkat Usia"
 
@@ -496,7 +496,7 @@ msgid "Violence"
 msgstr "Kekerasan"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/bz-context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
 #, c-format
 msgid "%d+"
 msgstr "%d+"
@@ -721,8 +721,8 @@ msgid "Runtime Download Size"
 msgstr "Ukuran Unduh Tempokerja"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:393
-#: src/bz-context-tile-callbacks.c:410
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:393
+#: src/context-tile-callbacks.c:410
 msgid "N/A"
 msgstr "Nihil"
 
@@ -736,7 +736,7 @@ msgid "Verified"
 msgstr "Terverifikasi"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
+#: src/bz-app-tile.blp:88 src/context-tile-callbacks.c:135
 #: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Terpasang"
@@ -962,127 +962,127 @@ msgstr "Sekitar %s untuk memasang"
 msgid "No special permissions"
 msgstr "Tidak ada izin khusus"
 
-#: src/bz-context-tile-callbacks.c:68
+#: src/context-tile-callbacks.c:68
 msgid "---"
 msgstr "---"
 
 #. Translators: M is the suffix for millions
-#: src/bz-context-tile-callbacks.c:75
+#: src/context-tile-callbacks.c:75
 #, c-format
 msgid "%.*fM"
 msgstr "%.*fjt"
 
 #. Translators: K is the suffix for thousands
-#: src/bz-context-tile-callbacks.c:82
+#: src/context-tile-callbacks.c:82
 #, c-format
 msgid "%.*fK"
 msgstr "%.*frb"
 
-#: src/bz-context-tile-callbacks.c:92
+#: src/context-tile-callbacks.c:92
 #, c-format
 msgid "%d downloads in the last month"
 msgstr "%d unduhan dalam sebulan terakhir"
 
-#: src/bz-context-tile-callbacks.c:132
+#: src/context-tile-callbacks.c:132
 #, c-format
 msgid "+%s runtime"
 msgstr "+%s Tempokerja (Runtime)"
 
-#: src/bz-context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:135
 msgid "Download"
 msgstr "Ukuran Unduh"
 
-#: src/bz-context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:155
 msgid "Size information unavailable"
 msgstr "Info ukuran apl tidak tersedia"
 
-#: src/bz-context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:158
 #, c-format
 msgid "Download size of %s"
 msgstr "Ukuran unduhan %s"
 
-#: src/bz-context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:191
 msgid "All Ages"
 msgstr "Semua Usia"
 
-#: src/bz-context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:203
 msgid "Age rating information unavailable"
 msgstr "Info panduan usia tidak tersedia"
 
-#: src/bz-context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:208
 msgid "Suitable for all ages"
 msgstr "Cocok untuk semua usia"
 
-#: src/bz-context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:210
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "Cocok untuk usia %d ke atas"
 
-#: src/bz-context-tile-callbacks.c:243 src/bz-context-tile-callbacks.c:248
-#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:285
+#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
+#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
 msgid "Unknown"
 msgstr "Tidak Diketahui"
 
-#: src/bz-context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:253
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "Aplikasi bebas di bawah lisensi %s"
 
-#: src/bz-context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:258
 msgid "Free software"
 msgstr "Aplikasi bebas"
 
-#: src/bz-context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:261
 msgid "Proprietary Software"
 msgstr "Aplikasi dengan hak cipta khusus"
 
-#: src/bz-context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:264
 #, c-format
 msgid "Special License: %s"
 msgstr "Lisensi Khusus: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/bz-context-tile-callbacks.c:282
+#: src/context-tile-callbacks.c:282
 msgid "Free Software"
 msgstr "Aplikasi Bebas"
 
-#: src/bz-context-tile-callbacks.c:288 src/bz-license-dialog.c:133
+#: src/context-tile-callbacks.c:288 src/bz-license-dialog.c:133
 msgid "Proprietary"
 msgstr "Proprietari"
 
-#: src/bz-context-tile-callbacks.c:290 src/bz-license-dialog.c:135
+#: src/context-tile-callbacks.c:290 src/bz-license-dialog.c:135
 msgid "Special License"
 msgstr "Lisensi Khusus"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Adaptive"
 msgstr "Adaptif"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Desktop Only"
 msgstr "Hanya Desktop"
 
-#: src/bz-context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:316
 msgid "Works on desktop, tablets, and phones"
 msgstr "Bekerja di desktop, tablet dan ponsel"
 
-#: src/bz-context-tile-callbacks.c:317
+#: src/context-tile-callbacks.c:317
 msgid "May not work on mobile devices"
 msgstr "Mungkin tidak bekerja optimal di ponsel"
 
-#: src/bz-context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
+#: src/context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
 msgid "Safe"
 msgstr "Aman"
 
-#: src/bz-context-tile-callbacks.c:402 src/bz-context-tile-callbacks.c:404
+#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
 msgid "Low Risk"
 msgstr "Risiko Rendah"
 
-#: src/bz-context-tile-callbacks.c:406
+#: src/context-tile-callbacks.c:406
 msgid "Medium Risk"
 msgstr "Risiko Sedang"
 
-#: src/bz-context-tile-callbacks.c:408
+#: src/context-tile-callbacks.c:408
 msgid "High Risk"
 msgstr "Risiko Tinggi"
 
@@ -1225,7 +1225,7 @@ msgstr "pengguna ini"
 msgid "all users"
 msgstr "semua pengguna"
 
-#: src/bz-error-dialog.blp:36 src/bz-error.c:69 src/bz-error.c:88
+#: src/bz-error-dialog.blp:36 src/error.c:69 src/error.c:88
 #: src/bz-safety-dialog.blp:98
 msgid "Details"
 msgstr "Rincian"
@@ -2317,217 +2317,217 @@ msgstr "Bongkar"
 msgid "Get"
 msgstr "Pasang"
 
-#: src/bz-safety-calculator.c:87
+#: src/safety-calculator.c:87
 msgid "Unknown Permissions"
 msgstr "Izin Tidak Jelas"
 
-#: src/bz-safety-calculator.c:88
+#: src/safety-calculator.c:88
 msgid "Permissions are missing for this app."
 msgstr "Izin aplikasi ini tidak diketahui"
 
-#: src/bz-safety-calculator.c:101
+#: src/safety-calculator.c:101
 msgid "No Permissions"
 msgstr "Tidak Ada Izin"
 
-#: src/bz-safety-calculator.c:102
+#: src/safety-calculator.c:102
 msgid "App is fully sandboxed"
 msgstr "Aplikasi ini sepenuhnya terisolasi"
 
-#: src/bz-safety-calculator.c:108
+#: src/safety-calculator.c:108
 msgid "Network Access"
 msgstr "Akses Jaringan"
 
-#: src/bz-safety-calculator.c:109
+#: src/safety-calculator.c:109
 msgid "Can access the internet"
 msgstr "Dapat mengakses internet"
 
-#: src/bz-safety-calculator.c:111
+#: src/safety-calculator.c:111
 msgid "No Network Access"
 msgstr "Tidak Ada Akses Jaringan"
 
-#: src/bz-safety-calculator.c:112
+#: src/safety-calculator.c:112
 msgid "Cannot access the internet"
 msgstr "Tidak dapat mengakses internet"
 
-#: src/bz-safety-calculator.c:117
+#: src/safety-calculator.c:117
 msgid "User Device Access"
 msgstr "Akses Perangkat Pengguna"
 
-#: src/bz-safety-calculator.c:118
+#: src/safety-calculator.c:118
 msgid "Can access devices such as webcams or gaming controllers"
 msgstr "Dapat mengakses perangkat seperti kamera atau pengontrol mainan"
 
-#: src/bz-safety-calculator.c:120
+#: src/safety-calculator.c:120
 msgid "No User Device Access"
 msgstr "Tidak Ada Akses Perangkat Pengguna"
 
-#: src/bz-safety-calculator.c:121
+#: src/safety-calculator.c:121
 msgid "Cannot access devices such as webcams or gaming controllers"
 msgstr "Tidak dapat mengakses perangkat seperti kamera atau pengontrol mainan"
 
-#: src/bz-safety-calculator.c:126
+#: src/safety-calculator.c:126
 msgid "Input Device Access"
 msgstr "Akses Perangkat Masukan"
 
-#: src/bz-safety-calculator.c:127
+#: src/safety-calculator.c:127
 msgid "Can access input devices"
 msgstr "Dapat mengakses perangkat masukan"
 
-#: src/bz-safety-calculator.c:133
+#: src/safety-calculator.c:133
 msgid "Microphone Access and Audio Playback"
 msgstr "Akses Mikrofon dan Pemutaran Suara"
 
-#: src/bz-safety-calculator.c:134
+#: src/safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
 msgstr "Dapat mengakses mikrofon dan memutar suara tanpa permintaan izin"
 
-#: src/bz-safety-calculator.c:140
+#: src/safety-calculator.c:140
 msgid "System Device Access"
 msgstr "Akses Perangkat Sistem"
 
-#: src/bz-safety-calculator.c:141
+#: src/safety-calculator.c:141
 msgid "Can access system devices which require elevated permissions"
 msgstr "Dapat mengakses perangkat sistem yang membutuhkan izin lebih lanjut"
 
-#: src/bz-safety-calculator.c:147
+#: src/safety-calculator.c:147
 msgid "Screen Contents Access"
 msgstr "Akses Konten Layar"
 
-#: src/bz-safety-calculator.c:148
+#: src/safety-calculator.c:148
 msgid "Can access the contents of the screen or other windows"
 msgstr "Dapat mengakses konten dari layar, termasuk jendela aplikasi lain"
 
-#: src/bz-safety-calculator.c:154
+#: src/safety-calculator.c:154
 msgid "Legacy Windowing System"
 msgstr "Sistem Jendela Lawas"
 
-#: src/bz-safety-calculator.c:155
+#: src/safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
 msgstr "Selalu menggunakan sistem jendela lawas X11"
 
-#: src/bz-safety-calculator.c:161 src/bz-safety-dialog.blp:31
+#: src/safety-calculator.c:161 src/bz-safety-dialog.blp:31
 msgid "Arbitrary Permissions"
 msgstr "Izin Sewenang-wenang"
 
-#: src/bz-safety-calculator.c:162
+#: src/safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
 msgstr "Dapat memperoleh izin sewenang-wenang"
 
-#: src/bz-safety-calculator.c:168
+#: src/safety-calculator.c:168
 msgid "User Settings"
 msgstr "Akses Konfigurasi Pengguna"
 
-#: src/bz-safety-calculator.c:169
+#: src/safety-calculator.c:169
 msgid "Can access and change user settings"
 msgstr "Dapat mengakses dan mengubah konfigurasi pengguna"
 
-#: src/bz-safety-calculator.c:175
+#: src/safety-calculator.c:175
 msgid "Full File System Read/Write Access"
 msgstr "Akses Baca/Tulis Penuh pada Sistem Berkas"
 
-#: src/bz-safety-calculator.c:176
+#: src/safety-calculator.c:176
 msgid "Can read and write all data on the file system"
 msgstr ""
 "Memiliki akses baca dan tulis untuk semua data pada sistem perangkat ini"
 
-#: src/bz-safety-calculator.c:183
+#: src/safety-calculator.c:183
 msgid "Home Folder Read/Write Access"
 msgstr "Akses Baca/Tulis Direktori Rumah"
 
-#: src/bz-safety-calculator.c:184
+#: src/safety-calculator.c:184
 msgid "Can read and write all data in your home directory"
 msgstr ""
 "Memiliki akses baca dan tulis untuk semua data pada direktori Rumah "
 "perangkat ini"
 
-#: src/bz-safety-calculator.c:191
+#: src/safety-calculator.c:191
 msgid "Full File System Read Access"
 msgstr "Akses Baca Penuh dalam Sistem Berkas"
 
-#: src/bz-safety-calculator.c:192
+#: src/safety-calculator.c:192
 msgid "Can read all data on the file system"
 msgstr "Memiliki akses baca untuk semua data pada sistem perangkat ini"
 
-#: src/bz-safety-calculator.c:200
+#: src/safety-calculator.c:200
 msgid "Home Folder Read Access"
 msgstr "Akses Baca Direktori Rumah"
 
-#: src/bz-safety-calculator.c:201
+#: src/safety-calculator.c:201
 msgid "Can read all data in your home directory"
 msgstr ""
 "Memiliki akses baca untuk semua data pada direktori Rumah perangkat ini"
 
-#: src/bz-safety-calculator.c:209
+#: src/safety-calculator.c:209
 msgid "Download Folder Read/Write Access"
 msgstr "Akses Baca/Tulis Folder Unduhan"
 
-#: src/bz-safety-calculator.c:210
+#: src/safety-calculator.c:210
 msgid "Can read and write all data in your downloads directory"
 msgstr ""
 "Memiliki akses baca dan tulis untuk semua data pada direktori Unduhan "
 "perangkat ini"
 
-#: src/bz-safety-calculator.c:220
+#: src/safety-calculator.c:220
 msgid "Download Folder Read Access"
 msgstr "Akses Baca Folder Unduhan"
 
-#: src/bz-safety-calculator.c:221
+#: src/safety-calculator.c:221
 msgid "Can read all data in your downloads directory"
 msgstr "Memiliki akses baca untuk semua data di direktori Unduhan Anda"
 
-#: src/bz-safety-calculator.c:242
+#: src/safety-calculator.c:242
 msgid "Can read and write all data in the directory"
 msgstr "Memiliki akses baca dan tulis untuk semua data pada direktori ini"
 
-#: src/bz-safety-calculator.c:266
+#: src/safety-calculator.c:266
 msgid "Can read all data in the directory"
 msgstr "Memiliki akses baca untuk semua data pada direktori ini"
 
-#: src/bz-safety-calculator.c:281
+#: src/safety-calculator.c:281
 msgid "No File System Access"
 msgstr "Tidak Ada Akses Sistem Berkas"
 
-#: src/bz-safety-calculator.c:282
+#: src/safety-calculator.c:282
 msgid "Cannot access the file system at all"
 msgstr "Tidak dapat mengakses sistem berkas sama sekali"
 
-#: src/bz-safety-calculator.c:289
+#: src/safety-calculator.c:289
 msgid "Uses System Services"
 msgstr "Menggunakan Layanan Sistem"
 
-#: src/bz-safety-calculator.c:290
+#: src/safety-calculator.c:290
 msgid "Can request data from non-portal system services"
 msgstr "Dapat meminta data dari layanan sistem di luar portal XDG"
 
-#: src/bz-safety-calculator.c:296
+#: src/safety-calculator.c:296
 msgid "Uses Session Services"
 msgstr "Menggunakan Layanan Sesi"
 
-#: src/bz-safety-calculator.c:297
+#: src/safety-calculator.c:297
 msgid "Can request data from non-portal session services"
 msgstr "Dapat meminta data dari layanan sesi di luar portal XDG"
 
-#: src/bz-safety-calculator.c:345
+#: src/safety-calculator.c:345
 msgid "No Service Access"
 msgstr "Tidak Ada Akses Layanan"
 
-#: src/bz-safety-calculator.c:346
+#: src/safety-calculator.c:346
 msgid "Cannot access non-portal session or system services at all"
 msgstr "Tidak dapat mengakses layanan sistem atau sesi non-portal sama sekali"
 
-#: src/bz-safety-calculator.c:354
+#: src/safety-calculator.c:354
 msgid "Verified App Developer"
 msgstr "Pengembang Terverifikasi"
 
-#: src/bz-safety-calculator.c:355
+#: src/safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
 msgstr "Pengembang aplikasi ini sudah terverifikasi oleh Flathub"
 
-#: src/bz-safety-calculator.c:364
+#: src/safety-calculator.c:364
 msgid "Proprietary Code"
 msgstr "Kode Proprietari"
 
-#: src/bz-safety-calculator.c:365
+#: src/safety-calculator.c:365
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
@@ -2535,11 +2535,11 @@ msgstr ""
 "Kode sumber aplikasi ini tidak bersifat publik, sehingga aplikasi ini tidak "
 "dapat diaudit secara independen dan mungkin tidak aman"
 
-#: src/bz-safety-calculator.c:375
+#: src/safety-calculator.c:375
 msgid "Auditable Code"
 msgstr "Kode Dapat Diaudit"
 
-#: src/bz-safety-calculator.c:376
+#: src/safety-calculator.c:376
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
@@ -2547,87 +2547,87 @@ msgstr ""
 "Kode sumber aplikasi ini bersifat publik dan dapat diaudit secara "
 "independen, sehingga kemungkinan besar aplikasi ini aman"
 
-#: src/bz-safety-calculator.c:516
+#: src/safety-calculator.c:516
 #, c-format
 msgid "Use the %s System Service"
 msgstr "Menggunakan Layanan Sistem %s"
 
-#: src/bz-safety-calculator.c:520
+#: src/safety-calculator.c:520
 #, c-format
 msgid "Use the %s Session Service"
 msgstr "Menggunakan Layanan Sesi %s"
 
-#: src/bz-safety-calculator.c:524
+#: src/safety-calculator.c:524
 #, c-format
 msgid "Use the %s Service"
 msgstr "Menggunakan Layanan %s"
 
-#: src/bz-safety-calculator.c:534
+#: src/safety-calculator.c:534
 msgid "Can see the non-portal service"
 msgstr "Dapat melihat layanan di luar portal XDG"
 
-#: src/bz-safety-calculator.c:536
+#: src/safety-calculator.c:536
 msgid "Can talk to the non-portal service"
 msgstr "Dapat berkomunikasi dengan layanan di luar portal XDG"
 
-#: src/bz-safety-calculator.c:538
+#: src/safety-calculator.c:538
 msgid "Can own the non-portal service"
 msgstr "Dapat memiliki layanan di luar portal XDG"
 
-#: src/bz-safety-calculator.c:553
+#: src/safety-calculator.c:553
 msgid "Global Menu Integration"
 msgstr "Integrasi Menu Global"
 
-#: src/bz-safety-calculator.c:554
+#: src/safety-calculator.c:554
 msgid "Can display its menus in a global menu bar"
 msgstr "Dapat menampilkan opsi aplikasi pada bilah menu global"
 
-#: src/bz-safety-calculator.c:559
+#: src/safety-calculator.c:559
 msgid "KDE Settings Integration"
 msgstr "Integrasi Pengaturan KDE"
 
-#: src/bz-safety-calculator.c:560
+#: src/safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
 msgstr "Dapat mendeteksi ketika terdapat perubahan konfigurasi desktop KDE"
 
-#: src/bz-safety-calculator.c:565
+#: src/safety-calculator.c:565
 msgid "KDE Global Settings"
 msgstr "Pengaturan Global KDE"
 
-#: src/bz-safety-calculator.c:566
+#: src/safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
 msgstr "Dapat membaca preferensi desktop KDE, seperti font dan tema warna"
 
-#: src/bz-safety-calculator.c:571
+#: src/safety-calculator.c:571
 msgid "Secret Storage Service"
 msgstr "Layanan Penyimpanan Sandi"
 
-#: src/bz-safety-calculator.c:572
+#: src/safety-calculator.c:572
 msgid "Can store and retrieve its own passwords using the system keyring"
 msgstr ""
 "Dapat menyimpan dan mengambil kata sandi menggunakan penyimpanan kunci sistem"
 
-#: src/bz-safety-calculator.c:577
+#: src/safety-calculator.c:577
 msgid "Desktop Notifications Service"
 msgstr "Layanan Notifikasi Desktop"
 
-#: src/bz-safety-calculator.c:578
+#: src/safety-calculator.c:578
 msgid "Can send desktop notifications"
 msgstr "Dapat mengirim notifikasi desktop"
 
-#: src/bz-safety-calculator.c:584
+#: src/safety-calculator.c:584
 msgid "System Tray Integration"
 msgstr "Integrasi Baki Sistem"
 
-#: src/bz-safety-calculator.c:585
+#: src/safety-calculator.c:585
 msgid "Can display an icon in the system tray"
 msgstr "Dapat menampilkan ikon pada baki sistem"
 
-#: src/bz-safety-calculator.c:590
+#: src/safety-calculator.c:590
 msgid "KDE Connect Integration"
 msgstr "Integrasi KDE Connect"
 
-#: src/bz-safety-calculator.c:591
+#: src/safety-calculator.c:591
 msgid "Can interact with devices paired via KDE Connect"
 msgstr ""
 "Dapat berinteraksi dengan perangkat yang terkoneksi melalui KDE Connect"

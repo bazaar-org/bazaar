@@ -1,6 +1,6 @@
-/* bz-spdx.h
+/* env.h
  *
- * Copyright 2025 Alexander Vanhee
+ * Copyright 2025 Adam Masciola
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,16 +24,13 @@
 
 G_BEGIN_DECLS
 
-gboolean
-bz_spdx_is_valid (const char *license_id);
+gsize
+bz_get_dex_stack_size (void);
 
-char *
-bz_spdx_get_url (const char *license_id);
+guint64
+bz_get_n_download_workers (void);
 
-char *
-bz_spdx_get_name (const char *license_id);
-
-gboolean
-bz_spdx_is_proprietary (const char *license_id);
+guint
+bz_get_desktop_search_provider_icon_size (void);
 
 G_END_DECLS

@@ -25,10 +25,10 @@
 #include "config.h"
 
 #include "bz-entry-inspector.h"
-#include "bz-env.h"
+#include "env.h"
 #include "bz-inspector.h"
 #include "bz-serializable.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 #include "bz-window.h"
 
 struct _BzInspector

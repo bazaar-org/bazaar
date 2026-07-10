@@ -1,4 +1,4 @@
-/* bz-template-callbacks.c
+/* template-callbacks.c
  *
  * Copyright 2026 Eva M
  *
@@ -18,8 +18,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 static gboolean
 invert_boolean (gpointer object,

@@ -1,6 +1,6 @@
-/* bz-env.h
+/* hooks.h
  *
- * Copyright 2025 Adam Masciola
+ * Copyright 2026 Eva M
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,17 +20,22 @@
 
 #pragma once
 
-#include <glib.h>
+#include "bz-entry-group.h"
+#include "bz-hook.h"
 
 G_BEGIN_DECLS
 
-gsize
-bz_get_dex_stack_size (void);
+DexFuture *
+bz_execute_hook (BzHook               *hook,
+                 BzHookTransactionType ts_type,
+                 const char           *ts_appid,
+                 BzEntryGroup         *group);
 
-guint64
-bz_get_n_download_workers (void);
-
-guint
-bz_get_desktop_search_provider_icon_size (void);
+DexFuture *
+bz_run_hook_emission (GListModel           *hooks,
+                      BzHookSignal          signal,
+                      BzHookTransactionType ts_type,
+                      const char           *ts_appid,
+                      BzEntryGroup         *group);
 
 G_END_DECLS

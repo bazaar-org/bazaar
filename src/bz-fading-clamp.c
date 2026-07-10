@@ -21,7 +21,7 @@
 #include <bge.h>
 
 #include "bz-fading-clamp.h"
-#include "bz-util.h"
+#include "util.h"
 
 #define FADE_HEIGHT  75
 #define CLAMP_LEEWAY 100

@@ -24,7 +24,7 @@
 #include "bz-fading-clamp.h"
 #include "bz-release.h"
 #include "bz-releases-list.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 /* Dialog structure */
 typedef struct

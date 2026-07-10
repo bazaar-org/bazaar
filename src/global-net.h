@@ -1,4 +1,4 @@
-/* bz-global-net.h
+/* global-net.h
  *
  * Copyright 2025 Adam Masciola
  *

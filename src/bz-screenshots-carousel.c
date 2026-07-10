@@ -33,7 +33,7 @@
 #include "bz-decorated-screenshot.h"
 #include "bz-screenshots-carousel.h"
 #include "bz-screenshot-page.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 #include "bz-window.h"
 
 #define LIGHT_CLASS          "screenshot-carousel-light"

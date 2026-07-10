@@ -137,15 +137,15 @@ msgstr "Bazaaru nije pružena konfiguracija izloženog sadržaja. Za pomoć kont
 msgid "Browser"
 msgstr "Pretraživač"
 
-#: src/bz-error.c:45
+#: src/error.c:45
 msgid "An Error Occurred"
 msgstr "Došlo je do greške"
 
-#: src/bz-error.c:51
+#: src/error.c:51
 msgid "Close"
 msgstr "Zatvori"
 
-#: src/bz-error.c:52
+#: src/error.c:52
 msgid "Copy and Close"
 msgstr "Kopiraj i zatvori"
 

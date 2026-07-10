@@ -35,9 +35,9 @@
 
 #include "bz-async-texture.h"
 #include "bz-download-worker.h"
-#include "bz-env.h"
-#include "bz-io.h"
-#include "bz-util.h"
+#include "env.h"
+#include "io.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     cache_entry,

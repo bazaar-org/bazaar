@@ -26,10 +26,10 @@
 
 #include "bz-backend-transaction-op-payload.h"
 #include "bz-backend-transaction-op-progress-payload.h"
-#include "bz-env.h"
+#include "env.h"
 #include "bz-marshalers.h"
 #include "bz-transaction-manager.h"
-#include "bz-util.h"
+#include "util.h"
 
 /* clang-format off */
 G_DEFINE_QUARK (bz-transaction-mgr-error-quark, bz_transaction_mgr_error);

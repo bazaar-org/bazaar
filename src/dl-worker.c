@@ -20,9 +20,9 @@
 
 #define G_LOG_DOMAIN "BAZAAR::DL-WORKER-SUBPROCESS"
 
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-util.h"
+#include "env.h"
+#include "global-net.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     main,

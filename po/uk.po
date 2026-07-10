@@ -160,8 +160,8 @@ msgid "Download Stats"
 msgstr "Звіт щодо завантажень"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/bz-context-tile-callbacks.c:186
-#: src/bz-context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
+#: src/context-tile-callbacks.c:193
 msgid "Age Rating"
 msgstr "Вікове обмеження"
 
@@ -492,7 +492,7 @@ msgid "Violence"
 msgstr "Жорстокість"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/bz-context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
 #, c-format
 msgid "%d+"
 msgstr "%d+"
@@ -726,7 +726,7 @@ msgid "Verified"
 msgstr "Підтверджено"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
+#: src/bz-app-tile.blp:88 src/context-tile-callbacks.c:135
 #: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Встановлені"
@@ -915,8 +915,8 @@ msgstr "Невідомий розмір встановлення"
 msgid "About %s to install"
 msgstr "Близько %s до встановлення"
 
-#: src/bz-bundle-install-dialog.c:185 src/bz-context-tile-callbacks.c:104
-#: src/bz-context-tile-callbacks.c:392 src/bz-context-tile-callbacks.c:409
+#: src/bz-bundle-install-dialog.c:185 src/context-tile-callbacks.c:104
+#: src/context-tile-callbacks.c:392 src/context-tile-callbacks.c:409
 msgid "N/A"
 msgstr "Н/Д"
 
@@ -924,126 +924,126 @@ msgstr "Н/Д"
 msgid "No special permissions"
 msgstr "Без особливих дозволів"
 
-#: src/bz-context-tile-callbacks.c:68
+#: src/context-tile-callbacks.c:68
 msgid "---"
 msgstr "---"
 
 #. Translators: M is the suffix for millions
-#: src/bz-context-tile-callbacks.c:75
+#: src/context-tile-callbacks.c:75
 #, c-format
 msgid "%.*fM"
 msgstr "%.*f млн"
 
 #. Translators: K is the suffix for thousands
-#: src/bz-context-tile-callbacks.c:82
+#: src/context-tile-callbacks.c:82
 #, c-format
 msgid "%.*fK"
 msgstr "%.*f тис."
 
-#: src/bz-context-tile-callbacks.c:92
+#: src/context-tile-callbacks.c:92
 #, c-format
 msgid "%d downloads in the last month"
 msgstr "%d завантажень за останній місяць"
 
-#: src/bz-context-tile-callbacks.c:132
+#: src/context-tile-callbacks.c:132
 #, c-format
 msgid "+%s runtime"
 msgstr "+ середовище виконання %s"
 
-#: src/bz-context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:135
 msgid "Download"
 msgstr "Завантажити"
 
-#: src/bz-context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:155
 msgid "Size information unavailable"
 msgstr "Дані про розмір недоступні"
 
-#: src/bz-context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:158
 #, c-format
 msgid "Download size of %s"
 msgstr "Розмір завантаження"
 
-#: src/bz-context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:191
 msgid "All Ages"
 msgstr "Без обмежень"
 
-#: src/bz-context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:203
 msgid "Age rating information unavailable"
 msgstr "Дані щодо вікового обмеження недоступні"
 
-#: src/bz-context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:208
 msgid "Suitable for all ages"
 msgstr "Без обмежень за віком"
 
-#: src/bz-context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:210
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "%d та старше"
 
-#: src/bz-context-tile-callbacks.c:243 src/bz-context-tile-callbacks.c:248
-#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:284
+#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
+#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:284
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: src/bz-context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:253
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "Вільне ПЗ за ліцензією %s"
 
-#: src/bz-context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:258
 msgid "Free software"
 msgstr "Вільне ПЗ"
 
-#: src/bz-context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:261
 msgid "Proprietary Software"
 msgstr "Власницька ліцензія"
 
-#: src/bz-context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:264
 #, c-format
 msgid "Special License: %s"
 msgstr "Власна ліцензія: %s"
 
-#: src/bz-context-tile-callbacks.c:281
+#: src/context-tile-callbacks.c:281
 msgid "Free"
 msgstr "Вільна ліцензія"
 
-#: src/bz-context-tile-callbacks.c:287 src/bz-license-dialog.c:133
+#: src/context-tile-callbacks.c:287 src/bz-license-dialog.c:133
 msgid "Proprietary"
 msgstr "Власницька ліцензія"
 
-#: src/bz-context-tile-callbacks.c:289 src/bz-license-dialog.c:135
+#: src/context-tile-callbacks.c:289 src/bz-license-dialog.c:135
 msgid "Special License"
 msgstr "Власна ліцензія"
 
-#: src/bz-context-tile-callbacks.c:309
+#: src/context-tile-callbacks.c:309
 msgid "Adaptive"
 msgstr "Адаптивний"
 
-#: src/bz-context-tile-callbacks.c:309
+#: src/context-tile-callbacks.c:309
 msgid "Desktop Only"
 msgstr "Лише для стільниць"
 
-#: src/bz-context-tile-callbacks.c:315
+#: src/context-tile-callbacks.c:315
 msgid "Works on desktop, tablets, and phones"
 msgstr "Працює на стільницях, планшетах і смартфонах"
 
-#: src/bz-context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:316
 msgid "May not work on mobile devices"
 msgstr "Може не працювати на мобільних пристроях"
 
-#: src/bz-context-tile-callbacks.c:399 src/bz-safety-dialog.blp:27
+#: src/context-tile-callbacks.c:399 src/bz-safety-dialog.blp:27
 msgid "Safe"
 msgstr "Безпечний"
 
-#: src/bz-context-tile-callbacks.c:401 src/bz-context-tile-callbacks.c:403
+#: src/context-tile-callbacks.c:401 src/context-tile-callbacks.c:403
 msgid "Low Risk"
 msgstr "Низький ризик"
 
-#: src/bz-context-tile-callbacks.c:405
+#: src/context-tile-callbacks.c:405
 msgid "Medium Risk"
 msgstr "Помірний ризик"
 
-#: src/bz-context-tile-callbacks.c:407
+#: src/context-tile-callbacks.c:407
 msgid "High Risk"
 msgstr "Високий ризик"
 
@@ -1186,7 +1186,7 @@ msgstr "цей користувач"
 msgid "all users"
 msgstr "усі користувачі"
 
-#: src/bz-error-dialog.blp:36 src/bz-error.c:69 src/bz-error.c:88
+#: src/bz-error-dialog.blp:36 src/error.c:69 src/error.c:88
 #: src/bz-safety-dialog.blp:46
 msgid "Details"
 msgstr "Докладніше"
@@ -2244,216 +2244,216 @@ msgstr "Видалити"
 msgid "Get"
 msgstr "Завантажити"
 
-#: src/bz-safety-calculator.c:87
+#: src/safety-calculator.c:87
 msgid "Unknown Permissions"
 msgstr "Невідомі дозволи"
 
-#: src/bz-safety-calculator.c:88
+#: src/safety-calculator.c:88
 msgid "Permissions are missing for this app."
 msgstr "Цей застосунок не має дозволів"
 
-#: src/bz-safety-calculator.c:101
+#: src/safety-calculator.c:101
 msgid "No Permissions"
 msgstr "Немає дозволів"
 
-#: src/bz-safety-calculator.c:102
+#: src/safety-calculator.c:102
 msgid "App is fully sandboxed"
 msgstr "Застосунок повністю закритий у пісочниці"
 
-#: src/bz-safety-calculator.c:108
+#: src/safety-calculator.c:108
 msgid "Network Access"
 msgstr "Доступ до мережі"
 
-#: src/bz-safety-calculator.c:109
+#: src/safety-calculator.c:109
 msgid "Can access the internet"
 msgstr "Може доступатися до мережі"
 
-#: src/bz-safety-calculator.c:111
+#: src/safety-calculator.c:111
 msgid "No Network Access"
 msgstr "Без доступу до мережі"
 
-#: src/bz-safety-calculator.c:112
+#: src/safety-calculator.c:112
 msgid "Cannot access the internet"
 msgstr "Не може доступатися до мережі"
 
-#: src/bz-safety-calculator.c:117
+#: src/safety-calculator.c:117
 msgid "User Device Access"
 msgstr "Доступ до пристроїв"
 
-#: src/bz-safety-calculator.c:118
+#: src/safety-calculator.c:118
 msgid "Can access devices such as webcams or gaming controllers"
 msgstr ""
 "Може доступатися до таких пристроїв, як вебкамера або ігрові контролери"
 
-#: src/bz-safety-calculator.c:120
+#: src/safety-calculator.c:120
 msgid "No User Device Access"
 msgstr "Без доступу до пристроїв"
 
-#: src/bz-safety-calculator.c:121
+#: src/safety-calculator.c:121
 msgid "Cannot access devices such as webcams or gaming controllers"
 msgstr ""
 "Не може доступатися до таких пристроїв, як вебкамера або ігрові контролери"
 
-#: src/bz-safety-calculator.c:126
+#: src/safety-calculator.c:126
 msgid "Input Device Access"
 msgstr "Доступ до пристроїв уведення"
 
-#: src/bz-safety-calculator.c:127
+#: src/safety-calculator.c:127
 msgid "Can access input devices"
 msgstr "Може доступатися до пристроїв уведення"
 
-#: src/bz-safety-calculator.c:133
+#: src/safety-calculator.c:133
 msgid "Microphone Access and Audio Playback"
 msgstr "Доступ до мікрофону та відтворення звуку"
 
-#: src/bz-safety-calculator.c:134
+#: src/safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
 msgstr ""
 "Може доступатися до мікрофону та програвати звуки без додаткових запитів"
 
-#: src/bz-safety-calculator.c:140
+#: src/safety-calculator.c:140
 msgid "System Device Access"
 msgstr "Доступ до системних пристроїв"
 
-#: src/bz-safety-calculator.c:141
+#: src/safety-calculator.c:141
 msgid "Can access system devices which require elevated permissions"
 msgstr ""
 "Може доступатися до системних пристроїв, котрі вимагають підвищених "
 "повноважень"
 
-#: src/bz-safety-calculator.c:147
+#: src/safety-calculator.c:147
 msgid "Screen Contents Access"
 msgstr "Доступ до вмісту екрану"
 
-#: src/bz-safety-calculator.c:148
+#: src/safety-calculator.c:148
 msgid "Can access the contents of the screen or other windows"
 msgstr "Може доступатися до вмісту на екрані та інших вікон"
 
-#: src/bz-safety-calculator.c:154
+#: src/safety-calculator.c:154
 msgid "Legacy Windowing System"
 msgstr "Застаріла система вікон"
 
-#: src/bz-safety-calculator.c:155
+#: src/safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
 msgstr "Завжди користує застарілу систему вікон (X11)"
 
-#: src/bz-safety-calculator.c:161
+#: src/safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Власні дозволи"
 
-#: src/bz-safety-calculator.c:162
+#: src/safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
 msgstr "Може набувати власних дозволів"
 
-#: src/bz-safety-calculator.c:168
+#: src/safety-calculator.c:168
 msgid "User Settings"
 msgstr "Налаштування користувача"
 
-#: src/bz-safety-calculator.c:169
+#: src/safety-calculator.c:169
 msgid "Can access and change user settings"
 msgstr "Може доступатися до та правити користувацькі налаштування"
 
-#: src/bz-safety-calculator.c:175
+#: src/safety-calculator.c:175
 msgid "Full File System Read/Write Access"
 msgstr "Повний доступ до читання та запису з/до файлової системи"
 
-#: src/bz-safety-calculator.c:176
+#: src/safety-calculator.c:176
 msgid "Can read and write all data on the file system"
 msgstr "Може читати та записувати будь-яке місце у файловій системі"
 
-#: src/bz-safety-calculator.c:183
+#: src/safety-calculator.c:183
 msgid "Home Folder Read/Write Access"
 msgstr "Доступ до читання та запису домашньої теки"
 
-#: src/bz-safety-calculator.c:184
+#: src/safety-calculator.c:184
 msgid "Can read and write all data in your home directory"
 msgstr "Може читати та записувати будь-яке місце Вашої домашньої теки"
 
-#: src/bz-safety-calculator.c:191
+#: src/safety-calculator.c:191
 msgid "Full File System Read Access"
 msgstr "Повний доступ до читання файлової системи"
 
-#: src/bz-safety-calculator.c:192
+#: src/safety-calculator.c:192
 msgid "Can read all data on the file system"
 msgstr "Може читати будь-яке місце у файловій системі"
 
-#: src/bz-safety-calculator.c:200
+#: src/safety-calculator.c:200
 msgid "Home Folder Read Access"
 msgstr "Доступ до читання домашньої теки"
 
-#: src/bz-safety-calculator.c:201
+#: src/safety-calculator.c:201
 msgid "Can read all data in your home directory"
 msgstr "Може читати будь-яке місце Вашої домашньої теки"
 
-#: src/bz-safety-calculator.c:209
+#: src/safety-calculator.c:209
 msgid "Download Folder Read/Write Access"
 msgstr "Доступ до читання та запису теки завантажень"
 
-#: src/bz-safety-calculator.c:210
+#: src/safety-calculator.c:210
 msgid "Can read and write all data in your downloads directory"
 msgstr "Може читати та записувати до Вашої теки завантажень"
 
-#: src/bz-safety-calculator.c:220
+#: src/safety-calculator.c:220
 msgid "Download Folder Read Access"
 msgstr "Доступ до читання теки завантажень"
 
-#: src/bz-safety-calculator.c:221
+#: src/safety-calculator.c:221
 msgid "Can read all data in your downloads directory"
 msgstr "Може читати з Вашої теки завантажень"
 
-#: src/bz-safety-calculator.c:242
+#: src/safety-calculator.c:242
 msgid "Can read and write all data in the directory"
 msgstr "Може читати та записувати будь-яке місце у теці"
 
-#: src/bz-safety-calculator.c:266
+#: src/safety-calculator.c:266
 msgid "Can read all data in the directory"
 msgstr "Може читати будь-яке місце у теці"
 
-#: src/bz-safety-calculator.c:281
+#: src/safety-calculator.c:281
 msgid "No File System Access"
 msgstr "Без доступу до файлової системи"
 
-#: src/bz-safety-calculator.c:282
+#: src/safety-calculator.c:282
 msgid "Cannot access the file system at all"
 msgstr "Не може доступатися файлової системи"
 
-#: src/bz-safety-calculator.c:289
+#: src/safety-calculator.c:289
 msgid "Uses System Services"
 msgstr "Користує системні сервіси"
 
-#: src/bz-safety-calculator.c:290
+#: src/safety-calculator.c:290
 msgid "Can request data from non-portal system services"
 msgstr "Може запитувати дані від системних сервісів у обхід порталів"
 
-#: src/bz-safety-calculator.c:296
+#: src/safety-calculator.c:296
 msgid "Uses Session Services"
 msgstr "Користує сесійні сервіси"
 
-#: src/bz-safety-calculator.c:297
+#: src/safety-calculator.c:297
 msgid "Can request data from non-portal session services"
 msgstr "Може запитувати дані від сесійних сервісів у обхід порталів"
 
-#: src/bz-safety-calculator.c:345
+#: src/safety-calculator.c:345
 msgid "No Service Access"
 msgstr "Без доступу до сервісів"
 
-#: src/bz-safety-calculator.c:346
+#: src/safety-calculator.c:346
 msgid "Cannot access non-portal session or system services at all"
 msgstr "Не може запитувати дані в обхід порталів"
 
-#: src/bz-safety-calculator.c:354
+#: src/safety-calculator.c:354
 msgid "Verified App Developer"
 msgstr "Підтверджені розробники"
 
-#: src/bz-safety-calculator.c:355
+#: src/safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
 msgstr "Приналежність застосунку до заявлених розробників було підтверджено"
 
-#: src/bz-safety-calculator.c:364
+#: src/safety-calculator.c:364
 msgid "Proprietary Code"
 msgstr "Власницький код"
 
-#: src/bz-safety-calculator.c:365
+#: src/safety-calculator.c:365
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
@@ -2461,11 +2461,11 @@ msgstr ""
 "Початковий код не оприлюднено, відтак не може бути перевіреним та може бути не"
 "безпечним"
 
-#: src/bz-safety-calculator.c:375
+#: src/safety-calculator.c:375
 msgid "Auditable Code"
 msgstr "Доступний коду"
 
-#: src/bz-safety-calculator.c:376
+#: src/safety-calculator.c:376
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
@@ -2473,88 +2473,88 @@ msgstr ""
 "Початковий код є оприлюдненим, що дозволяє перевірити його на безпечність та з"
 "більшує імовірність, що він є безпечним"
 
-#: src/bz-safety-calculator.c:516
+#: src/safety-calculator.c:516
 #, c-format
 msgid "Use the %s System Service"
 msgstr "Користує системний сервіс %s"
 
-#: src/bz-safety-calculator.c:520
+#: src/safety-calculator.c:520
 #, c-format
 msgid "Use the %s Session Service"
 msgstr "Користує сесійний сервіс %s"
 
-#: src/bz-safety-calculator.c:524
+#: src/safety-calculator.c:524
 #, c-format
 msgid "Use the %s Service"
 msgstr "Користує сервіс %s"
 
-#: src/bz-safety-calculator.c:534
+#: src/safety-calculator.c:534
 msgid "Can see the non-portal service"
 msgstr "Може бачити сервіс у обхід порталу"
 
-#: src/bz-safety-calculator.c:536
+#: src/safety-calculator.c:536
 msgid "Can talk to the non-portal service"
 msgstr "Може звʼязуватися із сервісом поза порталом"
 
-#: src/bz-safety-calculator.c:538
+#: src/safety-calculator.c:538
 msgid "Can own the non-portal service"
 msgstr "Може володіти сервісом поза порталом"
 
-#: src/bz-safety-calculator.c:553
+#: src/safety-calculator.c:553
 msgid "Global Menu Integration"
 msgstr "Сумісність із глобальним меню"
 
-#: src/bz-safety-calculator.c:554
+#: src/safety-calculator.c:554
 msgid "Can display its menus in a global menu bar"
 msgstr "Може показувати власні меню на глобальній панелі"
 
-#: src/bz-safety-calculator.c:559
+#: src/safety-calculator.c:559
 msgid "KDE Settings Integration"
 msgstr "Сумісність із налаштуваннями KDE"
 
-#: src/bz-safety-calculator.c:560
+#: src/safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
 msgstr "Може бачити зміни у налаштуваннях стільниці KDE"
 
-#: src/bz-safety-calculator.c:565
+#: src/safety-calculator.c:565
 msgid "KDE Global Settings"
 msgstr "Загальні налаштування KDE"
 
-#: src/bz-safety-calculator.c:566
+#: src/safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
 msgstr "Може читати деякі налаштування стільниці KDE, як-от шрифти та кольори"
 
-#: src/bz-safety-calculator.c:571
+#: src/safety-calculator.c:571
 msgid "Secret Storage Service"
 msgstr "Сервіс таємного сховку"
 
-#: src/bz-safety-calculator.c:572
+#: src/safety-calculator.c:572
 msgid "Can store and retrieve its own passwords using the system keyring"
 msgstr ""
 "Може зберігати та отримувати власні паролі з допомогою системної звʼязки ключі"
 "в"
 
-#: src/bz-safety-calculator.c:577
+#: src/safety-calculator.c:577
 msgid "Desktop Notifications Service"
 msgstr "Сповіщення"
 
-#: src/bz-safety-calculator.c:578
+#: src/safety-calculator.c:578
 msgid "Can send desktop notifications"
 msgstr "Може надсилати стільничні сповіщення"
 
-#: src/bz-safety-calculator.c:584
+#: src/safety-calculator.c:584
 msgid "System Tray Integration"
 msgstr "Сумісність із системним лотком"
 
-#: src/bz-safety-calculator.c:585
+#: src/safety-calculator.c:585
 msgid "Can display an icon in the system tray"
 msgstr "Може показувати іконку в системному лотку"
 
-#: src/bz-safety-calculator.c:590
+#: src/safety-calculator.c:590
 msgid "KDE Connect Integration"
 msgstr "Сумісність із KDE Connect"
 
-#: src/bz-safety-calculator.c:591
+#: src/safety-calculator.c:591
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "Може взаємодіяти з пристроями, зʼєднаними через KDE Connect"
 

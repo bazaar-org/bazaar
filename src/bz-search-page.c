@@ -34,8 +34,8 @@
 #include "bz-search-page.h"
 #include "bz-search-pill-list.h"
 #include "bz-search-result.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 struct _BzSearchPage
 {

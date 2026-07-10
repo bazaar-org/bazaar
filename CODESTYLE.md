@@ -33,7 +33,7 @@ directory will configure `clang-format` to follow the proper conventions.
   1. License comment with your name mentioned
   2. `#include "config.h"`
   3. Include external headers, like `#include <gtk/gtk.h>`
-  4. Include internal headers, like `#include "bz-env.h"`
+  4. Include internal headers, like `#include "env.h"`
   5. If applicable, define the class's internal struct
   6. If applicable, `G_DEFINE_TYPE (...)` or equivalent
   7. If applicable, the property enums and `static GParamSpec *props[LAST_PROP] = { 0 };`

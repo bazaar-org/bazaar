@@ -26,9 +26,9 @@
 #include <libdex.h>
 
 #include "bz-content-provider.h"
-#include "bz-env.h"
-#include "bz-io.h"
-#include "bz-util.h"
+#include "env.h"
+#include "io.h"
+#include "util.h"
 
 struct _BzContentProvider
 {

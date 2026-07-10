@@ -28,7 +28,7 @@
 #include "bz-application-map-factory.h"
 #include "bz-application.h"
 #include "bz-appstream-description-render.h"
-#include "bz-context-tile-callbacks.h"
+#include "context-tile-callbacks.h"
 #include "bz-context-tile.h"
 #include "bz-entry-group.h"
 #include "bz-fading-clamp.h"
@@ -39,8 +39,8 @@
 #include "bz-share-list.h"
 #include "bz-state-info.h"
 #include "bz-stats-dialog.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 struct _BzAddonsDialog
 {

@@ -32,7 +32,7 @@ src/bz-banner-view.c
 src/bz-bundle-install-dialog.blp
 src/bz-bundle-install-dialog.c
 src/bz-content-provider.c
-src/bz-context-tile-callbacks.c
+src/context-tile-callbacks.c
 src/bz-context-tile.blp
 src/bz-context-tile.c
 src/bz-curated-view.blp
@@ -54,10 +54,10 @@ src/bz-entry-inspector.c
 src/bz-entry-selection-row.blp
 src/bz-entry-selection-row.c
 src/bz-entry.c
-src/bz-env.c
+src/env.c
 src/bz-error-dialog.blp
 src/bz-error-dialog.c
-src/bz-error.c
+src/error.c
 src/bz-favorite-button.blp
 src/bz-favorite-button.c
 src/bz-favorites-page.blp
@@ -76,7 +76,7 @@ src/bz-flatpak-entry.c
 src/bz-flatpak-instance.c
 src/bz-full-view.blp
 src/bz-full-view.c
-src/bz-global-net.c
+src/global-net.c
 src/bz-gnome-shell-search-provider.c
 src/bz-group-tile-css-watcher.c
 src/bz-hardware-support-dialog.blp
@@ -88,7 +88,7 @@ src/bz-install-controls.c
 src/bz-install-controls.wdgt
 src/bz-installed-tile.blp
 src/bz-installed-tile.c
-src/bz-io.c
+src/io.c
 src/bz-library-page.blp
 src/bz-library-page.c
 src/bz-license-dialog.blp
@@ -108,7 +108,7 @@ src/bz-releases-list.c
 src/bz-result.c
 src/bz-rich-app-tile.blp
 src/bz-rich-app-tile.c
-src/bz-safety-calculator.c
+src/safety-calculator.c
 src/bz-safety-dialog.blp
 src/bz-safety-dialog.c
 src/bz-screenshot-page.blp

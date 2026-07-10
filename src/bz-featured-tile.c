@@ -22,7 +22,7 @@
 #include "bz-entry.h"
 #include "bz-group-tile-css-watcher.h"
 #include "bz-screenshot.h"
-#include "bz-util.h"
+#include "util.h"
 
 #define BZ_TYPE_FEATURED_TILE_LAYOUT (bz_featured_tile_layout_get_type ())
 G_DECLARE_FINAL_TYPE (BzFeaturedTileLayout, bz_featured_tile_layout, BZ, FEATURED_TILE_LAYOUT, GtkLayoutManager)
@@ -521,4 +521,3 @@ bz_featured_tile_set_group (BzFeaturedTile *self,
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_GROUP]);
 }
-

@@ -407,15 +407,15 @@ msgstr ""
 msgid "Convert to JSON"
 msgstr ""
 
-#: src/bz-error.c:68
+#: src/error.c:68
 msgid "An Error Occurred"
 msgstr "Hiba történt"
 
-#: src/bz-error.c:89
+#: src/error.c:89
 msgid "Close"
 msgstr "Bezárás"
 
-#: src/bz-error.c:90
+#: src/error.c:90
 msgid "Copy and Close"
 msgstr "Másolás és bezárás"
 

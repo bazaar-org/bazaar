@@ -1,6 +1,6 @@
-/* bz-template-callbacks.h
+/* safety-calculator.h
  *
- * Copyright 2026 Eva M
+ * Copyright 2026 Alexander Vanhee
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,33 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
+#include "bz-context-row.h"
+#include "bz-entry.h"
+#include "bz-safety-row.h"
+#include <gio/gio.h>
 
-void
-bz_widget_class_bind_all_util_callbacks (GtkWidgetClass *widget_class);
+G_BEGIN_DECLS
+
+typedef enum
+{
+  BZ_HIGH_RISK_GROUP_NONE = 0,
+  BZ_HIGH_RISK_GROUP_X11  = 1 << 0,
+  BZ_HIGH_RISK_GROUP_DISK = 1 << 1,
+} BzHighRiskGroup;
+
+#define BZ_TYPE_HIGH_RISK_GROUP (bz_high_risk_group_get_type ())
+
+GListModel  *
+bz_safety_calculator_analyze_entry (BzEntry *entry);
+
+BzImportance
+bz_safety_calculator_calculate_rating (BzEntry *entry);
+
+char *
+bz_safety_calculator_get_top_icon (BzEntry *entry,
+                                   int      index);
+
+BzHighRiskGroup
+bz_safety_calculator_get_high_risk_groups (BzEntry *entry);
+
+G_END_DECLS

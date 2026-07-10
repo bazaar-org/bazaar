@@ -31,7 +31,7 @@
 #include "bz-application.h"
 #include "bz-appstream-parser.h"
 #include "bz-flatpak-private.h"
-#include "bz-io.h"
+#include "io.h"
 #include "bz-result.h"
 #include "bz-serializable.h"
 #include "bz-state-info.h"

@@ -30,13 +30,13 @@
 #include "bz-aspect-picture.h"
 #include "bz-async-texture.h"
 #include "bz-dynamic-list-view.h"
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
+#include "env.h"
+#include "global-net.h"
+#include "io.h"
 #include "bz-rich-app-tile.h"
 #include "bz-screenshot-page.h"
 #include "bz-state-info.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-window.h"
 
 struct _BzArticle

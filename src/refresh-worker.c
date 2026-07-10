@@ -23,9 +23,9 @@
 #include "bz-backend-notification.h"
 #include "bz-backend.h"
 #include "bz-entry-cache-manager.h"
-#include "bz-env.h"
+#include "env.h"
 #include "bz-flatpak-instance.h"
-#include "bz-util.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     main,

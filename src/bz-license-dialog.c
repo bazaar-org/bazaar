@@ -26,7 +26,7 @@
 #include "bz-entry.h"
 #include "bz-license-dialog.h"
 #include "bz-lozenge.h"
-#include "bz-spdx.h"
+#include "spdx.h"
 #include "bz-url.h"
 
 struct _BzLicenseDialog

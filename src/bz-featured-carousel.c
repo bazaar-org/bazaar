@@ -23,7 +23,7 @@
 #include "bz-entry-group.h"
 #include "bz-featured-carousel.h"
 #include "bz-featured-tile.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 #define FEATURED_ROTATE_TIME       5
 #define MANUAL_ROTATE_RECOVER_TIME 7.5
@@ -453,4 +453,3 @@ bz_featured_carousel_set_model (BzFeaturedCarousel *self,
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MODEL]);
 }
-

@@ -20,9 +20,9 @@
 
 #include "bz-app-size-dialog.h"
 #include "bz-entry-group.h"
-#include "bz-io.h"
+#include "io.h"
 #include "bz-lozenge.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 #include <glib/gi18n.h>
 

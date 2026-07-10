@@ -1,6 +1,6 @@
-/* bz-error.h
+/* context-tile-callbacks.h
  *
- * Copyright 2025 Adam Masciola
+ * Copyright 2026 Eva M, Alexander Vanhee
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,17 +20,11 @@
 
 #pragma once
 
-#include <adwaita.h>
-#include <libdex.h>
-
-G_BEGIN_DECLS
+#include <gtk/gtk.h>
+#include "safety-calculator.h"
 
 void
-bz_show_error_for_widget (GtkWidget  *widget,
-                          const char *title,
-                          const char *text);
+bz_widget_class_bind_all_context_tile_callbacks (GtkWidgetClass *widget_class);
 
-DexFuture *
-bz_make_alert_dialog_future (AdwAlertDialog *dialog);
-
-G_END_DECLS
+const char *
+bz_safety_style_for_importance (BzImportance importance);

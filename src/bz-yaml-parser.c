@@ -27,7 +27,7 @@
 #include <yaml.h>
 
 #include "bz-parser.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-yaml-parser.h"
 
 /* clang-format off */

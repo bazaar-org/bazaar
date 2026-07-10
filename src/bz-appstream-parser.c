@@ -28,7 +28,7 @@
 #include "bz-appstream-parser.h"
 #include "bz-async-texture.h"
 #include "bz-category-flags.h"
-#include "bz-io.h"
+#include "io.h"
 #include "bz-release.h"
 #include "bz-url.h"
 #include "bz-verification-status.h"

@@ -166,8 +166,8 @@ msgid "Download Stats"
 msgstr "Statistiky stahování"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/bz-context-tile-callbacks.c:186
-#: src/bz-context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
+#: src/context-tile-callbacks.c:193
 msgid "Age Rating"
 msgstr "Vhodné od věku"
 
@@ -491,7 +491,7 @@ msgid "Violence"
 msgstr "Násilí"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/bz-context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
 #, c-format
 msgid "%d+"
 msgstr "%d+"
@@ -716,8 +716,8 @@ msgid "Runtime Download Size"
 msgstr "Stahovaná velikost prostředí"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:393
-#: src/bz-context-tile-callbacks.c:410
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:393
+#: src/context-tile-callbacks.c:410
 msgid "N/A"
 msgstr "N/A"
 
@@ -731,7 +731,7 @@ msgid "Verified"
 msgstr "Ověřeno"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
+#: src/bz-app-tile.blp:88 src/context-tile-callbacks.c:135
 #: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Nainstalováno"
@@ -959,127 +959,127 @@ msgstr "Přibližně %s k instalaci"
 msgid "No special permissions"
 msgstr "Žádná zvláštní oprávnění"
 
-#: src/bz-context-tile-callbacks.c:68
+#: src/context-tile-callbacks.c:68
 msgid "---"
 msgstr "---"
 
 #. Translators: M is the suffix for millions
-#: src/bz-context-tile-callbacks.c:75
+#: src/context-tile-callbacks.c:75
 #, c-format
 msgid "%.*fM"
 msgstr "%.*f mil."
 
 #. Translators: K is the suffix for thousands
-#: src/bz-context-tile-callbacks.c:82
+#: src/context-tile-callbacks.c:82
 #, c-format
 msgid "%.*fK"
 msgstr "%.*f tis."
 
-#: src/bz-context-tile-callbacks.c:92
+#: src/context-tile-callbacks.c:92
 #, c-format
 msgid "%d downloads in the last month"
 msgstr "%d stažení za poslední měsíc"
 
-#: src/bz-context-tile-callbacks.c:132
+#: src/context-tile-callbacks.c:132
 #, c-format
 msgid "+%s runtime"
 msgstr "+ prostředí %s"
 
-#: src/bz-context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:135
 msgid "Download"
 msgstr "Stáhnout"
 
-#: src/bz-context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:155
 msgid "Size information unavailable"
 msgstr "Informace o velikosti nejsou k dispozici"
 
-#: src/bz-context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:158
 #, c-format
 msgid "Download size of %s"
 msgstr "Stahovaná velikost %s"
 
-#: src/bz-context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:191
 msgid "All Ages"
 msgstr "Libovolný věk"
 
-#: src/bz-context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:203
 msgid "Age rating information unavailable"
 msgstr "Hodnocení věku není k dispozici"
 
-#: src/bz-context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:208
 msgid "Suitable for all ages"
 msgstr "Vhodné pro všechny věkové skupiny"
 
-#: src/bz-context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:210
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "Vhodné pro věk %d a více"
 
-#: src/bz-context-tile-callbacks.c:243 src/bz-context-tile-callbacks.c:248
-#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:285
+#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
+#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
 msgid "Unknown"
 msgstr "Neznámé"
 
-#: src/bz-context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:253
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "Svobodný software licencovaný pod %s"
 
-#: src/bz-context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:258
 msgid "Free software"
 msgstr "Svobodný software"
 
-#: src/bz-context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:261
 msgid "Proprietary Software"
 msgstr "Uzavřený software"
 
-#: src/bz-context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:264
 #, c-format
 msgid "Special License: %s"
 msgstr "Zvláštní licence: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/bz-context-tile-callbacks.c:282
+#: src/context-tile-callbacks.c:282
 msgid "Free Software"
 msgstr "Svobodné"
 
-#: src/bz-context-tile-callbacks.c:288 src/bz-license-dialog.c:133
+#: src/context-tile-callbacks.c:288 src/bz-license-dialog.c:133
 msgid "Proprietary"
 msgstr "Uzavřené"
 
-#: src/bz-context-tile-callbacks.c:290 src/bz-license-dialog.c:135
+#: src/context-tile-callbacks.c:290 src/bz-license-dialog.c:135
 msgid "Special License"
 msgstr "Zvláštní licence"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Adaptive"
 msgstr "Adaptivní"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Desktop Only"
 msgstr "Pouze pro PC"
 
-#: src/bz-context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:316
 msgid "Works on desktop, tablets, and phones"
 msgstr "Funguje na PC, tabletech a telefonech"
 
-#: src/bz-context-tile-callbacks.c:317
+#: src/context-tile-callbacks.c:317
 msgid "May not work on mobile devices"
 msgstr "Možná nefunguje na mobilních zařízeních"
 
-#: src/bz-context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
+#: src/context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
 msgid "Safe"
 msgstr "Bezpečné"
 
-#: src/bz-context-tile-callbacks.c:402 src/bz-context-tile-callbacks.c:404
+#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
 msgid "Low Risk"
 msgstr "Nízké riziko"
 
-#: src/bz-context-tile-callbacks.c:406
+#: src/context-tile-callbacks.c:406
 msgid "Medium Risk"
 msgstr "Střední riziko"
 
-#: src/bz-context-tile-callbacks.c:408
+#: src/context-tile-callbacks.c:408
 msgid "High Risk"
 msgstr "Vysoké riziko"
 
@@ -1219,7 +1219,7 @@ msgstr "tento uživatel"
 msgid "all users"
 msgstr "všichni uživatelé"
 
-#: src/bz-error-dialog.blp:36 src/bz-error.c:69 src/bz-error.c:88
+#: src/bz-error-dialog.blp:36 src/error.c:69 src/error.c:88
 #: src/bz-safety-dialog.blp:98
 msgid "Details"
 msgstr "Podrobnosti"
@@ -2332,213 +2332,213 @@ msgstr "Odinstalovat"
 msgid "Get"
 msgstr "Získat"
 
-#: src/bz-safety-calculator.c:87
+#: src/safety-calculator.c:87
 msgid "Unknown Permissions"
 msgstr "Neznámá oprávnění"
 
-#: src/bz-safety-calculator.c:88
+#: src/safety-calculator.c:88
 msgid "Permissions are missing for this app."
 msgstr "Pro tuto aplikaci chybí oprávnění."
 
-#: src/bz-safety-calculator.c:101
+#: src/safety-calculator.c:101
 msgid "No Permissions"
 msgstr "Žádná oprávnění"
 
-#: src/bz-safety-calculator.c:102
+#: src/safety-calculator.c:102
 msgid "App is fully sandboxed"
 msgstr "Aplikace je v plně izolovaném prostředí"
 
-#: src/bz-safety-calculator.c:108
+#: src/safety-calculator.c:108
 msgid "Network Access"
 msgstr "Přístup k síti"
 
-#: src/bz-safety-calculator.c:109
+#: src/safety-calculator.c:109
 msgid "Can access the internet"
 msgstr "Může přistupovat k internetu"
 
-#: src/bz-safety-calculator.c:111
+#: src/safety-calculator.c:111
 msgid "No Network Access"
 msgstr "Žádný přístup k síti"
 
-#: src/bz-safety-calculator.c:112
+#: src/safety-calculator.c:112
 msgid "Cannot access the internet"
 msgstr "Nemůže přistupovat k internetu"
 
-#: src/bz-safety-calculator.c:117
+#: src/safety-calculator.c:117
 msgid "User Device Access"
 msgstr "Přístup k uživatelským zařízením"
 
-#: src/bz-safety-calculator.c:118
+#: src/safety-calculator.c:118
 msgid "Can access devices such as webcams or gaming controllers"
 msgstr "Může přistupovat k zařízením jako jsou webkamery nebo herní ovladače"
 
-#: src/bz-safety-calculator.c:120
+#: src/safety-calculator.c:120
 msgid "No User Device Access"
 msgstr "Žádný přístup k uživatelským zařízením"
 
-#: src/bz-safety-calculator.c:121
+#: src/safety-calculator.c:121
 msgid "Cannot access devices such as webcams or gaming controllers"
 msgstr "Nemůže přistupovat k zařízením jako jsou webkamery nebo herní ovladače"
 
-#: src/bz-safety-calculator.c:126
+#: src/safety-calculator.c:126
 msgid "Input Device Access"
 msgstr "Přístup ke vstupním zařízením"
 
-#: src/bz-safety-calculator.c:127
+#: src/safety-calculator.c:127
 msgid "Can access input devices"
 msgstr "Může přistupovat ke vstupním zařízením"
 
-#: src/bz-safety-calculator.c:133
+#: src/safety-calculator.c:133
 msgid "Microphone Access and Audio Playback"
 msgstr "Přístup k mikrofonu a přehrávání zvuku"
 
-#: src/bz-safety-calculator.c:134
+#: src/safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
 msgstr ""
 "Může poslouchat pomocí mikrofonů a přehrávat zvuk bez žádosti o povolení"
 
-#: src/bz-safety-calculator.c:140
+#: src/safety-calculator.c:140
 msgid "System Device Access"
 msgstr "Přístup k systémovým zařízením"
 
-#: src/bz-safety-calculator.c:141
+#: src/safety-calculator.c:141
 msgid "Can access system devices which require elevated permissions"
 msgstr ""
 "Může přistupovat k systémovým zařízením, která vyžadují zvýšená oprávnění"
 
-#: src/bz-safety-calculator.c:147
+#: src/safety-calculator.c:147
 msgid "Screen Contents Access"
 msgstr "Přístup k obsahu obrazovky"
 
-#: src/bz-safety-calculator.c:148
+#: src/safety-calculator.c:148
 msgid "Can access the contents of the screen or other windows"
 msgstr "Může přistupovat k obsahu obrazovky nebo jiných oken"
 
-#: src/bz-safety-calculator.c:154
+#: src/safety-calculator.c:154
 msgid "Legacy Windowing System"
 msgstr "Zastaralý zobrazovací systém"
 
-#: src/bz-safety-calculator.c:155
+#: src/safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
 msgstr "Vždy používá starý zobrazovací systém (X11)"
 
-#: src/bz-safety-calculator.c:161 src/bz-safety-dialog.blp:31
+#: src/safety-calculator.c:161 src/bz-safety-dialog.blp:31
 msgid "Arbitrary Permissions"
 msgstr "Libovolná oprávnění"
 
-#: src/bz-safety-calculator.c:162
+#: src/safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
 msgstr "Může získat libovolná oprávnění"
 
-#: src/bz-safety-calculator.c:168
+#: src/safety-calculator.c:168
 msgid "User Settings"
 msgstr "Nastavení uživatele"
 
-#: src/bz-safety-calculator.c:169
+#: src/safety-calculator.c:169
 msgid "Can access and change user settings"
 msgstr "Může zobrazovat a měnit uživatelská nastavení"
 
-#: src/bz-safety-calculator.c:175
+#: src/safety-calculator.c:175
 msgid "Full File System Read/Write Access"
 msgstr "Plný přístup k souborovému systému pro čtení/zápis"
 
-#: src/bz-safety-calculator.c:176
+#: src/safety-calculator.c:176
 msgid "Can read and write all data on the file system"
 msgstr "Může číst a zapisovat všechna data v souborovém systému"
 
-#: src/bz-safety-calculator.c:183
+#: src/safety-calculator.c:183
 msgid "Home Folder Read/Write Access"
 msgstr "Přístup k domovské složce pro čtení/zápis"
 
-#: src/bz-safety-calculator.c:184
+#: src/safety-calculator.c:184
 msgid "Can read and write all data in your home directory"
 msgstr "Může číst a zapisovat všechna data ve vaší domovské složce"
 
-#: src/bz-safety-calculator.c:191
+#: src/safety-calculator.c:191
 msgid "Full File System Read Access"
 msgstr "Plný přístup k souborovému systému pro čtení"
 
-#: src/bz-safety-calculator.c:192
+#: src/safety-calculator.c:192
 msgid "Can read all data on the file system"
 msgstr "Může číst všechna data v souborovém systému"
 
-#: src/bz-safety-calculator.c:200
+#: src/safety-calculator.c:200
 msgid "Home Folder Read Access"
 msgstr "Přístup k domovské složce pro čtení"
 
-#: src/bz-safety-calculator.c:201
+#: src/safety-calculator.c:201
 msgid "Can read all data in your home directory"
 msgstr "Může číst všechna data ve vaší domovské složce"
 
-#: src/bz-safety-calculator.c:209
+#: src/safety-calculator.c:209
 msgid "Download Folder Read/Write Access"
 msgstr "Přístup ke složce se staženými soubory pro čtení/zápis"
 
-#: src/bz-safety-calculator.c:210
+#: src/safety-calculator.c:210
 msgid "Can read and write all data in your downloads directory"
 msgstr "Může číst a zapisovat všechna data ve vaší složce se staženými soubory"
 
-#: src/bz-safety-calculator.c:220
+#: src/safety-calculator.c:220
 msgid "Download Folder Read Access"
 msgstr "Přístup ke složce se staženými soubory pro čtení"
 
-#: src/bz-safety-calculator.c:221
+#: src/safety-calculator.c:221
 msgid "Can read all data in your downloads directory"
 msgstr "Může číst všechna data ve vaší složce se staženými soubory"
 
-#: src/bz-safety-calculator.c:242
+#: src/safety-calculator.c:242
 msgid "Can read and write all data in the directory"
 msgstr "Může číst a zapisovat všechna data ve složce"
 
-#: src/bz-safety-calculator.c:266
+#: src/safety-calculator.c:266
 msgid "Can read all data in the directory"
 msgstr "Může číst všechna data ve složce"
 
-#: src/bz-safety-calculator.c:281
+#: src/safety-calculator.c:281
 msgid "No File System Access"
 msgstr "Žádný přístup k souborovému systému"
 
-#: src/bz-safety-calculator.c:282
+#: src/safety-calculator.c:282
 msgid "Cannot access the file system at all"
 msgstr "Vůbec nemůže přistupovat k souborovému systému"
 
-#: src/bz-safety-calculator.c:289
+#: src/safety-calculator.c:289
 msgid "Uses System Services"
 msgstr "Využívá služby systému"
 
-#: src/bz-safety-calculator.c:290
+#: src/safety-calculator.c:290
 msgid "Can request data from non-portal system services"
 msgstr "Může si vyžádat data ze služeb systému mimo portál"
 
-#: src/bz-safety-calculator.c:296
+#: src/safety-calculator.c:296
 msgid "Uses Session Services"
 msgstr "Využívá služby sezení"
 
-#: src/bz-safety-calculator.c:297
+#: src/safety-calculator.c:297
 msgid "Can request data from non-portal session services"
 msgstr "Může si vyžádat data ze služeb sezení mimo portál"
 
-#: src/bz-safety-calculator.c:345
+#: src/safety-calculator.c:345
 msgid "No Service Access"
 msgstr "Žádný přístup ke službám"
 
-#: src/bz-safety-calculator.c:346
+#: src/safety-calculator.c:346
 msgid "Cannot access non-portal session or system services at all"
 msgstr "Nemůže přistupovat ke službám sezení nebo systému mimo portál"
 
-#: src/bz-safety-calculator.c:354
+#: src/safety-calculator.c:354
 msgid "Verified App Developer"
 msgstr "Ověřený vývojář aplikace"
 
-#: src/bz-safety-calculator.c:355
+#: src/safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
 msgstr "Vývojář této aplikace byl ověřen jako ten, za koho se vydává"
 
-#: src/bz-safety-calculator.c:364
+#: src/safety-calculator.c:364
 msgid "Proprietary Code"
 msgstr "Uzavřený kód"
 
-#: src/bz-safety-calculator.c:365
+#: src/safety-calculator.c:365
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
@@ -2546,11 +2546,11 @@ msgstr ""
 "Zdrojový kód není veřejný, takže jej nelze nezávisle zkontrolovat a nemusí "
 "být bezpečný"
 
-#: src/bz-safety-calculator.c:375
+#: src/safety-calculator.c:375
 msgid "Auditable Code"
 msgstr "Otevřený kód"
 
-#: src/bz-safety-calculator.c:376
+#: src/safety-calculator.c:376
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
@@ -2558,86 +2558,86 @@ msgstr ""
 "Zdrojový kód je veřejný a může být nezávisle kontrolován, což zvyšuje "
 "pravděpodobnost, že je aplikace bezpečná"
 
-#: src/bz-safety-calculator.c:516
+#: src/safety-calculator.c:516
 #, c-format
 msgid "Use the %s System Service"
 msgstr "Použít službu systému %s"
 
-#: src/bz-safety-calculator.c:520
+#: src/safety-calculator.c:520
 #, c-format
 msgid "Use the %s Session Service"
 msgstr "Použít službu sezení %s"
 
-#: src/bz-safety-calculator.c:524
+#: src/safety-calculator.c:524
 #, c-format
 msgid "Use the %s Service"
 msgstr "Použít službu %s"
 
-#: src/bz-safety-calculator.c:534
+#: src/safety-calculator.c:534
 msgid "Can see the non-portal service"
 msgstr "Může vidět službu mimo portál"
 
-#: src/bz-safety-calculator.c:536
+#: src/safety-calculator.c:536
 msgid "Can talk to the non-portal service"
 msgstr "Může komunikovat se službou mimo portál"
 
-#: src/bz-safety-calculator.c:538
+#: src/safety-calculator.c:538
 msgid "Can own the non-portal service"
 msgstr "Může vlastnit službu mimo portál"
 
-#: src/bz-safety-calculator.c:553
+#: src/safety-calculator.c:553
 msgid "Global Menu Integration"
 msgstr "Integrace globální nabídky"
 
-#: src/bz-safety-calculator.c:554
+#: src/safety-calculator.c:554
 msgid "Can display its menus in a global menu bar"
 msgstr "Může zobrazit své nabídky v globálním panelu nabídek"
 
-#: src/bz-safety-calculator.c:559
+#: src/safety-calculator.c:559
 msgid "KDE Settings Integration"
 msgstr "Integrace nastavení KDE"
 
-#: src/bz-safety-calculator.c:560
+#: src/safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
 msgstr "Může detekovat změnu nastavení plochy KDE"
 
-#: src/bz-safety-calculator.c:565
+#: src/safety-calculator.c:565
 msgid "KDE Global Settings"
 msgstr "Globální nastavení KDE"
 
-#: src/bz-safety-calculator.c:566
+#: src/safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
 msgstr "Může číst nastavení plochy KDE, jako jsou písma a barvy"
 
-#: src/bz-safety-calculator.c:571
+#: src/safety-calculator.c:571
 msgid "Secret Storage Service"
 msgstr "Úložiště služby utajení"
 
-#: src/bz-safety-calculator.c:572
+#: src/safety-calculator.c:572
 msgid "Can store and retrieve its own passwords using the system keyring"
 msgstr "Může ukládat a načítat vlastní hesla pomocí systémové klíčenky"
 
-#: src/bz-safety-calculator.c:577
+#: src/safety-calculator.c:577
 msgid "Desktop Notifications Service"
 msgstr "Služba upozornění plochy"
 
-#: src/bz-safety-calculator.c:578
+#: src/safety-calculator.c:578
 msgid "Can send desktop notifications"
 msgstr "Může zasílat upozornění plochy"
 
-#: src/bz-safety-calculator.c:584
+#: src/safety-calculator.c:584
 msgid "System Tray Integration"
 msgstr "Integrace do oznamovací oblasti systému"
 
-#: src/bz-safety-calculator.c:585
+#: src/safety-calculator.c:585
 msgid "Can display an icon in the system tray"
 msgstr "Může zobrazit ikonu v systémové oznamovací oblasti"
 
-#: src/bz-safety-calculator.c:590
+#: src/safety-calculator.c:590
 msgid "KDE Connect Integration"
 msgstr "Integrace KDE Connect"
 
-#: src/bz-safety-calculator.c:591
+#: src/safety-calculator.c:591
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "Může komunikovat se zařízeními spárovanými přes KDE Connect"
 

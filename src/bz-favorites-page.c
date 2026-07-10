@@ -24,13 +24,13 @@
 #include <json-glib/json-glib.h>
 
 #include "bz-application-map-factory.h"
-#include "bz-env.h"
-#include "bz-error.h"
+#include "env.h"
+#include "error.h"
 #include "bz-favorites-page.h"
 #include "bz-favorites-tile.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
-#include "bz-util.h"
+#include "global-net.h"
+#include "io.h"
+#include "util.h"
 
 struct _BzFavoritesPage
 {

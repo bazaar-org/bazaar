@@ -1,4 +1,4 @@
-/* bz-context-tile-callbacks.c
+/* context-tile-callbacks.c
  *
  * Copyright 2026 Eva M, Alexander Vanhee
  *
@@ -23,10 +23,10 @@
 #include <gtk/gtk.h>
 #include <math.h>
 
-#include "bz-context-tile-callbacks.h"
+#include "context-tile-callbacks.h"
 #include "bz-entry.h"
-#include "bz-safety-calculator.h"
-#include "bz-spdx.h"
+#include "safety-calculator.h"
+#include "spdx.h"
 
 static char *
 format_with_small_suffix (char *number, const char *suffix)

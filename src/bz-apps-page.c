@@ -27,7 +27,7 @@
 #include "bz-apps-page.h"
 #include "bz-dynamic-list-view.h"
 #include "bz-entry-group.h"
-#include "bz-env.h"
+#include "env.h"
 #include "bz-flathub-category.h"
 #include "bz-subcategory-list.h"
 #include "bz-state-info.h"

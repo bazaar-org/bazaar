@@ -19,7 +19,7 @@
  */
 
 #include "bz-application-map-factory.h"
-#include "bz-util.h"
+#include "util.h"
 
 struct _BzApplicationMapFactory
 {

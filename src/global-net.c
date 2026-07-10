@@ -1,4 +1,4 @@
-/* bz-global-net.c
+/* global-net.c
  *
  * Copyright 2025 Adam Masciola
  *
@@ -25,9 +25,9 @@
 #include <json-glib/json-glib.h>
 #include <libproxy/proxy.h>
 
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-util.h"
+#include "env.h"
+#include "global-net.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     http_request,

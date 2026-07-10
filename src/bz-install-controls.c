@@ -26,8 +26,8 @@
 
 #include "bz-install-controls.h"
 #include "bz-state-info.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 #include "progress-bar-designs/common.h"
 
 struct _BzInstallControls

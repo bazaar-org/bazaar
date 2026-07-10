@@ -1,4 +1,4 @@
-/* bz-spdx.c
+/* spdx.c
  *
  * Copyright 2025 Alexander Vanhee
  *
@@ -20,7 +20,7 @@
 
 #include <appstream.h>
 
-#include "bz-spdx.h"
+#include "spdx.h"
 
 gboolean
 bz_spdx_is_valid (const char *license_id)

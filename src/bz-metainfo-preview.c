@@ -26,7 +26,7 @@
 #include "bz-featured-carousel.h"
 #include "bz-metainfo-preview.h"
 #include "bz-rich-app-tile.h"
-#include "bz-util.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     pick_files,

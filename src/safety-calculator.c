@@ -1,4 +1,4 @@
-/* bz-safety-calculator.c
+/* safety-calculator.c
  *
  * Copyright 2026 Alexander Vanhee
  * Copyright (C) 2022 Red Hat <www.redhat.com>
@@ -25,7 +25,7 @@
 
 #include "bz-app-permissions.h"
 #include "bz-context-row.h"
-#include "bz-safety-calculator.h"
+#include "safety-calculator.h"
 #include "bz-safety-row.h"
 
 static char *

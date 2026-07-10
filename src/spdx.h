@@ -1,6 +1,6 @@
-/* bz-hooks.h
+/* spdx.h
  *
- * Copyright 2026 Eva M
+ * Copyright 2025 Alexander Vanhee
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,22 +20,20 @@
 
 #pragma once
 
-#include "bz-entry-group.h"
-#include "bz-hook.h"
+#include <glib.h>
 
 G_BEGIN_DECLS
 
-DexFuture *
-bz_execute_hook (BzHook               *hook,
-                 BzHookTransactionType ts_type,
-                 const char           *ts_appid,
-                 BzEntryGroup         *group);
+gboolean
+bz_spdx_is_valid (const char *license_id);
 
-DexFuture *
-bz_run_hook_emission (GListModel           *hooks,
-                      BzHookSignal          signal,
-                      BzHookTransactionType ts_type,
-                      const char           *ts_appid,
-                      BzEntryGroup         *group);
+char *
+bz_spdx_get_url (const char *license_id);
+
+char *
+bz_spdx_get_name (const char *license_id);
+
+gboolean
+bz_spdx_is_proprietary (const char *license_id);
 
 G_END_DECLS

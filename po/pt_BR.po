@@ -162,8 +162,8 @@ msgid "Download Stats"
 msgstr "Estatísticas de Download"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/bz-context-tile-callbacks.c:186
-#: src/bz-context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
+#: src/context-tile-callbacks.c:193
 msgid "Age Rating"
 msgstr "Classificação Indicativa"
 
@@ -500,7 +500,7 @@ msgid "Violence"
 msgstr "Violência"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/bz-context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
 #, c-format
 msgid "%d+"
 msgstr "%d+"
@@ -725,8 +725,8 @@ msgid "Runtime Download Size"
 msgstr "Tamanho de Download do Runtime"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:393
-#: src/bz-context-tile-callbacks.c:410
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:393
+#: src/context-tile-callbacks.c:410
 msgid "N/A"
 msgstr "N/A"
 
@@ -740,7 +740,7 @@ msgid "Verified"
 msgstr "Verificado"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
+#: src/bz-app-tile.blp:88 src/context-tile-callbacks.c:135
 #: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Instalado"
@@ -934,127 +934,127 @@ msgstr "Cerca de %s para instalar"
 msgid "No special permissions"
 msgstr "Sem permissões especiais"
 
-#: src/bz-context-tile-callbacks.c:68
+#: src/context-tile-callbacks.c:68
 msgid "---"
 msgstr "---"
 
 #. Translators: M is the suffix for millions
-#: src/bz-context-tile-callbacks.c:75
+#: src/context-tile-callbacks.c:75
 #, c-format
 msgid "%.*fM"
 msgstr "%.*fM"
 
 #. Translators: K is the suffix for thousands
-#: src/bz-context-tile-callbacks.c:82
+#: src/context-tile-callbacks.c:82
 #, c-format
 msgid "%.*fK"
 msgstr "%.*fK"
 
-#: src/bz-context-tile-callbacks.c:92
+#: src/context-tile-callbacks.c:92
 #, c-format
 msgid "%d downloads in the last month"
 msgstr "%d downloads no último mês"
 
-#: src/bz-context-tile-callbacks.c:132
+#: src/context-tile-callbacks.c:132
 #, c-format
 msgid "+%s runtime"
 msgstr "+%s runtime"
 
-#: src/bz-context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:135
 msgid "Download"
 msgstr "Download"
 
-#: src/bz-context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:155
 msgid "Size information unavailable"
 msgstr "Informação sobre o tamanho não disponível"
 
-#: src/bz-context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:158
 #, c-format
 msgid "Download size of %s"
 msgstr "Tamanho do download de %s"
 
-#: src/bz-context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:191
 msgid "All Ages"
 msgstr "Todas as idades"
 
-#: src/bz-context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:203
 msgid "Age rating information unavailable"
 msgstr "Classificação indicativa indisponível"
 
-#: src/bz-context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:208
 msgid "Suitable for all ages"
 msgstr "Adequado para todas as idades"
 
-#: src/bz-context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:210
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "Adequado para idades de %d anos ou mais"
 
-#: src/bz-context-tile-callbacks.c:243 src/bz-context-tile-callbacks.c:248
-#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:285
+#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
+#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/bz-context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:253
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "Software livre sob a licença %s"
 
-#: src/bz-context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:258
 msgid "Free software"
 msgstr "Software Livre"
 
-#: src/bz-context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:261
 msgid "Proprietary Software"
 msgstr "Software Proprietário"
 
-#: src/bz-context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:264
 #, c-format
 msgid "Special License: %s"
 msgstr "Licença Especial: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/bz-context-tile-callbacks.c:282
+#: src/context-tile-callbacks.c:282
 msgid "Free Software"
 msgstr "Software Livre"
 
-#: src/bz-context-tile-callbacks.c:288 src/bz-license-dialog.c:133
+#: src/context-tile-callbacks.c:288 src/bz-license-dialog.c:133
 msgid "Proprietary"
 msgstr "Proprietário"
 
-#: src/bz-context-tile-callbacks.c:290 src/bz-license-dialog.c:135
+#: src/context-tile-callbacks.c:290 src/bz-license-dialog.c:135
 msgid "Special License"
 msgstr "Licença Especial"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Adaptive"
 msgstr "Adaptativo"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Desktop Only"
 msgstr "Somente Desktop"
 
-#: src/bz-context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:316
 msgid "Works on desktop, tablets, and phones"
 msgstr "Funciona em desktops, tablets e celulares"
 
-#: src/bz-context-tile-callbacks.c:317
+#: src/context-tile-callbacks.c:317
 msgid "May not work on mobile devices"
 msgstr "Talvez não funcione em dispositivos móveis"
 
-#: src/bz-context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
+#: src/context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
 msgid "Safe"
 msgstr "Seguro"
 
-#: src/bz-context-tile-callbacks.c:402 src/bz-context-tile-callbacks.c:404
+#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
 msgid "Low Risk"
 msgstr "Baixo Risco"
 
-#: src/bz-context-tile-callbacks.c:406
+#: src/context-tile-callbacks.c:406
 msgid "Medium Risk"
 msgstr "Médio Risco"
 
-#: src/bz-context-tile-callbacks.c:408
+#: src/context-tile-callbacks.c:408
 msgid "High Risk"
 msgstr "Alto Risco"
 
@@ -1197,7 +1197,7 @@ msgstr "este usuário"
 msgid "all users"
 msgstr "todos os usuários"
 
-#: src/bz-error-dialog.blp:36 src/bz-error.c:69 src/bz-error.c:88
+#: src/bz-error-dialog.blp:36 src/error.c:69 src/error.c:88
 #: src/bz-safety-dialog.blp:98
 msgid "Details"
 msgstr "Detalhes"
@@ -2293,211 +2293,211 @@ msgstr "Desinstalar"
 msgid "Get"
 msgstr "Obter"
 
-#: src/bz-safety-calculator.c:87
+#: src/safety-calculator.c:87
 msgid "Unknown Permissions"
 msgstr "Permissões Desconhecidas"
 
-#: src/bz-safety-calculator.c:88
+#: src/safety-calculator.c:88
 msgid "Permissions are missing for this app."
 msgstr "Estão faltando permissões para este app."
 
-#: src/bz-safety-calculator.c:101
+#: src/safety-calculator.c:101
 msgid "No Permissions"
 msgstr "Sem Permissões"
 
-#: src/bz-safety-calculator.c:102
+#: src/safety-calculator.c:102
 msgid "App is fully sandboxed"
 msgstr "O app é completamente isolado"
 
-#: src/bz-safety-calculator.c:108
+#: src/safety-calculator.c:108
 msgid "Network Access"
 msgstr "Acesso à Internet"
 
-#: src/bz-safety-calculator.c:109
+#: src/safety-calculator.c:109
 msgid "Can access the internet"
 msgstr "Pode acessar a internet"
 
-#: src/bz-safety-calculator.c:111
+#: src/safety-calculator.c:111
 msgid "No Network Access"
 msgstr "Sem Acesso à Rede"
 
-#: src/bz-safety-calculator.c:112
+#: src/safety-calculator.c:112
 msgid "Cannot access the internet"
 msgstr "Não pode acessar a internet"
 
-#: src/bz-safety-calculator.c:117
+#: src/safety-calculator.c:117
 msgid "User Device Access"
 msgstr "Acesso a Dispositivos de Usuário"
 
-#: src/bz-safety-calculator.c:118
+#: src/safety-calculator.c:118
 msgid "Can access devices such as webcams or gaming controllers"
 msgstr "Pode acessar dispositivos como webcams ou controles de jogos"
 
-#: src/bz-safety-calculator.c:120
+#: src/safety-calculator.c:120
 msgid "No User Device Access"
 msgstr "Sem Acesso a Dispositivos de Usuário"
 
-#: src/bz-safety-calculator.c:121
+#: src/safety-calculator.c:121
 msgid "Cannot access devices such as webcams or gaming controllers"
 msgstr "Não pode acessar dispositivos como webcams ou controles de jogos"
 
-#: src/bz-safety-calculator.c:126
+#: src/safety-calculator.c:126
 msgid "Input Device Access"
 msgstr "Acesso a Dispositivos de Entrada"
 
-#: src/bz-safety-calculator.c:127
+#: src/safety-calculator.c:127
 msgid "Can access input devices"
 msgstr "Pode acessar dispositivos de entrada"
 
-#: src/bz-safety-calculator.c:133
+#: src/safety-calculator.c:133
 msgid "Microphone Access and Audio Playback"
 msgstr "Acesso a Microfone e Tocar Áudio"
 
-#: src/bz-safety-calculator.c:134
+#: src/safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
 msgstr "Pode ouvir usando microfones e tocar áudio sem pedir permissão"
 
-#: src/bz-safety-calculator.c:140
+#: src/safety-calculator.c:140
 msgid "System Device Access"
 msgstr "Acesso a Dispositivo do Sistema"
 
-#: src/bz-safety-calculator.c:141
+#: src/safety-calculator.c:141
 msgid "Can access system devices which require elevated permissions"
 msgstr "Pode acessar dispositivos do sistema que requerem permissões elevadas"
 
-#: src/bz-safety-calculator.c:147
+#: src/safety-calculator.c:147
 msgid "Screen Contents Access"
 msgstr "Acesso a Conteúdos da Tela"
 
-#: src/bz-safety-calculator.c:148
+#: src/safety-calculator.c:148
 msgid "Can access the contents of the screen or other windows"
 msgstr "Pode acessar os conteúdos da tela e de outras janelas"
 
-#: src/bz-safety-calculator.c:154
+#: src/safety-calculator.c:154
 msgid "Legacy Windowing System"
 msgstr "Sistema de Janelas Legado"
 
-#: src/bz-safety-calculator.c:155
+#: src/safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
 msgstr "Sempre usa um sistema de janelas legado (X11)"
 
-#: src/bz-safety-calculator.c:161 src/bz-safety-dialog.blp:31
+#: src/safety-calculator.c:161 src/bz-safety-dialog.blp:31
 msgid "Arbitrary Permissions"
 msgstr "Permissões Arbitrárias"
 
-#: src/bz-safety-calculator.c:162
+#: src/safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
 msgstr "Pode adquirir permissões arbitrárias"
 
-#: src/bz-safety-calculator.c:168
+#: src/safety-calculator.c:168
 msgid "User Settings"
 msgstr "Configurações de Usuário"
 
-#: src/bz-safety-calculator.c:169
+#: src/safety-calculator.c:169
 msgid "Can access and change user settings"
 msgstr "Pode acessar e mudar configurações de usuário"
 
-#: src/bz-safety-calculator.c:175
+#: src/safety-calculator.c:175
 msgid "Full File System Read/Write Access"
 msgstr "Acesso Total de Leitura/Escrita ao Sistema de Arquivos"
 
-#: src/bz-safety-calculator.c:176
+#: src/safety-calculator.c:176
 msgid "Can read and write all data on the file system"
 msgstr "Pode ler e escrever todos os dados no sistema de arquivos"
 
-#: src/bz-safety-calculator.c:183
+#: src/safety-calculator.c:183
 msgid "Home Folder Read/Write Access"
 msgstr "Acesso de Leitura/Escrita à Pasta Pessoal"
 
-#: src/bz-safety-calculator.c:184
+#: src/safety-calculator.c:184
 msgid "Can read and write all data in your home directory"
 msgstr "Pode ler e escrever todos os dados na sua pasta pessoal"
 
-#: src/bz-safety-calculator.c:191
+#: src/safety-calculator.c:191
 msgid "Full File System Read Access"
 msgstr "Acesso Total de Leitura ao Sistema de Arquivos"
 
-#: src/bz-safety-calculator.c:192
+#: src/safety-calculator.c:192
 msgid "Can read all data on the file system"
 msgstr "Pode ler todos os dados no sistema de arquivos"
 
-#: src/bz-safety-calculator.c:200
+#: src/safety-calculator.c:200
 msgid "Home Folder Read Access"
 msgstr "Acesso de Leitura à Pasta Pessoal"
 
-#: src/bz-safety-calculator.c:201
+#: src/safety-calculator.c:201
 msgid "Can read all data in your home directory"
 msgstr "Pode ler todos os dados na sua pasta pessoal"
 
-#: src/bz-safety-calculator.c:209
+#: src/safety-calculator.c:209
 msgid "Download Folder Read/Write Access"
 msgstr "Acesso de Leitura/Escrita à Pasta de Download"
 
-#: src/bz-safety-calculator.c:210
+#: src/safety-calculator.c:210
 msgid "Can read and write all data in your downloads directory"
 msgstr "Pode ler e escrever todos os dados na sua pasta de downloads"
 
-#: src/bz-safety-calculator.c:220
+#: src/safety-calculator.c:220
 msgid "Download Folder Read Access"
 msgstr "Acesso de Leitura à Pasta de Downloads"
 
-#: src/bz-safety-calculator.c:221
+#: src/safety-calculator.c:221
 msgid "Can read all data in your downloads directory"
 msgstr "Pode ler todos os dados na sua pasta de downloads"
 
-#: src/bz-safety-calculator.c:242
+#: src/safety-calculator.c:242
 msgid "Can read and write all data in the directory"
 msgstr "Pode ler e escrever todos os dados na sua pasta de downloads"
 
-#: src/bz-safety-calculator.c:266
+#: src/safety-calculator.c:266
 msgid "Can read all data in the directory"
 msgstr "Pode ler todos os dados no diretório"
 
-#: src/bz-safety-calculator.c:281
+#: src/safety-calculator.c:281
 msgid "No File System Access"
 msgstr "Sem Acesso ao Sistema de Arquivos"
 
-#: src/bz-safety-calculator.c:282
+#: src/safety-calculator.c:282
 msgid "Cannot access the file system at all"
 msgstr "Não pode acessar o sistema de arquivos de maneira alguma"
 
-#: src/bz-safety-calculator.c:289
+#: src/safety-calculator.c:289
 msgid "Uses System Services"
 msgstr "Usa Serviços do Sistema"
 
-#: src/bz-safety-calculator.c:290
+#: src/safety-calculator.c:290
 msgid "Can request data from non-portal system services"
 msgstr "Pode solicitar dados de serviços do sistema que não utilizam portais"
 
-#: src/bz-safety-calculator.c:296
+#: src/safety-calculator.c:296
 msgid "Uses Session Services"
 msgstr "Usa Serviços de Sessão"
 
-#: src/bz-safety-calculator.c:297
+#: src/safety-calculator.c:297
 msgid "Can request data from non-portal session services"
 msgstr "Pode solicitar dados de serviços de sessão que não utilizam portais"
 
-#: src/bz-safety-calculator.c:345
+#: src/safety-calculator.c:345
 msgid "No Service Access"
 msgstr "Sem Acesso a Serviços"
 
-#: src/bz-safety-calculator.c:346
+#: src/safety-calculator.c:346
 msgid "Cannot access non-portal session or system services at all"
 msgstr "Não pode acessar servições de sessão ou do sistema de maneira alguma"
 
-#: src/bz-safety-calculator.c:354
+#: src/safety-calculator.c:354
 msgid "Verified App Developer"
 msgstr "Desenvolvedor do App Verificado"
 
-#: src/bz-safety-calculator.c:355
+#: src/safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
 msgstr "O desenvolvedor deste app foi verificado e é quem diz ser"
 
-#: src/bz-safety-calculator.c:364
+#: src/safety-calculator.c:364
 msgid "Proprietary Code"
 msgstr "Código Proprietário"
 
-#: src/bz-safety-calculator.c:365
+#: src/safety-calculator.c:365
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
@@ -2505,11 +2505,11 @@ msgstr ""
 "O código fonte não é público, então não pode ser auditado independentemente "
 "e pode ser inseguro"
 
-#: src/bz-safety-calculator.c:375
+#: src/safety-calculator.c:375
 msgid "Auditable Code"
 msgstr "Código Auditável"
 
-#: src/bz-safety-calculator.c:376
+#: src/safety-calculator.c:376
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
@@ -2517,87 +2517,87 @@ msgstr ""
 "O código fonte é público e pode ser auditado independentemente, o que torna "
 "o app potencialmente seguro"
 
-#: src/bz-safety-calculator.c:516
+#: src/safety-calculator.c:516
 #, c-format
 msgid "Use the %s System Service"
 msgstr "Usa o Serviço do Sistema %s"
 
-#: src/bz-safety-calculator.c:520
+#: src/safety-calculator.c:520
 #, c-format
 msgid "Use the %s Session Service"
 msgstr "Usa a Serviço de Sessão %s"
 
-#: src/bz-safety-calculator.c:524
+#: src/safety-calculator.c:524
 #, c-format
 msgid "Use the %s Service"
 msgstr "Usa o Serviço %s"
 
-#: src/bz-safety-calculator.c:534
+#: src/safety-calculator.c:534
 msgid "Can see the non-portal service"
 msgstr "Pode ver serviços que não usam portais"
 
-#: src/bz-safety-calculator.c:536
+#: src/safety-calculator.c:536
 msgid "Can talk to the non-portal service"
 msgstr "Pode se comunicar com serviços que não utilizam portais"
 
-#: src/bz-safety-calculator.c:538
+#: src/safety-calculator.c:538
 msgid "Can own the non-portal service"
 msgstr "Pode ter um serviço que não utiliza portais"
 
-#: src/bz-safety-calculator.c:553
+#: src/safety-calculator.c:553
 msgid "Global Menu Integration"
 msgstr "Integração de Menu Global"
 
-#: src/bz-safety-calculator.c:554
+#: src/safety-calculator.c:554
 msgid "Can display its menus in a global menu bar"
 msgstr "Pode mostrar seus menus em uma menu de barra global"
 
-#: src/bz-safety-calculator.c:559
+#: src/safety-calculator.c:559
 msgid "KDE Settings Integration"
 msgstr "Integração de Configurações do KDE"
 
-#: src/bz-safety-calculator.c:560
+#: src/safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
 msgstr "Pode detectar quando configurações do desktop KDE mudam"
 
-#: src/bz-safety-calculator.c:565
+#: src/safety-calculator.c:565
 msgid "KDE Global Settings"
 msgstr "Configurações Globais do KDE"
 
-#: src/bz-safety-calculator.c:566
+#: src/safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
 msgstr "Pode ler preferência do desktop KDE como fontes e cores"
 
-#: src/bz-safety-calculator.c:571
+#: src/safety-calculator.c:571
 msgid "Secret Storage Service"
 msgstr "Serviço de Armazenamento Secreto"
 
-#: src/bz-safety-calculator.c:572
+#: src/safety-calculator.c:572
 msgid "Can store and retrieve its own passwords using the system keyring"
 msgstr ""
 "Pode guardar e recuperar suas próprias senhas usando o keyring do sistema"
 
-#: src/bz-safety-calculator.c:577
+#: src/safety-calculator.c:577
 msgid "Desktop Notifications Service"
 msgstr "Serviço de Notificações do Desktop"
 
-#: src/bz-safety-calculator.c:578
+#: src/safety-calculator.c:578
 msgid "Can send desktop notifications"
 msgstr "Pode mandar notificações de desktop"
 
-#: src/bz-safety-calculator.c:584
+#: src/safety-calculator.c:584
 msgid "System Tray Integration"
 msgstr "Integração com a Bandeja do Sistema"
 
-#: src/bz-safety-calculator.c:585
+#: src/safety-calculator.c:585
 msgid "Can display an icon in the system tray"
 msgstr "Pode mostrar um ícone na bandeja do sistema"
 
-#: src/bz-safety-calculator.c:590
+#: src/safety-calculator.c:590
 msgid "KDE Connect Integration"
 msgstr "Integração com KDE Connect"
 
-#: src/bz-safety-calculator.c:591
+#: src/safety-calculator.c:591
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "Pode interagir com dispositivos pareados via KDE Connect"
 

@@ -22,10 +22,10 @@
 #define BAZAAR_MODULE "entry-group"
 
 #include "bz-entry-group.h"
-#include "bz-env.h"
-#include "bz-io.h"
+#include "env.h"
+#include "io.h"
 #include "bz-size-result.h"
-#include "bz-util.h"
+#include "util.h"
 
 typedef enum
 {

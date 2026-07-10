@@ -22,7 +22,7 @@
 #include "bz-entry-group.h"
 #include "bz-finished-search-query.h"
 #include "bz-search-result.h"
-#include "bz-util.h"
+#include "util.h"
 #include "gs-shell-search-provider-generated.h"
 
 struct _BzGnomeShellSearchProvider

@@ -1,4 +1,4 @@
-/* bz-io.h
+/* io.h
  *
  * Copyright 2025 Adam Masciola
  *

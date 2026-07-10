@@ -25,10 +25,10 @@
 
 #include "bz-auth-state.h"
 #include "bz-flathub-auth-provider.h"
-#include "bz-global-net.h"
+#include "global-net.h"
 #include "bz-login-page.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 struct _BzLoginPage
 {

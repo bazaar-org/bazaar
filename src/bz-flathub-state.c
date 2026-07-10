@@ -28,13 +28,13 @@
 #include <json-glib/json-glib.h>
 #include <libdex.h>
 
-#include "bz-env.h"
+#include "env.h"
 #include "bz-flathub-category.h"
 #include "bz-flathub-state.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
+#include "global-net.h"
+#include "io.h"
 #include "bz-serializable.h"
-#include "bz-util.h"
+#include "util.h"
 
 struct _BzFlathubState
 {

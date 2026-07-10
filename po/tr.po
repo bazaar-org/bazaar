@@ -164,8 +164,8 @@ msgstr "İndirme İstatistikleri"
 
 # Arayüzde sığmadığı için new line eklendi
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/bz-context-tile-callbacks.c:186
-#: src/bz-context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
+#: src/context-tile-callbacks.c:193
 msgid "Age Rating"
 msgstr ""
 "Yaş\n"
@@ -491,7 +491,7 @@ msgid "Violence"
 msgstr "Şiddet"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/bz-context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
 #, c-format
 msgid "%d+"
 msgstr "%d+"
@@ -717,8 +717,8 @@ msgid "Runtime Download Size"
 msgstr "Çalışma Zamanı İndirme Boyutu"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/bz-context-tile-callbacks.c:104 src/bz-context-tile-callbacks.c:393
-#: src/bz-context-tile-callbacks.c:410
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:393
+#: src/context-tile-callbacks.c:410
 msgid "N/A"
 msgstr "Yok"
 
@@ -732,7 +732,7 @@ msgid "Verified"
 msgstr "Doğrulanmış"
 
 #. Translators: As in 'The app is installed'.
-#: src/bz-app-tile.blp:88 src/bz-context-tile-callbacks.c:135
+#: src/bz-app-tile.blp:88 src/context-tile-callbacks.c:135
 #: src/bz-releases-list.c:206
 msgid "Installed"
 msgstr "Kurulu"
@@ -960,130 +960,130 @@ msgstr "Yaklaşık kurulum boyutu: %s"
 msgid "No special permissions"
 msgstr "Özel izin yok"
 
-#: src/bz-context-tile-callbacks.c:68
+#: src/context-tile-callbacks.c:68
 msgid "---"
 msgstr "---"
 
 #. Translators: M is the suffix for millions
-#: src/bz-context-tile-callbacks.c:75
+#: src/context-tile-callbacks.c:75
 #, c-format
 msgid "%.*fM"
 msgstr "%.*fM"
 
 #. Translators: K is the suffix for thousands
-#: src/bz-context-tile-callbacks.c:82
+#: src/context-tile-callbacks.c:82
 #, c-format
 msgid "%.*fK"
 msgstr "%.*fK"
 
-#: src/bz-context-tile-callbacks.c:92
+#: src/context-tile-callbacks.c:92
 #, c-format
 msgid "%d downloads in the last month"
 msgstr "Son ay içinde %d indirme"
 
-#: src/bz-context-tile-callbacks.c:132
+#: src/context-tile-callbacks.c:132
 #, c-format
 msgid "+%s runtime"
 msgstr "+%s çalışma zamanı"
 
-#: src/bz-context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:135
 msgid "Download"
 msgstr "İndirme Boyutu"
 
-#: src/bz-context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:155
 msgid "Size information unavailable"
 msgstr "Boyut bilgisi yok"
 
-#: src/bz-context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:158
 #, c-format
 msgid "Download size of %s"
 msgstr "%s İndirme Boyutu"
 
-#: src/bz-context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:191
 msgid "All Ages"
 msgstr "Tüm Yaşlar"
 
-#: src/bz-context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:203
 msgid "Age rating information unavailable"
 msgstr "Yaş derecelendirme bilgisi yok"
 
-#: src/bz-context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:208
 msgid "Suitable for all ages"
 msgstr "Tüm yaşlar için uygun"
 
-#: src/bz-context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:210
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "%d ve üstü yaşlar için uygun"
 
-#: src/bz-context-tile-callbacks.c:243 src/bz-context-tile-callbacks.c:248
-#: src/bz-context-tile-callbacks.c:276 src/bz-context-tile-callbacks.c:285
+#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
+#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
-#: src/bz-context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:253
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "%s altında lisanslanmış özgür yazılım"
 
-#: src/bz-context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:258
 msgid "Free software"
 msgstr "Özgür yazılım"
 
-#: src/bz-context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:261
 msgid "Proprietary Software"
 msgstr "Sahipli Yazılım"
 
-#: src/bz-context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:264
 #, c-format
 msgid "Special License: %s"
 msgstr "Özel Lisans: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/bz-context-tile-callbacks.c:282
+#: src/context-tile-callbacks.c:282
 msgid "Free Software"
 msgstr "Özgür Yazılım"
 
-#: src/bz-context-tile-callbacks.c:288 src/bz-license-dialog.c:133
+#: src/context-tile-callbacks.c:288 src/bz-license-dialog.c:133
 msgid "Proprietary"
 msgstr "Sahipli"
 
-#: src/bz-context-tile-callbacks.c:290 src/bz-license-dialog.c:135
+#: src/context-tile-callbacks.c:290 src/bz-license-dialog.c:135
 msgid "Special License"
 msgstr "Özel Lisans"
 
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Adaptive"
 msgstr "Uyarlanır"
 
 # Arayüzde sığmadığı için new line eklendi
-#: src/bz-context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:310
 msgid "Desktop Only"
 msgstr ""
 "Yalnızca\n"
 "Masaüstü"
 
-#: src/bz-context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:316
 msgid "Works on desktop, tablets, and phones"
 msgstr "Telefonlarda, tabletlerde ve masaüstülerde çalışır"
 
-#: src/bz-context-tile-callbacks.c:317
+#: src/context-tile-callbacks.c:317
 msgid "May not work on mobile devices"
 msgstr "Mobil aygıtlarda çalışmayabilir"
 
-#: src/bz-context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
+#: src/context-tile-callbacks.c:400 src/bz-safety-dialog.blp:79
 msgid "Safe"
 msgstr "Güvenli"
 
-#: src/bz-context-tile-callbacks.c:402 src/bz-context-tile-callbacks.c:404
+#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
 msgid "Low Risk"
 msgstr "Düşük Risk"
 
-#: src/bz-context-tile-callbacks.c:406
+#: src/context-tile-callbacks.c:406
 msgid "Medium Risk"
 msgstr "Orta Risk"
 
-#: src/bz-context-tile-callbacks.c:408
+#: src/context-tile-callbacks.c:408
 msgid "High Risk"
 msgstr "Yüksek Risk"
 
@@ -1224,7 +1224,7 @@ msgstr "bu kullanıcı"
 msgid "all users"
 msgstr "tüm kullanıcılar"
 
-#: src/bz-error-dialog.blp:36 src/bz-error.c:69 src/bz-error.c:88
+#: src/bz-error-dialog.blp:36 src/error.c:69 src/error.c:88
 #: src/bz-safety-dialog.blp:98
 msgid "Details"
 msgstr "Ayrıntılar"
@@ -2322,211 +2322,211 @@ msgstr "Kaldır"
 msgid "Get"
 msgstr "Al"
 
-#: src/bz-safety-calculator.c:87
+#: src/safety-calculator.c:87
 msgid "Unknown Permissions"
 msgstr "Bilinmeyen İzinler"
 
-#: src/bz-safety-calculator.c:88
+#: src/safety-calculator.c:88
 msgid "Permissions are missing for this app."
 msgstr "Bu uygulama için izinler eksik."
 
-#: src/bz-safety-calculator.c:101
+#: src/safety-calculator.c:101
 msgid "No Permissions"
 msgstr "İzin Yok"
 
-#: src/bz-safety-calculator.c:102
+#: src/safety-calculator.c:102
 msgid "App is fully sandboxed"
 msgstr "Uygulama tümüyle yalıtılmış alandadır"
 
-#: src/bz-safety-calculator.c:108
+#: src/safety-calculator.c:108
 msgid "Network Access"
 msgstr "Ağ Erişimi"
 
-#: src/bz-safety-calculator.c:109
+#: src/safety-calculator.c:109
 msgid "Can access the internet"
 msgstr "İnternete erişebilir"
 
-#: src/bz-safety-calculator.c:111
+#: src/safety-calculator.c:111
 msgid "No Network Access"
 msgstr "Ağ Erişimi Yok"
 
-#: src/bz-safety-calculator.c:112
+#: src/safety-calculator.c:112
 msgid "Cannot access the internet"
 msgstr "İnternete erişemez"
 
-#: src/bz-safety-calculator.c:117
+#: src/safety-calculator.c:117
 msgid "User Device Access"
 msgstr "Kullanıcı Aygıtı Erişimi"
 
-#: src/bz-safety-calculator.c:118
+#: src/safety-calculator.c:118
 msgid "Can access devices such as webcams or gaming controllers"
 msgstr "Web kameraları veya oyun denetçileri gibi aygıtlara erişebilir"
 
-#: src/bz-safety-calculator.c:120
+#: src/safety-calculator.c:120
 msgid "No User Device Access"
 msgstr "Kullanıcı Aygıtı Erişimi Yok"
 
-#: src/bz-safety-calculator.c:121
+#: src/safety-calculator.c:121
 msgid "Cannot access devices such as webcams or gaming controllers"
 msgstr "Web kameraları veya oyun denetçileri gibi aygıtlara erişemez"
 
-#: src/bz-safety-calculator.c:126
+#: src/safety-calculator.c:126
 msgid "Input Device Access"
 msgstr "Girdi Aygıtı Erişimi"
 
-#: src/bz-safety-calculator.c:127
+#: src/safety-calculator.c:127
 msgid "Can access input devices"
 msgstr "Girdi aygıtlarına erişebilir"
 
-#: src/bz-safety-calculator.c:133
+#: src/safety-calculator.c:133
 msgid "Microphone Access and Audio Playback"
 msgstr "Mikrofon Erişimi ve Ses Oynatımı"
 
-#: src/bz-safety-calculator.c:134
+#: src/safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
 msgstr "İzin istemeden mikrofonlarla dinleyebilir ve sesleri oynatabilir"
 
-#: src/bz-safety-calculator.c:140
+#: src/safety-calculator.c:140
 msgid "System Device Access"
 msgstr "Sistem Aygıtı Erişimi"
 
-#: src/bz-safety-calculator.c:141
+#: src/safety-calculator.c:141
 msgid "Can access system devices which require elevated permissions"
 msgstr "Yükseltilmiş izinler gerektiren sistem aygıtlarına erişebilir"
 
-#: src/bz-safety-calculator.c:147
+#: src/safety-calculator.c:147
 msgid "Screen Contents Access"
 msgstr "Ekran İçerikleri Erişimi"
 
-#: src/bz-safety-calculator.c:148
+#: src/safety-calculator.c:148
 msgid "Can access the contents of the screen or other windows"
 msgstr "Ekranın ya da diğer pencerelerin içeriklerine erişebilir"
 
-#: src/bz-safety-calculator.c:154
+#: src/safety-calculator.c:154
 msgid "Legacy Windowing System"
 msgstr "Eski Pencereleme Sistemi"
 
-#: src/bz-safety-calculator.c:155
+#: src/safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
 msgstr "Daima eski pencereleme sistemi kullanır (X11)"
 
-#: src/bz-safety-calculator.c:161 src/bz-safety-dialog.blp:31
+#: src/safety-calculator.c:161 src/bz-safety-dialog.blp:31
 msgid "Arbitrary Permissions"
 msgstr "İsteğe Bağlı İzinler"
 
-#: src/bz-safety-calculator.c:162
+#: src/safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
 msgstr "İsteğe bağlı izinler edinir"
 
-#: src/bz-safety-calculator.c:168
+#: src/safety-calculator.c:168
 msgid "User Settings"
 msgstr "Kullanıcı Ayarları"
 
-#: src/bz-safety-calculator.c:169
+#: src/safety-calculator.c:169
 msgid "Can access and change user settings"
 msgstr "Kullanıcı ayarlarına erişebilir ve değiştirebilir"
 
-#: src/bz-safety-calculator.c:175
+#: src/safety-calculator.c:175
 msgid "Full File System Read/Write Access"
 msgstr "Tüm Dosya Sistemini Okuma/Yazma Erişimi"
 
-#: src/bz-safety-calculator.c:176
+#: src/safety-calculator.c:176
 msgid "Can read and write all data on the file system"
 msgstr "Dosya sistemindeki tüm veriyi okuyabilir ve yazabilir"
 
-#: src/bz-safety-calculator.c:183
+#: src/safety-calculator.c:183
 msgid "Home Folder Read/Write Access"
 msgstr "Ev Klasörü Okuma/Yazma Erişimi"
 
-#: src/bz-safety-calculator.c:184
+#: src/safety-calculator.c:184
 msgid "Can read and write all data in your home directory"
 msgstr "Ev dizininizdeki tüm veriyi okuyabilir ve yazabilir"
 
-#: src/bz-safety-calculator.c:191
+#: src/safety-calculator.c:191
 msgid "Full File System Read Access"
 msgstr "Tüm Dosya Sistemini Okuma Erişimi"
 
-#: src/bz-safety-calculator.c:192
+#: src/safety-calculator.c:192
 msgid "Can read all data on the file system"
 msgstr "Dosya sistemindeki tüm veriyi okuyabilir"
 
-#: src/bz-safety-calculator.c:200
+#: src/safety-calculator.c:200
 msgid "Home Folder Read Access"
 msgstr "Ev Klasörü Okuma Erişimi"
 
-#: src/bz-safety-calculator.c:201
+#: src/safety-calculator.c:201
 msgid "Can read all data in your home directory"
 msgstr "Ev dizininizdeki tüm verinizi okuyabilir"
 
-#: src/bz-safety-calculator.c:209
+#: src/safety-calculator.c:209
 msgid "Download Folder Read/Write Access"
 msgstr "İndirilenler Klasörü Okuma/Yazma Erişimi"
 
-#: src/bz-safety-calculator.c:210
+#: src/safety-calculator.c:210
 msgid "Can read and write all data in your downloads directory"
 msgstr "İndirilenler dizininizdeki tüm veriyi okuyabilir ve yazabilir"
 
-#: src/bz-safety-calculator.c:220
+#: src/safety-calculator.c:220
 msgid "Download Folder Read Access"
 msgstr "İndirilenler Klasörü Okuma Erişimi"
 
-#: src/bz-safety-calculator.c:221
+#: src/safety-calculator.c:221
 msgid "Can read all data in your downloads directory"
 msgstr "İndirilenler dizininizdeki tüm veriyi okuyabilir"
 
-#: src/bz-safety-calculator.c:242
+#: src/safety-calculator.c:242
 msgid "Can read and write all data in the directory"
 msgstr "Dizindeki tüm veriyi okuyabilir ve yazabilir"
 
-#: src/bz-safety-calculator.c:266
+#: src/safety-calculator.c:266
 msgid "Can read all data in the directory"
 msgstr "Dizindeki tüm veriyi okuyabilir"
 
-#: src/bz-safety-calculator.c:281
+#: src/safety-calculator.c:281
 msgid "No File System Access"
 msgstr "Dosya Sistemi Erişimi Yok"
 
-#: src/bz-safety-calculator.c:282
+#: src/safety-calculator.c:282
 msgid "Cannot access the file system at all"
 msgstr "Dosya sistemine asla erişemez"
 
-#: src/bz-safety-calculator.c:289
+#: src/safety-calculator.c:289
 msgid "Uses System Services"
 msgstr "Sistem Hizmetlerini Kullanır"
 
-#: src/bz-safety-calculator.c:290
+#: src/safety-calculator.c:290
 msgid "Can request data from non-portal system services"
 msgstr "Kapı dışı sistem hizmetlerinden veri isteyebilir"
 
-#: src/bz-safety-calculator.c:296
+#: src/safety-calculator.c:296
 msgid "Uses Session Services"
 msgstr "Oturum Hizmetlerini Kullanır"
 
-#: src/bz-safety-calculator.c:297
+#: src/safety-calculator.c:297
 msgid "Can request data from non-portal session services"
 msgstr "Kapı dışı oturum hizmetlerinden veri isteyebilir"
 
-#: src/bz-safety-calculator.c:345
+#: src/safety-calculator.c:345
 msgid "No Service Access"
 msgstr "Hizmet Erişimi Yok"
 
-#: src/bz-safety-calculator.c:346
+#: src/safety-calculator.c:346
 msgid "Cannot access non-portal session or system services at all"
 msgstr "Kapı dışı oturum ya da sistem hizmetlerine asla erişemez"
 
-#: src/bz-safety-calculator.c:354
+#: src/safety-calculator.c:354
 msgid "Verified App Developer"
 msgstr "Doğrulanmış Uygulama Geliştiricileri"
 
-#: src/bz-safety-calculator.c:355
+#: src/safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
 msgstr "Bu uygulamanın geliştiricisinin söylediği kişi olduğu doğrulandı"
 
-#: src/bz-safety-calculator.c:364
+#: src/safety-calculator.c:364
 msgid "Proprietary Code"
 msgstr "Sahipli Kod"
 
-#: src/bz-safety-calculator.c:365
+#: src/safety-calculator.c:365
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
@@ -2534,11 +2534,11 @@ msgstr ""
 "Kaynak kod halka açık değildir, bu nedenle bağımsızca denetlenemez ve "
 "güvenilir olmayabilir"
 
-#: src/bz-safety-calculator.c:375
+#: src/safety-calculator.c:375
 msgid "Auditable Code"
 msgstr "Denetlenebilir Kod"
 
-#: src/bz-safety-calculator.c:376
+#: src/safety-calculator.c:376
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
@@ -2546,88 +2546,88 @@ msgstr ""
 "Kaynak kod halka açıktır ve bağımsızca denetlenebilir, bu uygulamayı daha "
 "güvenilir kılar"
 
-#: src/bz-safety-calculator.c:516
+#: src/safety-calculator.c:516
 #, c-format
 msgid "Use the %s System Service"
 msgstr "%s Sistem Hizmetini Kullan"
 
-#: src/bz-safety-calculator.c:520
+#: src/safety-calculator.c:520
 #, c-format
 msgid "Use the %s Session Service"
 msgstr "%s Oturum Hizmetini Kullan"
 
-#: src/bz-safety-calculator.c:524
+#: src/safety-calculator.c:524
 #, c-format
 msgid "Use the %s Service"
 msgstr "%s Hizmetini Kullan"
 
-#: src/bz-safety-calculator.c:534
+#: src/safety-calculator.c:534
 msgid "Can see the non-portal service"
 msgstr "Kapı dışı hizmetleri görebilir"
 
-#: src/bz-safety-calculator.c:536
+#: src/safety-calculator.c:536
 msgid "Can talk to the non-portal service"
 msgstr "Kapı dışı hizmetlere konuşabilir"
 
-#: src/bz-safety-calculator.c:538
+#: src/safety-calculator.c:538
 msgid "Can own the non-portal service"
 msgstr "Kapı dışı hizmet edinebilir"
 
-#: src/bz-safety-calculator.c:553
+#: src/safety-calculator.c:553
 msgid "Global Menu Integration"
 msgstr "Küresel Menü Tümleşimi"
 
-#: src/bz-safety-calculator.c:554
+#: src/safety-calculator.c:554
 msgid "Can display its menus in a global menu bar"
 msgstr "Menülerini genel menü çubuğunda görüntüleyebilir"
 
-#: src/bz-safety-calculator.c:559
+#: src/safety-calculator.c:559
 msgid "KDE Settings Integration"
 msgstr "KDE Ayarları Tümleşimi"
 
-#: src/bz-safety-calculator.c:560
+#: src/safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
 msgstr "KDE masaüstü ayarları değiştiğinde algılayabilir"
 
-#: src/bz-safety-calculator.c:565
+#: src/safety-calculator.c:565
 msgid "KDE Global Settings"
 msgstr "KDE Genel Ayarlar"
 
-#: src/bz-safety-calculator.c:566
+#: src/safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
 msgstr "KDE masaüstü tercihlerini (yazı tipleri ve renkler gibi) okuyabilir"
 
-#: src/bz-safety-calculator.c:571
+#: src/safety-calculator.c:571
 msgid "Secret Storage Service"
 msgstr "Gizli Depolama Hizmeti"
 
-#: src/bz-safety-calculator.c:572
+#: src/safety-calculator.c:572
 msgid "Can store and retrieve its own passwords using the system keyring"
 msgstr ""
 "Sistem anahtarlığı kullanarak kendi parolalarını saklayabilir ve geri "
 "getirebilir"
 
-#: src/bz-safety-calculator.c:577
+#: src/safety-calculator.c:577
 msgid "Desktop Notifications Service"
 msgstr "Masaüstü Bildirim Hizmeti"
 
-#: src/bz-safety-calculator.c:578
+#: src/safety-calculator.c:578
 msgid "Can send desktop notifications"
 msgstr "Masaüstü bildirimleri gönderebilir"
 
-#: src/bz-safety-calculator.c:584
+#: src/safety-calculator.c:584
 msgid "System Tray Integration"
 msgstr "Sistem Tepsisi Tümleşimi"
 
-#: src/bz-safety-calculator.c:585
+#: src/safety-calculator.c:585
 msgid "Can display an icon in the system tray"
 msgstr "Sistem tepsisinde simge gösterebilir"
 
-#: src/bz-safety-calculator.c:590
+#: src/safety-calculator.c:590
 msgid "KDE Connect Integration"
 msgstr "KDE Connect Tümleşimi"
 
-#: src/bz-safety-calculator.c:591
+#: src/safety-calculator.c:591
 msgid "Can interact with devices paired via KDE Connect"
 msgstr "KDE Connect aracılığıyla eşleştirilen aygıtlarla etkileşime girebilir"
 

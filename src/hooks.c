@@ -1,4 +1,4 @@
-/* bz-hooks.c
+/* hooks.c
  *
  * Copyright 2026 Eva M
  *
@@ -22,10 +22,10 @@
 
 #include <adwaita.h>
 
-#include "bz-env.h"
-#include "bz-error.h"
-#include "bz-hooks.h"
-#include "bz-util.h"
+#include "env.h"
+#include "error.h"
+#include "hooks.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     execute_hook,

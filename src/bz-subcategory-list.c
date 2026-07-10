@@ -25,7 +25,7 @@
 #include "bz-flathub-state.h"
 #include "bz-flathub-sub-category.h"
 #include "bz-subcategory-list.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-window.h"
 
 struct _BzSubcategoryList

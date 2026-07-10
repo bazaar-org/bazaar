@@ -23,11 +23,11 @@
 #include <glib/gi18n.h>
 
 #include "bz-application-map-factory.h"
-#include "bz-env.h"
-#include "bz-io.h"
+#include "env.h"
+#include "io.h"
 #include "bz-user-data-page.h"
 #include "bz-user-data-tile.h"
-#include "bz-util.h"
+#include "util.h"
 
 struct _BzUserDataPage
 {
