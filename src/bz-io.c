@@ -61,6 +61,17 @@ bz_get_io_scheduler (void)
   return scheduler;
 }
 
+DexLimiter *
+bz_get_io_limiter (void)
+{
+  static DexLimiter *limiter = NULL;
+
+  if (g_once_init_enter_pointer (&limiter))
+    g_once_init_leave_pointer (&limiter, dex_limiter_new (16));
+
+  return limiter;
+}
+
 void
 bz_reap_file (GFile *file)
 {
@@ -220,7 +231,8 @@ DexFuture *
 bz_reap_file_dex (GFile *file)
 {
   dex_return_error_if_fail (G_IS_FILE (file));
-  return dex_scheduler_spawn (
+  return dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) reap_file_fiber,
@@ -231,7 +243,8 @@ DexFuture *
 bz_reap_path_dex (const char *path)
 {
   dex_return_error_if_fail (path != NULL);
-  return dex_scheduler_spawn (
+  return dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) reap_path_fiber,
@@ -242,7 +255,8 @@ DexFuture *
 bz_reap_user_data_dex (const char *app_id)
 {
   dex_return_error_if_fail (app_id != NULL);
-  return dex_scheduler_spawn (
+  return dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) reap_user_data_fiber,
@@ -253,7 +267,8 @@ DexFuture *
 bz_reap_user_cache_dex (const char *app_id)
 {
   dex_return_error_if_fail (app_id != NULL);
-  return dex_scheduler_spawn (
+  return dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) reap_user_cache_fiber,
@@ -264,7 +279,8 @@ DexFuture *
 bz_get_user_sizes_dex (const char *app_id)
 {
   dex_return_error_if_fail (app_id != NULL);
-  return dex_scheduler_spawn (
+  return dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) get_user_sizes_fiber,
@@ -274,7 +290,8 @@ bz_get_user_sizes_dex (const char *app_id)
 DexFuture *
 bz_get_user_data_ids_dex (void)
 {
-  return dex_scheduler_spawn (
+  return dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) get_all_user_data_ids_fiber,

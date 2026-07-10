@@ -442,7 +442,8 @@ input_files_changed (BzContentProvider *self,
       init_data       = input_init_data_new ();
       init_data->file = g_object_ref (additions[i]);
 
-      future = dex_scheduler_spawn (
+      future = dex_limiter_run (
+          bz_get_io_limiter (),
           bz_get_io_scheduler (),
           bz_get_dex_stack_size (),
           (DexFiberFunc) input_init_fiber,
@@ -616,7 +617,8 @@ commence_reload (InputTrackingData *data)
   load_data->file   = g_file_new_for_path (data->path);
   load_data->parser = g_object_ref (self->parser);
 
-  future = dex_scheduler_spawn (
+  future = dex_limiter_run (
+      bz_get_io_limiter (),
       bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) input_load_fiber,

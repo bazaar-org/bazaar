@@ -1472,7 +1472,8 @@ enumerate_disk_entries_fiber (GWeakRef *wr)
   io_data->cache = g_object_ref (self->cache);
 
   entries = dex_await_boxed (
-      dex_scheduler_spawn (
+      dex_limiter_run (
+          bz_get_io_limiter (),
           bz_get_io_scheduler (),
           bz_get_dex_stack_size (),
           (DexFiberFunc) enumerate_disk_io_fiber,
