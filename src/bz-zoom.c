@@ -57,9 +57,21 @@ struct _BzZoom
   GtkGesture         *drag_gesture;
   GtkEventController *scroll_controller;
   GtkEventController *motion_controller;
+
+  GtkAdjustment      *hadjustment;
+  GtkAdjustment      *vadjustment;
+  GtkScrollablePolicy hscroll_policy;
+  GtkScrollablePolicy vscroll_policy;
 };
 
-G_DEFINE_FINAL_TYPE (BzZoom, bz_zoom, GTK_TYPE_WIDGET)
+static void
+scrollable_iface_init (GtkScrollableInterface *iface);
+
+G_DEFINE_FINAL_TYPE_WITH_CODE (
+    BzZoom,
+    bz_zoom,
+    GTK_TYPE_WIDGET,
+    G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, scrollable_iface_init));
 
 enum
 {
@@ -68,7 +80,12 @@ enum
   PROP_ZOOM_LEVEL,
   PROP_MIN_ZOOM,
   PROP_MAX_ZOOM,
-  LAST_PROP
+  LAST_PROP,
+
+  PROP_HADJUSTMENT,
+  PROP_VADJUSTMENT,
+  PROP_HSCROLL_POLICY,
+  PROP_VSCROLL_POLICY,
 };
 
 static GParamSpec *props[LAST_PROP] = { 0 };
@@ -80,11 +97,26 @@ static void bz_zoom_zoom_at_point (BzZoom *self,
                                    double  center_y);
 
 static void
+on_adjustment_value_changed (BzZoom        *self,
+                             GParamSpec    *pspec,
+                             GtkAdjustment *adjustment);
+
+static void
 bz_zoom_dispose (GObject *object)
 {
   BzZoom *self;
 
   self = BZ_ZOOM (object);
+
+  if (self->hadjustment != NULL)
+    g_signal_handlers_disconnect_by_func (
+        self->hadjustment, on_adjustment_value_changed, self);
+  g_clear_object (&self->hadjustment);
+
+  if (self->vadjustment != NULL)
+    g_signal_handlers_disconnect_by_func (
+        self->vadjustment, on_adjustment_value_changed, self);
+  g_clear_object (&self->vadjustment);
 
   g_clear_pointer (&self->child, gtk_widget_unparent);
   g_clear_object (&self->zoom_animation);
@@ -116,6 +148,18 @@ bz_zoom_get_property (GObject    *object,
     case PROP_MAX_ZOOM:
       g_value_set_double (value, bz_zoom_get_max_zoom (self));
       break;
+    case PROP_HADJUSTMENT:
+      g_value_set_object (value, self->hadjustment);
+      break;
+    case PROP_VADJUSTMENT:
+      g_value_set_object (value, self->vadjustment);
+      break;
+    case PROP_HSCROLL_POLICY:
+      g_value_set_enum (value, self->hscroll_policy);
+      break;
+    case PROP_VSCROLL_POLICY:
+      g_value_set_enum (value, self->vscroll_policy);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -144,6 +188,44 @@ bz_zoom_set_property (GObject      *object,
       break;
     case PROP_MAX_ZOOM:
       bz_zoom_set_max_zoom (self, g_value_get_double (value));
+      break;
+    case PROP_HADJUSTMENT:
+      if (self->hadjustment != NULL)
+        g_signal_handlers_disconnect_by_func (
+            self->hadjustment, on_adjustment_value_changed, self);
+      g_clear_object (&self->hadjustment);
+      self->hadjustment = g_value_dup_object (value);
+      if (self->hadjustment != NULL)
+        {
+          g_signal_connect_swapped (
+              self->hadjustment, "notify::value",
+              G_CALLBACK (on_adjustment_value_changed), self);
+          self->pan_x = -gtk_adjustment_get_value (self->hadjustment);
+        }
+      bz_zoom_constrain_pan (self);
+      gtk_widget_queue_draw (GTK_WIDGET (self));
+      break;
+    case PROP_VADJUSTMENT:
+      if (self->vadjustment != NULL)
+        g_signal_handlers_disconnect_by_func (
+            self->vadjustment, on_adjustment_value_changed, self);
+      g_clear_object (&self->vadjustment);
+      self->vadjustment = g_value_dup_object (value);
+      if (self->vadjustment != NULL)
+        {
+          g_signal_connect_swapped (
+              self->vadjustment, "notify::value",
+              G_CALLBACK (on_adjustment_value_changed), self);
+          self->pan_y = -gtk_adjustment_get_value (self->vadjustment);
+        }
+      bz_zoom_constrain_pan (self);
+      gtk_widget_queue_draw (GTK_WIDGET (self));
+      break;
+    case PROP_HSCROLL_POLICY:
+      self->hscroll_policy = g_value_get_enum (value);
+      break;
+    case PROP_VSCROLL_POLICY:
+      self->vscroll_policy = g_value_get_enum (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -393,6 +475,11 @@ bz_zoom_class_init (BzZoomClass *klass)
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
+
+  g_object_class_override_property (object_class, PROP_HADJUSTMENT, "hadjustment");
+  g_object_class_override_property (object_class, PROP_VADJUSTMENT, "vadjustment");
+  g_object_class_override_property (object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+  g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 }
 
 static void
@@ -429,6 +516,19 @@ bz_zoom_init (BzZoom *self)
   gtk_widget_add_controller (GTK_WIDGET (self), self->motion_controller);
 
   gtk_widget_set_focusable (GTK_WIDGET (self), TRUE);
+}
+
+static gboolean
+scrollable_get_border (GtkScrollable *scrollable,
+                       GtkBorder     *border)
+{
+  return FALSE;
+}
+
+static void
+scrollable_iface_init (GtkScrollableInterface *iface)
+{
+  iface->get_border = scrollable_get_border;
 }
 
 GtkWidget *
@@ -562,6 +662,45 @@ bz_zoom_constrain_pan (BzZoom *self)
 
   self->pan_x = CLAMP (self->pan_x, -max_pan_x, max_pan_x);
   self->pan_y = CLAMP (self->pan_y, -max_pan_y, max_pan_y);
+
+  if (self->hadjustment != NULL)
+    g_signal_handlers_block_by_func (
+        self->hadjustment,
+        on_adjustment_value_changed,
+        self);
+  if (self->vadjustment != NULL)
+    g_signal_handlers_block_by_func (
+        self->vadjustment,
+        on_adjustment_value_changed,
+        self);
+
+  if (self->hadjustment != NULL)
+    g_object_set (
+        self->hadjustment,
+        "lower", -max_pan_x,
+        "value", -self->pan_x,
+        "upper", max_pan_x + overpan_x,
+        "page-size", overpan_x,
+        NULL);
+  if (self->vadjustment != NULL)
+    g_object_set (
+        self->vadjustment,
+        "lower", -max_pan_y,
+        "value", -self->pan_y,
+        "upper", max_pan_y + overpan_y,
+        "page-size", overpan_y,
+        NULL);
+
+  if (self->hadjustment != NULL)
+    g_signal_handlers_unblock_by_func (
+        self->hadjustment,
+        on_adjustment_value_changed,
+        self);
+  if (self->vadjustment != NULL)
+    g_signal_handlers_unblock_by_func (
+        self->vadjustment,
+        on_adjustment_value_changed,
+        self);
 }
 
 static void
@@ -623,6 +762,23 @@ on_animation_value (double  value,
   bz_zoom_constrain_pan (self);
   gtk_widget_queue_resize (GTK_WIDGET (self));
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ZOOM_LEVEL]);
+}
+
+static void
+on_adjustment_value_changed (BzZoom        *self,
+                             GParamSpec    *pspec,
+                             GtkAdjustment *adjustment)
+{
+  if (self->zoom_animation != NULL)
+    adw_animation_skip (self->zoom_animation);
+
+  if (self->hadjustment != NULL)
+    self->pan_x = -gtk_adjustment_get_value (self->hadjustment);
+
+  if (self->vadjustment != NULL)
+    self->pan_y = -gtk_adjustment_get_value (self->vadjustment);
+
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 static void

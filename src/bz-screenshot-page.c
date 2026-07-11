@@ -814,6 +814,7 @@ populate_carousel (BzScreenshotPage *self)
   for (guint offset = 0; offset < n_items; offset++)
     {
       g_autoptr (BzAsyncTexture) async_texture = NULL;
+      GtkWidget *scrolled_window               = NULL;
       GtkWidget *zoom_widget                   = NULL;
       GtkWidget *screenshot                    = NULL;
 
@@ -832,11 +833,14 @@ populate_carousel (BzScreenshotPage *self)
       gtk_widget_set_margin_end (screenshot, 25);
 
       zoom_widget = bz_zoom_new ();
-      gtk_widget_set_hexpand (zoom_widget, TRUE);
-      gtk_widget_set_vexpand (zoom_widget, TRUE);
       bz_zoom_set_child (BZ_ZOOM (zoom_widget), screenshot);
 
-      adw_carousel_append (self->carousel, zoom_widget);
+      scrolled_window = gtk_scrolled_window_new ();
+      gtk_widget_set_hexpand (scrolled_window, TRUE);
+      gtk_widget_set_vexpand (scrolled_window, TRUE);
+      gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolled_window), zoom_widget);
+
+      adw_carousel_append (self->carousel, scrolled_window);
     }
 }
 
