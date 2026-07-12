@@ -681,6 +681,7 @@ bz_zoom_constrain_pan (BzZoom *self)
         "value", -self->pan_x,
         "upper", max_pan_x + overpan_x,
         "page-size", overpan_x,
+        "page-increment", max_pan_x / 4.0,
         NULL);
   if (self->vadjustment != NULL)
     g_object_set (
@@ -689,6 +690,7 @@ bz_zoom_constrain_pan (BzZoom *self)
         "value", -self->pan_y,
         "upper", max_pan_y + overpan_y,
         "page-size", overpan_y,
+        "page-increment", max_pan_y / 4.0,
         NULL);
 
   if (self->hadjustment != NULL)
