@@ -10,6 +10,8 @@ on:
       - ".github/ISSUE_TEMPLATE/**"
   workflow_dispatch:
 
+permissions: {}
+
 name: CI Build Flatpak
 jobs:
 
