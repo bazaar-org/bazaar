@@ -89,9 +89,6 @@ static void on_zoom_level_changed (BzZoom           *zoom,
 
 static void update_is_zoomed (BzScreenshotPage *self);
 
-static void connect_zoom_signal (BzScreenshotPage *self,
-                                 GtkWidget        *page);
-
 static BzZoom *get_current_zoom (BzScreenshotPage *self);
 
 static void populate_carousel (BzScreenshotPage *self);
@@ -383,11 +380,10 @@ on_carousel_position_changed (AdwCarousel      *carousel,
                               GParamSpec       *pspec,
                               BzScreenshotPage *self)
 {
-  GtkWidget *old_page  = NULL;
-  GtkWidget *new_page  = NULL;
-  BzZoom    *old_zoom  = NULL;
-  guint      new_index = 0;
-  guint      n_pages   = 0;
+  BzZoom *old_zoom  = NULL;
+  BzZoom *new_zoom  = NULL;
+  guint   new_index = 0;
+  guint   n_pages   = 0;
 
   new_index = (guint) round (adw_carousel_get_position (carousel));
   n_pages   = adw_carousel_get_n_pages (carousel);
@@ -395,24 +391,19 @@ on_carousel_position_changed (AdwCarousel      *carousel,
   if (new_index == self->current_index || new_index >= n_pages)
     return;
 
-  if (self->current_index < n_pages)
+  old_zoom = get_current_zoom (self);
+  if (old_zoom != NULL)
     {
-      old_page = adw_carousel_get_nth_page (carousel, self->current_index);
-      if (old_page != NULL && BZ_IS_ZOOM (old_page))
-        {
-          old_zoom = BZ_ZOOM (old_page);
-          g_signal_handlers_disconnect_by_func (old_zoom, on_zoom_level_changed, self);
-          bz_zoom_reset (old_zoom);
-        }
+      g_signal_handlers_disconnect_by_func (old_zoom, on_zoom_level_changed, self);
+      bz_zoom_reset (old_zoom);
     }
 
   self->current_index = new_index;
 
-  if (new_index < n_pages)
-    {
-      new_page = adw_carousel_get_nth_page (carousel, new_index);
-      connect_zoom_signal (self, new_page);
-    }
+  new_zoom = get_current_zoom (self);
+  g_assert (new_zoom != NULL);
+  g_signal_connect (new_zoom, "notify::zoom-level",
+                    G_CALLBACK (on_zoom_level_changed), self);
 
   update_is_zoomed (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_INDEX]);
@@ -557,8 +548,8 @@ bz_screenshot_page_set_property (GObject      *object,
 static void
 bz_screenshot_page_constructed (GObject *object)
 {
-  BzScreenshotPage *self = BZ_SCREENSHOT_PAGE (object);
-  GtkWidget        *page = NULL;
+  BzScreenshotPage *self       = BZ_SCREENSHOT_PAGE (object);
+  BzZoom           *first_zoom = NULL;
 
   G_OBJECT_CLASS (bz_screenshot_page_parent_class)->constructed (object);
 
@@ -566,9 +557,10 @@ bz_screenshot_page_constructed (GObject *object)
 
   self->current_index = 0;
 
-  page = adw_carousel_get_nth_page (self->carousel, 0);
-  if (page != NULL)
-    connect_zoom_signal (self, page);
+  first_zoom = get_current_zoom (self);
+  if (first_zoom != NULL)
+    g_signal_connect (first_zoom, "notify::zoom-level",
+                      G_CALLBACK (on_zoom_level_changed), self);
 
   update_is_zoomed (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_CAPTION]);
@@ -874,35 +866,24 @@ update_is_zoomed (BzScreenshotPage *self)
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_ZOOMED]);
 }
 
-static void
-connect_zoom_signal (BzScreenshotPage *self,
-                     GtkWidget        *page)
-{
-  BzZoom *zoom = NULL;
-
-  if (page != NULL && BZ_IS_ZOOM (page))
-    {
-      zoom = BZ_ZOOM (page);
-      g_signal_connect (zoom, "notify::zoom-level",
-                        G_CALLBACK (on_zoom_level_changed), self);
-    }
-}
-
 static BzZoom *
 get_current_zoom (BzScreenshotPage *self)
 {
-  GtkWidget *page    = NULL;
   guint      n_pages = 0;
+  GtkWidget *page    = NULL;
+  GtkWidget *zoom    = NULL;
 
   n_pages = adw_carousel_get_n_pages (self->carousel);
   if (self->current_index >= n_pages)
     return NULL;
 
   page = adw_carousel_get_nth_page (self->carousel, self->current_index);
-  if (page == NULL || !BZ_IS_ZOOM (page))
+  if (page == NULL)
     return NULL;
 
-  return BZ_ZOOM (page);
+  zoom = gtk_scrolled_window_get_child (GTK_SCROLLED_WINDOW (page));
+
+  return BZ_ZOOM (zoom);
 }
 
 static gboolean
