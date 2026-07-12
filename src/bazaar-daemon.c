@@ -535,7 +535,7 @@ method_activate_result (sd_bus_message *m,
     return r;
 
   uri_arg = malloc_or_bail (strlen ("appstream:") + strlen (id) + 1);
-  sprintf (uri_arg, "appstream:%s", id);
+  snprintf (uri_arg, strlen ("appstream:") + strlen (id) + 1, "appstream:%s", id);
 
   args[0] = uri_arg;
   launch_app (args, 1);
@@ -578,13 +578,12 @@ method_launch_search (sd_bus_message *m, void *userdata, sd_bus_error *ret_error
   joined[0] = '\0';
   for (i = 0; i < n_terms; i++)
     {
-      strcat (joined, terms[i]);
-      if (i + 1 < n_terms)
-        strcat (joined, " ");
+      size_t cur = strlen (joined);
+      snprintf (joined + cur, len - cur, "%s%s", terms[i], (i + 1 < n_terms) ? " " : "");
     }
 
   arg = malloc_or_bail (strlen ("--search-for=") + strlen (joined) + 1);
-  sprintf (arg, "--search-for=%s", joined);
+  snprintf (arg, strlen ("--search-for=") + strlen (joined) + 1, "--search-for=%s", joined);
 
   args[0] = arg;
   launch_app (args, 1);
