@@ -57,6 +57,7 @@ static SearchIndex *g_index      = NULL;
 static char        *g_index_path = NULL;
 
 static void  log_msg (const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
+static void *malloc_or_bail (size_t n_bytes);
 static char *build_index_path (void);
 static void  ensure_index_loaded (void);
 static int   strv_count_local (char **strv);
@@ -156,7 +157,7 @@ main (int argc, char *argv[])
 
   ensure_index_loaded ();
 
-  fwd_args = malloc (sizeof (char *) * (size_t) (argc > 0 ? argc : 1));
+  fwd_args = malloc_or_bail (sizeof (char *) * (size_t) (argc > 0 ? argc : 1));
   for (i = 1; i < argc; i++)
     {
       if (strcmp (argv[i], "--no-window") == 0)
@@ -256,6 +257,21 @@ log_msg (const char *fmt, ...)
 
   printf ("\n");
   fflush (stdout);
+}
+
+static void *
+malloc_or_bail (size_t n_bytes)
+{
+  void *p = NULL;
+
+  p = malloc (n_bytes);
+  if (p == NULL)
+    {
+      perror ("malloc");
+      _exit (127);
+    }
+
+  return p;
 }
 
 static char *
@@ -366,7 +382,7 @@ launch_app (char **extra_args,
   int                              i    = 0;
   sigset_t                         mask = { 0 };
 
-  argv    = malloc (sizeof (char *) * (size_t) (n_extra_args + 2));
+  argv    = malloc_or_bail (sizeof (char *) * (size_t) (n_extra_args + 2));
   argv[0] = (char *) BAZAAR_BIN_PATH;
   for (i = 0; i < n_extra_args; i++)
     argv[i + 1] = extra_args[i];
@@ -518,7 +534,7 @@ method_activate_result (sd_bus_message *m,
   if (r < 0)
     return r;
 
-  uri_arg = malloc (strlen ("appstream:") + strlen (id) + 1);
+  uri_arg = malloc_or_bail (strlen ("appstream:") + strlen (id) + 1);
   sprintf (uri_arg, "appstream:%s", id);
 
   args[0] = uri_arg;
@@ -533,7 +549,7 @@ method_launch_search (sd_bus_message *m, void *userdata, sd_bus_error *ret_error
   _cleanup_ (strv_freep) char   **terms     = NULL;
   _cleanup_ (generic_freep) char *joined    = NULL;
   _cleanup_ (generic_freep) char *arg       = NULL;
-  char                            *args[1]   = { NULL };
+  char                           *args[1]   = { NULL };
   uint32_t                        timestamp = 0;
   size_t                          len       = 0;
   int                             n_terms   = 0;
@@ -558,7 +574,7 @@ method_launch_search (sd_bus_message *m, void *userdata, sd_bus_error *ret_error
   for (i = 0; i < n_terms; i++)
     len += strlen (terms[i]) + 1;
 
-  joined    = malloc (len);
+  joined    = malloc_or_bail (len);
   joined[0] = '\0';
   for (i = 0; i < n_terms; i++)
     {
@@ -567,7 +583,7 @@ method_launch_search (sd_bus_message *m, void *userdata, sd_bus_error *ret_error
         strcat (joined, " ");
     }
 
-  arg = malloc (strlen ("--search-for=") + strlen (joined) + 1);
+  arg = malloc_or_bail (strlen ("--search-for=") + strlen (joined) + 1);
   sprintf (arg, "--search-for=%s", joined);
 
   args[0] = arg;
