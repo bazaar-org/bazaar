@@ -34,6 +34,6 @@ jobs:
       with:
         bundle: Bazaar.flatpak
         manifest-path: build-aux/flatpak/io.github.kolunmi.Bazaar.json
-        cache-key: flatpak-builder-046f9ec
+        cache-key: flatpak-builder-046f9ec-${{ github.run_id }}
         arch: ${{ matrix.variant.arch }}
         verbose: true
