@@ -89,7 +89,8 @@ static void on_zoom_level_changed (BzZoom           *zoom,
 
 static void update_is_zoomed (BzScreenshotPage *self);
 
-static BzZoom *get_current_zoom (BzScreenshotPage *self);
+static BzZoom *get_current_zoom (BzScreenshotPage   *self,
+                                 GtkScrolledWindow **scrolled_window);
 
 static void populate_carousel (BzScreenshotPage *self);
 
@@ -312,7 +313,7 @@ zoom_in_clicked (BzScreenshotPage *self)
 {
   BzZoom *zoom = NULL;
 
-  zoom = get_current_zoom (self);
+  zoom = get_current_zoom (self, NULL);
   if (zoom != NULL)
     bz_zoom_zoom_in (zoom);
 }
@@ -322,7 +323,7 @@ zoom_out_clicked (BzScreenshotPage *self)
 {
   BzZoom *zoom = NULL;
 
-  zoom = get_current_zoom (self);
+  zoom = get_current_zoom (self, NULL);
   if (zoom != NULL)
     bz_zoom_zoom_out (zoom);
 }
@@ -332,7 +333,7 @@ reset_zoom_clicked (BzScreenshotPage *self)
 {
   BzZoom *zoom = NULL;
 
-  zoom = get_current_zoom (self);
+  zoom = get_current_zoom (self, NULL);
   if (zoom != NULL)
     bz_zoom_reset (zoom);
 }
@@ -380,10 +381,11 @@ on_carousel_position_changed (AdwCarousel      *carousel,
                               GParamSpec       *pspec,
                               BzScreenshotPage *self)
 {
-  BzZoom *old_zoom  = NULL;
-  BzZoom *new_zoom  = NULL;
-  guint   new_index = 0;
-  guint   n_pages   = 0;
+  GtkScrolledWindow *old_scrolled_window = NULL;
+  BzZoom            *old_zoom            = NULL;
+  BzZoom            *new_zoom            = NULL;
+  guint              new_index           = 0;
+  guint              n_pages             = 0;
 
   new_index = (guint) round (adw_carousel_get_position (carousel));
   n_pages   = adw_carousel_get_n_pages (carousel);
@@ -391,16 +393,17 @@ on_carousel_position_changed (AdwCarousel      *carousel,
   if (new_index == self->current_index || new_index >= n_pages)
     return;
 
-  old_zoom = get_current_zoom (self);
+  old_zoom = get_current_zoom (self, &old_scrolled_window);
   if (old_zoom != NULL)
     {
       g_signal_handlers_disconnect_by_func (old_zoom, on_zoom_level_changed, self);
       bz_zoom_reset (old_zoom);
+      gtk_scrolled_window_set_policy (old_scrolled_window, GTK_POLICY_NEVER, GTK_POLICY_NEVER);
     }
 
   self->current_index = new_index;
 
-  new_zoom = get_current_zoom (self);
+  new_zoom = get_current_zoom (self, NULL);
   g_assert (new_zoom != NULL);
   g_signal_connect (new_zoom, "notify::zoom-level",
                     G_CALLBACK (on_zoom_level_changed), self);
@@ -557,7 +560,7 @@ bz_screenshot_page_constructed (GObject *object)
 
   self->current_index = 0;
 
-  first_zoom = get_current_zoom (self);
+  first_zoom = get_current_zoom (self, NULL);
   if (first_zoom != NULL)
     g_signal_connect (first_zoom, "notify::zoom-level",
                       G_CALLBACK (on_zoom_level_changed), self);
@@ -830,6 +833,7 @@ populate_carousel (BzScreenshotPage *self)
       scrolled_window = gtk_scrolled_window_new ();
       gtk_widget_set_hexpand (scrolled_window, TRUE);
       gtk_widget_set_vexpand (scrolled_window, TRUE);
+      gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
       gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolled_window), zoom_widget);
 
       adw_carousel_append (self->carousel, scrolled_window);
@@ -839,13 +843,14 @@ populate_carousel (BzScreenshotPage *self)
 static void
 update_is_zoomed (BzScreenshotPage *self)
 {
-  GtkWidget *screenshot = NULL;
-  BzZoom    *zoom       = NULL;
-  double     zoom_level = 0.0;
-  gboolean   was_zoomed = FALSE;
+  GtkWidget         *screenshot      = NULL;
+  BzZoom            *zoom            = NULL;
+  GtkScrolledWindow *scrolled_window = NULL;
+  double             zoom_level      = 0.0;
+  gboolean           was_zoomed      = FALSE;
 
   was_zoomed = self->is_zoomed;
-  zoom       = get_current_zoom (self);
+  zoom       = get_current_zoom (self, &scrolled_window);
 
   if (zoom != NULL)
     {
@@ -863,11 +868,18 @@ update_is_zoomed (BzScreenshotPage *self)
   self->is_zoomed = zoom != NULL && bz_zoom_is_transformed (zoom);
 
   if (was_zoomed != self->is_zoomed)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_ZOOMED]);
+    {
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_ZOOMED]);
+      if (self->is_zoomed)
+        gtk_scrolled_window_set_policy (scrolled_window, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+      else
+        gtk_scrolled_window_set_policy (scrolled_window, GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+    }
 }
 
 static BzZoom *
-get_current_zoom (BzScreenshotPage *self)
+get_current_zoom (BzScreenshotPage   *self,
+                  GtkScrolledWindow **scrolled_window)
 {
   guint      n_pages = 0;
   GtkWidget *page    = NULL;
@@ -883,7 +895,14 @@ get_current_zoom (BzScreenshotPage *self)
 
   zoom = gtk_scrolled_window_get_child (GTK_SCROLLED_WINDOW (page));
 
-  return BZ_ZOOM (zoom);
+  if (zoom != NULL)
+    {
+      if (scrolled_window != NULL)
+        *scrolled_window = (GtkScrolledWindow *) page;
+      return BZ_ZOOM (zoom);
+    }
+  else
+    return NULL;
 }
 
 static gboolean
