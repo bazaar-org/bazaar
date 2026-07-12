@@ -8,6 +8,7 @@ on:
       - "screenshots/*"
       - "translators.sh"
       - ".github/ISSUE_TEMPLATE/**"
+  workflow_dispatch:
 
 name: CI Build Flatpak
 jobs:
