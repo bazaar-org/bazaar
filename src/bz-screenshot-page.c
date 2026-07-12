@@ -398,7 +398,7 @@ on_carousel_position_changed (AdwCarousel      *carousel,
     {
       g_signal_handlers_disconnect_by_func (old_zoom, on_zoom_level_changed, self);
       bz_zoom_reset (old_zoom);
-      gtk_scrolled_window_set_policy (old_scrolled_window, GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+      gtk_scrolled_window_set_policy (old_scrolled_window, GTK_POLICY_EXTERNAL, GTK_POLICY_EXTERNAL);
     }
 
   self->current_index = new_index;
@@ -833,7 +833,7 @@ populate_carousel (BzScreenshotPage *self)
       scrolled_window = gtk_scrolled_window_new ();
       gtk_widget_set_hexpand (scrolled_window, TRUE);
       gtk_widget_set_vexpand (scrolled_window, TRUE);
-      gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+      gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_EXTERNAL, GTK_POLICY_EXTERNAL);
       gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolled_window), zoom_widget);
 
       adw_carousel_append (self->carousel, scrolled_window);
@@ -873,7 +873,7 @@ update_is_zoomed (BzScreenshotPage *self)
       if (self->is_zoomed)
         gtk_scrolled_window_set_policy (scrolled_window, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
       else
-        gtk_scrolled_window_set_policy (scrolled_window, GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+        gtk_scrolled_window_set_policy (scrolled_window, GTK_POLICY_EXTERNAL, GTK_POLICY_EXTERNAL);
     }
 }
 
