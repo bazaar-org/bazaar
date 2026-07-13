@@ -73,7 +73,6 @@ src/bz-flatpak-entry.c
 src/bz-flatpak-instance.c
 src/bz-full-view.blp
 src/bz-full-view.c
-src/bz-gnome-shell-search-provider.c
 src/bz-group-tile-css-watcher.c
 src/bz-hardware-support-dialog.blp
 src/bz-hardware-support-dialog.c
