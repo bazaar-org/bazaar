@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-11 11:26+0200\n"
-"PO-Revision-Date: 2026-07-11 12:18+0200\n"
+"POT-Creation-Date: 2026-07-16 15:53+0200\n"
+"PO-Revision-Date: 2026-07-17 13:18+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Search apps directly from GNOME Shell"
 msgstr "Vyhledávejte aplikace přímo z GNOME Shellu"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:782
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:780
 msgid "The Bazaar Contributors"
 msgstr "Přispěvatelé aplikace Bazaar"
 
@@ -737,26 +737,26 @@ msgid "Installed"
 msgstr "Nainstalováno"
 
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:785
+#: src/bz-application.c:783
 msgid "translator-credits"
 msgstr ""
 "Vlastimil Dědek <dedek.vlastimil2@proton.me>, 2025\n"
 "Pavel Borecki <pavel@borecki.cz>, 2026\n"
 "Daniel Rusek <mail@asciiwolf.com>, 2026"
 
-#: src/bz-application.c:795
+#: src/bz-application.c:793
 msgid "Special Thanks"
 msgstr "Zvláštní poděkování patří"
 
-#: src/bz-application.c:853
+#: src/bz-application.c:851
 msgid "Logged Out Successfully!"
 msgstr "Úspěšně odhlášeni!"
 
-#: src/bz-application.c:1033
+#: src/bz-application.c:1042
 msgid "Ubuntu Troubles!"
 msgstr "Problémy s Ubuntu!"
 
-#: src/bz-application.c:1036
+#: src/bz-application.c:1045
 msgid ""
 "The more recent versions of Ubuntu have messed up default security rules, "
 "making it <b>impossible to install apps</b> from the Flatpak version of "
@@ -778,19 +778,19 @@ msgstr ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
-#: src/bz-application.c:1042
+#: src/bz-application.c:1051
 msgid "Continue Anyway"
 msgstr "Přesto pokračovat"
 
-#: src/bz-application.c:1058
+#: src/bz-application.c:1067
 msgid "Performing setup…"
 msgstr "Provádí se nastavení…"
 
-#: src/bz-application.c:1150
+#: src/bz-application.c:1159
 msgid "Set Up System Flathub?"
 msgstr "Nastavit systémový Flathub?"
 
-#: src/bz-application.c:1153
+#: src/bz-application.c:1162
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -805,11 +805,11 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1160
+#: src/bz-application.c:1169
 msgid "Set Up Flathub?"
 msgstr "Nastavit Flathub?"
 
-#: src/bz-application.c:1163
+#: src/bz-application.c:1172
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -822,48 +822,48 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1169
+#: src/bz-application.c:1178
 msgid "Later"
 msgstr "Později"
 
-#: src/bz-application.c:1170
+#: src/bz-application.c:1179
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1694
+#: src/bz-application.c:1712
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1894 src/bz-application.c:4086
+#: src/bz-application.c:1912 src/bz-application.c:4150
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:2058 src/bz-application.c:4084
+#: src/bz-application.c:2076 src/bz-application.c:4148
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:2111
+#: src/bz-application.c:2129
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:2232
+#: src/bz-application.c:2258
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2626
+#: src/bz-application.c:2657
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2682
+#: src/bz-application.c:2713
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3822
+#: src/bz-application.c:3852
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3823
+#: src/bz-application.c:3853
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -875,15 +875,15 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3831
+#: src/bz-application.c:3861
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:3862
+#: src/bz-application.c:3892
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:4088
+#: src/bz-application.c:4152
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1104,7 +1104,7 @@ msgstr "Podrobnosti"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:452
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:446
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Zkopírováno!"
@@ -1749,6 +1749,10 @@ msgstr "Aplikace %s funguje nejlépe na konkrétním hardware"
 msgid "%s works on most devices"
 msgstr "Aplikace %s funguje na většině zařízení"
 
+#: src/bz-inspector.blp:23
+msgid "Inspector Menu"
+msgstr "Nabídka inspektora"
+
 #: src/bz-install-controls.blp:58
 msgid "_Open"
 msgstr "_Otevřít"
@@ -2011,42 +2015,80 @@ msgid "Refresh Manually"
 msgstr "Obnovit ručně"
 
 #: src/bz-preferences-dialog.blp:31
+msgid "App Updates"
+msgstr "Aktualizace aplikací"
+
+#: src/bz-preferences-dialog.blp:46
+msgid ""
+"Checking for and downloading app updates uses data and power. Automatic app "
+"update features are therefore paused when on metered network connections and "
+"when power saver is on."
+msgstr ""
+"Kontrola a stahování aktualizací aplikací spotřebovává data a energii. "
+"Funkce automatických aktualizací aplikací jsou proto pozastaveny, když "
+"používáte měřená síťová připojení a když je zapnutý úsporný režim."
+
+#: src/bz-preferences-dialog.blp:52
+msgid "_Automatic"
+msgstr "_Automatické"
+
+#: src/bz-preferences-dialog.blp:53
+msgid "Automatically check for and download app updates"
+msgstr "Automaticky kontrolovat a stahovat aktualizace aplikací"
+
+#: src/bz-preferences-dialog.blp:62
+msgid "_Manual"
+msgstr "_Ruční"
+
+#: src/bz-preferences-dialog.blp:63
+msgid "Checking for and downloading app updates must be done manually"
+msgstr "Kontrola a stahování aktualizací aplikací musí být provedeno ručně"
+
+#: src/bz-preferences-dialog.blp:78
+msgid "Automatic Update _Notifications"
+msgstr "Oz_namovat automatické aktualizace"
+
+#: src/bz-preferences-dialog.blp:79
+msgid "Notify when updates have been automatically installed"
+msgstr "Oznámit, když jsou automaticky nainstalovány aktualizace"
+
+#: src/bz-preferences-dialog.blp:84
 msgid "Content Filters"
 msgstr "Filtry obsahu"
 
-#: src/bz-preferences-dialog.blp:34
-msgid "Free Software Only"
-msgstr "Pouze svobodný software"
+#: src/bz-preferences-dialog.blp:87
+msgid "_Free Software Only"
+msgstr "Pouze svobodný so_ftware"
 
-#: src/bz-preferences-dialog.blp:35
+#: src/bz-preferences-dialog.blp:88
 msgid "Hide proprietary apps when browsing and searching"
 msgstr "Skrýt uzavřené aplikace z výsledků vyhledávání"
 
-#: src/bz-preferences-dialog.blp:39
-msgid "Flathub Results Only"
-msgstr "Pouze výsledky z Flathubu"
+#: src/bz-preferences-dialog.blp:93
+msgid "F_lathub Results Only"
+msgstr "Pouze výsledky z F_lathubu"
 
-#: src/bz-preferences-dialog.blp:40
+#: src/bz-preferences-dialog.blp:94
 msgid "Limit search and browse results to apps only available on Flathub"
 msgstr "Omezit výsledky vyhledávání pouze na aplikace dostupné na Flathubu"
 
-#: src/bz-preferences-dialog.blp:44
-msgid "Verified Results Only"
-msgstr "Pouze ověřené výsledky"
+#: src/bz-preferences-dialog.blp:99
+msgid "_Verified Results Only"
+msgstr "Pouze o_věřené výsledky"
 
-#: src/bz-preferences-dialog.blp:45
+#: src/bz-preferences-dialog.blp:100
 msgid "Hide results that are not verified on Flathub"
 msgstr "Skrýt výsledky, které nejsou ověřeny na Flathubu"
 
-#: src/bz-preferences-dialog.blp:49
-msgid "Hide End-of-Life Apps"
-msgstr "Skrýt zastaralé aplikace"
+#: src/bz-preferences-dialog.blp:105
+msgid "Hide _End-of-Life Apps"
+msgstr "Skrýt zastaralé aplikac_e"
 
-#: src/bz-preferences-dialog.blp:50
+#: src/bz-preferences-dialog.blp:106
 msgid "Hide apps which are no longer supported by their developers"
 msgstr "Skrýt aplikace, které již nejsou podporované jejich vývojáři"
 
-#: src/bz-preferences-dialog.blp:55
+#: src/bz-preferences-dialog.blp:112
 msgid "Progress Bar Theme"
 msgstr "Motiv ukazatele postupu"
 
@@ -3382,3 +3424,26 @@ msgstr "Zavřít okno"
 msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Ukončit Bazaar"
+
+#: src/update-worker.c:358
+#, c-format
+msgid "%u App Updated"
+msgid_plural "%u Apps Updated"
+msgstr[0] "Byla aktualizována %u aplikace"
+msgstr[1] "Byly aktualizovány %u aplikace"
+msgstr[2] "Bylo aktualizováno %u aplikací"
+
+#: src/update-worker.c:361
+#, c-format
+msgid "%s has been updated."
+msgstr "Aplikace %s byla aktualizována."
+
+#: src/update-worker.c:364
+#, c-format
+msgid "%s and %s have been updated."
+msgstr "Aplikace %s a %s byly aktualizovány."
+
+#: src/update-worker.c:368
+#, c-format
+msgid "Includes %s, %s and %s."
+msgstr "Včetně %s, %s a %s."
