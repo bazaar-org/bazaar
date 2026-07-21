@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-20 11:09+0200\n"
-"PO-Revision-Date: 2026-06-09 00:59+0200\n"
+"PO-Revision-Date: 2026-07-21 22:54+0200\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque\n"
 "Language: eu\n"
@@ -38,12 +38,10 @@ msgid "New Window"
 msgstr "Leiho berria"
 
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:8
-#, fuzzy
 msgid "Discover and install apps"
-msgstr "Deskubritu eta kudeatu aplikazioak"
+msgstr "Deskubritu eta instalatu aplikazioak"
 
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:10
-#, fuzzy
 msgid ""
 "A fast and modern app store for Linux with a focus on discovering and "
 "installing Flatpak apps and add-ons, particularly from Flathub."
@@ -756,7 +754,7 @@ msgstr "Behar bezala amaitu da saioa!"
 
 #: src/bz-application.c:1042
 msgid "Ubuntu Troubles!"
-msgstr ""
+msgstr "Arazoak Ubuntun!"
 
 #: src/bz-application.c:1045
 msgid ""
@@ -770,11 +768,19 @@ msgid ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 msgstr ""
+"Ubunturen azken bertsioek segurtasun arau lehenentsiak nahastu dituzte, "
+"Bazaarren Flatpak bertsioa erabiliz <b>aplikazioak instalatzea ezinezko</b> "
+"bihurtuz. Oraingoz, erabili pakete arrunta honakoa exekutatuz:\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"Flatpak bertsio hau ezaba dezakezu honakoa exekutatuz:\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
 #: src/bz-application.c:1051
-#, fuzzy
 msgid "Continue Anyway"
-msgstr "_Instalatu halere"
+msgstr "Jarraitu halere"
 
 #: src/bz-application.c:1067
 msgid "Performing setup…"
@@ -897,9 +903,8 @@ msgid "%d Applications"
 msgstr "%d aplikazio"
 
 #: src/bz-article.blp:86
-#, fuzzy
 msgid "Failed to Load Article"
-msgstr "Ezin izan da fitxategia ireki"
+msgstr "Ezin izan da artikulua kargatu"
 
 #: src/bz-bundle-install-dialog.blp:21 src/bz-bundle-install-dialog.blp:27
 msgid "Bundle Installation"
@@ -966,7 +971,6 @@ msgid "No Curation"
 msgstr "Aukeraketarik gabe"
 
 #: src/bz-curated-view.blp:30
-#, fuzzy
 msgid ""
 "There is no curation information provided on this system. You can still "
 "browse apps on Flathub"
@@ -1454,42 +1458,36 @@ msgid "More KDE Apps"
 msgstr "KDE aplikazio gehiago"
 
 #: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:419
-#, fuzzy
 msgid "Games"
-msgstr "Joko gehiago"
+msgstr "Jokoak"
 
 #: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:479
 msgid "More Games"
 msgstr "Joko gehiago"
 
 #: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:425
-#, fuzzy
 msgid "Emulators"
-msgstr "Emulatzailea"
+msgstr "Emulatzaileak"
 
 #: src/bz-flathub-category.c:152
-#, fuzzy
 msgid "More Emulators"
-msgstr "Emulatzailea"
+msgstr "Emulatzaile gehiago"
 
 #: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:431
 msgid "Launchers"
-msgstr ""
+msgstr "Abiarazleak"
 
 #: src/bz-flathub-category.c:153
-#, fuzzy
 msgid "More Game Launchers"
-msgstr "Joko gehiago"
+msgstr "Joko-abiarazle gehiago"
 
 #: src/bz-flathub-category.c:154
-#, fuzzy
 msgid "Game Tools"
-msgstr "Tresnak"
+msgstr "Joko-tresnak"
 
 #: src/bz-flathub-category.c:154
-#, fuzzy
 msgid "More Game Tools"
-msgstr "Joko gehiago"
+msgstr "Joko-tresna gehiago"
 
 #: src/bz-flathub-page.blp:23
 msgid "Flathub Not Added"
@@ -1508,7 +1506,6 @@ msgid "Can't Reach Flathub"
 msgstr "Ezin da Flathub atzitu"
 
 #: src/bz-flathub-page.blp:35
-#, fuzzy
 msgid "You can still manage and search for apps."
 msgstr "Halere, aplikazioak kudeatu eta bila ditzakezu oraindik."
 
@@ -1597,16 +1594,14 @@ msgid "Links"
 msgstr "Estekak"
 
 #: src/bz-full-view.blp:679
-#, fuzzy
 msgid "Similar Apps"
-msgstr "Bilatu aplikazioak"
+msgstr "Antzeko aplikazioak"
 
 #: src/bz-full-view.c:181
 msgid "No URL"
 msgstr "URLrik ez"
 
 #: src/bz-full-view.c:199
-#, fuzzy
 msgid ""
 "This app has a FLOSS license, meaning the source code can be audited for "
 "safety."
@@ -1615,7 +1610,6 @@ msgstr ""
 "iturburu kodea segurtasun ikuspegitik audita daiteke."
 
 #: src/bz-full-view.c:200
-#, fuzzy
 msgid ""
 "This app has a proprietary license, meaning the source code is developed "
 "privately and cannot be audited by an independent third party."
@@ -1759,7 +1753,7 @@ msgstr "%s(e)k gailu gehienetan funtzionatzen du"
 
 #: src/bz-inspector.blp:23
 msgid "Inspector Menu"
-msgstr ""
+msgstr "Ikuskatze-menua"
 
 #: src/bz-install-controls.blp:58
 msgid "_Open"
@@ -1783,14 +1777,14 @@ msgid "Remove"
 msgstr "Kendu"
 
 #: src/bz-install-controls.c:638
-#, fuzzy, c-format
+#, c-format
 msgid "Install %s from %s"
-msgstr "%s instalatu?"
+msgstr "Instalatu %s %s(e)tik"
 
 #: src/bz-install-controls.c:640
-#, fuzzy, c-format
+#, c-format
 msgid "Install %s"
-msgstr "%s instalatu?"
+msgstr "Instalatu %s"
 
 #: src/bz-install-controls.wdgt:32
 msgctxt "Install Controls"
@@ -1803,9 +1797,8 @@ msgid "Cancelling"
 msgstr "Uzten"
 
 #: src/bz-installed-tile.blp:80
-#, fuzzy
 msgid "Donate Button"
-msgstr "Eman dirua"
+msgstr "Dohaintza botoia"
 
 #: src/bz-library-page.blp:17
 msgid "Search installed apps"
@@ -1842,7 +1835,7 @@ msgstr "Garbitu amaitutako atazak"
 
 #: src/bz-library-page.blp:239
 msgid "Sort Options"
-msgstr ""
+msgstr "Ordenatze-aukerak"
 
 #: src/bz-library-page.blp:298
 msgid "Sort By"
@@ -1878,16 +1871,15 @@ msgstr[0] "Aplikazio %u instalatuta"
 msgstr[1] "%u aplikazio instalatuta"
 
 #: src/bz-library-page.c:629 src/bz-search-page.c:786
-#, fuzzy
 msgid "No applications found"
 msgstr "Ez da aplikaziorik aurkitu"
 
 #: src/bz-library-page.c:629 src/bz-search-page.c:788
-#, fuzzy, c-format
+#, c-format
 msgid "One application found"
 msgid_plural "%u applications found"
-msgstr[0] "Ez da aplikaziorik aurkitu"
-msgstr[1] "Ez da aplikaziorik aurkitu"
+msgstr[0] "Aplikazio bat aurkitu da"
+msgstr[1] "%u aplikazio aurkitu dira"
 
 #: src/bz-license-dialog.blp:87
 msgid "Get Involved"
@@ -2024,9 +2016,8 @@ msgid "Refresh Manually"
 msgstr "Berritu eskuz"
 
 #: src/bz-preferences-dialog.blp:31
-#, fuzzy
 msgid "App Updates"
-msgstr "Eguneratu"
+msgstr "Aplikazio eguneratzeak"
 
 #: src/bz-preferences-dialog.blp:46
 msgid ""
@@ -2034,70 +2025,68 @@ msgid ""
 "update features are therefore paused when on metered network connections and "
 "when power saver is on."
 msgstr ""
+"Aplikazio eguneratzeak bilatu eta deskargatzeak datuak eta argindarra "
+"erabiltzea dakar. Ondorioz, aplikazioen eguneratze automatikorako eginbideak "
+"pausatu egiten dira sareko konexio neurtua erabiltzean edo energia "
+"aurrezpena aktibatuta dagoenean."
 
 #: src/bz-preferences-dialog.blp:52
 msgid "_Automatic"
-msgstr ""
+msgstr "_Automatikoa"
 
 #: src/bz-preferences-dialog.blp:53
 msgid "Automatically check for and download app updates"
-msgstr ""
+msgstr "Bilatu eta deskargatu aplikazio eguneratzeak automatikoki\t"
 
 #: src/bz-preferences-dialog.blp:62
 msgid "_Manual"
-msgstr ""
+msgstr "_Eskuzkoa"
 
 #: src/bz-preferences-dialog.blp:63
 msgid "Checking for and downloading app updates must be done manually"
-msgstr ""
+msgstr "Aplikazio eguneratzeak eskuz bilatu eta deskargatu behar dira"
 
 #: src/bz-preferences-dialog.blp:78
 msgid "Automatic Update _Notifications"
-msgstr ""
+msgstr "Eguneratze _jakinarazpen automatikoak"
 
 #: src/bz-preferences-dialog.blp:79
 msgid "Notify when updates have been automatically installed"
-msgstr ""
+msgstr "Jakinarazi eguneratzeak automatikoki instalatu direnean"
 
 #: src/bz-preferences-dialog.blp:84
 msgid "Content Filters"
 msgstr "Eduki iragazkiak"
 
 #: src/bz-preferences-dialog.blp:87
-#, fuzzy
 msgid "_Free Software Only"
-msgstr "Software librea soilik"
+msgstr "Software _librea soilik"
 
 #: src/bz-preferences-dialog.blp:88
-#, fuzzy
 msgid "Hide proprietary apps when browsing and searching"
 msgstr "Ezkutatu aplikazio pribatiboak nabigatzean eta bilatzean"
 
 #: src/bz-preferences-dialog.blp:93
-#, fuzzy
 msgid "F_lathub Results Only"
-msgstr "Flathub-eko emaitzak soilik"
+msgstr "_Flathub-eko emaitzak soilik"
 
 #: src/bz-preferences-dialog.blp:94
-#, fuzzy
 msgid "Limit search and browse results to apps only available on Flathub"
 msgstr ""
 "Mugatu bilaketa eta nabigazioko emaitzak Flathub-en erabilgarri dauden "
 "aplikazioetara"
 
 #: src/bz-preferences-dialog.blp:99
-#, fuzzy
 msgid "_Verified Results Only"
-msgstr "Egiaztatutako emaitzak soilik"
+msgstr "_Egiaztatutako emaitzak soilik"
 
 #: src/bz-preferences-dialog.blp:100
 msgid "Hide results that are not verified on Flathub"
 msgstr "Ezkutatu Flathub-ek egiaztatu gabeko emaitzak"
 
 #: src/bz-preferences-dialog.blp:105
-#, fuzzy
 msgid "Hide _End-of-Life Apps"
-msgstr "Ezkutatu bizirik ez dauden aplikazioak"
+msgstr "Ezkutatu bizirik e_z dauden aplikazioak"
 
 #: src/bz-preferences-dialog.blp:106
 msgid "Hide apps which are no longer supported by their developers"
@@ -2288,11 +2277,18 @@ msgid ""
 "Viewing the other permissions may still give a better idea of what the app "
 "is likely to do."
 msgstr ""
+"Aplikazio honek duen baimen batek bere buruari <b>nahi duen beste edozein "
+"baimen</b> ematea ahalbidetzen dio, Flatpak-en isolazioa saltatuz.\n"
+"\n"
+"Ondorioz, isolatu gabeko aplikazio arrunt batek egin dezakeen edozer egin "
+"dezake, hala nola, zure fitxategi guztiak atzitu edo Internetera konektatu.\n"
+"\n"
+"Beste baimenak ikusteak aplikazioak egin dezakeena hobeto ulertzen lagun "
+"zaitzake."
 
 #: src/bz-safety-dialog.blp:52
-#, fuzzy
 msgid "View Other Permissions"
-msgstr "Baimen arbitrarioak"
+msgstr "Ikusi beste baimenak"
 
 #: src/bz-safety-dialog.blp:79 src/context-tile-callbacks.c:400
 msgid "Safe"
@@ -2345,7 +2341,7 @@ msgstr "%s ez da segurua"
 
 #: src/bz-screenshot-page.blp:41
 msgid "Back"
-msgstr ""
+msgstr "Atzera"
 
 #: src/bz-screenshot-page.blp:71
 msgid "Previous Screenshot"
@@ -2384,14 +2380,14 @@ msgid "Open Screenshot Viewer"
 msgstr "Ireki pantaila-argazki ikustailea"
 
 #: src/bz-screenshots-carousel.c:308
-#, fuzzy, c-format
+#, c-format
 msgid "Screenshot %u %s"
-msgstr "Pantaila-argazkiak"
+msgstr "%u %s pantaila-argazkia"
 
 #: src/bz-screenshots-carousel.c:310
-#, fuzzy, c-format
+#, c-format
 msgid "Screenshot %u"
-msgstr "Pantaila-argazkiak"
+msgstr "%u pantaila-argazkiak"
 
 #: src/bz-search-bar.blp:55
 msgid "Clear Search"
@@ -2799,9 +2795,8 @@ msgid "Cancel Transaction"
 msgstr "Eten transakzioa"
 
 #: src/bz-transaction-tile.blp:322
-#, fuzzy
 msgid "Show Details"
-msgstr "Erakutsi aplikazioaren xehetasunak"
+msgstr "Erakutsi xehetasunak"
 
 #: src/bz-transaction-tile.blp:437
 msgid "Show Error Info"
@@ -2844,7 +2839,6 @@ msgid "User Data"
 msgstr "Erabiltzaile-datuak"
 
 #: src/bz-user-data-tile.blp:92
-#, fuzzy
 msgid "Open User Data Folder"
 msgstr "Ireki erabiltzaile-datuen karpeta"
 
@@ -2892,10 +2886,8 @@ msgstr ""
 "Sareko konexioa daukazu, baina Flathub-en bertsio cacheratua ari zara ikusten"
 
 #: src/bz-window.blp:246
-#, fuzzy
 msgid "Network connection is metered — automatic refreshes disabled"
-msgstr ""
-"Sareko konexioa neurtua da — biltegiko datuen berritze automatikoa pausatu da"
+msgstr "Sareko konexioa neurtua da — berritze automatikoa ezgaitu da"
 
 #: src/bz-window.blp:292
 msgid "_Donate to Bazaar"
@@ -3039,7 +3031,6 @@ msgstr "Lizentzia berezia: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
 #: src/context-tile-callbacks.c:282
-#, fuzzy
 msgid "Free Software"
 msgstr "Software librea"
 
@@ -3433,26 +3424,26 @@ msgid "Quit Bazaar"
 msgstr "Irten"
 
 #: src/update-worker.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "%u App Updated"
 msgid_plural "%u Apps Updated"
-msgstr[0] "Eguneratze %u erabilgarri"
-msgstr[1] "%u eguneratze erabilgarri"
+msgstr[0] "Aplikazio %u eguneratu da"
+msgstr[1] "%u aplikazio eguneratu dira"
 
 #: src/update-worker.c:361
 #, c-format
 msgid "%s has been updated."
-msgstr ""
+msgstr "%s eguneratu da."
 
 #: src/update-worker.c:364
 #, c-format
 msgid "%s and %s have been updated."
-msgstr ""
+msgstr "%s eta %s eguneratu dira."
 
 #: src/update-worker.c:368
 #, c-format
 msgid "Includes %s, %s and %s."
-msgstr ""
+msgstr "%s, %s eta %s barne."
 
 #~ msgid "Free"
 #~ msgstr "Librea"
