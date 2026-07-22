@@ -1,12 +1,13 @@
 [Desktop Entry]
 Name=Bazaar
+GenericName=App Store
 Comment=Add, remove or update flatpak software on this computer
 Exec=bazaar-daemon %U
 Icon=io.github.kolunmi.Bazaar
 Terminal=false
 Type=Application
-Categories=Utility;
-Keywords=GTK;System;PackageManager;Discover;Flatpak;Software;Store;
+Categories=GTK;Utility;
+Keywords=System;Package;Manager;Discover;Flatpak;Software;App;Store;
 StartupNotify=true
 MimeType=x-scheme-handler/appstream;x-scheme-handler/flatpak;x-scheme-handler/flatpak+https;application/vnd.flatpak;application/vnd.flatpak.ref;
 Actions=new-window;
