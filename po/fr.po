@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-20 11:09+0200\n"
-"PO-Revision-Date: 2026-07-20 18:28+0200\n"
+"POT-Creation-Date: 2026-07-22 17:51+0200\n"
+"PO-Revision-Date: 2026-07-23 00:53+0200\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
@@ -29,16 +29,18 @@ msgid "Bazaar"
 msgstr "Bazaar"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:3
+msgid "App Store"
+msgstr "Logithèque"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:4
 msgid "Add, remove or update flatpak software on this computer"
 msgstr "Ajouter, enlever ou mettre à jour les applications flatpak"
 
-#: data/io.github.kolunmi.Bazaar.desktop.in:9
-msgid "GTK;System;PackageManager;Discover;Flatpak;Software;Store;"
-msgstr ""
-"GTK;System;PackageManager;Discover;Flatpak;Software;Store;Système;Gestionnaire "
-"de paquets;Applis;Logiciel;Magasin;Logithèque;"
+#: data/io.github.kolunmi.Bazaar.desktop.in:10
+msgid "System;Package;Manager;Discover;Flatpak;Software;App;Store;"
+msgstr "System;PackageManager;Discover;Flatpak;Software;App;Store;Système;Gestionnaire;Paquets;Applis;Logiciel;Magasin;Logithèque;"
 
-#: data/io.github.kolunmi.Bazaar.desktop.in:16
+#: data/io.github.kolunmi.Bazaar.desktop.in:17
 msgid "New Window"
 msgstr "Nouvelle fenêtre"
 
@@ -71,7 +73,7 @@ msgstr "Connectez-vous à Flathub pour consulter et gérer vos favoris"
 msgid "Search apps directly from GNOME Shell"
 msgstr "Recherchez des applications directement depuis le Shell GNOME"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:780
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:766
 msgid "The Bazaar Contributors"
 msgstr "Les Contributeurs de Bazaar"
 
@@ -750,7 +752,7 @@ msgid "Installed"
 msgstr "Installée"
 
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:783
+#: src/bz-application.c:769
 msgid "translator-credits"
 msgstr ""
 "Atom <29772841+AtomHare@users.noreply.github.com>, 2025\n"
@@ -758,19 +760,19 @@ msgstr ""
 "Mimolet <theMimolet@proton.me>, 2025-2026\n"
 "Irénée THIRION <irenee.thirion@e.email>, 2026"
 
-#: src/bz-application.c:793
+#: src/bz-application.c:779
 msgid "Special Thanks"
 msgstr "Remerciements particuliers à"
 
-#: src/bz-application.c:851
+#: src/bz-application.c:837
 msgid "Logged Out Successfully!"
 msgstr "Déconnexion réussie !"
 
-#: src/bz-application.c:1042
+#: src/bz-application.c:1027
 msgid "Ubuntu Troubles!"
 msgstr "À l'attention des utilisateurs d'Ubuntu"
 
-#: src/bz-application.c:1045
+#: src/bz-application.c:1030
 msgid ""
 "The more recent versions of Ubuntu have messed up default security rules, "
 "making it <b>impossible to install apps</b> from the Flatpak version of "
@@ -793,19 +795,19 @@ msgstr ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
-#: src/bz-application.c:1051
+#: src/bz-application.c:1036
 msgid "Continue Anyway"
 msgstr "Continuer quand même"
 
-#: src/bz-application.c:1067
+#: src/bz-application.c:1052
 msgid "Performing setup…"
 msgstr "Configuration en cours…"
 
-#: src/bz-application.c:1159
+#: src/bz-application.c:1144
 msgid "Set Up System Flathub?"
 msgstr "Configurer Flathub sur le système ? "
 
-#: src/bz-application.c:1162
+#: src/bz-application.c:1147
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -820,11 +822,11 @@ msgstr ""
 "Vous pouvez toujours utiliser Bazaar pour parcourir et désinstaller des "
 "applis déjà installées."
 
-#: src/bz-application.c:1169
+#: src/bz-application.c:1154
 msgid "Set Up Flathub?"
 msgstr "Configurer Flathub ?"
 
-#: src/bz-application.c:1172
+#: src/bz-application.c:1157
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -837,48 +839,52 @@ msgstr ""
 "Vous pouvez toujours utiliser Bazaar pour parcourir et désinstaller des "
 "applis déjà installées."
 
-#: src/bz-application.c:1178
+#: src/bz-application.c:1163
 msgid "Later"
 msgstr "Plus tard"
 
-#: src/bz-application.c:1179
+#: src/bz-application.c:1164
 msgid "Set Up Flathub"
 msgstr "Configurer Flathub"
 
-#: src/bz-application.c:1712
+#: src/bz-application.c:1697
 msgid "A backend error occurred"
 msgstr "Une erreur de backend est survenue"
 
-#: src/bz-application.c:1912 src/bz-application.c:4150
+#: src/bz-application.c:1905 src/bz-application.c:4152
 msgid "Refreshing…"
 msgstr "Actualisation…"
 
-#: src/bz-application.c:2076 src/bz-application.c:4148
+#: src/bz-application.c:2069 src/bz-application.c:4150
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Chargement de %d applis…"
 
-#: src/bz-application.c:2129
+#: src/bz-application.c:2122 src/bz-application.c:2196
 msgid "Failed to open file"
 msgstr "Échec de l’ouverture du fichier"
 
-#: src/bz-application.c:2258
+#: src/bz-application.c:2210
+msgid "Failed to load metainfo"
+msgstr "Échec du chargement des métainfos"
+
+#: src/bz-application.c:2304
 msgid "An initialization error occurred"
 msgstr "Une erreur d'initialisation s'est produite"
 
-#: src/bz-application.c:2657
+#: src/bz-application.c:2703
 msgid "Checking for updates…"
 msgstr "Recherche de mises à jour…"
 
-#: src/bz-application.c:2713
+#: src/bz-application.c:2759
 msgid "Failed to check for updates"
 msgstr "Échec de la vérification des mises à jour"
 
-#: src/bz-application.c:3852
+#: src/bz-application.c:3925
 msgid "Malformed Link"
 msgstr "Lien corrigé"
 
-#: src/bz-application.c:3853
+#: src/bz-application.c:3926
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -891,15 +897,11 @@ msgstr ""
 "Il s'agit très probablement de KRunner qui envoie des identifiants "
 "d'application incorrects."
 
-#: src/bz-application.c:3861
+#: src/bz-application.c:3934
 msgid "Could not find app"
 msgstr "Impossible de trouver l'application"
 
-#: src/bz-application.c:3892
-msgid "Failed to load metainfo"
-msgstr "Échec du chargement des métainfos"
-
-#: src/bz-application.c:4152
+#: src/bz-application.c:4154
 msgid "Writing to cache…"
 msgstr "Écriture dans le cache…"
 
@@ -1578,12 +1580,12 @@ msgstr "Contenu"
 msgid ""
 "This is a local preview, some details may differ from the published listing"
 msgstr ""
-"Ceci est une prévisualisation locale, quelques détails pourraient être "
+"Ceci est un aperçu local, quelques détails pourraient être "
 "différents du résultat publié"
 
 #: src/bz-full-view.blp:109
 msgid "Preview Store Appearance"
-msgstr "Prévisualiser dans la logithèque"
+msgstr "Aperçu dans la logithèque"
 
 #: src/bz-full-view.blp:236
 msgid "_Support"
@@ -2004,25 +2006,29 @@ msgstr "Terminer"
 msgid "Hello, %s!"
 msgstr "Bonjour, %s !"
 
-#: src/bz-metainfo-preview.c:84
-msgid "Select Metainfo File"
-msgstr "Sélectionner un fichier métainfo"
+#: src/bz-metainfo-preview.c:105
+msgid "Add Icon to Metainfo Preview?"
+msgstr "Ajouter une icône à l'aperçu des métainfos ?"
 
-#: src/bz-metainfo-preview.c:87
-msgid "Metainfo Files"
-msgstr "Fichiers métainfo"
+#: src/bz-metainfo-preview.c:108
+msgid ""
+"Metainfo files don't include app icons by themselves. Would you like to "
+"select one manually?"
+msgstr ""
+"Les fichiers métainfo n'incluent pas les icônes des applis directement. "
+"Souhaitez-vous en sélectionner une manuellement ?"
 
-#: src/bz-metainfo-preview.c:141
-msgid "Select Icon (Optional)"
-msgstr "Sélectionner une icône (facultatif)"
+#: src/bz-metainfo-preview.c:111
+msgid "Skip"
+msgstr "Passer"
 
-#: src/bz-metainfo-preview.c:144
+#: src/bz-metainfo-preview.c:112 src/bz-metainfo-preview.c:163
+msgid "Select Icon"
+msgstr "Sélectionner une icône"
+
+#: src/bz-metainfo-preview.c:166
 msgid "Image Files"
 msgstr "Fichiers image"
-
-#: src/bz-metainfo-preview.c:231
-msgid "Preview"
-msgstr "Aperçu"
 
 #: src/bz-preferences-dialog.blp:19
 msgid "Preferences"
@@ -3487,6 +3493,15 @@ msgstr "%s et %s ont été mis à jour."
 #, c-format
 msgid "Includes %s, %s and %s."
 msgstr "Inclus %s, %s et %s."
+
+#~ msgid "Select Metainfo File"
+#~ msgstr "Sélectionner un fichier métainfo"
+
+#~ msgid "Metainfo Files"
+#~ msgstr "Fichiers métainfo"
+
+#~ msgid "Preview"
+#~ msgstr "Aperçu"
 
 #~ msgid "Screenshots"
 #~ msgstr "Captures d’écran"
