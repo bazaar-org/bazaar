@@ -28,26 +28,83 @@ template $BzPreferencesDialog: Adw.PreferencesDialog {
     };
 
     Adw.PreferencesGroup {
+      title: _("App Updates");
+
+      [header-suffix]
+      MenuButton {
+        styles ["flat"]
+
+        icon-name: "info-outline-symbolic";
+        popover: Popover {
+          child: Label {
+            max-width-chars: 55;
+            wrap: true;
+            margin-end: 6;
+            margin-top: 6;
+            margin-bottom: 6;
+            margin-start: 6;
+            label: _ ("Checking for and downloading app updates uses data and power. Automatic app update features are therefore paused when on metered network connections and when power saver is on.");
+          };
+        };
+      }
+
+      Adw.ActionRow automatic_updates_row {
+        title: _("_Automatic");
+        subtitle: _("Automatically check for and download app updates");
+        use-underline: true;
+        activatable-widget: automatic_updates_check;
+
+        [prefix]
+        CheckButton automatic_updates_check {}
+      }
+
+      Adw.ActionRow manual_updates_row {
+        title: _("_Manual");
+        subtitle: _("Checking for and downloading app updates must be done manually");
+        use-underline: true;
+        activatable-widget: manual_updates_check;
+
+        [prefix]
+        CheckButton manual_updates_check {
+          active: bind automatic_updates_check.active inverted;
+          group: automatic_updates_check;
+        }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      Adw.SwitchRow auto_notif_switch {
+        use-underline: true;
+        title: _("Automatic Update _Notifications");
+        subtitle: _("Notify when updates have been automatically installed");
+      }
+    }
+
+    Adw.PreferencesGroup {
       title: _("Content Filters");
 
       Adw.SwitchRow only_foss_switch {
-        title: _("Free Software Only");
+        title: _("_Free Software Only");
         subtitle: _("Hide proprietary apps when browsing and searching");
+        use-underline: true;
       }
 
       Adw.SwitchRow only_flathub_switch {
-        title: _("Flathub Results Only");
+        title: _("F_lathub Results Only");
         subtitle: _("Limit search and browse results to apps only available on Flathub");
+        use-underline: true;
       }
 
       Adw.SwitchRow only_verified_switch {
-        title: _("Verified Results Only");
+        title: _("_Verified Results Only");
         subtitle: _("Hide results that are not verified on Flathub");
+        use-underline: true;
       }
 
       Adw.SwitchRow hide_eol_switch {
-        title: _("Hide End-of-Life Apps");
+        title: _("Hide _End-of-Life Apps");
         subtitle: _("Hide apps which are no longer supported by their developers");
+        use-underline: true;
       }
     }
 

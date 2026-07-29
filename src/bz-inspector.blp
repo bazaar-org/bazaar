@@ -13,6 +13,18 @@ template $BzInspector: Adw.Window {
     bottom-bar-style: raised_border;
     reveal-bottom-bars: false;
 
+    [top]
+    Adw.HeaderBar {
+      [end]
+      MenuButton {
+        primary: true;
+        icon-name: "open-menu-symbolic";
+        has-tooltip: true;
+        tooltip-text: _("Inspector Menu");
+        menu-model: inspector_menu;
+      }
+    }
+
     content: Paned {
       orientation: horizontal;
 
@@ -638,9 +650,6 @@ template $BzInspector: Adw.Window {
         }
       };
     };
-
-    [top]
-    Adw.HeaderBar top_header_bar {}
   }
 }
 
@@ -710,5 +719,14 @@ BuilderListItemFactory plain_string_list_factory {
         label: bind template.item as <$GtkStringObject>.string as <string>;
       }
     };
+  }
+}
+
+menu inspector_menu {
+  section {
+    item {
+      label: "_Quit Bazaar";
+      action: "app.quit";
+    }
   }
 }

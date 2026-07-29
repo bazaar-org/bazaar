@@ -26,15 +26,15 @@
 #include "bz-application.h"
 #include "bz-async-texture.h"
 #include "bz-bundle-install-dialog.h"
-#include "bz-context-tile-callbacks.h"
-#include "bz-env.h"
+#include "context-tile-callbacks.h"
+#include "env.h"
 #include "bz-flatpak-repo.h"
 #include "bz-release.h"
-#include "bz-safety-calculator.h"
+#include "safety-calculator.h"
 #include "bz-safety-dialog.h"
 #include "bz-state-info.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 struct _BzBundleInstallDialog
 {

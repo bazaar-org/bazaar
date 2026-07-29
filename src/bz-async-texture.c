@@ -35,9 +35,9 @@
 
 #include "bz-async-texture.h"
 #include "bz-download-worker.h"
-#include "bz-env.h"
-#include "bz-io.h"
-#include "bz-util.h"
+#include "env.h"
+#include "io.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     cache_entry,
@@ -98,6 +98,9 @@ struct _BzAsyncTexture
   char    *cache_into_path;
   gboolean lazy;
 
+  int      width;
+  int      height;
+
   DexFuture    *task;
   GCancellable *cancellable;
 
@@ -129,6 +132,13 @@ enum
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP] = { 0 };
+
+static BzAsyncTexture *
+bz_async_texture_new_internal (GFile   *source,
+                               GFile   *cache_into,
+                               int      width,
+                               int      height,
+                               gboolean lazy);
 
 static DexFuture *
 load_fiber_work (LoadData *data);
@@ -332,7 +342,7 @@ paintable_get_intrinsic_width (GdkPaintable *paintable)
   if (self->paintable != NULL)
     return gdk_paintable_get_intrinsic_width (self->paintable);
 
-  return 0;
+  return self->width;
 }
 
 static int
@@ -347,7 +357,7 @@ paintable_get_intrinsic_height (GdkPaintable *paintable)
   if (self->paintable != NULL)
     return gdk_paintable_get_intrinsic_height (self->paintable);
 
-  return 0;
+  return self->height;
 }
 
 static double
@@ -361,6 +371,9 @@ paintable_get_intrinsic_aspect_ratio (GdkPaintable *paintable)
 
   if (self->paintable != NULL)
     return gdk_paintable_get_intrinsic_aspect_ratio (self->paintable);
+
+  if (self->width > 0 && self->height > 0)
+    return (double) self->width / (double) self->height;
 
   return 0.0;
 }
@@ -376,9 +389,12 @@ paintable_iface_init (GdkPaintableInterface *iface)
   iface->get_intrinsic_aspect_ratio = paintable_get_intrinsic_aspect_ratio;
 }
 
-BzAsyncTexture *
-bz_async_texture_new (GFile *source,
-                      GFile *cache_into)
+static BzAsyncTexture *
+bz_async_texture_new_internal (GFile   *source,
+                               GFile   *cache_into,
+                               int      width,
+                               int      height,
+                               gboolean lazy)
 {
   BzAsyncTexture *self = NULL;
 
@@ -390,29 +406,46 @@ bz_async_texture_new (GFile *source,
   self->source_uri      = g_file_get_uri (source);
   self->cache_into      = bz_object_maybe_ref (cache_into);
   self->cache_into_path = bz_maybe (cache_into, g_file_get_path);
-  self->lazy            = FALSE;
+  self->lazy            = lazy;
+  self->width           = width;
+  self->height          = height;
 
-  maybe_load (self);
+  if (!lazy)
+    maybe_load (self);
+
   return self;
+}
+
+BzAsyncTexture *
+bz_async_texture_new (GFile *source,
+                      GFile *cache_into)
+{
+  return bz_async_texture_new_internal (source, cache_into, 0, 0, FALSE);
+}
+
+BzAsyncTexture *
+bz_async_texture_new_with_size (GFile *source,
+                                GFile *cache_into,
+                                int    width,
+                                int    height)
+{
+  return bz_async_texture_new_internal (source, cache_into, width, height, FALSE);
 }
 
 BzAsyncTexture *
 bz_async_texture_new_lazy (GFile *source,
                            GFile *cache_into)
 {
-  BzAsyncTexture *self = NULL;
+  return bz_async_texture_new_internal (source, cache_into, 0, 0, TRUE);
+}
 
-  g_return_val_if_fail (G_IS_FILE (source), NULL);
-  g_return_val_if_fail (cache_into == NULL || G_IS_FILE (cache_into), NULL);
-
-  self                  = g_object_new (BZ_TYPE_ASYNC_TEXTURE, NULL);
-  self->source          = g_object_ref (source);
-  self->source_uri      = g_file_get_uri (source);
-  self->cache_into      = bz_object_maybe_ref (cache_into);
-  self->cache_into_path = bz_maybe (cache_into, g_file_get_path);
-  self->lazy            = TRUE;
-
-  return self;
+BzAsyncTexture *
+bz_async_texture_new_lazy_with_size (GFile *source,
+                                     GFile *cache_into,
+                                     int    width,
+                                     int    height)
+{
+  return bz_async_texture_new_internal (source, cache_into, width, height, TRUE);
 }
 
 GFile *
@@ -441,6 +474,20 @@ bz_async_texture_get_cache_into_path (BzAsyncTexture *self)
 {
   g_return_val_if_fail (BZ_IS_ASYNC_TEXTURE (self), FALSE);
   return self->cache_into_path;
+}
+
+int
+bz_async_texture_get_width (BzAsyncTexture *self)
+{
+  g_return_val_if_fail (BZ_IS_ASYNC_TEXTURE (self), 0);
+  return self->width;
+}
+
+int
+bz_async_texture_get_height (BzAsyncTexture *self)
+{
+  g_return_val_if_fail (BZ_IS_ASYNC_TEXTURE (self), 0);
+  return self->height;
 }
 
 gboolean

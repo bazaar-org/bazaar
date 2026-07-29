@@ -27,11 +27,11 @@
 #include <malloc.h>
 
 #include "bz-entry-cache-manager.h"
-#include "bz-env.h"
+#include "env.h"
 #include "bz-flatpak-entry.h"
-#include "bz-io.h"
+#include "io.h"
 #include "bz-serializable.h"
-#include "bz-util.h"
+#include "util.h"
 
 /* clang-format off */
 G_DEFINE_QUARK (bz-entry-cache-error-quark, bz_entry_cache_error);

@@ -9,7 +9,8 @@ rows:
         can-shrink: true
         halign: center
       dark-color: "#2b1f3d"
-      light-color: "#778cf7"
+      light-color: "linear-gradient(135deg, #2b1f3d 0%, #778cf7 100%)" # Can also be a type of gradient
+      # light-color: "url('file:///var/home/xander/Downloads/Conservation-Quest-at-Windsor-Great-Park-3.jpg') center / cover no-repeat" # Even an image should be possible
   - section:
       title: "Welcome to Bazaar"
       subtitle:

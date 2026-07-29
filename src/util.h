@@ -1,4 +1,4 @@
-/* bz-util.h
+/* util.h
  *
  * Copyright 2025 Adam Masciola
  *

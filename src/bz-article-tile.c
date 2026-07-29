@@ -29,7 +29,7 @@
 #include "bz-async-texture.h"
 #include "bz-curated-article.h"
 #include "bz-curated-articles-info.h"
-#include "bz-io.h"
+#include "io.h"
 
 struct _BzArticleTile
 {

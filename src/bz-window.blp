@@ -162,7 +162,7 @@ template $BzWindow: Adw.ApplicationWindow {
 
                     [start]
                     MenuButton {
-                      visible: bind template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.authenticated;
+                      visible: bind try {template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.authenticated, false};
                       menu-model: account_menu;
 
                       styles [
@@ -174,7 +174,7 @@ template $BzWindow: Adw.ApplicationWindow {
                         size: 24;
                         show-initials: true;
                         text: bind template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.name;
-                        custom-image: bind try { $choose(template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.paintable as <$BzAsyncTexture>.loaded, template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.paintable , null as <Gdk.Paintable>), null as <Gdk.Paintable>};
+                        custom-image: bind try { $choose_object(template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.paintable as <$BzAsyncTexture>.loaded, template.state as <$BzStateInfo>.auth-state as <$BzAuthState>.paintable , null as <Gdk.Paintable>), null as <Gdk.Paintable>};
                       };
                     }
 

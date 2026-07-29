@@ -20,9 +20,9 @@
 
 #include "bz-app-size-dialog.h"
 #include "bz-entry-group.h"
-#include "bz-io.h"
+#include "io.h"
 #include "bz-lozenge.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 #include <glib/gi18n.h>
 
@@ -133,25 +133,7 @@ static void
 open_user_data_folder_cb (GtkWidget       *widget,
                           BzAppSizeDialog *self)
 {
-  const char      *id                  = NULL;
-  g_autofree char *path                = NULL;
-  g_autoptr (GFile) file               = NULL;
-  g_autoptr (GtkFileLauncher) launcher = NULL;
-  GtkRoot *root                        = NULL;
-
-  if (self->group == NULL)
-    return;
-
-  id = bz_entry_group_get_id (self->group);
-  if (id == NULL)
-    return;
-
-  path     = bz_dup_user_data_path (id);
-  file     = g_file_new_for_path (path);
-  launcher = gtk_file_launcher_new (file);
-  root     = gtk_widget_get_root (widget);
-
-  gtk_file_launcher_launch (launcher, GTK_WINDOW (root), NULL, NULL, NULL);
+  gtk_widget_activate_action (GTK_WIDGET (gtk_widget_get_root (widget)), "window.open-user-data-folder", "s", bz_entry_group_get_id (self->group));
 }
 
 static void
@@ -209,7 +191,6 @@ bz_app_size_dialog_new (BzEntryGroup *group)
   widget = g_object_new (BZ_TYPE_APP_SIZE_DIALOG, "group", group, NULL);
 
   dialog = adw_dialog_new ();
-  adw_dialog_set_content_height (dialog, 500);
   adw_dialog_set_content_width (dialog, 600);
   adw_dialog_set_child (dialog, GTK_WIDGET (widget));
 

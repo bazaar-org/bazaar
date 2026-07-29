@@ -132,11 +132,11 @@ text (MD_TEXTTYPE    type,
       void          *user_data);
 
 static const MD_PARSER parser = {
-  .flags = MD_FLAG_COLLAPSEWHITESPACE |
-           MD_FLAG_NOHTMLBLOCKS |
-           MD_FLAG_NOHTMLSPANS |
-           MD_FLAG_STRIKETHROUGH |
-           MD_FLAG_TABLES,
+  .flags       = MD_FLAG_COLLAPSEWHITESPACE |
+                 MD_FLAG_NOHTMLBLOCKS |
+                 MD_FLAG_NOHTMLSPANS |
+                 MD_FLAG_STRIKETHROUGH |
+                 MD_FLAG_TABLES,
   .enter_block = enter_block,
   .leave_block = leave_block,
   .enter_span  = enter_span,
@@ -879,13 +879,10 @@ terminate_block (MD_BLOCKTYPE type,
                  void        *detail,
                  void        *user_data)
 {
-  ParseCtx  *ctx    = user_data;
-  int        parent = 0;
-  GtkWidget *child  = NULL;
+  ParseCtx  *ctx   = user_data;
+  GtkWidget *child = NULL;
 
   g_assert (ctx->block_stack->len > 0);
-  if (ctx->block_stack->len > 1)
-    parent = g_array_index (ctx->block_stack, int, ctx->block_stack->len - 2);
 
   if (ctx->markup != NULL && ctx->markup->len > 0)
     {

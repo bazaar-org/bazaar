@@ -22,7 +22,7 @@
 #include <glib/gi18n.h>
 
 #include "bz-entry-group-util.h"
-#include "bz-error.h"
+#include "error.h"
 
 BzEntry *
 bz_entry_group_find_entry (BzEntryGroup *group,

@@ -3,7 +3,7 @@
     "runtime": "org.gnome.Platform",
     "runtime-version": "50",
     "sdk": "org.gnome.Sdk",
-    "command": "bazaar",
+    "command": "bazaar-daemon",
     "sdk-extensions": [
         "org.freedesktop.Sdk.Extension.llvm20"
     ],

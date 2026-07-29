@@ -94,15 +94,25 @@ else
     config_h.set_quoted('PACKAGE_VERSION', bz_version)
     config_h.set_quoted('PACKAGE_VCS_VERSION', bz_vcs_version)
     config_h.set_quoted('GETTEXT_PACKAGE', 'bazaar')
+    config_h.set_quoted('APPLICATION_ID', 'io.github.kolunmi.Bazaar')
     config_h.set_quoted('LOCALEDIR', get_option('prefix') / get_option('localedir'))
     config_h.set_quoted('DONATE_LINK', 'https://ko-fi.com/kolunmi')
     config_h.set_quoted('RELEASE_PAGE', run_command('version.sh', 'get-gh-release').stdout().strip())
 
-    refresh_worker_bin_name = 'bazaar-refresh-worker'
-    config_h.set_quoted('REFRESH_WORKER_BIN_NAME', refresh_worker_bin_name)
+    bazaar_bin_name = 'bazaar'
+    config_h.set_quoted('BAZAAR_BIN_NAME', bazaar_bin_name)
+    config_h.set_quoted('REFRESH_WORKER_CLI_OPTION', '--run-refresh-worker')
+    config_h.set_quoted('UPDATE_WORKER_CLI_OPTION', '--run-update-worker')
 
     dl_worker_bin_name = 'bazaar-dl-worker'
     config_h.set_quoted('DL_WORKER_BIN_NAME', dl_worker_bin_name)
+
+    daemon_bin_name = 'bazaar-daemon'
+    config_h.set_quoted('DAEMON_BIN_NAME', daemon_bin_name)
+
+    bazaar_bin_name = 'bazaar'
+    config_h.set_quoted('BAZAAR_BIN_NAME', bazaar_bin_name)
+    config_h.set_quoted('BAZAAR_BIN_PATH', get_option('prefix') / get_option('bindir') / bazaar_bin_name)
 
     if get_option('hardcoded_main_config_path') != ''
       config_h.set_quoted('HARDCODED_MAIN_CONFIG', get_option('hardcoded_main_config_path'))

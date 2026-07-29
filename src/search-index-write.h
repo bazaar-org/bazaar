@@ -1,6 +1,6 @@
-/* bz-context-tile-callbacks.h
+/* search-index-write.h
  *
- * Copyright 2026 Eva M, Alexander Vanhee
+ * Copyright 2026 Alexander Vanhee
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +20,31 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
-#include "bz-safety-calculator.h"
+#include <gio/gio.h>
 
-void
-bz_widget_class_bind_all_context_tile_callbacks (GtkWidgetClass *widget_class);
+G_BEGIN_DECLS
 
-const char *
-bz_safety_style_for_importance (BzImportance importance);
+/*
+ * HEADER:
+ * char[4] "BZSI"
+ * uint32  version
+ * uint32  entry count
+ *
+ * CONTENT:
+ * id
+ * title
+ * developer
+ * description (cut off)
+ * search_tokens
+ * icon_path
+ *
+ * with strings as uint32 length + uint8[] bytes
+ *
+ */
+
+gboolean
+bz_write_search_index (GListModel *groups,
+                       const char *out_path,
+                       GError    **error);
+
+G_END_DECLS

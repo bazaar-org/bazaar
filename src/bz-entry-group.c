@@ -22,10 +22,10 @@
 #define BAZAAR_MODULE "entry-group"
 
 #include "bz-entry-group.h"
-#include "bz-env.h"
-#include "bz-io.h"
+#include "env.h"
+#include "io.h"
 #include "bz-size-result.h"
-#include "bz-util.h"
+#include "util.h"
 
 typedef enum
 {
@@ -618,6 +618,23 @@ bz_entry_group_new_for_single_entry (BzEntry *entry)
   future                     = dex_future_new_for_object (entry);
   group->standalone_ui_entry = bz_result_new (future);
   dex_unref (future);
+
+  return group;
+}
+
+BzEntryGroup *
+bz_entry_group_new_manual (const char *id,
+                           const char *title,
+                           const char *subtitle)
+{
+  BzEntryGroup *group = g_object_new (BZ_TYPE_ENTRY_GROUP, NULL);
+
+  if (id != NULL)
+    group->id = g_strdup (id);
+  if (title != NULL)
+    group->title = g_strdup (title);
+  if (subtitle != NULL)
+    group->description = g_strdup (subtitle);
 
   return group;
 }

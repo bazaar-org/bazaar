@@ -30,14 +30,14 @@
 #include "bz-backend-transaction-op-payload.h"
 #include "bz-backend-transaction-op-progress-payload.h"
 #include "bz-backend.h"
-#include "bz-env.h"
 #include "bz-flatpak-bundle-result.h"
 #include "bz-flatpak-private.h"
 #include "bz-flatpak-repo.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
 #include "bz-repository.h"
-#include "bz-util.h"
+#include "env.h"
+#include "global-net.h"
+#include "io.h"
+#include "util.h"
 
 /* clang-format off */
 G_DEFINE_QUARK (bz-flatpak-error-quark, bz_flatpak_error);
@@ -209,6 +209,7 @@ BZ_DEFINE_DATA (
       GPtrArray    *send_futures;
       GHashTable   *ref_to_entry_hash;
       GHashTable   *op_to_progress_hash;
+      GHashTable   *rebased_refs;
       guint         unidentified_op_cnt;
     },
     BZ_RELEASE_DATA (self, bz_weak_release);
@@ -220,7 +221,8 @@ BZ_DEFINE_DATA (
     BZ_RELEASE_DATA (channel, dex_unref);
     BZ_RELEASE_DATA (send_futures, g_ptr_array_unref);
     BZ_RELEASE_DATA (ref_to_entry_hash, g_hash_table_unref);
-    BZ_RELEASE_DATA (op_to_progress_hash, g_hash_table_unref));
+    BZ_RELEASE_DATA (op_to_progress_hash, g_hash_table_unref)
+    BZ_RELEASE_DATA (rebased_refs, g_hash_table_unref));
 static DexFuture *
 transaction_fiber (TransactionData *data);
 
@@ -583,6 +585,7 @@ bz_flatpak_instance_schedule_transaction (BzBackend    *backend,
   data->send_futures        = g_ptr_array_new_with_free_func (dex_unref);
   data->ref_to_entry_hash   = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
   data->op_to_progress_hash = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
+  data->rebased_refs        = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
   g_mutex_init (&data->mutex);
 
   return dex_scheduler_spawn (
@@ -984,10 +987,11 @@ bz_flatpak_repo_new_from_url (const char   *url,
   g_autoptr (GOutputStream) output = NULL;
   g_autoptr (GBytes) bytes         = NULL;
   g_autoptr (GKeyFile) key_file    = NULL;
-  BzFlatpakRepo *repo              = NULL;
+  g_autoptr (BzFlatpakRepo) repo   = NULL;
   g_autoptr (GError) local_error   = NULL;
   gboolean         result          = FALSE;
   g_autofree char *name            = NULL;
+  char            *dot             = NULL;
   g_autofree char *title           = NULL;
   g_autofree char *repo_url        = NULL;
   g_autofree char *homepage        = NULL;
@@ -1001,11 +1005,9 @@ bz_flatpak_repo_new_from_url (const char   *url,
   gboolean gpg_verify              = FALSE;
 
   name = g_path_get_basename (url);
-  {
-    char *dot = strrchr (name, '.');
-    if (dot != NULL)
-      *dot = '\0';
-  }
+  dot  = strrchr (name, '.');
+  if (dot != NULL)
+    *dot = '\0';
 
   message = soup_message_new (SOUP_METHOD_GET, url);
   output  = g_memory_output_stream_new_resizable ();
@@ -1045,19 +1047,20 @@ bz_flatpak_repo_new_from_url (const char   *url,
       g_clear_error (&bool_error);
     }
 
-  repo = g_object_new (BZ_TYPE_FLATPAK_REPO,
-                       "name", name,
-                       "title", title,
-                       "url", repo_url,
-                       "homepage", homepage,
-                       "comment", comment,
-                       "description", description,
-                       "icon", icon,
-                       "gpg-key", gpg_key,
-                       "default-branch", default_branch,
-                       "filter", filter,
-                       "gpg-verify", gpg_verify,
-                       NULL);
+  repo = g_object_new (
+      BZ_TYPE_FLATPAK_REPO,
+      "name", name,
+      "title", title,
+      "url", repo_url,
+      "homepage", homepage,
+      "comment", comment,
+      "description", description,
+      "icon", icon,
+      "gpg-key", gpg_key,
+      "default-branch", default_branch,
+      "filter", filter,
+      "gpg-verify", gpg_verify,
+      NULL);
 
   return dex_future_new_for_object (repo);
 }
@@ -2367,10 +2370,14 @@ transaction_fiber (TransactionData *data)
 
       for (guint i = 0; i < updates->len; i++)
         {
-          BzFlatpakEntry  *entry   = NULL;
-          FlatpakRef      *ref     = NULL;
-          gboolean         is_user = FALSE;
-          g_autofree char *ref_fmt = NULL;
+          BzFlatpakEntry      *entry             = NULL;
+          FlatpakRef          *ref               = NULL;
+          gboolean             is_user           = FALSE;
+          g_autofree char     *ref_fmt           = NULL;
+          FlatpakInstallation *installation      = NULL;
+          g_autoptr (FlatpakInstalledRef) iref   = NULL;
+          const char         *eol_rebase         = NULL;
+          FlatpakTransaction *target_transaction = NULL;
 
           entry   = g_ptr_array_index (updates, i);
           ref     = bz_flatpak_entry_get_ref (entry);
@@ -2388,6 +2395,8 @@ transaction_fiber (TransactionData *data)
                   "because its installation couldn't be found",
                   ref_fmt);
             }
+
+          installation = is_user ? self->user : self->system;
 
           if (is_user && user_transaction == NULL)
             user_transaction = flatpak_transaction_new_for_installation (
@@ -2413,14 +2422,47 @@ transaction_fiber (TransactionData *data)
           /* Put updates in one transaction to prevent dependency
              race-conditions, since the update list is most likely coming from
              this instance */
-          result = flatpak_transaction_add_update (
-              is_user
-                  ? user_transaction
-                  : sys_transaction,
-              ref_fmt,
-              NULL,
-              NULL,
-              &local_error);
+          target_transaction = is_user ? user_transaction : sys_transaction;
+
+          iref = flatpak_installation_get_installed_ref (
+              installation,
+              flatpak_ref_get_kind (ref),
+              flatpak_ref_get_name (ref),
+              flatpak_ref_get_arch (ref),
+              flatpak_ref_get_branch (ref),
+              cancellable,
+              NULL);
+
+          if (iref != NULL)
+            eol_rebase = flatpak_installed_ref_get_eol_rebase (iref);
+
+          if (eol_rebase != NULL)
+            {
+              const char        *origin               = NULL;
+              static const char *empty_previous_ids[] = { NULL };
+
+              origin = flatpak_installed_ref_get_origin (iref);
+
+              g_debug ("%s is end-of-life, rebasing to %s instead of updating",
+                       ref_fmt, eol_rebase);
+              g_hash_table_add (data->rebased_refs, g_strdup (ref_fmt));
+
+#if FLATPAK_CHECK_VERSION(1, 15, 6)
+              result = flatpak_transaction_add_rebase_and_uninstall (
+                  target_transaction, origin, eol_rebase, ref_fmt,
+                  NULL, empty_previous_ids, &local_error);
+#else
+              result = flatpak_transaction_add_rebase (
+                           target_transaction, origin, eol_rebase,
+                           NULL, NULL, &local_error) &&
+                       flatpak_transaction_add_uninstall (
+                           target_transaction, ref_fmt, &local_error);
+#endif
+            }
+          else
+            result = flatpak_transaction_add_update (
+                target_transaction, ref_fmt, NULL, NULL, &local_error);
+
           if (!result)
             {
               dex_channel_close_send (channel);
@@ -2976,6 +3018,7 @@ transaction_operation_done_fiber (TransactionOperationDoneData *data)
   gboolean                        is_user      = FALSE;
   g_autofree char                *unique_id    = NULL;
   const char                     *version      = NULL;
+  gboolean                        was_rebased  = FALSE;
   FlatpakInstallation            *installation = NULL;
   g_autoptr (FlatpakInstalledRef) iref         = NULL;
   g_autoptr (FlatpakRef) parsed_ref            = NULL;
@@ -3006,7 +3049,8 @@ transaction_operation_done_fiber (TransactionOperationDoneData *data)
   ref     = flatpak_transaction_operation_get_ref (operation);
   is_user = installation == self->user_interactive;
 
-  unique_id = bz_flatpak_ref_parts_format_unique (origin, ref, is_user);
+  unique_id   = bz_flatpak_ref_parts_format_unique (origin, ref, is_user);
+  was_rebased = g_hash_table_contains (data->parent->rebased_refs, ref);
 
   if (op_type == FLATPAK_TRANSACTION_OPERATION_INSTALL_BUNDLE)
     {
@@ -3086,6 +3130,7 @@ transaction_operation_done_fiber (TransactionOperationDoneData *data)
     notif = bz_backend_notification_new ();
     bz_backend_notification_set_kind (notif, notif_kind);
     bz_backend_notification_set_unique_id (notif, unique_id);
+    bz_backend_notification_set_was_rebased (notif, was_rebased);
 
     if (version != NULL && *version != '\0')
       bz_backend_notification_set_version (notif, version);

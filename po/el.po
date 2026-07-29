@@ -721,15 +721,15 @@ msgstr "Σειριοποίηση"
 msgid "Convert to JSON"
 msgstr "Μετατροπή σε JSON"
 
-#: src/bz-error.c:68
+#: src/error.c:68
 msgid "An Error Occurred"
 msgstr "Παρουσιάστηκε σφάλμα"
 
-#: src/bz-error.c:89
+#: src/error.c:89
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: src/bz-error.c:90
+#: src/error.c:90
 msgid "Copy and Close"
 msgstr "Αντιγραφή και κλείσιμο"
 

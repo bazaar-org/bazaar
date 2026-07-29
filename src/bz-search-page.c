@@ -29,13 +29,13 @@
 #include "bz-group-tile-css-watcher.h"
 #include "bz-rich-app-tile.h"
 #include "bz-screenshot.h"
-#include "bz-search-filter-popover.h"
 #include "bz-search-bar.h"
+#include "bz-search-filter-popover.h"
 #include "bz-search-page.h"
 #include "bz-search-pill-list.h"
 #include "bz-search-result.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 struct _BzSearchPage
 {
@@ -305,18 +305,28 @@ static void
 search_changed (BzSearchPage *self,
                 GtkEditable  *editable)
 {
+  const char *text = NULL;
+
+  text = gtk_editable_get_text (editable);
+
   g_clear_handle_id (&self->search_update_timeout, g_source_remove);
-  self->search_update_timeout = g_timeout_add_once (
-      150, (GSourceOnceFunc) update_filter, self);
-  bz_search_bar_set_busy (BZ_SEARCH_BAR (editable), TRUE);
+
+  if (text == NULL || *text == '\0')
+    update_filter (self);
+  else
+    {
+      self->search_update_timeout = g_timeout_add_once (
+          300, (GSourceOnceFunc) update_filter, self);
+      bz_search_bar_set_busy (BZ_SEARCH_BAR (editable), TRUE);
+    }
 }
 
 static void
 search_activate (BzSearchPage *self,
                  BzSearchBar  *search_bar)
 {
-  GtkSelectionModel *model          = NULL;
-  guint              n_items        = 0;
+  GtkSelectionModel *model   = NULL;
+  guint              n_items = 0;
 
   model   = gtk_grid_view_get_model (self->grid_view);
   n_items = g_list_model_get_n_items (G_LIST_MODEL (model));
@@ -508,9 +518,9 @@ bz_search_page_init (BzSearchPage *self)
                             G_CALLBACK (update_filter), self);
 
   gtk_custom_filter_set_filter_func (
-    self->categories_filter,
-    (GtkCustomFilterFunc) bz_flathub_category_get_show_in_list,
-    NULL, NULL);
+      self->categories_filter,
+      (GtkCustomFilterFunc) bz_flathub_category_get_show_in_list,
+      NULL, NULL);
 }
 
 GtkWidget *
@@ -656,11 +666,14 @@ gboolean
 bz_search_page_ensure_active (BzSearchPage *self,
                               const char   *initial)
 {
+  gboolean result = FALSE;
+
   g_return_val_if_fail (BZ_IS_SEARCH_PAGE (self), FALSE);
 
+  result = gtk_widget_grab_focus (GTK_WIDGET (self));
   bz_search_page_set_text (self, initial);
 
-  return gtk_widget_grab_focus (GTK_WIDGET (self));
+  return result;
 }
 
 static void
@@ -707,7 +720,7 @@ search_query_then (DexFuture *future,
   gboolean               only_free     = FALSE;
   gboolean               only_non_eol  = FALSE;
   gboolean               only_mobile   = FALSE;
-  const char *search_text              = NULL;
+  const char            *search_text   = NULL;
 
   bz_weak_get_or_return_reject (self, wr);
 
@@ -719,7 +732,7 @@ search_query_then (DexFuture *future,
   only_non_eol  = bz_search_filter_popover_get_only_non_eol (self->filter_popover);
   only_mobile   = bz_search_filter_popover_get_only_mobile (self->filter_popover);
 
-  filtered = g_ptr_array_new_with_free_func (g_object_unref);
+  filtered    = g_ptr_array_new_with_free_func (g_object_unref);
   search_text = gtk_editable_get_text (GTK_EDITABLE (self->search_bar));
 
   for (guint i = 0; i < results->len; i++)
@@ -763,20 +776,20 @@ search_query_then (DexFuture *future,
       gtk_widget_activate_action (GTK_WIDGET (self->grid_view), "list.scroll-to-item", "u", 0);
     }
   else
+    page_name = (search_text != NULL && *search_text) ? "no-results" : "empty";
+
+  if (search_text && *search_text)
     {
-      page_name = (search_text && *search_text) ? "no-results" : "empty";
+      const char *message = NULL;
+
+      message = filtered->len == 0
+                    ? _ ("No applications found")
+                    : g_strdup_printf (
+                          ngettext ("One application found", "%u applications found", filtered->len),
+                          filtered->len);
+
+      gtk_accessible_announce (GTK_ACCESSIBLE (self), message, GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_MEDIUM);
     }
-
-  if (search_text && *search_text) {
-    const char *message = NULL;
-
-    message = filtered->len == 0 ? _("No applications found") : g_strdup_printf (ngettext ("One application found",
-                                                                                "%u applications found",
-                                                                                filtered->len),
-                                                                            filtered->len);
-
-    gtk_accessible_announce (GTK_ACCESSIBLE (self), message, GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_MEDIUM);
-  }
 
   self->current_query = g_object_ref (finished);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_QUERY]);

@@ -8,178 +8,254 @@ template $BzAppSizeDialog: Adw.Bin {
       show-title: false;
     }
 
-    content: Adw.Clamp {
-      maximum-size: 600;
+    content: ScrolledWindow {
+      propagate-natural-height: true;
 
-      child: Box {
-        orientation: vertical;
-        margin-top: 6;
-        margin-bottom: 18;
-        margin-start: 18;
-        margin-end: 18;
+      child: Adw.Clamp {
+        maximum-size: 600;
 
-        Box {
+        child: Box {
           orientation: vertical;
+          margin-top: 6;
           margin-bottom: 24;
+          margin-start: 24;
+          margin-end: 24;
+          spacing: 15;
 
-          $BzLozenge {
-            title: _("Download Size");
-            label: bind $format_size(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.size as <uint64>, true) as <string>;
-            importance: neutral;
-            visible: bind $is_zero(template.group as <$BzEntryGroup>.removable) as <bool>;
-          }
+          Box {
+            orientation: vertical;
+            margin-bottom: 9;
 
-          $BzLozenge {
-            title: _("Installed Size");
-            label: bind $format_size(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.installed-size as <uint64>, true) as <string>;
-            importance: neutral;
-            visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable) as <bool>) as <bool>;
-          }
-        }
-
-        Adw.PreferencesGroup {
-          margin-bottom: 15;
-
-          Adw.ActionRow {
-            [prefix]
-            Label {
-              label: bind $format_size(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.size as <uint64>, true) as <string>;
-              use-markup: true;
-              valign: center;
-              width-request: 90;
-              margin-top: 8;
-              margin-bottom: 8;
-
-              styles [
-                "circular-lozenge",
-                "title-4",
-                "grey",
-              ]
+            $BzLozenge {
+              title: _("Download Size");
+              label: bind $format_size(
+                template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.size as <uint64>,
+                true
+              ) as <string>;
+              importance: neutral;
+              visible: bind $is_zero(template.group as <$BzEntryGroup>.removable) as <bool>;
             }
 
-            title: _("Download Size");
-            subtitle: _("Amount to download from the internet");
+            $BzLozenge {
+              title: _("Installed Size");
+              label: bind $format_size(
+                template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.installed-size as <uint64>,
+                true
+              ) as <string>;
+              importance: neutral;
+              visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.removable) as <bool>) as <bool>;
+            }
           }
 
-          Adw.ActionRow {
-            [prefix]
-            Label {
-              label: bind $format_size(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.installed-size as <uint64>, false) as <string>;
-              use-markup: true;
-              valign: center;
-              width-request: 90;
-              margin-top: 8;
-              margin-bottom: 8;
+          Adw.PreferencesGroup {
+            Adw.ActionRow {
+              [prefix]
+              Label {
+                label: bind $format_size(
+                  template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.size as <uint64>,
+                  true
+                ) as <string>;
+                use-markup: true;
+                valign: center;
+                width-request: 90;
+                margin-top: 8;
+                margin-bottom: 8;
 
-              styles [
-                "circular-lozenge",
-                "title-4",
-                "grey",
-              ]
+                styles [
+                  "circular-lozenge",
+                  "title-4",
+                  "grey",
+                ]
+              }
+
+              title: _("Download Size");
+              subtitle: _("Amount to download from the internet");
             }
 
-            title: _("Installed Size");
-            subtitle: _("Size on Disk");
-          }
+            Adw.ActionRow {
+              [prefix]
+              Label {
+                label: bind $format_size(
+                  template
+                    .group as <$BzEntryGroup>
+                    .ui-entry as <$BzResult>
+                    .object as <$BzEntry>
+                    .installed-size as <uint64>,
+                  false
+                ) as <string>;
+                use-markup: true;
+                valign: center;
+                width-request: 90;
+                margin-top: 8;
+                margin-bottom: 8;
 
-          Adw.ActionRow runtime_row {
-            visible: bind try {$invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object) as <bool>) as <bool>, false};
-            [prefix]
-            Label {
-              label: bind $format_size($choose(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.installed, template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.installed-size as <uint64>, template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.size as <uint64>) as <int>, false) as <string>;
-              use-markup: true;
-              valign: center;
-              width-request: 90;
-              margin-top: 8;
-              margin-bottom: 8;
+                styles [
+                  "circular-lozenge",
+                  "title-4",
+                  "grey",
+                ]
+              }
 
-              styles [
-                "circular-lozenge",
-                "title-4",
-                "grey",
-              ]
+              title: _("Installed Size");
+              subtitle: _("Size on Disk");
             }
 
-            title: bind $get_runtime_size_title(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.installed) as <string>;
-            subtitle: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzFlatpakEntry>.runtime as <$BzResult>.object as <$BzEntry>.title;
+            Adw.ActionRow runtime_row {
+              visible: bind try {
+                $invert_boolean(
+                  $is_null(
+                    template
+                      .group as <$BzEntryGroup>
+                      .ui-entry as <$BzResult>
+                      .object as <$BzFlatpakEntry>
+                      .runtime as <$BzResult>
+                      .object
+                    ) as <bool>
+                ) as <bool>,
+                false
+              };
+
+              [prefix]
+              Label {
+                label: bind $format_size(
+                  $choose_uint64(
+                    template
+                      .group as <$BzEntryGroup>
+                      .ui-entry as <$BzResult>
+                      .object as <$BzFlatpakEntry>
+                      .runtime as <$BzResult>
+                      .object as <$BzEntry>
+                      .installed,
+                    template
+                      .group as <$BzEntryGroup>
+                      .ui-entry as <$BzResult>
+                      .object as <$BzFlatpakEntry>
+                      .runtime as <$BzResult>
+                      .object as <$BzEntry>
+                      .installed-size as <uint64>,
+                    template
+                      .group as <$BzEntryGroup>
+                      .ui-entry as <$BzResult>
+                      .object as <$BzFlatpakEntry>
+                      .runtime as <$BzResult>
+                      .object as <$BzEntry>
+                      .size as <uint64>
+                    ) as <uint64>,
+                  false
+                ) as <string>;
+                use-markup: true;
+                valign: center;
+                width-request: 90;
+                margin-top: 8;
+                margin-bottom: 8;
+
+                styles [
+                  "circular-lozenge",
+                  "title-4",
+                  "grey",
+                ]
+              }
+
+              title: bind $get_runtime_size_title(
+                template
+                  .group as <$BzEntryGroup>
+                  .ui-entry as <$BzResult>
+                  .object as <$BzFlatpakEntry>
+                  .runtime as <$BzResult>
+                  .object as <$BzEntry>
+                  .installed
+                ) as <string>;
+              subtitle: bind template
+                .group as <$BzEntryGroup>
+                .ui-entry as <$BzResult>
+                .object as <$BzFlatpakEntry>
+                .runtime as <$BzResult>
+                .object as <$BzEntry>
+                .title;
+            }
           }
-        }
 
-        Adw.PreferencesGroup {
-          margin-bottom: 15;
-          visible: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>;
+          Adw.PreferencesGroup {
+            visible: bind $invert_boolean(
+              $is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>
+            ) as <bool>;
 
-          Adw.ActionRow {
+            Adw.ActionRow {
+              [prefix]
+              Label {
+                label: bind $format_size(template.group as <$BzEntryGroup>.user-data-size, false) as <string>;
+                use-markup: true;
+                valign: center;
+                width-request: 90;
+                margin-top: 8;
+                margin-bottom: 8;
 
-            [prefix]
-            Label {
-              label: bind $format_size(template.group as <$BzEntryGroup>.user-data-size, false) as <string>;
-              use-markup: true;
-              valign: center;
-              width-request: 90;
-              margin-top: 8;
-              margin-bottom: 8;
+                styles [
+                  "circular-lozenge",
+                  "title-4",
+                  "grey",
+                ]
+              }
 
-              styles [
-                "circular-lozenge",
-                "title-4",
-                "grey",
-              ]
+              [suffix]
+              Button {
+                has-tooltip: true;
+                tooltip-text: _("Open user data folder");
+                icon-name: "folder-open-symbolic";
+                clicked => $open_user_data_folder_cb();
+                valign: center;
+
+                styles [
+                  "flat",
+                ]
+              }
+
+              title: _("Your User Data");
+              subtitle: _("Caches, settings, and other app data");
             }
 
-            [suffix]
-            Button {
-              has-tooltip: true;
-              tooltip-text: _("Open user data folder");
-              icon-name: "folder-open-symbolic";
-              clicked => $open_user_data_folder_cb();
-              valign: center;
+            Adw.ActionRow {
+              [prefix]
+              Label {
+                label: bind $format_size(template.group as <$BzEntryGroup>.cache-size, false) as <string>;
+                use-markup: true;
+                valign: center;
+                width-request: 90;
+                margin-top: 8;
+                margin-bottom: 8;
+
+                styles [
+                  "circular-lozenge",
+                  "title-4",
+                  "grey",
+                ]
+              }
+
+              title: _("Cache");
+              subtitle: _("Temporary cached data");
+            }
+          }
+
+          Adw.PreferencesGroup {
+            margin-top: 4;
+            visible: bind $logical_and(
+              $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>,
+              $invert_boolean($is_app_id(template.group as <$BzEntryGroup>.id) as <bool>) as <bool>
+            ) as <bool>;
+
+            Adw.ButtonRow {
+              title: _("Clear Cache");
+              activated => $delete_cache_cb();
+              sensitive: bind $invert_boolean(
+                $is_zero(template.group as <$BzEntryGroup>.cache-size) as <bool>
+              ) as <bool>;
 
               styles [
-                "flat",
+                "destructive-action",
               ]
             }
-
-            title: _("Your User Data");
-            subtitle: _("Caches, settings, and other app data");
           }
-
-          Adw.ActionRow {
-
-            [prefix]
-            Label {
-              label: bind $format_size(template.group as <$BzEntryGroup>.cache-size, false) as <string>;
-              use-markup: true;
-              valign: center;
-              width-request: 90;
-              margin-top: 8;
-              margin-bottom: 8;
-
-              styles [
-                "circular-lozenge",
-                "title-4",
-                "grey",
-              ]
-            }
-
-            title: _("Cache");
-            subtitle: _("Temporary cached data");
-          }
-        }
-
-        Adw.PreferencesGroup {
-          margin-bottom: 15;
-          margin-top: 4;
-          visible: bind $logical_and($invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>, $invert_boolean($is_app_id(template.group as <$BzEntryGroup>.id) as <bool>) as <bool>) as <bool>;
-
-          Adw.ButtonRow {
-            title: _("Clear Cache");
-            activated => $delete_cache_cb();
-            sensitive: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.cache-size) as <bool>) as <bool>;
-
-            styles ["destructive-action"]
-          }
-        }
+        };
       };
     };
   };

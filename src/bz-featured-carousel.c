@@ -23,7 +23,7 @@
 #include "bz-entry-group.h"
 #include "bz-featured-carousel.h"
 #include "bz-featured-tile.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 #define FEATURED_ROTATE_TIME       5
 #define MANUAL_ROTATE_RECOVER_TIME 7.5
@@ -153,9 +153,17 @@ show_relative_page (BzFeaturedCarousel *self,
                     gint                delta,
                     gboolean            use_custom_spring)
 {
-  guint n_pages;
-  guint current_page;
-  guint new_page;
+  guint        n_pages;
+  guint        current_page;
+  guint        new_page;
+  GtkSettings *settings       = NULL;
+  gboolean     reduced_motion = FALSE;
+
+  settings = gtk_widget_get_settings (GTK_WIDGET (self));
+  g_object_get (settings, "gtk-interface-reduced-motion", &reduced_motion, NULL);
+
+  if (reduced_motion && use_custom_spring)
+    return;
 
   n_pages = g_list_model_get_n_items (G_LIST_MODEL (self->selection));
   if (n_pages == 0)
@@ -453,4 +461,3 @@ bz_featured_carousel_set_model (BzFeaturedCarousel *self,
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MODEL]);
 }
-

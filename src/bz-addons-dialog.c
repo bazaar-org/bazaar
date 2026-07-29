@@ -28,7 +28,7 @@
 #include "bz-application-map-factory.h"
 #include "bz-application.h"
 #include "bz-appstream-description-render.h"
-#include "bz-context-tile-callbacks.h"
+#include "context-tile-callbacks.h"
 #include "bz-context-tile.h"
 #include "bz-entry-group.h"
 #include "bz-fading-clamp.h"
@@ -39,8 +39,8 @@
 #include "bz-share-list.h"
 #include "bz-state-info.h"
 #include "bz-stats-dialog.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 struct _BzAddonsDialog
 {
@@ -56,6 +56,8 @@ struct _BzAddonsDialog
 
   AdwAnimation *width_animation;
   AdwAnimation *height_animation;
+
+  gboolean has_mapped;
 
   /* Template widgets */
   AdwNavigationView *navigation_view;
@@ -323,6 +325,17 @@ bz_addons_dialog_new_single (BzEntryGroup *group)
   return ADW_DIALOG (self);
 }
 
+BzEntry *
+bz_addons_dialog_get_parent_entry (BzAddonsDialog *self)
+{
+  g_return_val_if_fail (BZ_IS_ADDONS_DIALOG (self), NULL);
+
+  if (self->parent_ui_entry == NULL || !bz_result_get_resolved (self->parent_ui_entry))
+    return NULL;
+
+  return bz_result_get_object (self->parent_ui_entry);
+}
+
 static char *
 format_parent_title (gpointer    object,
                      const char *title)
@@ -463,6 +476,14 @@ animate_to_size (BzAddonsDialog *self)
     }
   else
     return;
+
+  if (!self->has_mapped)
+  {
+    self->has_mapped = TRUE;
+    adw_dialog_set_content_width (ADW_DIALOG (self), target_width);
+    adw_dialog_set_content_height (ADW_DIALOG (self), target_height);
+    return;
+  }
 
   cur_w   = adw_dialog_get_content_width (ADW_DIALOG (self));
   cur_h   = adw_dialog_get_content_height (ADW_DIALOG (self));

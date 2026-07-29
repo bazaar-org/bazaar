@@ -53,6 +53,7 @@
     <file preprocess="xml-stripblanks">bz-library-page.ui</file>
     <file preprocess="xml-stripblanks">bz-license-dialog.ui</file>
     <file preprocess="xml-stripblanks">bz-login-page.ui</file>
+    <file preprocess="xml-stripblanks">bz-metainfo-preview-page.ui</file>
     <file preprocess="xml-stripblanks">bz-preferences-dialog.ui</file>
     <file preprocess="xml-stripblanks">bz-progress-bar.ui</file>
     <file preprocess="xml-stripblanks">bz-releases-dialog.ui</file>

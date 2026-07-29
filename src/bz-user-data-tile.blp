@@ -2,49 +2,63 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BzUserDataTile: Adw.Bin {
-  child: Revealer {
+  child: Revealer revealer {
     transition-type: slide_down;
-    reveal-child: bind $invert_boolean($is_zero(template.group as <$BzEntryGroup>.user-data-size) as <bool>) as <bool>;
+    reveal-child: true;
+
     child: Adw.Bin {
       accessibility {
         labelled-by: title_label;
         described-by: description_label;
       }
-      margin-bottom: 4;
+
+      margin-bottom: 5;
       margin-start: 4;
       margin-end: 4;
-      margin-top: 4;
+      margin-top: 5;
+
       styles [
         "card",
       ]
+
       child: Box {
         orientation: horizontal;
         spacing: 10;
+
         Picture icon_picture {
           margin-start: 10;
           margin-top: 10;
           margin-bottom: 10;
-          height-request: 48;
-          width-request: 48;
+          height-request: 64;
+          width-request: 64;
           paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
-          visible: bind $invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>) as <bool>;
-          styles ["icon-dropshadow"]
+          visible: bind try {$invert_boolean($is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>) as <bool>, false};
+
+          styles [
+            "icon-dropshadow",
+          ]
         }
+
         Image fallback_icon {
           margin-start: 10;
           margin-top: 10;
           margin-bottom: 10;
-          height-request: 48;
-          width-request: 48;
-          pixel-size: 48;
+          height-request: 64;
+          width-request: 64;
+          pixel-size: 64;
           icon-name: "application-x-executable";
-          visible: bind $is_null(template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable) as <bool>;
-          styles ["icon-dropshadow"]
+          visible: bind icon_picture.visible inverted;
+
+          styles [
+            "icon-dropshadow",
+          ]
         }
+
         Box {
           orientation: vertical;
           valign: center;
           spacing: 4;
+
           Label title_label {
             xalign: 0.0;
             ellipsize: end;
@@ -53,27 +67,43 @@ template $BzUserDataTile: Adw.Bin {
             tooltip-text: bind template.group as <$BzEntryGroup>.id;
             label: bind template.group as <$BzEntryGroup>.title;
           }
+
           Label description_label {
             halign: start;
             label: bind $format_size(template.group as <$BzEntryGroup>.user-data-size as <uint64>) as <string>;
-            styles ["accent", "caption-heading"]
+
+            styles [
+              "caption-heading",
+            ]
           }
         }
-        Button remove_button {
-          styles [
-            "flat",
-            "destructive-action",
-          ]
+
+        Box {
           hexpand: true;
-          halign: end;
-          width-request: 32;
-          height-request: 32;
           valign: center;
+          halign: end;
+          spacing: 8;
           margin-end: 16;
-          has-tooltip: true;
-          tooltip-text: _("Trash User Data");
-          icon-name: "user-trash-symbolic";
-          clicked => $remove_cb() swapped;
+
+          Button {
+            styles [
+              "flat",
+            ]
+            tooltip-text: _("Open User Data Folder");
+            icon-name: "folder-open-symbolic";
+            clicked => $folder_cb() swapped;
+          }
+
+          Button {
+            styles [
+              "flat",
+              "destructive-action",
+            ]
+
+            tooltip-text: _("Trash User Data");
+            icon-name: "user-trash-symbolic";
+            clicked => $remove_cb() swapped;
+          }
         }
       };
     };

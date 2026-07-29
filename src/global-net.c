@@ -1,4 +1,4 @@
-/* bz-global-net.c
+/* global-net.c
  *
  * Copyright 2025 Adam Masciola
  *
@@ -25,9 +25,9 @@
 #include <json-glib/json-glib.h>
 #include <libproxy/proxy.h>
 
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-util.h"
+#include "env.h"
+#include "global-net.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     http_request,
@@ -58,9 +58,9 @@ send (SoupMessage   *message,
       gboolean       close_output);
 
 static DexFuture *
-query_flathub_v2_json_with_method (const char *request,
-                                   const char *method,
-                                   const char *token);
+query_uri_json_with_method (const char *uri,
+                            const char *method,
+                            const char *token);
 
 GProxyResolver *
 bz_get_default_proxy_resolver (void)
@@ -134,8 +134,12 @@ bz_https_query_json (const char *uri)
 DexFuture *
 bz_query_flathub_v2_json (const char *request)
 {
+  g_autofree char *uri = NULL;
+
   dex_return_error_if_fail (request != NULL);
-  return query_flathub_v2_json_with_method (request, SOUP_METHOD_GET, NULL);
+
+  uri = g_strdup_printf ("https://flathub.org/api/v2%s", request);
+  return query_uri_json_with_method (uri, SOUP_METHOD_GET, NULL);
 }
 
 DexFuture *
@@ -155,38 +159,59 @@ DexFuture *
 bz_query_flathub_v2_json_authenticated (const char *request,
                                         const char *token)
 {
+  g_autofree char *uri = NULL;
+
   dex_return_error_if_fail (request != NULL);
-  return query_flathub_v2_json_with_method (request, SOUP_METHOD_GET, token);
+
+  uri = g_strdup_printf ("https://flathub.org/api/v2%s", request);
+  return query_uri_json_with_method (uri, SOUP_METHOD_GET, token);
 }
 
 DexFuture *
 bz_query_flathub_v2_json_authenticated_post (const char *request,
                                              const char *token)
 {
+  g_autofree char *uri = NULL;
+
   dex_return_error_if_fail (request != NULL);
-  return query_flathub_v2_json_with_method (request, SOUP_METHOD_POST, token);
+
+  uri = g_strdup_printf ("https://flathub.org/api/v2%s", request);
+  return query_uri_json_with_method (uri, SOUP_METHOD_POST, token);
 }
 
 DexFuture *
 bz_query_flathub_v2_json_authenticated_delete (const char *request,
                                                const char *token)
 {
+  g_autofree char *uri = NULL;
+
   dex_return_error_if_fail (request != NULL);
-  return query_flathub_v2_json_with_method (request, SOUP_METHOD_DELETE, token);
+
+  uri = g_strdup_printf ("https://flathub.org/api/v2%s", request);
+  return query_uri_json_with_method (uri, SOUP_METHOD_DELETE, token);
+}
+
+DexFuture *
+bz_query_bazaar_json (const char *request)
+{
+  g_autofree char *uri = NULL;
+
+  dex_return_error_if_fail (request != NULL);
+
+  uri = g_strdup_printf ("https://usebazaar.org%s", request);
+  return query_uri_json_with_method (uri, SOUP_METHOD_GET, NULL);
 }
 
 static DexFuture *
-query_flathub_v2_json_with_method (const char *request,
-                                   const char *method,
-                                   const char *token)
+query_uri_json_with_method (const char *uri,
+                            const char *method,
+                            const char *token)
 {
-  g_autofree char *uri             = NULL;
   g_autoptr (SoupMessage) message  = NULL;
   SoupMessageHeaders *headers      = NULL;
   g_autoptr (GOutputStream) output = NULL;
   g_autoptr (DexFuture) future     = NULL;
 
-  uri     = g_strdup_printf ("https://flathub.org/api/v2%s", request);
   message = soup_message_new (method, uri);
   headers = soup_message_get_request_headers (message);
 

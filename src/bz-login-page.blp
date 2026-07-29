@@ -88,7 +88,7 @@ template $BzLoginPage: Adw.NavigationPage {
                   size: 96;
                   show-initials: true;
                   text: bind template.auth-state as <$BzAuthState>.name;
-                  custom-image: bind try { $choose(template.auth-state as <$BzAuthState>.paintable as <$BzAsyncTexture>.loaded, template.auth-state as <$BzAuthState>.paintable , null as <Gdk.Paintable>), null as <Gdk.Paintable>};
+                  custom-image: bind try { $choose_object(template.auth-state as <$BzAuthState>.paintable as <$BzAsyncTexture>.loaded, template.auth-state as <$BzAuthState>.paintable , null as <Gdk.Paintable>), null as <Gdk.Paintable>};
                 }
 
                 Label {

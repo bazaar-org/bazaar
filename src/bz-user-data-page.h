@@ -31,4 +31,8 @@ G_DECLARE_FINAL_TYPE (BzUserDataPage, bz_user_data_page, BZ, USER_DATA_PAGE, Adw
 GtkWidget *
 bz_user_data_page_new (BzStateInfo *state);
 
+void
+bz_user_data_page_remove_group (BzUserDataPage *self,
+                                BzEntryGroup    *group);
+
 G_END_DECLS

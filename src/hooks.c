@@ -1,4 +1,4 @@
-/* bz-hooks.c
+/* hooks.c
  *
  * Copyright 2026 Eva M
  *
@@ -22,10 +22,10 @@
 
 #include <adwaita.h>
 
-#include "bz-env.h"
-#include "bz-error.h"
-#include "bz-hooks.h"
-#include "bz-util.h"
+#include "env.h"
+#include "error.h"
+#include "hooks.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
     execute_hook,
@@ -150,6 +150,7 @@ execute_hook_fiber (ExecuteHookData *data)
       dex_return_error_if_fail (ts_appid != NULL);
       break;
     case BZ_HOOK_SIGNAL_VIEW_APP:
+    case BZ_HOOK_SIGNAL_ARTICLE_APP:
     default:
       dex_return_error_if_fail (BZ_IS_ENTRY_GROUP (group));
       break;
@@ -326,6 +327,7 @@ execute_hook_fiber (ExecuteHookData *data)
           g_subprocess_launcher_setenv (launcher, "BAZAAR_TS_TYPE", ts_type_enum->value_nick, TRUE);
           break;
         case BZ_HOOK_SIGNAL_VIEW_APP:
+        case BZ_HOOK_SIGNAL_ARTICLE_APP:
         default:
           g_subprocess_launcher_setenv (launcher, "BAZAAR_APPID", bz_entry_group_get_id (group), TRUE);
           break;

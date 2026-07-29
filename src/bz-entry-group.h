@@ -35,6 +35,11 @@ bz_entry_group_new (BzApplicationMapFactory *factory);
 BzEntryGroup *
 bz_entry_group_new_for_single_entry (BzEntry *entry);
 
+BzEntryGroup *
+bz_entry_group_new_manual (const char *id,
+                           const char *title,
+                           const char *subtitle);
+
 /* Only necessary if reading props from another thread, writing is always
    prohibited */
 GMutexLocker *

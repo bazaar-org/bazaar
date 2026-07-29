@@ -22,34 +22,47 @@
 
 #include <glib/gi18n.h>
 
+#include "bz-application-map-factory.h"
+#include "bz-application.h"
+#include "bz-dynamic-list-view.h"
 #include "bz-entry-group.h"
 #include "bz-featured-carousel.h"
+#include "bz-flathub-category.h"
 #include "bz-metainfo-preview.h"
 #include "bz-rich-app-tile.h"
-#include "bz-util.h"
+#include "bz-state-info.h"
+#include "error.h"
+#include "util.h"
 
 BZ_DEFINE_DATA (
-    pick_files,
-    PickFiles,
+    open_metainfo,
+    OpenMetainfo,
     {
       DexPromise *promise;
       GFile      *metainfo_file;
+      GtkWindow  *parent_window;
     },
     BZ_RELEASE_DATA (promise, dex_unref);
-    BZ_RELEASE_DATA (metainfo_file, g_object_unref))
+    BZ_RELEASE_DATA (metainfo_file, g_object_unref);
+    BZ_RELEASE_DATA (parent_window, g_object_unref))
+
+static DexFuture *
+on_icon_prompt_finally (DexFuture        *future,
+                        OpenMetainfoData *data);
 
 static void
-on_icon_chosen (GtkFileDialog *dialog,
-                GAsyncResult  *result,
-                PickFilesData *data);
-
-static void
-on_metainfo_chosen (GtkFileDialog *dialog,
-                    GAsyncResult  *result,
-                    DexPromise    *promise);
+on_icon_chosen (GtkFileDialog    *dialog,
+                GAsyncResult     *result,
+                OpenMetainfoData *data);
 
 static BzMetainfoPickResult *
 bz_metainfo_pick_result_copy (BzMetainfoPickResult *result);
+
+static void
+append_quality_apps (BzFlathubState *flathub,
+                     const char     *category_name,
+                     guint           count,
+                     GListStore     *destination);
 
 GType
 bz_metainfo_pick_result_get_type (void)
@@ -73,29 +86,46 @@ bz_metainfo_pick_result_free (BzMetainfoPickResult *result)
 }
 
 DexFuture *
-bz_metainfo_preview_pick_files (void)
+bz_metainfo_preview_open_file (GFile     *metainfo_file,
+                               GtkWindow *parent_window)
 {
-  g_autoptr (DexPromise) promise   = dex_promise_new ();
-  g_autoptr (GtkFileDialog) dialog = NULL;
-  g_autoptr (GtkFileFilter) filter = NULL;
-  g_autoptr (GListStore) filters   = NULL;
+  g_autoptr (DexPromise) promise     = dex_promise_new ();
+  g_autoptr (DexFuture) alert_future = NULL;
+  AdwDialog        *alert            = NULL;
+  OpenMetainfoData *data             = NULL;
 
-  dialog = gtk_file_dialog_new ();
-  gtk_file_dialog_set_title (dialog, _ ("Select Metainfo File"));
+  g_assert (metainfo_file != NULL);
 
-  filter = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter, _ ("Metainfo Files"));
-  gtk_file_filter_add_pattern (filter, "*.metainfo.xml*");
-  gtk_file_filter_add_pattern (filter, "*.appdata.xml*");
+  data                = open_metainfo_data_new ();
+  data->promise       = dex_ref (promise);
+  data->metainfo_file = g_object_ref (metainfo_file);
+  data->parent_window = parent_window != NULL ? g_object_ref (parent_window) : NULL;
 
-  filters = g_list_store_new (GTK_TYPE_FILE_FILTER);
-  g_list_store_append (filters, filter);
-  gtk_file_dialog_set_filters (dialog, G_LIST_MODEL (filters));
+  alert = adw_alert_dialog_new (NULL, NULL);
+  adw_alert_dialog_format_heading (ADW_ALERT_DIALOG (alert), _ ("Add Icon to Metainfo Preview?"));
+  adw_alert_dialog_format_body (
+      ADW_ALERT_DIALOG (alert),
+      _ ("Metainfo files don't include app icons by themselves. Would you like to select one manually?"));
+  adw_alert_dialog_add_responses (
+      ADW_ALERT_DIALOG (alert),
+      "skip", _ ("Skip"),
+      "select", _ ("Select Icon"),
+      NULL);
+  adw_alert_dialog_set_response_appearance (
+      ADW_ALERT_DIALOG (alert), "select", ADW_RESPONSE_SUGGESTED);
+  adw_alert_dialog_set_default_response (ADW_ALERT_DIALOG (alert), "select");
+  adw_alert_dialog_set_close_response (ADW_ALERT_DIALOG (alert), "skip");
 
-  gtk_file_dialog_open (
-      dialog, NULL, NULL,
-      (GAsyncReadyCallback) on_metainfo_chosen,
-      dex_ref (promise));
+  adw_dialog_present (
+      alert, parent_window != NULL ? GTK_WIDGET (parent_window) : NULL);
+
+  alert_future = bz_make_alert_dialog_future (ADW_ALERT_DIALOG (alert));
+  alert_future = dex_future_then (
+      g_steal_pointer (&alert_future),
+      (DexFutureCallback) on_icon_prompt_finally,
+      data,
+      (GDestroyNotify) open_metainfo_data_unref);
+  dex_future_disown (g_steal_pointer (&alert_future));
 
   return DEX_FUTURE (g_steal_pointer (&promise));
 }
@@ -112,59 +142,69 @@ bz_metainfo_pick_result_copy (BzMetainfoPickResult *result)
   return copy;
 }
 
-static void
-on_metainfo_chosen (GtkFileDialog *dialog,
-                    GAsyncResult  *result,
-                    DexPromise    *promise)
+static DexFuture *
+on_icon_prompt_finally (DexFuture        *future,
+                        OpenMetainfoData *data)
 {
-  g_autoptr (DexPromise) owned_promise  = promise;
-  g_autoptr (GError) local_error        = NULL;
-  g_autoptr (GFile) metainfo_file       = NULL;
-  g_autoptr (GtkFileDialog) icon_dialog = NULL;
-  g_autoptr (GtkFileFilter) filter      = NULL;
-  g_autoptr (GListStore) filters        = NULL;
-  PickFilesData *data                   = NULL;
+  g_autoptr (GError) local_error = NULL;
+  const GValue *value            = NULL;
+  const char   *response         = NULL;
 
-  metainfo_file = gtk_file_dialog_open_finish (dialog, result, &local_error);
+  value    = dex_future_get_value (future, &local_error);
+  response = value != NULL ? g_value_get_string (value) : NULL;
 
-  if (metainfo_file == NULL)
+  if (g_strcmp0 (response, "select") == 0)
     {
-      dex_promise_reject (owned_promise, g_steal_pointer (&local_error));
-      return;
+      g_autoptr (GtkFileDialog) icon_dialog = NULL;
+      g_autoptr (GtkFileFilter) filter      = NULL;
+      g_autoptr (GListStore) filters        = NULL;
+
+      icon_dialog = gtk_file_dialog_new ();
+      gtk_file_dialog_set_title (icon_dialog, _ ("Select Icon"));
+
+      filter = gtk_file_filter_new ();
+      gtk_file_filter_set_name (filter, _ ("Image Files"));
+      gtk_file_filter_add_pattern (filter, "*.png");
+      gtk_file_filter_add_pattern (filter, "*.svg");
+      gtk_file_filter_add_pattern (filter, "*.jpg");
+      gtk_file_filter_add_pattern (filter, "*.jpeg");
+
+      filters = g_list_store_new (GTK_TYPE_FILE_FILTER);
+      g_list_store_append (filters, filter);
+      gtk_file_dialog_set_filters (icon_dialog, G_LIST_MODEL (filters));
+
+      gtk_file_dialog_open (
+          icon_dialog,
+          data->parent_window,
+          NULL,
+          (GAsyncReadyCallback) on_icon_chosen,
+          open_metainfo_data_ref (data));
+    }
+  else
+    {
+      BzMetainfoPickResult *pick = NULL;
+
+      pick                = g_new0 (BzMetainfoPickResult, 1);
+      pick->metainfo_file = g_object_ref (data->metainfo_file);
+      pick->icon_file     = NULL;
+
+      dex_promise_resolve_boxed (
+          data->promise,
+          bz_metainfo_pick_result_get_type (),
+          g_steal_pointer (&pick));
     }
 
-  data                = pick_files_data_new ();
-  data->promise       = g_steal_pointer (&owned_promise);
-  data->metainfo_file = g_steal_pointer (&metainfo_file);
-
-  icon_dialog = gtk_file_dialog_new ();
-  gtk_file_dialog_set_title (icon_dialog, _ ("Select Icon (Optional)"));
-
-  filter = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter, _ ("Image Files"));
-  gtk_file_filter_add_pattern (filter, "*.png");
-  gtk_file_filter_add_pattern (filter, "*.svg");
-  gtk_file_filter_add_pattern (filter, "*.jpg");
-  gtk_file_filter_add_pattern (filter, "*.jpeg");
-
-  filters = g_list_store_new (GTK_TYPE_FILE_FILTER);
-  g_list_store_append (filters, filter);
-  gtk_file_dialog_set_filters (icon_dialog, G_LIST_MODEL (filters));
-
-  gtk_file_dialog_open (
-      icon_dialog, NULL, NULL,
-      (GAsyncReadyCallback) on_icon_chosen,
-      data);
+  return dex_future_new_true ();
 }
 
 static void
-on_icon_chosen (GtkFileDialog *dialog,
-                GAsyncResult  *result,
-                PickFilesData *data)
+on_icon_chosen (GtkFileDialog    *dialog,
+                GAsyncResult     *result,
+                OpenMetainfoData *data)
 {
-  g_autoptr (PickFilesData) owned_data = data;
-  g_autoptr (GFile) icon_file          = NULL;
-  BzMetainfoPickResult *pick           = NULL;
+  g_autoptr (OpenMetainfoData) owned_data = data;
+  g_autoptr (GFile) icon_file             = NULL;
+  BzMetainfoPickResult *pick              = NULL;
 
   icon_file = gtk_file_dialog_open_finish (dialog, result, NULL);
 
@@ -178,57 +218,101 @@ on_icon_chosen (GtkFileDialog *dialog,
       g_steal_pointer (&pick));
 }
 
+static void
+append_quality_apps (BzFlathubState *flathub,
+                     const char     *category_name,
+                     guint           count,
+                     GListStore     *destination)
+{
+  GListModel *categories   = NULL;
+  guint       n_categories = 0;
+
+  if (flathub == NULL)
+    return;
+
+  categories   = bz_flathub_state_get_categories (flathub);
+  n_categories = categories != NULL ? g_list_model_get_n_items (categories) : 0;
+
+  for (guint i = 0; i < n_categories; i++)
+    {
+      g_autoptr (BzFlathubCategory) category = NULL;
+
+      category = g_list_model_get_item (categories, i);
+      if (g_strcmp0 (bz_flathub_category_get_name (category), category_name) == 0)
+        {
+          g_autoptr (GListModel) quality_apps = NULL;
+          guint n_quality_apps                = 0;
+          guint n_pick                        = 0;
+          guint offset                        = 0;
+
+          quality_apps   = bz_flathub_category_dup_quality_applications (category);
+          n_quality_apps = quality_apps != NULL ? g_list_model_get_n_items (quality_apps) : 0;
+
+          n_pick = MIN (count, n_quality_apps);
+          if (n_quality_apps > 0)
+            offset = g_random_int_range (0, n_quality_apps);
+
+          for (guint j = 0; j < n_pick; j++)
+            {
+              g_autoptr (GObject) picked_obj = NULL;
+              guint index                    = (offset + j) % n_quality_apps;
+
+              picked_obj = g_list_model_get_item (quality_apps, index);
+              if (BZ_IS_ENTRY_GROUP (picked_obj))
+                g_list_store_append (destination, BZ_ENTRY_GROUP (picked_obj));
+            }
+          break;
+        }
+    }
+}
+
 AdwNavigationPage *
 create_entry_group_preview_page (BzEntryGroup *group)
 {
-  AdwNavigationPage  *page           = NULL;
-  GtkWidget          *toolbar_view   = NULL;
-  AdwHeaderBar       *header_bar     = NULL;
-  GtkBox             *box            = NULL;
-  BzFeaturedCarousel *carousel       = NULL;
-  BzRichAppTile      *tile           = NULL;
-  GtkWidget          *carousel_clamp = NULL;
-  GtkWidget          *tile_clamp     = NULL;
-  GtkWidget          *scroll         = NULL;
-  g_autoptr (GListStore) store       = NULL;
+  g_autoptr (GtkBuilder) builder            = NULL;
+  AdwNavigationPage  *page                  = NULL;
+  BzFeaturedCarousel *carousel              = NULL;
+  GtkWidget          *section_list          = NULL;
+  GtkWidget          *rich_section_list     = NULL;
+  g_autoptr (GListStore) store              = NULL;
+  g_autoptr (GListStore) section_store      = NULL;
+  g_autoptr (GListStore) rich_section_store = NULL;
+  BzStateInfo    *state                     = NULL;
+  BzFlathubState *flathub                   = NULL;
+
+  builder = gtk_builder_new_from_resource (
+      "/io/github/kolunmi/Bazaar/bz-metainfo-preview-page.ui");
+
+  page              = ADW_NAVIGATION_PAGE (gtk_builder_get_object (builder, "page"));
+  carousel          = BZ_FEATURED_CAROUSEL (gtk_builder_get_object (builder, "carousel"));
+  section_list      = GTK_WIDGET (gtk_builder_get_object (builder, "section_list"));
+  rich_section_list = GTK_WIDGET (gtk_builder_get_object (builder, "rich_section_list"));
+
+  state   = bz_state_info_get_default ();
+  flathub = bz_state_info_get_flathub (state);
 
   store = g_list_store_new (BZ_TYPE_ENTRY_GROUP);
   g_list_store_append (store, group);
+  append_quality_apps (flathub, "utility", 4, store);
 
-  carousel = bz_featured_carousel_new ();
   bz_featured_carousel_set_model (carousel, G_LIST_MODEL (store));
-  gtk_widget_set_can_target (GTK_WIDGET (carousel), FALSE);
 
-  carousel_clamp = adw_clamp_new ();
-  adw_clamp_set_maximum_size (ADW_CLAMP (carousel_clamp), 1500);
-  adw_clamp_set_tightening_threshold (ADW_CLAMP (carousel_clamp), 1400);
-  adw_clamp_set_child (ADW_CLAMP (carousel_clamp), GTK_WIDGET (carousel));
+  section_store = g_list_store_new (BZ_TYPE_ENTRY_GROUP);
+  append_quality_apps (flathub, "utility", 11, section_store);
+  g_list_store_insert (
+      section_store,
+      MIN (1, g_list_model_get_n_items (G_LIST_MODEL (section_store))),
+      group);
+  g_object_set (section_list, "model", G_LIST_MODEL (section_store), NULL);
 
-  tile = BZ_RICH_APP_TILE (bz_rich_app_tile_new ());
-  bz_rich_app_tile_set_group (tile, group);
+  rich_section_store = g_list_store_new (BZ_TYPE_ENTRY_GROUP);
+  append_quality_apps (flathub, "utility", 5, rich_section_store);
+  g_list_store_insert (
+      rich_section_store,
+      MIN (1, g_list_model_get_n_items (G_LIST_MODEL (rich_section_store))),
+      group);
+  g_object_set (rich_section_list, "model", G_LIST_MODEL (rich_section_store), NULL);
 
-  tile_clamp = adw_clamp_new ();
-  adw_clamp_set_maximum_size (ADW_CLAMP (tile_clamp), 350);
-  adw_clamp_set_child (ADW_CLAMP (tile_clamp), GTK_WIDGET (tile));
-
-  box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 12));
-  gtk_widget_set_margin_top (GTK_WIDGET (box), 24);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (box), 24);
-  gtk_widget_set_margin_start (GTK_WIDGET (box), 24);
-  gtk_widget_set_margin_end (GTK_WIDGET (box), 24);
-  gtk_box_append (box, GTK_WIDGET (carousel_clamp));
-  gtk_box_append (box, GTK_WIDGET (tile_clamp));
-
-  scroll = gtk_scrolled_window_new ();
-  gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scroll), GTK_WIDGET (box));
-  gtk_widget_set_vexpand (scroll, TRUE);
-
-  header_bar   = ADW_HEADER_BAR (adw_header_bar_new ());
-  toolbar_view = adw_toolbar_view_new ();
-  adw_toolbar_view_add_top_bar (ADW_TOOLBAR_VIEW (toolbar_view), GTK_WIDGET (header_bar));
-  adw_toolbar_view_set_content (ADW_TOOLBAR_VIEW (toolbar_view), scroll);
-
-  page = adw_navigation_page_new (toolbar_view, _ ("Preview"));
-
+  g_object_ref (page);
   return page;
 }

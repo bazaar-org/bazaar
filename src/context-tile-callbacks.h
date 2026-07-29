@@ -1,6 +1,6 @@
-/* bz-hooks.h
+/* context-tile-callbacks.h
  *
- * Copyright 2026 Eva M
+ * Copyright 2026 Eva M, Alexander Vanhee
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,22 +20,11 @@
 
 #pragma once
 
-#include "bz-entry-group.h"
-#include "bz-hook.h"
+#include <gtk/gtk.h>
+#include "safety-calculator.h"
 
-G_BEGIN_DECLS
+void
+bz_widget_class_bind_all_context_tile_callbacks (GtkWidgetClass *widget_class);
 
-DexFuture *
-bz_execute_hook (BzHook               *hook,
-                 BzHookTransactionType ts_type,
-                 const char           *ts_appid,
-                 BzEntryGroup         *group);
-
-DexFuture *
-bz_run_hook_emission (GListModel           *hooks,
-                      BzHookSignal          signal,
-                      BzHookTransactionType ts_type,
-                      const char           *ts_appid,
-                      BzEntryGroup         *group);
-
-G_END_DECLS
+const char *
+bz_safety_style_for_importance (BzImportance importance);

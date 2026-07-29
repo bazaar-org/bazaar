@@ -22,10 +22,10 @@
 
 #include "bz-search-engine.h"
 #include "bz-entry-group.h"
-#include "bz-env.h"
+#include "env.h"
 #include "bz-finished-search-query.h"
 #include "bz-search-result.h"
-#include "bz-util.h"
+#include "util.h"
 
 struct _BzSearchEngine
 {

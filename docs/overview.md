@@ -44,17 +44,17 @@ managing software through the GUI:
 You can start the bazaar daemon like this:
 
 ```
-bazaar [ARGS] [PACKAGE PATH/URI]
-```
-
-To avoid spawning an initial window, use:
-
-```
-bazaar --no-window [ARGS] [PACKAGE PATH/URI]
+bazaar-daemon [ARGS] [PACKAGE PATH/URI]
 ```
 
 `[PACKAGE PATH/URI]` could be a `.flatpakref` file. flatpak+https and regular
 https is supported.
+
+To avoid spawning an initial window, use:
+
+```
+bazaar-daemon --no-window
+```
 
 ## Comptime Configuration
 
@@ -394,6 +394,49 @@ Here is how they did it:
 
 - [actual permission override](https://github.com/get-aurora-dev/common/blob/0d86028dd0d737d1d0eee08205c33fc91997f155/system_files/shared/usr/share/ublue-os/flatpak-overrides/io.github.kolunmi.Bazaar), the filepath for this doesn't really matter, just a way for you to ship the symlink with tmpfiles
 
+## Article markdown
+
+Curated articles support standard markdown, rendered with GTK widgets (so its
+not a webview).
+
+**Supported:**
+- Basic markdown
+- Inline code
+- Code blocks (with syntax highlighting if language is specified)
+- Ordered and unordered lists
+- Tables
+- Horizontal rules
+- Links
+
+**Not supported**:
+- Raw HTML
+- Latex
+- Other weird things
+- Column alignment in tables
+
+### Inline images & app tiles
+
+Regular image syntax (`![title](https://example.com/image.png)`) renders a
+normal image/screenshot.
+
+Two special URI schemes can be used instead to render app tiles inline:
+
+* `appstream://<appid>`: looks up a real app by its appid and renders like any
+  other app button.
+* `bazaar-hook://?id=<id>&title=<title>&subtitle=<subtitle>&icon=<icon-uri>`:
+  renders a fake tile that is not backed by a real app. Clicking it runs an
+  `article-app` hook instead of opening a full app view.
+
+You can mix multiple tiles of either kind into one row by comma-separating them
+inside a single image tag:
+
+```markdown
+![](appstream://org.gnome.Calculator,bazaar-hook://?id=neovim&title=Neovim&subtitle=Vim-fork%20focused%20on%20extensibility%20and%20useablitiy&icon=https://gitlab.com/uploads/-/system/project/avatar/56714943/nvim-icon.png)
+```
+
+Every curated article already shows the title from the curated section at the
+top, so please do not include it in the markdown itself.
+
 ## Hooks
 
 Hooks are an advanced feature of Bazaar. In essence, they allow you to
@@ -402,6 +445,9 @@ user input. Currently, these are the event signals you can subscribe to:
 
 * `view-app`: run the hook when the user clicks on an app tile or otherwise
   views an application in the main app page
+
+* `article-app`: run the hook when the user clicks a `bazaar-hook://` tile
+  inside a curated article
 
 * `before-transaction`: run the hook right as the user invokes a transaction
 

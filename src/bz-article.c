@@ -24,19 +24,19 @@
 #include <libdex.h>
 
 #include "bz-app-tile.h"
-#include "bz-aspect-picture.h"
 #include "bz-application-map-factory.h"
 #include "bz-application.h"
 #include "bz-article.h"
+#include "bz-aspect-picture.h"
 #include "bz-async-texture.h"
 #include "bz-dynamic-list-view.h"
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
+#include "env.h"
+#include "global-net.h"
+#include "io.h"
 #include "bz-rich-app-tile.h"
 #include "bz-screenshot-page.h"
 #include "bz-state-info.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-window.h"
 
 struct _BzArticle
@@ -96,6 +96,20 @@ build_appstream_wrap_box (const char *remainder);
 static void
 screenshot_clicked (GtkButton *button,
                     gpointer   user_data);
+
+static GtkWidget *
+build_screenshot_box (BzArticle  *self,
+                      const char *title,
+                      GFile      *file);
+
+static void
+hook_tile_bind_widget (BzDynamicListView *list_view,
+                       GtkWidget         *widget,
+                       GObject           *object,
+                       gpointer           user_data);
+
+static BzEntryGroup *
+parse_hook_group (const char *item);
 
 static void
 bz_article_dispose (GObject *object)
@@ -282,33 +296,116 @@ is_scrolled_down (gpointer object,
   return value > 50.0;
 }
 
+static void
+hook_tile_bind_widget (BzDynamicListView *list_view,
+                       GtkWidget         *widget,
+                       GObject           *object,
+                       gpointer           user_data)
+{
+  BzEntryGroup *group    = BZ_ENTRY_GROUP (object);
+  const char   *icon_uri = NULL;
+
+  icon_uri = g_object_get_data (object, "bz-hook-icon-uri");
+
+  if (g_object_get_data (object, "bz-hook-app") != NULL)
+    {
+      gtk_actionable_set_action_name (GTK_ACTIONABLE (widget), "window.activate-hook-app");
+      gtk_actionable_set_action_target (GTK_ACTIONABLE (widget), "s", bz_entry_group_get_id (group));
+
+      if (icon_uri != NULL)
+        {
+          g_autoptr (GFile) icon_file        = NULL;
+          g_autoptr (BzAsyncTexture) texture = NULL;
+
+          icon_file = g_file_new_for_uri (icon_uri);
+          texture   = bz_async_texture_new_lazy (icon_file, NULL);
+
+          bz_app_tile_set_icon_override (BZ_APP_TILE (widget), GDK_PAINTABLE (texture));
+        }
+    }
+}
+
+static BzEntryGroup *
+parse_hook_group (const char *item)
+{
+  g_autoptr (GUri) uri           = NULL;
+  g_autoptr (GHashTable) params  = NULL;
+  g_autoptr (GError) local_error = NULL;
+  const char   *id               = NULL;
+  const char   *title            = NULL;
+  const char   *subtitle         = NULL;
+  const char   *icon_uri         = NULL;
+  BzEntryGroup *group            = NULL;
+
+  uri = g_uri_parse (item, G_URI_FLAGS_NONE, &local_error);
+  if (uri == NULL)
+    return NULL;
+
+  params = g_uri_parse_params (
+      g_uri_get_query (uri), -1, "&", G_URI_PARAMS_NONE, &local_error);
+  if (params == NULL)
+    return NULL;
+
+  id       = g_hash_table_lookup (params, "id");
+  title    = g_hash_table_lookup (params, "title");
+  subtitle = g_hash_table_lookup (params, "subtitle");
+  icon_uri = g_hash_table_lookup (params, "icon");
+
+  group = bz_entry_group_new_manual (id, title, subtitle);
+
+  if (group != NULL)
+    {
+      g_object_set_data (G_OBJECT (group), "bz-hook-app", GINT_TO_POINTER (TRUE));
+
+      if (icon_uri != NULL)
+        g_object_set_data_full (G_OBJECT (group), "bz-hook-icon-uri", g_strdup (icon_uri), g_free);
+    }
+
+  return group;
+}
+
 static GtkWidget *
 build_appstream_wrap_box (const char *remainder)
 {
-  g_auto (GStrv) ids               = NULL;
-  guint n_ids                      = 0;
-  g_autoptr (GListStore) ids_store = NULL;
-  GtkWidget  *list_view            = NULL;
-  GListModel *groups               = NULL;
+  g_auto (GStrv) items          = NULL;
+  guint n_items                 = 0;
+  g_autoptr (GListStore) groups = NULL;
+  GtkWidget *list_view          = NULL;
 
-  ids   = g_strsplit (remainder, ",appstream://", -1);
-  n_ids = g_strv_length (ids);
+  items   = g_strsplit (remainder, ",", -1);
+  n_items = g_strv_length (items);
+  groups  = g_list_store_new (BZ_TYPE_ENTRY_GROUP);
 
-  ids_store = g_list_store_new (GTK_TYPE_STRING_OBJECT);
-  for (guint i = 0; i < n_ids; i++)
+  for (guint i = 0; i < n_items; i++)
     {
-      g_autoptr (GtkStringObject) string = NULL;
-      string = gtk_string_object_new (ids[i]);
+      const char *item = items[i];
 
-      g_list_store_append (ids_store, string);
+      if (g_str_has_prefix (item, "appstream://"))
+        {
+          g_autoptr (GtkStringObject) string = NULL;
+          g_autoptr (BzEntryGroup) group     = NULL;
+
+          string = gtk_string_object_new (item + strlen ("appstream://"));
+          group  = bz_application_map_factory_convert_one (
+              bz_state_info_get_application_factory (bz_state_info_get_default ()),
+              g_steal_pointer (&string));
+          if (group != NULL)
+            g_list_store_append (groups, group);
+        }
+      else if (g_str_has_prefix (item, "bazaar-hook://"))
+        {
+          g_autoptr (BzEntryGroup) group = NULL;
+          group                          = parse_hook_group (item);
+
+          if (group != NULL)
+            g_list_store_append (groups, group);
+        }
     }
-
-  groups = bz_application_map_factory_generate (
-      bz_state_info_get_application_factory (bz_state_info_get_default ()),
-      G_LIST_MODEL (ids_store));
 
   list_view = GTK_WIDGET (bz_dynamic_list_view_new ());
   gtk_widget_set_hexpand (list_view, TRUE);
+
+  g_signal_connect (list_view, "bind-widget", G_CALLBACK (hook_tile_bind_widget), NULL);
 
   g_object_set (
       list_view,
@@ -321,7 +418,7 @@ build_appstream_wrap_box (const char *remainder)
       "model", groups,
       NULL);
 
-  if (n_ids == 1)
+  if (g_list_model_get_n_items (G_LIST_MODEL (groups)) == 1)
     {
       GtkWidget *clamp = NULL;
 
@@ -369,6 +466,65 @@ screenshot_clicked (GtkButton *button,
 }
 
 static GtkWidget *
+build_screenshot_box (BzArticle  *self,
+                      const char *title,
+                      GFile      *file)
+{
+  g_autoptr (BzAsyncTexture) texture = NULL;
+  GtkWidget *picture                 = NULL;
+  GtkWidget *box                     = NULL;
+  GtkWidget *button                  = NULL;
+  guint      index                   = 0;
+
+  texture = bz_async_texture_new_lazy (file, NULL);
+  picture = bz_aspect_picture_new ();
+  bz_aspect_picture_set_paintable (BZ_ASPECT_PICTURE (picture), GDK_PAINTABLE (texture));
+  bz_aspect_picture_set_ratio (BZ_ASPECT_PICTURE (picture), 0.0);
+
+  gtk_widget_set_hexpand (picture, TRUE);
+  gtk_widget_set_halign (picture, GTK_ALIGN_FILL);
+
+  if (title != NULL)
+    gtk_accessible_update_property (GTK_ACCESSIBLE (picture),
+                                    GTK_ACCESSIBLE_PROPERTY_LABEL, title, -1);
+
+  index = g_list_model_get_n_items (G_LIST_MODEL (self->screenshot_textures));
+  g_list_store_append (self->screenshot_textures, texture);
+  {
+    g_autoptr (GtkStringObject) caption_obj = NULL;
+
+    caption_obj = gtk_string_object_new (title != NULL ? title : "");
+    g_list_store_append (self->screenshot_captions, caption_obj);
+  }
+
+  button = gtk_button_new ();
+  gtk_widget_add_css_class (button, "article-image-button");
+  gtk_widget_set_hexpand (button, TRUE);
+  gtk_widget_set_halign (button, GTK_ALIGN_FILL);
+  gtk_button_set_child (GTK_BUTTON (button), picture);
+  g_object_set_data (G_OBJECT (button), "bz-screenshot-index", GUINT_TO_POINTER (index));
+  g_signal_connect (button, "clicked", G_CALLBACK (screenshot_clicked), self);
+
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+  gtk_widget_set_margin_top (box, 15);
+  gtk_widget_set_margin_bottom (box, 15);
+  gtk_box_append (GTK_BOX (box), button);
+
+  if (title != NULL)
+    {
+      GtkWidget *caption = NULL;
+
+      caption = gtk_label_new (title);
+      gtk_widget_add_css_class (caption, "caption");
+      gtk_widget_add_css_class (caption, "dimmed");
+      gtk_label_set_xalign (GTK_LABEL (caption), 0.5);
+      gtk_box_append (GTK_BOX (box), caption);
+    }
+
+  return box;
+}
+
+static GtkWidget *
 markdown_bind_inline_uri (BzArticle         *self,
                           const char        *title,
                           const char        *src,
@@ -379,65 +535,12 @@ markdown_bind_inline_uri (BzArticle         *self,
   if (src == NULL)
     return NULL;
 
-  if (g_str_has_prefix (src, "appstream://"))
-    return build_appstream_wrap_box (src + strlen ("appstream://"));
+  if (g_str_has_prefix (src, "appstream://") || g_str_has_prefix (src, "bazaar-hook://"))
+    return build_appstream_wrap_box (src);
 
   file = g_file_new_for_uri (src);
   if (file != NULL)
-    {
-      g_autoptr (BzAsyncTexture) texture = NULL;
-      GtkWidget *picture                 = NULL;
-      GtkWidget *box                     = NULL;
-      GtkWidget *button                  = NULL;
-      guint      index                   = 0;
-
-      texture = bz_async_texture_new_lazy (file, NULL);
-      picture = bz_aspect_picture_new ();
-      bz_aspect_picture_set_paintable (BZ_ASPECT_PICTURE (picture), GDK_PAINTABLE (texture));
-      bz_aspect_picture_set_ratio (BZ_ASPECT_PICTURE (picture), 0.0);
-
-      gtk_widget_set_hexpand (picture, TRUE);
-      gtk_widget_set_halign (picture, GTK_ALIGN_FILL);
-
-      if (title != NULL)
-        gtk_accessible_update_property (GTK_ACCESSIBLE (picture),
-                                GTK_ACCESSIBLE_PROPERTY_LABEL, title, -1);
-
-      index = g_list_model_get_n_items (G_LIST_MODEL (self->screenshot_textures));
-      g_list_store_append (self->screenshot_textures, texture);
-      {
-        g_autoptr (GtkStringObject) caption_obj = NULL;
-
-        caption_obj = gtk_string_object_new (title != NULL ? title : "");
-        g_list_store_append (self->screenshot_captions, caption_obj);
-      }
-
-      button = gtk_button_new ();
-      gtk_widget_add_css_class (button, "article-image-button");
-      gtk_widget_set_hexpand (button, TRUE);
-      gtk_widget_set_halign (button, GTK_ALIGN_FILL);
-      gtk_button_set_child (GTK_BUTTON (button), picture);
-      g_object_set_data (G_OBJECT (button), "bz-screenshot-index", GUINT_TO_POINTER (index));
-      g_signal_connect (button, "clicked", G_CALLBACK (screenshot_clicked), self);
-
-      box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-      gtk_widget_set_margin_top (box, 15);
-      gtk_widget_set_margin_bottom (box, 15);
-      gtk_box_append (GTK_BOX (box), button);
-
-      if (title != NULL)
-        {
-          GtkWidget *caption = NULL;
-
-          caption = gtk_label_new (title);
-          gtk_widget_add_css_class (caption, "caption");
-          gtk_widget_add_css_class (caption, "dimmed");
-          gtk_label_set_xalign (GTK_LABEL (caption), 0.5);
-          gtk_box_append (GTK_BOX (box), caption);
-        }
-
-      return box;
-    }
+    return build_screenshot_box (self, title, file);
 
   return NULL;
 }

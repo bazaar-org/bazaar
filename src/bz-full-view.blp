@@ -27,7 +27,6 @@ template $BzFullView: Adw.Bin {
 
       Adw.ViewStackPage {
         name: "empty";
-        title: _("Empty");
 
         child: Adw.StatusPage {
           icon-name: "sad-computer-symbolic";
@@ -38,13 +37,11 @@ template $BzFullView: Adw.Bin {
 
       Adw.ViewStackPage {
         name: "loading";
-        title: _("Empty");
         child: Adw.Bin {};
       }
 
       Adw.ViewStackPage {
         name: "content";
-        title: _("Content");
 
         child: Adw.BreakpointBin {
           width-request: 360;
@@ -591,7 +588,7 @@ template $BzFullView: Adw.Bin {
 
                         Box {
                           orientation: vertical;
-                          spacing: bind $choose(addons_more_btn.visible, 15, 3) as <int>;
+                          spacing: bind $choose_int(addons_more_btn.visible, 15, 3) as <int>;
                           Box {
                             orientation: vertical;
                             visible: bind $invert_boolean($is_zero(addon_model.n-items) as <int>) as <bool>;
@@ -668,6 +665,44 @@ template $BzFullView: Adw.Bin {
 
                         Box {
                           orientation: vertical;
+                          visible: bind $invert_boolean($is_zero(similar_apps_model.n-items) as <int>) as <bool>;
+
+                          Label {
+                            styles [
+                              "heading",
+                              "h4",
+                            ]
+
+                            label: _("Similar Apps");
+                            xalign: 0;
+                            wrap: true;
+                            wrap-mode: word_char;
+                            margin-top: 5;
+                            margin-bottom: 8;
+                            margin-start: 3;
+                          }
+
+                          $BzDynamicListView {
+                            hexpand: true;
+                            scroll: false;
+                            noscroll-kind: flow-box;
+                            child-type: "BzAppTile";
+                            child-prop: "group";
+                            max-children-per-line: 3;
+                            bind-widget => $bind_app_tile_cb(template);
+                            unbind-widget => $unbind_app_tile_cb(template);
+
+                            model: SliceListModel similar_apps_model {
+                              offset: 0;
+                              size: 6;
+                              model: bind $get_developer_apps_entries(template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.similar-apps, template.entry-group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>) as <Gio.ListModel>;
+                            };
+                          }
+
+                        }
+
+                        Box {
+                          orientation: vertical;
                           visible: bind $invert_boolean($is_zero(other_apps_model.n-items) as <int>) as <bool>;
 
                           Label {
@@ -691,7 +726,7 @@ template $BzFullView: Adw.Bin {
                             noscroll-kind: flow-box;
                             child-type: "BzAppTile";
                             child-prop: "group";
-                            max-children-per-line: bind $get_dev_apps_max_children_per_line(other_apps_model.model) as <int>;
+                            max-children-per-line: 3;
                             bind-widget => $bind_app_tile_cb(template);
                             unbind-widget => $unbind_app_tile_cb(template);
 

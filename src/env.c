@@ -1,4 +1,4 @@
-/* bz-env.c
+/* env.c
  *
  * Copyright 2025 Adam Masciola
  *
@@ -20,7 +20,7 @@
 
 #include <libdex.h>
 
-#include "bz-env.h"
+#include "env.h"
 
 gsize
 bz_get_dex_stack_size (void)

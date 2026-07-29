@@ -1,0 +1,98 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.NavigationPage page {
+  title: _("Metainfo Preview");
+
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    content: Adw.BreakpointBin bp_bin {
+      width-request: 360;
+      height-request: 100;
+
+      child: ScrolledWindow {
+        vexpand: true;
+
+        child: Box content_box {
+          orientation: vertical;
+          valign: start;
+          spacing: 60;
+          margin-top: 24;
+          margin-bottom: 24;
+          margin-start: 24;
+          margin-end: 24;
+
+          Adw.Clamp {
+            maximum-size: 1500;
+            tightening-threshold: 1400;
+
+            child: Box {
+              spacing: 10;
+              orientation: vertical;
+
+              $BzFeaturedCarousel carousel {}
+
+              Label section_title {
+                styles [
+                  "title-1",
+                ]
+
+                xalign: 0.0;
+                hexpand: true;
+                margin-start: 3;
+                margin-end: 3;
+                margin-bottom: 5;
+                margin-top: 12;
+                ellipsize: end;
+                label: _("Metainfo Preview");
+              }
+
+              $BzDynamicListView section_list {
+                styles [
+                  "flathub-page-section",
+                ]
+
+                hexpand: true;
+                scroll: false;
+                noscroll-kind: flow-box;
+                child-type: "BzAppTile";
+                child-prop: "group";
+                row-spacing: 11;
+                column-spacing: 11;
+              }
+            };
+          }
+
+          Adw.Clamp {
+            maximum-size: 1000;
+
+            child: $BzDynamicListView rich_section_list {
+              styles [
+                "flathub-page-section",
+              ]
+
+              hexpand: true;
+              scroll: false;
+              noscroll-kind: flow-box;
+              child-type: "BzRichAppTile";
+              child-prop: "group";
+            };
+          }
+        };
+      };
+
+      Adw.Breakpoint {
+        condition ("max-width: 700px")
+
+        setters {
+          section_list.row-spacing: 9;
+          section_list.column-spacing: 9;
+          content_box.margin-start: 10;
+          content_box.margin-end: 10;
+        }
+      }
+    };
+  };
+}

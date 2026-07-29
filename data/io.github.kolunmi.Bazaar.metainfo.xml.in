@@ -73,6 +73,28 @@
   </screenshots>
 
   <releases>
+    <release version="0.9.1" date="2026-07-08">
+      <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.9.1</url>
+        <description translate="no">
+          <p>
+            <em>New Features</em>
+          </p>
+          <ul>
+            <li>Added a "Similar Apps" section</li>
+          </ul>
+          <p>
+            <em>Bug Fixes</em>
+          </p>
+          <ul>
+            <li>Fixed a crash when opening a second window while logged in</li>
+            <li>Only start on the Curated section if it is not empty</li>
+            <li>Stopped the carousel from changing the layout while screenshots are loading</li>
+          </ul>
+          <p>
+            Thanks for reading, and have a great day!
+          </p>
+        </description>
+    </release>
     <release version="0.9.0" date="2026-06-30">
       <url type="details">https://github.com/bazaar-org/bazaar/releases/tag/v0.9.0</url>
       <description translate="no">

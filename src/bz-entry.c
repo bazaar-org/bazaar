@@ -31,14 +31,14 @@
 #include "bz-country-data-point.h"
 #include "bz-data-point.h"
 #include "bz-entry.h"
-#include "bz-env.h"
-#include "bz-global-net.h"
-#include "bz-io.h"
+#include "env.h"
+#include "global-net.h"
+#include "io.h"
 #include "bz-release.h"
 #include "bz-repository.h"
 #include "bz-serializable.h"
 #include "bz-url.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-verification-status.h"
 
 G_DEFINE_FLAGS_TYPE (
@@ -101,6 +101,7 @@ typedef struct
   char             *developer;
   char             *developer_id;
   GListModel       *developer_apps;
+  GListModel       *similar_apps;
   GListModel       *screenshot_paintables;
   GListModel       *screenshot_captions;
   GdkPaintable     *thumbnail_paintable;
@@ -168,6 +169,7 @@ enum
   PROP_DEVELOPER,
   PROP_DEVELOPER_ID,
   PROP_DEVELOPER_APPS,
+  PROP_SIMILAR_APPS,
   PROP_SCREENSHOT_PAINTABLES,
   PROP_SCREENSHOT_CAPTIONS,
   PROP_THUMBNAIL_PAINTABLE,
@@ -351,6 +353,10 @@ bz_entry_get_property (GObject    *object,
     case PROP_DEVELOPER_APPS:
       query_flathub (self, PROP_DEVELOPER_APPS);
       g_value_set_object (value, priv->developer_apps);
+      break;
+    case PROP_SIMILAR_APPS:
+      query_flathub (self, PROP_SIMILAR_APPS);
+      g_value_set_object (value, priv->similar_apps);
       break;
     case PROP_SCREENSHOT_PAINTABLES:
       g_value_set_object (value, priv->screenshot_paintables);
@@ -558,6 +564,10 @@ bz_entry_set_property (GObject      *object,
     case PROP_DEVELOPER_APPS:
       g_clear_object (&priv->developer_apps);
       priv->developer_apps = g_value_dup_object (value);
+      break;
+    case PROP_SIMILAR_APPS:
+      g_clear_object (&priv->similar_apps);
+      priv->similar_apps = g_value_dup_object (value);
       break;
     case PROP_SCREENSHOT_PAINTABLES:
       g_clear_object (&priv->screenshot_paintables);
@@ -853,6 +863,13 @@ bz_entry_class_init (BzEntryClass *klass)
   props[PROP_DEVELOPER_APPS] =
       g_param_spec_object (
           "developer-apps",
+          NULL, NULL,
+          G_TYPE_LIST_MODEL,
+          G_PARAM_READWRITE);
+
+  props[PROP_SIMILAR_APPS] =
+      g_param_spec_object (
+          "similar-apps",
           NULL, NULL,
           G_TYPE_LIST_MODEL,
           G_PARAM_READWRITE);
@@ -2399,6 +2416,7 @@ query_flathub (BzEntry *self,
   g_autoptr (QueryFlathubData) data = NULL;
   g_autoptr (DexFuture) future      = NULL;
   gboolean is_download_stat         = FALSE;
+  gboolean is_similar_apps          = FALSE;
 
   priv = bz_entry_get_instance_private (self);
 
@@ -2406,8 +2424,9 @@ query_flathub (BzEntry *self,
                       prop == PROP_DOWNLOAD_STATS_PER_COUNTRY ||
                       prop == PROP_RECENT_DOWNLOADS ||
                       prop == PROP_TOTAL_DOWNLOADS);
+  is_similar_apps = (prop == PROP_SIMILAR_APPS);
 
-  if (!is_download_stat && !priv->is_flathub)
+  if (!is_download_stat && !is_similar_apps && !priv->is_flathub)
     return;
   if (priv->id == NULL)
     return;
@@ -2471,12 +2490,19 @@ query_flathub_fiber (QueryFlathubData *data)
     case PROP_FAVORITES_COUNT:
       request = g_strdup_printf ("/favorites/%s/count", id);
       break;
+    case PROP_SIMILAR_APPS:
+      request = g_strdup_printf ("/similar/%s", id);
+      break;
     default:
       g_assert_not_reached ();
       return NULL;
     }
 
-  node = dex_await_boxed (bz_query_flathub_v2_json (request), &local_error);
+  if (prop == PROP_SIMILAR_APPS)
+    node = dex_await_boxed (bz_query_bazaar_json (request), &local_error);
+  else
+    node = dex_await_boxed (bz_query_flathub_v2_json (request), &local_error);
+
   if (node == NULL)
     {
       if (!g_error_matches (local_error, DEX_ERROR, DEX_ERROR_FIBER_CANCELLED))
@@ -2597,6 +2623,31 @@ query_flathub_fiber (QueryFlathubData *data)
       }
       break;
 
+    case PROP_SIMILAR_APPS:
+      {
+        JsonArray *array                  = NULL;
+        g_autoptr (GtkStringList) app_ids = NULL;
+
+        if (!JSON_NODE_HOLDS_ARRAY (node))
+          return dex_future_new_for_error (
+              g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+                           "Unexpected JSON response format"));
+
+        array   = json_node_get_array (node);
+        app_ids = gtk_string_list_new (NULL);
+
+        for (guint i = 0; i < json_array_get_length (array); i++)
+          {
+            const char *app_id = json_array_get_string_element (array, i);
+
+            if (app_id != NULL)
+              gtk_string_list_append (app_ids, app_id);
+          }
+
+        return dex_future_new_for_object (app_ids);
+      }
+      break;
+
     default:
       g_assert_not_reached ();
       return NULL;
@@ -2680,6 +2731,8 @@ maybe_save_paintable (BzEntryPrivate  *priv,
   g_autoptr (GError) local_error = NULL;
   const char *source_uri         = NULL;
   const char *cache_into_path    = NULL;
+  int         width              = 0;
+  int         height             = 0;
   g_autoptr (GdkTexture) texture = NULL;
   g_autoptr (GFile) save_file    = NULL;
   gboolean result                = FALSE;
@@ -2691,6 +2744,9 @@ maybe_save_paintable (BzEntryPrivate  *priv,
 
   source_uri      = bz_async_texture_get_source_uri (BZ_ASYNC_TEXTURE (paintable));
   cache_into_path = bz_async_texture_get_cache_into_path (BZ_ASYNC_TEXTURE (paintable));
+  width           = bz_async_texture_get_width (BZ_ASYNC_TEXTURE (paintable));
+  height          = bz_async_texture_get_height (BZ_ASYNC_TEXTURE (paintable));
+
   if (cache_into_path == NULL)
     goto done;
 
@@ -2759,7 +2815,8 @@ maybe_save_paintable (BzEntryPrivate  *priv,
     }
 
 done:
-  g_variant_builder_add (builder, "{sv}", key, g_variant_new ("(sms)", source_uri, cache_into_path));
+  g_variant_builder_add (builder, "{sv}", key,
+                         g_variant_new ("(smsii)", source_uri, cache_into_path, width, height));
   return TRUE;
 }
 
@@ -2768,16 +2825,22 @@ make_async_texture (GVariant *parse)
 {
   g_autofree char *source            = NULL;
   g_autofree char *cache_into        = NULL;
+  int              width             = 0;
+  int              height            = 0;
   g_autoptr (GFile) source_file      = NULL;
   g_autoptr (GFile) cache_into_file  = NULL;
   g_autoptr (BzAsyncTexture) texture = NULL;
 
-  g_variant_get (parse, "(sms)", &source, &cache_into);
+  g_variant_get (parse, "(smsii)", &source, &cache_into, &width, &height);
   source_file = g_file_new_for_uri (source);
   if (cache_into != NULL)
     cache_into_file = g_file_new_for_path (cache_into);
 
-  texture = bz_async_texture_new_lazy (source_file, cache_into_file);
+  if (width > 0 && height > 0)
+    texture = bz_async_texture_new_lazy_with_size (source_file, cache_into_file, width, height);
+  else
+    texture = bz_async_texture_new_lazy (source_file, cache_into_file);
+
   return GDK_PAINTABLE (g_steal_pointer (&texture));
 }
 
@@ -2808,6 +2871,7 @@ clear_entry (BzEntry *self)
   g_clear_pointer (&priv->developer, g_free);
   g_clear_pointer (&priv->developer_id, g_free);
   g_clear_object (&priv->developer_apps);
+  g_clear_object (&priv->similar_apps);
   g_clear_object (&priv->screenshot_paintables);
   g_clear_object (&priv->screenshot_captions);
   g_clear_object (&priv->thumbnail_paintable);

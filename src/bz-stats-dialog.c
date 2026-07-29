@@ -23,7 +23,7 @@
 
 #include "bz-data-graph.h"
 #include "bz-stats-dialog.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 #include "bz-world-map.h"
 
 struct _BzStatsDialog

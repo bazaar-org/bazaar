@@ -70,5 +70,30 @@
       <summary>Check For Ubuntu</summary>
       <description>Whether to check for and warn about Ubuntu's broken apparmor permissions on startup</description>
     </key>
+    <key name="auto-update" type="b">
+      <default>false</default>
+      <summary>Automatic Updates</summary>
+      <description>Whether to auto check for and install app updates in the background</description>
+    </key>
+    <key name="auto-update-notifications" type="b">
+      <default>true</default>
+      <summary>Auto Update Notifications</summary>
+      <description>Show a notification after apps are automatically updated in the background</description>
+    </key>
+    <key name="last-update-check" type="x">
+      <default>0</default>
+      <summary>Last Update Check</summary>
+      <description>Unix timestamp of the last automatic update check</description>
+    </key>
+    <key name="update-check-hour-offset" type="i">
+      <default>-1</default>
+      <summary>Update Check Hour Offset</summary>
+      <description>Randomized hour offset added to the daily update check window, to avoid all clients checking at once</description>
+    </key>
+    <key name="last-refresh-time" type="x">
+      <default>0</default>
+      <summary>Last Refresh Time</summary>
+      <description>timestamp of the last successful refresh</description>
+    </key>
   </schema>
 </schemalist>

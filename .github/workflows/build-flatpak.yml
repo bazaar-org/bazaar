@@ -8,6 +8,9 @@ on:
       - "screenshots/*"
       - "translators.sh"
       - ".github/ISSUE_TEMPLATE/**"
+  workflow_dispatch:
+
+permissions: {}
 
 name: CI Build Flatpak
 jobs:
@@ -25,15 +28,39 @@ jobs:
           # no latest for ARM :(
           - arch: aarch64
             runner: ubuntu-24.04-arm
+
     runs-on: ${{ matrix.variant.runner }}
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+    - name: Git Checkout
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         submodules: recursive
-    - uses: flatpak/flatpak-github-actions/flatpak-builder@92ae9851ad316786193b1fd3f40c4b51eb5cb101 # v6.6
+        persist-credentials: false
+
+    - name: Restore cache
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: .flatpak-builder
+        key: flatpak-builder-046f9ec-${{ matrix.variant.arch }}-${{ github.run_id }}
+        restore-keys: |
+          flatpak-builder-046f9ec-${{ matrix.variant.arch }}-
+
+    - name: Build Flatpak
+      uses: flatpak/flatpak-github-actions/flatpak-builder@401fe28a8384095fc1531b9d320b292f0ee45adb # v6.7
       with:
         bundle: Bazaar.flatpak
         manifest-path: build-aux/flatpak/io.github.kolunmi.Bazaar.json
-        cache-key: flatpak-builder-046f9ec
+        # caching is broken upstream
+        # https://github.com/flatpak/flatpak-github-actions/issues/239
+        # this is only true because there is no other way to call fb with --ccache
+        cache: true
+        restore-cache: false
         arch: ${{ matrix.variant.arch }}
         verbose: true
+
+    - name: Write new cache
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: .flatpak-builder
+        key: flatpak-builder-046f9ec-${{ matrix.variant.arch }}-${{ github.run_id }}

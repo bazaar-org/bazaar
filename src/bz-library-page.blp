@@ -26,7 +26,6 @@ template $BzLibraryPage: Adw.Bin {
 
       Adw.ViewStackPage {
         name: "empty";
-        title: _("Empty");
 
         child: Adw.StatusPage {
           icon-name: "library-symbolic";
@@ -37,11 +36,9 @@ template $BzLibraryPage: Adw.Bin {
 
       Adw.ViewStackPage {
         name: "no-results";
-        title: _("No Results");
 
         child: Adw.StatusPage {
           icon-name: "library-symbolic";
-          title: _("No Results");
           description: bind $no_results_found_subtitle(search_bar.text) as <string>;
 
           child: Button {
@@ -58,8 +55,6 @@ template $BzLibraryPage: Adw.Bin {
 
       Adw.ViewStackPage {
         name: "content";
-        // Translators: .
-        title: _("Library");
 
         child: ScrolledWindow scroll{
           hscrollbar-policy: never;

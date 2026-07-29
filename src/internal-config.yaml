@@ -49,6 +49,15 @@ search-biases:
       slope: 1.0
       y-intercept: 20.0
 
+  - regex: (?i)\bimage\seditors?\b
+    boost-appids:
+      - org.gimp.GIMP
+      - com.github.PintaProject.Pinta
+      - org.kde.krita
+    linear-boost:
+      slope: 1.0
+      y-intercept: 200.0
+
   - regex: \b(?i)photoshop\b
     boost-appids:
       - org.gimp.GIMP

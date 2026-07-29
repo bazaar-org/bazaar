@@ -33,8 +33,20 @@ bz_async_texture_new (GFile *source,
                       GFile *cache_into);
 
 BzAsyncTexture *
+bz_async_texture_new_with_size (GFile *source,
+                                 GFile *cache_into,
+                                 int    width,
+                                 int    height);
+
+BzAsyncTexture *
 bz_async_texture_new_lazy (GFile *source,
                            GFile *cache_into);
+
+BzAsyncTexture *
+bz_async_texture_new_lazy_with_size (GFile *source,
+                                     GFile *cache_into,
+                                     int    width,
+                                     int    height);
 
 GFile *
 bz_async_texture_get_source (BzAsyncTexture *self);
@@ -47,6 +59,12 @@ bz_async_texture_get_cache_into (BzAsyncTexture *self);
 
 const char *
 bz_async_texture_get_cache_into_path (BzAsyncTexture *self);
+
+int
+bz_async_texture_get_width (BzAsyncTexture *self);
+
+int
+bz_async_texture_get_height (BzAsyncTexture *self);
 
 gboolean
 bz_async_texture_get_loaded (BzAsyncTexture *self);

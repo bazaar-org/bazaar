@@ -27,14 +27,14 @@
 
 #include "bz-app-tile.h"
 
+#define BZ_APP_TILE_PREFERRED_WIDTH 270
+
 #define BZ_TYPE_APP_TILE_LAYOUT (bz_app_tile_layout_get_type ())
 G_DECLARE_FINAL_TYPE (BzAppTileLayout, bz_app_tile_layout, BZ, APP_TILE_LAYOUT, GtkLayoutManager)
 
 struct _BzAppTileLayout
 {
   GtkLayoutManager parent_instance;
-
-  gint preferred_width;
 };
 
 G_DEFINE_FINAL_TYPE (BzAppTileLayout, bz_app_tile_layout, GTK_TYPE_LAYOUT_MANAGER)
@@ -49,10 +49,9 @@ bz_app_tile_layout_measure (GtkLayoutManager *layout_manager,
                             gint             *minimum_baseline,
                             gint             *natural_baseline)
 {
-  BzAppTileLayout *self  = BZ_APP_TILE_LAYOUT (layout_manager);
-  GtkWidget       *child = NULL;
-  gint             min   = 0;
-  gint             nat   = 0;
+  GtkWidget *child = NULL;
+  gint       min   = 0;
+  gint       nat   = 0;
 
   for (child = gtk_widget_get_first_child (widget);
        child != NULL;
@@ -84,8 +83,8 @@ bz_app_tile_layout_measure (GtkLayoutManager *layout_manager,
   *minimum = min;
   *natural = nat;
 
-  if (self->preferred_width > 0 && orientation == GTK_ORIENTATION_HORIZONTAL)
-    *natural = MAX (*minimum, self->preferred_width);
+  if (orientation == GTK_ORIENTATION_HORIZONTAL)
+    *natural = MAX (*minimum, BZ_APP_TILE_PREFERRED_WIDTH);
 }
 
 static void
@@ -124,7 +123,7 @@ struct _BzAppTile
   GtkButton parent_instance;
 
   BzEntryGroup *group;
-  gint          preferred_width;
+  GdkPaintable *icon_override;
 };
 
 G_DEFINE_FINAL_TYPE (BzAppTile, bz_app_tile, GTK_TYPE_BUTTON);
@@ -134,7 +133,7 @@ enum
   PROP_0,
 
   PROP_GROUP,
-  PROP_PREFERRED_WIDTH,
+  PROP_ICON_OVERRIDE,
 
   LAST_PROP
 };
@@ -146,6 +145,7 @@ bz_app_tile_dispose (GObject *object)
   BzAppTile *self = BZ_APP_TILE (object);
 
   g_clear_object (&self->group);
+  g_clear_object (&self->icon_override);
 
   G_OBJECT_CLASS (bz_app_tile_parent_class)->dispose (object);
 }
@@ -163,8 +163,8 @@ bz_app_tile_get_property (GObject    *object,
     case PROP_GROUP:
       g_value_set_object (value, bz_app_tile_get_group (self));
       break;
-    case PROP_PREFERRED_WIDTH:
-      g_value_set_int (value, self->preferred_width);
+    case PROP_ICON_OVERRIDE:
+      g_value_set_object (value, bz_app_tile_get_icon_override (self));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -184,8 +184,8 @@ bz_app_tile_set_property (GObject      *object,
     case PROP_GROUP:
       bz_app_tile_set_group (self, g_value_get_object (value));
       break;
-    case PROP_PREFERRED_WIDTH:
-      bz_app_tile_set_preferred_width (self, g_value_get_int (value));
+    case PROP_ICON_OVERRIDE:
+      bz_app_tile_set_icon_override (self, g_value_get_object (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -237,12 +237,12 @@ bz_app_tile_class_init (BzAppTileClass *klass)
           BZ_TYPE_ENTRY_GROUP,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-  props[PROP_PREFERRED_WIDTH] =
-      g_param_spec_int (
-          "preferred-width",
+  props[PROP_ICON_OVERRIDE] =
+      g_param_spec_object (
+          "icon-override",
           NULL, NULL,
-          -1, G_MAXINT, -1,
-          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+          GDK_TYPE_PAINTABLE,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -258,7 +258,6 @@ bz_app_tile_class_init (BzAppTileClass *klass)
 static void
 bz_app_tile_init (BzAppTile *self)
 {
-  self->preferred_width = -1;
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
@@ -287,41 +286,33 @@ bz_app_tile_set_group (BzAppTile    *self,
 
   if (group != NULL)
     {
-      gtk_actionable_set_action_name (GTK_ACTIONABLE (self), "window.show-group");
       gtk_actionable_set_action_target (GTK_ACTIONABLE (self), "s", bz_entry_group_get_id (group));
+      gtk_actionable_set_action_name (GTK_ACTIONABLE (self), "window.show-group");
     }
   else
-      gtk_actionable_set_action_name (GTK_ACTIONABLE (self), NULL);
+    gtk_actionable_set_action_name (GTK_ACTIONABLE (self), NULL);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_GROUP]);
 }
 
-gint
-bz_app_tile_get_preferred_width (BzAppTile *self)
+GdkPaintable *
+bz_app_tile_get_icon_override (BzAppTile *self)
 {
-  g_return_val_if_fail (BZ_IS_APP_TILE (self), -1);
-  return self->preferred_width;
+  g_return_val_if_fail (BZ_IS_APP_TILE (self), NULL);
+  return self->icon_override;
 }
 
 void
-bz_app_tile_set_preferred_width (BzAppTile *self,
-                                 gint       preferred_width)
+bz_app_tile_set_icon_override (BzAppTile    *self,
+                               GdkPaintable *icon_override)
 {
-  GtkLayoutManager *layout_manager;
-
   g_return_if_fail (BZ_IS_APP_TILE (self));
 
-  if (self->preferred_width == preferred_width)
-    return;
+  g_clear_object (&self->icon_override);
+  if (icon_override != NULL)
+    self->icon_override = g_object_ref (icon_override);
 
-  self->preferred_width = preferred_width;
-
-  layout_manager = gtk_widget_get_layout_manager (GTK_WIDGET (self));
-
-  BZ_APP_TILE_LAYOUT (layout_manager)->preferred_width = preferred_width;
-  gtk_layout_manager_layout_changed (layout_manager);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PREFERRED_WIDTH]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_OVERRIDE]);
 }
 
 /* End of bz-app-tile.c */

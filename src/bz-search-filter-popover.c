@@ -68,16 +68,19 @@ static GParamSpec *props[LAST_PROP] = { 0 };
 static void update_has_active_filters (BzSearchFilterPopover *self);
 static void apply_filter_button (BzSearchFilterPopover *self,
                                  guint                  prop,
-                                 gboolean               value);
-static void sync_from_state (BzSearchFilterPopover *self);
+                                 gboolean               value,
+                                 gboolean               from_state);
+static void sync_from_state (BzSearchFilterPopover *self,
+                             const char            *property);
 static void on_state_setting_changed (BzSearchFilterPopover *self,
+                                      GParamSpec            *pspec,
+                                      BzStateInfo           *state);
+static void on_state_flathub_changed (BzSearchFilterPopover *self,
                                       GParamSpec            *pspec,
                                       BzStateInfo           *state);
 static void on_category_button_clicked (GtkButton *button,
                                         gpointer   user_data);
 static void rebuild_category_buttons (BzSearchFilterPopover *self);
-static void on_show (GtkPopover *popover,
-                     gpointer    user_data);
 static void on_filter_button_clicked (GtkButton *button,
                                       gpointer   user_data);
 
@@ -203,18 +206,18 @@ bz_search_filter_popover_init (BzSearchFilterPopover *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  g_signal_connect (self, "show", G_CALLBACK (on_show), NULL);
-
   state = bz_state_info_get_default ();
-  if (state != NULL)
-    {
-      g_signal_connect_swapped (state, "notify::show-only-verified",
-                                G_CALLBACK (on_state_setting_changed), self);
-      g_signal_connect_swapped (state, "notify::show-only-foss",
-                                G_CALLBACK (on_state_setting_changed), self);
-      g_signal_connect_swapped (state, "notify::hide-eol",
-                                G_CALLBACK (on_state_setting_changed), self);
-    }
+  g_signal_connect_swapped (state, "notify::show-only-verified",
+                            G_CALLBACK (on_state_setting_changed), self);
+  g_signal_connect_swapped (state, "notify::show-only-foss",
+                            G_CALLBACK (on_state_setting_changed), self);
+  g_signal_connect_swapped (state, "notify::hide-eol",
+                            G_CALLBACK (on_state_setting_changed), self);
+  g_signal_connect_swapped (state, "notify::flathub",
+                            G_CALLBACK (on_state_flathub_changed), self);
+  sync_from_state (self, NULL);
+
+  rebuild_category_buttons (self);
 }
 
 GtkWidget *
@@ -266,12 +269,12 @@ bz_search_filter_popover_clear (BzSearchFilterPopover *self)
   g_return_if_fail (BZ_IS_SEARCH_FILTER_POPOVER (self));
 
   if (!self->state_forced_verified)
-    apply_filter_button (self, PROP_ONLY_VERIFIED, FALSE);
+    apply_filter_button (self, PROP_ONLY_VERIFIED, FALSE, FALSE);
   if (!self->state_forced_free)
-    apply_filter_button (self, PROP_ONLY_FREE, FALSE);
+    apply_filter_button (self, PROP_ONLY_FREE, FALSE, FALSE);
   if (!self->state_forced_non_eol)
-    apply_filter_button (self, PROP_ONLY_NON_EOL, FALSE);
-  apply_filter_button (self, PROP_ONLY_MOBILE, FALSE);
+    apply_filter_button (self, PROP_ONLY_NON_EOL, FALSE, FALSE);
+  apply_filter_button (self, PROP_ONLY_MOBILE, FALSE, FALSE);
 
   for (child = gtk_widget_get_first_child (GTK_WIDGET (self->wrap_box));
        child != NULL;
@@ -307,7 +310,8 @@ update_has_active_filters (BzSearchFilterPopover *self)
 static void
 apply_filter_button (BzSearchFilterPopover *self,
                      guint                  prop,
-                     gboolean               value)
+                     gboolean               value,
+                     gboolean               from_state)
 {
   struct
   {
@@ -326,58 +330,51 @@ apply_filter_button (BzSearchFilterPopover *self,
       if (map[i].prop != prop)
         continue;
 
-      *map[i].field = value;
+      if (*map[i].field != value)
+        {
+          *map[i].field = value;
+          g_object_notify_by_pspec (G_OBJECT (self), props[prop]);
+        }
 
       if (value)
         gtk_widget_add_css_class (*map[i].button, "accent");
       else
         gtk_widget_remove_css_class (*map[i].button, "accent");
 
-      g_object_notify_by_pspec (G_OBJECT (self), props[prop]);
-      update_has_active_filters (self);
+      if (from_state)
+        gtk_widget_set_sensitive (*map[i].button, !value);
+
       return;
     }
 }
 
 static void
-sync_from_state (BzSearchFilterPopover *self)
+sync_from_state (BzSearchFilterPopover *self,
+                 const char            *property)
 {
-  BzStateInfo *state          = NULL;
-  gboolean     state_verified = FALSE;
-  gboolean     state_free     = FALSE;
-  gboolean     state_hide_eol = FALSE;
+  BzStateInfo *state = NULL;
 
   state = bz_state_info_get_default ();
   if (state == NULL)
     return;
 
-  g_object_get (state,
-                "show-only-verified", &state_verified,
-                "show-only-foss", &state_free,
-                "hide-eol", &state_hide_eol,
-                NULL);
+  if (property == NULL || g_strcmp0 (property, "show-only-verified") == 0)
+    {
+      g_object_get (state, "show-only-verified", &self->state_forced_verified, NULL);
+      apply_filter_button (self, PROP_ONLY_VERIFIED, self->state_forced_verified, TRUE);
+    }
+  if (property == NULL || g_strcmp0 (property, "show-only-foss") == 0)
+    {
+      g_object_get (state, "show-only-foss", &self->state_forced_free, NULL);
+      apply_filter_button (self, PROP_ONLY_FREE, self->state_forced_free, TRUE);
+    }
+  if (property == NULL || g_strcmp0 (property, "hide-eol") == 0)
+    {
+      g_object_get (state, "hide-eol", &self->state_forced_non_eol, NULL);
+      apply_filter_button (self, PROP_ONLY_NON_EOL, self->state_forced_non_eol, TRUE);
+    }
 
-  self->state_forced_verified = state_verified;
-  self->state_forced_free     = state_free;
-  self->state_forced_non_eol  = state_hide_eol;
-
-  if (state_verified)
-    apply_filter_button (self, PROP_ONLY_VERIFIED, TRUE);
-
-  if (self->verified_button != NULL)
-    gtk_widget_set_sensitive (self->verified_button, !state_verified);
-
-  if (state_free)
-    apply_filter_button (self, PROP_ONLY_FREE, TRUE);
-
-  if (self->free_button != NULL)
-    gtk_widget_set_sensitive (self->free_button, !state_free);
-
-  if (state_hide_eol)
-    apply_filter_button (self, PROP_ONLY_NON_EOL, TRUE);
-
-  if (self->non_eol_button != NULL)
-    gtk_widget_set_sensitive (self->non_eol_button, !state_hide_eol);
+  update_has_active_filters (self);
 }
 
 static void
@@ -385,26 +382,15 @@ on_state_setting_changed (BzSearchFilterPopover *self,
                           GParamSpec            *pspec,
                           BzStateInfo           *state)
 {
-  gboolean state_verified = FALSE;
-  gboolean state_free     = FALSE;
-  gboolean state_hide_eol = FALSE;
+  sync_from_state (self, pspec->name);
+}
 
-  g_object_get (state,
-                "show-only-verified", &state_verified,
-                "show-only-foss", &state_free,
-                "hide-eol", &state_hide_eol,
-                NULL);
-
-  if (!state_verified)
-    apply_filter_button (self, PROP_ONLY_VERIFIED, FALSE);
-
-  if (!state_free)
-    apply_filter_button (self, PROP_ONLY_FREE, FALSE);
-
-  if (!state_hide_eol)
-    apply_filter_button (self, PROP_ONLY_NON_EOL, FALSE);
-
-  sync_from_state (self);
+static void
+on_state_flathub_changed (BzSearchFilterPopover *self,
+                          GParamSpec            *pspec,
+                          BzStateInfo           *state)
+{
+  rebuild_category_buttons (self);
 }
 
 static void
@@ -417,13 +403,15 @@ on_filter_button_clicked (GtkButton *button,
   name = gtk_widget_get_name (GTK_WIDGET (button));
 
   if (g_str_equal (name, "verified"))
-    apply_filter_button (self, PROP_ONLY_VERIFIED, !self->only_verified);
+    apply_filter_button (self, PROP_ONLY_VERIFIED, !self->only_verified, FALSE);
   else if (g_str_equal (name, "free"))
-    apply_filter_button (self, PROP_ONLY_FREE, !self->only_free);
+    apply_filter_button (self, PROP_ONLY_FREE, !self->only_free, FALSE);
   else if (g_str_equal (name, "non-eol"))
-    apply_filter_button (self, PROP_ONLY_NON_EOL, !self->only_non_eol);
+    apply_filter_button (self, PROP_ONLY_NON_EOL, !self->only_non_eol, FALSE);
   else if (g_str_equal (name, "mobile"))
-    apply_filter_button (self, PROP_ONLY_MOBILE, !self->only_mobile);
+    apply_filter_button (self, PROP_ONLY_MOBILE, !self->only_mobile, FALSE);
+
+  update_has_active_filters (self);
 }
 
 static void
@@ -457,8 +445,6 @@ rebuild_category_buttons (BzSearchFilterPopover *self)
 
   while ((child = gtk_widget_get_first_child (GTK_WIDGET (self->wrap_box))) != NULL)
     adw_wrap_box_remove (self->wrap_box, child);
-
-  sync_from_state (self);
 
   state = bz_state_info_get_default ();
   if (state == NULL)
@@ -514,11 +500,4 @@ rebuild_category_buttons (BzSearchFilterPopover *self)
 
       adw_wrap_box_append (self->wrap_box, button);
     }
-}
-
-static void
-on_show (GtkPopover *popover,
-         gpointer    user_data)
-{
-  rebuild_category_buttons (BZ_SEARCH_FILTER_POPOVER (popover));
 }

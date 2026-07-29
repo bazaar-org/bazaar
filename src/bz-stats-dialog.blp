@@ -24,6 +24,7 @@ template $BzStatsDialog: Adw.BreakpointBin {
 
         Adw.ViewStackPage {
           name: "graph";
+          // TRANSLATORS: page in the statistics dialog
           title: _("Timeline");
           icon-name: "graph2-symbolic";
           visible: bind $model_has_enough_points(template.model) as <bool>;
@@ -43,6 +44,7 @@ template $BzStatsDialog: Adw.BreakpointBin {
 
             $BzDataGraph graph {
               model: bind template.model;
+              // TRANSLATORS: label prefix shown in graph tooltips, for example: "Installs: 42"
               tooltip-prefix: _("Installs:");
               vexpand: true;
               hexpand: true;
@@ -52,6 +54,7 @@ template $BzStatsDialog: Adw.BreakpointBin {
 
         Adw.ViewStackPage {
           name: "map";
+          // TRANSLATORS: page in the statistics dialog
           title: _("World");
           icon-name: "globe-symbolic";
 

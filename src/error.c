@@ -1,4 +1,4 @@
-/* bz-error.c
+/* error.c
  *
  * Copyright 2025 Adam Masciola
  *
@@ -24,7 +24,7 @@
 #include <glib/gi18n.h>
 
 #include "bz-error-dialog.h"
-#include "bz-error.h"
+#include "error.h"
 #include "bz-window.h"
 
 static void

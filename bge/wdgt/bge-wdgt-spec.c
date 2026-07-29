@@ -322,7 +322,8 @@ struct _BgeWdgtSpec
 {
   GObject parent_instance;
 
-  char *name;
+  char          *name;
+  GtkStringList *state_names;
 
   GHashTable *values;
   GPtrArray  *values_stack;
@@ -342,7 +343,14 @@ struct _BgeWdgtSpec
   gboolean ready;
 };
 
-G_DEFINE_FINAL_TYPE (BgeWdgtSpec, bge_wdgt_spec, G_TYPE_OBJECT);
+static void
+list_model_iface_init (GListModelInterface *iface);
+
+G_DEFINE_FINAL_TYPE_WITH_CODE (
+    BgeWdgtSpec,
+    bge_wdgt_spec,
+    G_TYPE_OBJECT,
+    G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, list_model_iface_init));
 
 enum
 {
@@ -377,6 +385,7 @@ bge_wdgt_spec_dispose (GObject *object)
   BgeWdgtSpec *self = BGE_WDGT_SPEC (object);
 
   g_clear_pointer (&self->name, g_free);
+  g_clear_object (&self->state_names);
 
   g_clear_pointer (&self->values, g_hash_table_unref);
   g_clear_pointer (&self->values_stack, g_ptr_array_unref);
@@ -912,6 +921,8 @@ bge_wdgt_spec_class_init (BgeWdgtSpecClass *klass)
 static void
 bge_wdgt_spec_init (BgeWdgtSpec *self)
 {
+  self->state_names = gtk_string_list_new (NULL);
+
   self->values                  = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, value_data_unref);
   self->values_stack            = g_ptr_array_new_with_free_func ((GDestroyNotify) g_hash_table_unref);
   self->foreaches               = g_ptr_array_new_with_free_func (foreach_data_unref);
@@ -945,6 +956,35 @@ bge_wdgt_spec_init (BgeWdgtSpec *self)
                         state_data_ref (self->init_state));
 
   self->ready = FALSE;
+}
+
+static GType
+list_model_get_item_type (GListModel *list)
+{
+  return GTK_TYPE_STRING_OBJECT;
+}
+
+static guint
+list_model_get_n_items (GListModel *list)
+{
+  BgeWdgtSpec *self = BGE_WDGT_SPEC (list);
+  return g_list_model_get_n_items (G_LIST_MODEL (self->state_names));
+}
+
+static gpointer
+list_model_get_item (GListModel *list,
+                     guint       position)
+{
+  BgeWdgtSpec *self = BGE_WDGT_SPEC (list);
+  return g_list_model_get_item (G_LIST_MODEL (self->state_names), position);
+}
+
+static void
+list_model_iface_init (GListModelInterface *iface)
+{
+  iface->get_item_type = list_model_get_item_type;
+  iface->get_n_items   = list_model_get_n_items;
+  iface->get_item      = list_model_get_item;
 }
 
 BgeWdgtSpec *
@@ -2229,6 +2269,8 @@ bge_wdgt_spec_add_state (BgeWdgtSpec *self,
   g_hash_table_replace (self->states, g_strdup (name), state_data_ref (state));
   if (default_state)
     self->default_state = state_data_ref (state);
+
+  gtk_string_list_append (self->state_names, name);
 
   return TRUE;
 }

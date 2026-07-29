@@ -1,4 +1,4 @@
-/* bz-global-net.h
+/* global-net.h
  *
  * Copyright 2025 Adam Masciola
  *
@@ -54,6 +54,9 @@ bz_query_flathub_v2_json_authenticated_delete (const char *request,
 
 DexFuture *
 bz_query_flathub_v2_json_take (char *request);
+
+DexFuture *
+bz_query_bazaar_json (const char *request);
 
 DexFuture *
 bz_fetch_uri_contents (const char *uri);

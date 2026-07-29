@@ -1,4 +1,4 @@
-/* bz-template-callbacks.c
+/* template-callbacks.c
  *
  * Copyright 2026 Eva M
  *
@@ -18,7 +18,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
+#include "util.h"
 
 static gboolean
 invert_boolean (gpointer object,
@@ -146,10 +147,46 @@ bool_to_string (gpointer object,
 }
 
 static gpointer
-choose (gpointer object,
-        gboolean condition,
-        gpointer if_true,
-        gpointer if_false)
+choose_object (gpointer object,
+               gboolean condition,
+               gpointer if_true,
+               gpointer if_false)
+{
+  return condition ? bz_object_maybe_ref (if_true) : bz_object_maybe_ref (if_false);
+}
+
+static int
+choose_int (gpointer object,
+            gboolean condition,
+            int      if_true,
+            int      if_false)
+{
+  return condition ? if_true : if_false;
+}
+
+static guint
+choose_uint (gpointer object,
+             gboolean condition,
+             guint    if_true,
+             guint    if_false)
+{
+  return condition ? if_true : if_false;
+}
+
+static gint64
+choose_int64 (gpointer object,
+              gboolean condition,
+              gint64   if_true,
+              gint64   if_false)
+{
+  return condition ? if_true : if_false;
+}
+
+static guint64
+choose_uint64 (gpointer object,
+               gboolean condition,
+               guint64  if_true,
+               guint64  if_false)
 {
   return condition ? if_true : if_false;
 }
@@ -196,7 +233,11 @@ bz_widget_class_bind_all_util_callbacks (GtkWidgetClass *widget_class)
   gtk_widget_class_bind_template_callback (widget_class, is_empty_string);
   gtk_widget_class_bind_template_callback (widget_class, is_longer);
   gtk_widget_class_bind_template_callback (widget_class, bool_to_string);
-  gtk_widget_class_bind_template_callback (widget_class, choose);
+  gtk_widget_class_bind_template_callback (widget_class, choose_object);
+  gtk_widget_class_bind_template_callback (widget_class, choose_int);
+  gtk_widget_class_bind_template_callback (widget_class, choose_uint);
+  gtk_widget_class_bind_template_callback (widget_class, choose_int64);
+  gtk_widget_class_bind_template_callback (widget_class, choose_uint64);
   gtk_widget_class_bind_template_callback (widget_class, format_int);
   gtk_widget_class_bind_template_callback (widget_class, format_uint);
   gtk_widget_class_bind_template_callback (widget_class, format_double);

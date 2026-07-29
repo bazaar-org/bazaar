@@ -5,4 +5,4 @@ PartOf=graphical-session.target
 [Service]
 Type=dbus
 BusName=io.github.kolunmi.Bazaar
-ExecStart=@bindir@/bazaar --no-window
+ExecStart=@bindir@/bazaar-daemon --no-window

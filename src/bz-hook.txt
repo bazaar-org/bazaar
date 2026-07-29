@@ -10,7 +10,7 @@ include="bz-hook-dialog.h"
 ensure=BZ_TYPE_HOOK_DIALOG
 ensure=BZ_TYPE_HOOK_DIALOG_OPTION
 
-enum=bz hook_signal view_app before_transaction after_transaction
+enum=bz hook_signal view_app before_transaction after_transaction article_app
 enum=bz hook_return_status continue stop confirm deny
 enum=bz hook_transaction_type install update removal
 

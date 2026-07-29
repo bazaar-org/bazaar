@@ -16,7 +16,6 @@ template $BzFlathubPage: Adw.Bin {
 
         Adw.ViewStackPage {
           name: "empty";
-          title: _("Empty");
 
           child: Adw.StatusPage {
             icon-name: "flathub-symbolic";
@@ -27,7 +26,6 @@ template $BzFlathubPage: Adw.Bin {
 
         Adw.ViewStackPage {
           name: "offline";
-          title: _("Flathub Unavailable");
 
           child: Adw.StatusPage {
             icon-name: "connected-squares-x";
@@ -58,7 +56,6 @@ template $BzFlathubPage: Adw.Bin {
 
         Adw.ViewStackPage {
           name: "content";
-          title: _("Browser");
 
           child: ScrolledWindow {
             styles [

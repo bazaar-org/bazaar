@@ -33,7 +33,7 @@ template $BzInstallControls: Box {
 
         has-tooltip: true;
         hexpand: bind $invert_boolean(template.wide) as <bool>;
-        halign: bind $choose(template.wide, 2, 0) as <int>;
+        halign: bind $choose_int(template.wide, 2, 0) as <int>;
       };
     }
 
@@ -41,9 +41,9 @@ template $BzInstallControls: Box {
       name: "open";
 
       child: Box {
-        spacing: bind $choose(template.wide, 10, 8) as <int>;
+        spacing: bind $choose_int(template.wide, 10, 8) as <int>;
         homogeneous: bind $invert_boolean(template.wide) as <bool>;
-        halign: bind $choose(template.wide, 2, 0) as <int>;
+        halign: bind $choose_int(template.wide, 2, 0) as <int>;
         valign: center;
 
         margin-top: 3;
@@ -67,7 +67,7 @@ template $BzInstallControls: Box {
             "circular",
           ]
 
-          width-request: bind $choose(template.wide, 45, -1) as <int>;
+          width-request: bind $choose_int(template.wide, 45, -1) as <int>;
           hexpand: bind $invert_boolean(template.wide) as <bool>;
           has-tooltip: bind template.wide as <bool>;
           tooltip-text: _("Uninstall Application");
@@ -97,9 +97,9 @@ template $BzInstallControls: Box {
       name: "update";
 
       child: Box {
-        spacing: bind $choose(template.wide, 10, 8) as <int>;
+        spacing: bind $choose_int(template.wide, 10, 8) as <int>;
         homogeneous: bind $invert_boolean(template.wide) as <bool>;
-        halign: bind $choose(template.wide, 2, 0) as <int>;
+        halign: bind $choose_int(template.wide, 2, 0) as <int>;
         valign: center;
 
         margin-top: 3;
@@ -122,7 +122,7 @@ template $BzInstallControls: Box {
             "circular",
           ]
 
-          width-request: bind $choose(template.wide, 45, -1) as <int>;
+          width-request: bind $choose_int(template.wide, 45, -1) as <int>;
           hexpand: bind $invert_boolean(template.wide) as <bool>;
           has-tooltip: bind template.wide as <bool>;
           tooltip-text: _("Uninstall Application");

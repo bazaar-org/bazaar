@@ -27,13 +27,14 @@
 #include <libdex.h>
 
 #include "bz-application.h"
+#include "refresh-worker.h"
+#include "update-worker.h"
 
 int
 main (int   argc,
       char *argv[])
 {
-  g_autoptr (BzApplication) app = NULL;
-  int result                    = 0;
+  int result = 0;
 
   if (argc > 1 && g_strcmp0 (argv[1], "--version") == 0)
     {
@@ -50,14 +51,22 @@ main (int   argc,
   /* Init Bazaar GTK Extensions */
   bge_init ();
 
-  app = g_object_new (
-      BZ_TYPE_APPLICATION,
-      "application-id", "io.github.kolunmi.Bazaar",
-      "flags", G_APPLICATION_HANDLES_COMMAND_LINE,
-      "resource-base-path", "/io/github/kolunmi/Bazaar",
-      NULL);
+  if (argc > 1 && g_strcmp0 (argv[1], REFRESH_WORKER_CLI_OPTION) == 0)
+    result = run_refresh_worker (argc, argv);
+  else if (argc > 1 && g_strcmp0 (argv[1], UPDATE_WORKER_CLI_OPTION) == 0)
+    result = run_update_worker (argc, argv);
+  else
+    {
+      g_autoptr (BzApplication) app = NULL;
 
-  result = g_application_run (G_APPLICATION (app), argc, argv);
+      app = g_object_new (
+          BZ_TYPE_APPLICATION,
+          "application-id", APPLICATION_ID,
+          "flags", G_APPLICATION_HANDLES_COMMAND_LINE,
+          "resource-base-path", "/io/github/kolunmi/Bazaar",
+          NULL);
+      result = g_application_run (G_APPLICATION (app), argc, argv);
+    }
 
   return result;
 }

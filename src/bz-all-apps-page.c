@@ -144,21 +144,21 @@ AdwNavigationPage *
 bz_all_apps_page_new (const char *title,
                       GListModel *applications)
 {
-  BzAllAppsPage     *apps_page       = NULL;
-  GtkSelectionModel *selection_model = NULL;
+  BzAllAppsPage *apps_page                   = NULL;
+  g_autoptr (GtkNoSelection) selection_model = NULL;
+
+  g_return_val_if_fail (applications != NULL, NULL);
 
   apps_page = g_object_new (
       BZ_TYPE_ALL_APPS_PAGE,
       "page-title", title,
       "applications", applications,
+      "title", title,
       NULL);
 
-  adw_navigation_page_set_title (ADW_NAVIGATION_PAGE (apps_page), title);
-
-  selection_model = GTK_SELECTION_MODEL (gtk_no_selection_new (applications));
-  gtk_grid_view_set_model (apps_page->grid_view, selection_model);
-  g_object_unref (selection_model);
+  selection_model = gtk_no_selection_new (NULL);
+  gtk_no_selection_set_model (selection_model, applications);
+  gtk_grid_view_set_model (apps_page->grid_view, GTK_SELECTION_MODEL (selection_model));
 
   return ADW_NAVIGATION_PAGE (apps_page);
 }
-

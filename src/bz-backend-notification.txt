@@ -16,3 +16,4 @@ property=version char G_TYPE_STRING string
 property=remote_name char G_TYPE_STRING string
 property=generic_id char G_TYPE_STRING string
 property=unique_id char G_TYPE_STRING string
+property=was_rebased gboolean G_TYPE_BOOLEAN boolean

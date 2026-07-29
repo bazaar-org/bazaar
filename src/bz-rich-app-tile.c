@@ -24,7 +24,7 @@
 #include "bz-rounded-picture.h"
 #include "bz-themed-entry-group-rect.h"
 #include "bz-transact-icon.h"
-#include "bz-util.h"
+#include "util.h"
 
 #include <glib/gi18n.h>
 

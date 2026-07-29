@@ -25,7 +25,7 @@
 
 #include "bz-appstream-description-render.h"
 #include "bz-donations-dialog.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 struct _BzDonationsDialog
 {

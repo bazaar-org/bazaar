@@ -27,8 +27,8 @@
 #include "bz-curated-article.h"
 #include "bz-curated-articles-info.h"
 #include "bz-dynamic-list-view.h"
-#include "bz-env.h"
-#include "bz-global-net.h"
+#include "env.h"
+#include "global-net.h"
 #include "bz-parser.h"
 #include "bz-yaml-parser.h"
 

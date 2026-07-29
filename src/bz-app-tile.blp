@@ -1,7 +1,6 @@
 using Gtk 4.0;
 
 template $BzAppTile: Button {
-  preferred-width: 270;
   styles [
     "card",
     "app-tile",
@@ -19,7 +18,7 @@ template $BzAppTile: Button {
 
       Image {
         pixel-size: 64;
-        paintable: bind template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable;
+        paintable: bind try {template.group as <$BzEntryGroup>.ui-entry as <$BzResult>.object as <$BzEntry>.icon-paintable, template.icon-override};
 
         styles ["icon-dropshadow"]
       }

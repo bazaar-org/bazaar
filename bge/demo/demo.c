@@ -26,6 +26,11 @@ static GtkLabel        *error_lbl = NULL;
 static void
 on_activate (GtkApplication *app);
 
+static GtkWidget *
+on_carousel_create_widget (BgeCarousel     *carousel,
+                           GtkStringObject *string,
+                           gpointer         user_data);
+
 static void
 on_buffer_changed (GtkTextBuffer *buffer,
                    gpointer       user_data);
@@ -56,58 +61,125 @@ main (int argc, char **argv)
 static void
 on_activate (GtkApplication *app)
 {
-  GtkWidget         *window             = NULL;
-  GtkWidget         *root               = NULL;
-  GtkTextBuffer     *buffer             = NULL;
-  BgeMarkdownRender *markdown           = NULL;
-  g_autoptr (GtkStringObject) reference = NULL;
-  g_autoptr (GtkBuilder) builder        = NULL;
-  g_autoptr (GtkBuilderScope) scope     = NULL;
-  g_autoptr (GBytes) wdgt_bytes         = NULL;
-  gsize         wdgt_buffer_size        = 0;
-  gconstpointer wdgt_buffer             = NULL;
-  g_autoptr (GBytes) markdown_bytes     = NULL;
-  gsize         markdown_buffer_size    = 0;
-  gconstpointer markdown_buffer         = NULL;
+  GtkWidget         *window         = NULL;
+  GtkWidget         *root           = NULL;
+  GtkTextBuffer     *buffer         = NULL;
+  BgeMarkdownRender *markdown       = NULL;
+  GtkBox            *carousel_box   = NULL;
+  g_autoptr (GtkBuilder) builder    = NULL;
+  g_autoptr (GtkBuilderScope) scope = NULL;
 
   window = gtk_application_window_new (app);
-  gtk_window_set_default_size (GTK_WINDOW (window), 1000, 500);
+  gtk_window_set_default_size (GTK_WINDOW (window), 1000, 800);
 
   scope = gtk_builder_cscope_new ();
 
   builder = gtk_builder_new ();
   gtk_builder_set_scope (builder, scope);
   gtk_builder_add_from_resource (builder, "/io/github/kolunmi/BgeDemo/window.ui", NULL);
-  root      = GTK_WIDGET (gtk_builder_get_object (builder, "root"));
-  buffer    = GTK_TEXT_BUFFER (gtk_builder_get_object (builder, "buffer"));
-  wdgt      = BGE_WDGT_RENDERER (gtk_builder_get_object (builder, "wdgt"));
-  error_lbl = GTK_LABEL (gtk_builder_get_object (builder, "error_lbl"));
-  markdown  = BGE_MARKDOWN_RENDER (gtk_builder_get_object (builder, "markdown"));
+  root         = GTK_WIDGET (gtk_builder_get_object (builder, "root"));
+  buffer       = GTK_TEXT_BUFFER (gtk_builder_get_object (builder, "buffer"));
+  wdgt         = BGE_WDGT_RENDERER (gtk_builder_get_object (builder, "wdgt"));
+  error_lbl    = GTK_LABEL (gtk_builder_get_object (builder, "error_lbl"));
+  markdown     = BGE_MARKDOWN_RENDER (gtk_builder_get_object (builder, "markdown"));
+  carousel_box = GTK_BOX (gtk_builder_get_object (builder, "carousel_box"));
 
-  reference = gtk_string_object_new ("Hello from demo.c!!");
-  bge_wdgt_renderer_set_reference (wdgt, G_OBJECT (reference));
+  {
+    GtkIconTheme *theme             = NULL;
+    g_auto (GStrv) icons            = NULL;
+    GtkStringList *string_lists[16] = { 0 };
 
-  g_signal_connect (
-      buffer, "changed",
-      G_CALLBACK (on_buffer_changed),
-      NULL);
+    theme = gtk_icon_theme_get_for_display (gdk_display_get_default ());
+    icons = gtk_icon_theme_get_icon_names (theme);
 
-  wdgt_bytes = g_resources_lookup_data (
-      "/io/github/kolunmi/BgeDemo/test.wdgt",
-      G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
-  g_assert (wdgt_bytes != NULL);
-  wdgt_buffer = g_bytes_get_data (wdgt_bytes, &wdgt_buffer_size);
-  gtk_text_buffer_set_text (buffer, wdgt_buffer, wdgt_buffer_size);
+    for (guint i = 0; i < G_N_ELEMENTS (string_lists); i++)
+      {
+        string_lists[i] = gtk_string_list_new (NULL);
+      }
 
-  markdown_bytes = g_resources_lookup_data (
-      "/io/github/kolunmi/BgeDemo/example-markdown.md",
-      G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
-  g_assert (markdown_bytes != NULL);
-  markdown_buffer = g_bytes_get_data (markdown_bytes, &markdown_buffer_size);
-  bge_markdown_render_set_markdown (markdown, markdown_buffer);
+    for (guint i = 0; icons[i] != NULL; i++)
+      {
+        if (g_str_has_suffix (icons[i], "-symbolic"))
+          {
+            gtk_string_list_append (string_lists[i % G_N_ELEMENTS (string_lists)], icons[i]);
+          }
+      }
+
+    for (guint i = 0; i < G_N_ELEMENTS (string_lists); i++)
+      {
+        g_autoptr (GtkSingleSelection) selection = NULL;
+        GtkWidget *carousel                      = NULL;
+
+        selection = gtk_single_selection_new (G_LIST_MODEL (string_lists[i]));
+
+        carousel = bge_carousel_new ();
+        bge_carousel_set_allow_mouse_drag (BGE_CAROUSEL (carousel), TRUE);
+        bge_carousel_set_allow_overshoot (BGE_CAROUSEL (carousel), TRUE);
+
+        g_signal_connect (carousel, "create-widget", G_CALLBACK (on_carousel_create_widget), NULL);
+        bge_carousel_set_model (BGE_CAROUSEL (carousel), selection);
+
+        gtk_box_append (carousel_box, carousel);
+
+        if (i < G_N_ELEMENTS (string_lists) - 1)
+          gtk_box_append (carousel_box, gtk_separator_new (GTK_ORIENTATION_HORIZONTAL));
+      }
+  }
+
+  {
+    g_autoptr (GBytes) markdown_bytes  = NULL;
+    gsize         markdown_buffer_size = 0;
+    gconstpointer markdown_buffer      = NULL;
+
+    markdown_bytes = g_resources_lookup_data (
+        "/io/github/kolunmi/BgeDemo/example-markdown.md",
+        G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
+    g_assert (markdown_bytes != NULL);
+    markdown_buffer = g_bytes_get_data (markdown_bytes, &markdown_buffer_size);
+    bge_markdown_render_set_markdown (markdown, markdown_buffer);
+  }
+
+  {
+    g_autoptr (GtkStringObject) reference = NULL;
+    g_autoptr (GBytes) wdgt_bytes         = NULL;
+    gsize         wdgt_buffer_size        = 0;
+    gconstpointer wdgt_buffer             = NULL;
+
+    reference = gtk_string_object_new ("Hello from demo.c!!");
+    bge_wdgt_renderer_set_reference (wdgt, G_OBJECT (reference));
+
+    g_signal_connect (
+        buffer, "changed",
+        G_CALLBACK (on_buffer_changed),
+        NULL);
+
+    wdgt_bytes = g_resources_lookup_data (
+        "/io/github/kolunmi/BgeDemo/test.wdgt",
+        G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
+    g_assert (wdgt_bytes != NULL);
+    wdgt_buffer = g_bytes_get_data (wdgt_bytes, &wdgt_buffer_size);
+    gtk_text_buffer_set_text (buffer, wdgt_buffer, wdgt_buffer_size);
+  }
 
   gtk_window_set_child (GTK_WINDOW (window), g_object_ref_sink (root));
   gtk_window_present (GTK_WINDOW (window));
+}
+
+static GtkWidget *
+on_carousel_create_widget (BgeCarousel     *carousel,
+                           GtkStringObject *string_object,
+                           gpointer         user_data)
+{
+  const char *icon_name = NULL;
+  GtkWidget  *button    = NULL;
+
+  icon_name = gtk_string_object_get_string (string_object);
+
+  button = gtk_button_new_from_icon_name (icon_name);
+  gtk_widget_set_margin_start (button, 2);
+  gtk_widget_set_margin_end (button, 2);
+
+  return button;
 }
 
 static void

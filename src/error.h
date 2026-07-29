@@ -1,6 +1,6 @@
-/* bz-spdx.h
+/* error.h
  *
- * Copyright 2025 Alexander Vanhee
+ * Copyright 2025 Adam Masciola
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,20 +20,17 @@
 
 #pragma once
 
-#include <glib.h>
+#include <adwaita.h>
+#include <libdex.h>
 
 G_BEGIN_DECLS
 
-gboolean
-bz_spdx_is_valid (const char *license_id);
+void
+bz_show_error_for_widget (GtkWidget  *widget,
+                          const char *title,
+                          const char *text);
 
-char *
-bz_spdx_get_url (const char *license_id);
-
-char *
-bz_spdx_get_name (const char *license_id);
-
-gboolean
-bz_spdx_is_proprietary (const char *license_id);
+DexFuture *
+bz_make_alert_dialog_future (AdwAlertDialog *dialog);
 
 G_END_DECLS

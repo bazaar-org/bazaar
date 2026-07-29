@@ -42,7 +42,8 @@ GType
 bz_metainfo_pick_result_get_type (void);
 
 DexFuture *
-bz_metainfo_preview_pick_files (void);
+bz_metainfo_preview_open_file (GFile     *metainfo_file,
+                               GtkWindow *parent_window);
 
 AdwNavigationPage *
 create_entry_group_preview_page (BzEntryGroup *group);

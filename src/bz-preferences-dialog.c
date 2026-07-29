@@ -61,11 +61,13 @@ struct _BzPreferencesDialog
   GSettings   *settings;
 
   /* Template widgets */
-  AdwSwitchRow *only_foss_switch;
-  AdwSwitchRow *only_flathub_switch;
-  AdwSwitchRow *only_verified_switch;
-  GtkFlowBox   *flag_buttons_box;
-  AdwSwitchRow *hide_eol_switch;
+  GtkCheckButton *automatic_updates_check;
+  AdwSwitchRow   *auto_notif_switch;
+  AdwSwitchRow   *only_foss_switch;
+  AdwSwitchRow   *only_flathub_switch;
+  AdwSwitchRow   *only_verified_switch;
+  GtkFlowBox     *flag_buttons_box;
+  AdwSwitchRow   *hide_eol_switch;
 
   GtkToggleButton *flag_buttons[G_N_ELEMENTS (bar_themes)];
 };
@@ -191,6 +193,14 @@ bind_settings (BzPreferencesDialog *self)
                    self->hide_eol_switch, "active",
                    G_SETTINGS_BIND_DEFAULT);
 
+  g_settings_bind (self->settings, "auto-update",
+                 self->automatic_updates_check, "active",
+                 G_SETTINGS_BIND_DEFAULT);
+
+  g_settings_bind (self->settings, "auto-update-notifications",
+                   self->auto_notif_switch, "active",
+                   G_SETTINGS_BIND_DEFAULT);
+
   g_signal_connect_object (
       self->settings,
       "changed::global-progress-bar-theme",
@@ -264,6 +274,8 @@ bz_preferences_dialog_class_init (BzPreferencesDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, BzPreferencesDialog, only_verified_switch);
   gtk_widget_class_bind_template_child (widget_class, BzPreferencesDialog, flag_buttons_box);
   gtk_widget_class_bind_template_child (widget_class, BzPreferencesDialog, hide_eol_switch);
+  gtk_widget_class_bind_template_child (widget_class, BzPreferencesDialog, automatic_updates_check);
+  gtk_widget_class_bind_template_child (widget_class, BzPreferencesDialog, auto_notif_switch);
   gtk_widget_class_bind_template_callback (widget_class, invert_boolean);
 }
 

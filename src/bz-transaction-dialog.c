@@ -24,14 +24,14 @@
 
 #include "bz-application.h"
 #include "bz-entry-selection-row.h"
-#include "bz-env.h"
-#include "bz-error.h"
+#include "env.h"
+#include "error.h"
 #include "bz-flatpak-entry.h"
-#include "bz-safety-calculator.h"
+#include "safety-calculator.h"
 #include "bz-state-info.h"
 #include "bz-transaction-dialog.h"
 #include "bz-transaction-list-dialog.h"
-#include "bz-util.h"
+#include "util.h"
 
 static gboolean
 should_skip_entry (BzEntry *entry,

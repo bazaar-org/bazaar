@@ -17,11 +17,12 @@ libsecret_dep        = dependency('libsecret-1', version: '>= 0.20')
 libproxy_dep         = dependency('libproxy-1.0', version: '>= 0.5')
 malcontent_dep 	     = dependency('malcontent-0', version: '>= 0.12.0')
 gtksourceview_dep    = dependency('gtksourceview-5', version: '>= 5.17')
+libsystemd_dep       = dependency('libsystemd', version: '>= 245')
 
 
 dl_worker_sources = [
-  'bz-env.c',
-  'bz-global-net.c',
+  'env.c',
+  'global-net.c',
   'dl-worker.c',
 ]
 
@@ -39,17 +40,20 @@ dl_worker_exe = executable(dl_worker_bin_name, dl_worker_sources,
 )
 
 
+daemon_sources = [
+  'bazaar-daemon.c',
+  'search-index.c',
+]
+
+daemon_exe = executable(daemon_bin_name, daemon_sources,
+  dependencies: [libsystemd_dep],
+       install: true,
+)
+
 marshalers = gnome.genmarshal('bz-marshalers',
   sources: 'bz-marshalers.list',
   prefix: 'bz_marshal',
   valist_marshallers: true,
-)
-
-gdbus_src = gnome.gdbus_codegen(
-  'gs-shell-search-provider-generated',
-  'shell-search-provider-dbus-interfaces.xml',
-  interface_prefix : 'org.gnome.',
-  namespace : 'Bz',
 )
 
 bz_sources = files(
@@ -65,9 +69,9 @@ bz_sources = files(
   'bz-apps-page.c',
   'bz-appstream-description-render.c',
   'bz-appstream-parser.c',
-  'bz-article.c',
   'bz-article-list-view.c',
   'bz-article-tile.c',
+  'bz-article.c',
   'bz-aspect-picture.c',
   'bz-async-texture.c',
   'bz-auth-state.c',
@@ -78,7 +82,6 @@ bz_sources = files(
   'bz-category-tile.c',
   'bz-content-provider.c',
   'bz-context-row.c',
-  'bz-context-tile-callbacks.c',
   'bz-context-tile.c',
   'bz-curated-view.c',
   'bz-data-graph.c',
@@ -93,15 +96,13 @@ bz_sources = files(
   'bz-entry-inspector.c',
   'bz-entry-selection-row.c',
   'bz-entry.c',
-  'bz-env.c',
   'bz-error-dialog.c',
-  'bz-error.c',
   'bz-fading-clamp.c',
   'bz-favorite-button.c',
   'bz-favorites-page.c',
   'bz-favorites-tile.c',
-  'bz-featured-carousel.c',
   'bz-featured-carousel-view.c',
+  'bz-featured-carousel.c',
   'bz-featured-tile.c',
   'bz-flathub-category-section.c',
   'bz-flathub-category.c',
@@ -111,15 +112,11 @@ bz_sources = files(
   'bz-flatpak-entry.c',
   'bz-flatpak-instance.c',
   'bz-full-view.c',
-  'bz-global-net.c',
-  'bz-gnome-shell-search-provider.c',
   'bz-group-tile-css-watcher.c',
   'bz-hardware-support-dialog.c',
-  'bz-hooks.c',
   'bz-inspector.c',
   'bz-install-controls.c',
   'bz-installed-tile.c',
-  'bz-io.c',
   'bz-lazy-wdgt.c',
   'bz-library-page.c',
   'bz-license-dialog.c',
@@ -137,23 +134,20 @@ bz_sources = files(
   'bz-rich-app-tile.c',
   'bz-rounded-picture.c',
   'bz-row-view.c',
-  'bz-safety-calculator.c',
   'bz-safety-dialog.c',
   'bz-screenshot-page.c',
   'bz-screenshot.c',
   'bz-screenshots-carousel.c',
+  'bz-search-bar.c',
   'bz-search-engine.c',
   'bz-search-filter-popover.c',
-  'bz-search-bar.c',
   'bz-search-page.c',
   'bz-search-pill-list.c',
   'bz-section-view.c',
   'bz-serializable.c',
   'bz-share-list.c',
-  'bz-spdx.c',
   'bz-stats-dialog.c',
   'bz-subcategory-list.c',
-  'bz-template-callbacks.c',
   'bz-themed-entry-group-rect.c',
   'bz-transact-icon.c',
   'bz-transaction-dialog.c',
@@ -169,6 +163,18 @@ bz_sources = files(
   'bz-world-map.c',
   'bz-yaml-parser.c',
   'bz-zoom.c',
+  'context-tile-callbacks.c',
+  'env.c',
+  'error.c',
+  'global-net.c',
+  'hooks.c',
+  'io.c',
+  'refresh-worker.c',
+  'safety-calculator.c',
+  'search-index-write.c',
+  'spdx.c',
+  'template-callbacks.c',
+  'update-worker.c',
 )
 subdir('progress-bar-designs')
 
@@ -312,6 +318,7 @@ blueprints = custom_target('blueprints',
     'bz-library-page.blp',
     'bz-license-dialog.blp',
     'bz-login-page.blp',
+    'bz-metainfo-preview-page.blp',
     'bz-preferences-dialog.blp',
     'bz-progress-bar.blp',
     'bz-releases-dialog.blp',
@@ -375,14 +382,7 @@ bz_sources += gnome.compile_resources('bz-resources',
   dependencies: [blueprints, release_notes, countries_gvariant],
 )
 
-executable('bazaar', bz_sources + ['main.c'], gdbus_src, marshalers,
-           dependencies: bz_deps,
-           install: true,
-)
-
-executable(refresh_worker_bin_name,
-           bz_sources + ['refresh-worker.c'],
-           gdbus_src, marshalers,
+executable(bazaar_bin_name, bz_sources + ['main.c'], marshalers,
            dependencies: bz_deps,
            install: true,
 )

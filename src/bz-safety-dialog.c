@@ -26,10 +26,10 @@
 #include "bz-context-row.h"
 #include "bz-entry.h"
 #include "bz-lozenge.h"
-#include "bz-safety-calculator.h"
+#include "safety-calculator.h"
 #include "bz-safety-dialog.h"
 #include "bz-safety-row.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 #define ANIMATION_DURATION 300
 
@@ -374,4 +374,3 @@ update_permissions_list (BzSafetyDialog *self)
   bz_lozenge_set_title (self->lozenge, title_text);
   bz_lozenge_set_importance (self->lozenge, importance);
 }
-

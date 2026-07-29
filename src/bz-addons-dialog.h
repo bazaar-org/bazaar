@@ -35,4 +35,7 @@ bz_addons_dialog_new (BzEntryGroup *group);
 AdwDialog *
 bz_addons_dialog_new_single (BzEntryGroup *group);
 
+BzEntry *
+bz_addons_dialog_get_parent_entry (BzAddonsDialog *self);
+
 G_END_DECLS

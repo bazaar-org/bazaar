@@ -18,14 +18,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "config.h"
+
 #include <glib/gi18n.h>
 
 #include "bz-application-map-factory.h"
-#include "bz-env.h"
-#include "bz-io.h"
 #include "bz-user-data-page.h"
 #include "bz-user-data-tile.h"
-#include "bz-util.h"
+#include "bz-window.h"
+#include "env.h"
+#include "io.h"
+#include "util.h"
 
 struct _BzUserDataPage
 {
@@ -33,6 +36,9 @@ struct _BzUserDataPage
 
   BzStateInfo *state;
   GListModel  *model;
+
+  AdwToast *toast;
+  guint     toast_count;
 
   /* Template widgets */
   AdwViewStack *stack;
@@ -60,6 +66,10 @@ items_changed (BzUserDataPage *self,
                guint           removed,
                guint           added,
                GListModel     *model);
+
+static void
+toast_dismissed_cb (BzUserDataPage *self,
+                    AdwToast       *toast);
 
 static void
 set_page (BzUserDataPage *self);
@@ -188,6 +198,52 @@ bz_user_data_page_new (BzStateInfo *state)
                        NULL);
 }
 
+void
+bz_user_data_page_remove_group (BzUserDataPage *self,
+                                BzEntryGroup   *group)
+{
+  guint            n_items, i;
+  const char      *title   = NULL;
+  g_autofree char *message = NULL;
+
+  if (self->model == NULL)
+    return;
+
+  title = bz_entry_group_get_title (group);
+
+  n_items = g_list_model_get_n_items (self->model);
+  for (i = 0; i < n_items; i++)
+    {
+      g_autoptr (BzEntryGroup) item = g_list_model_get_item (self->model, i);
+
+      if (item == group)
+        {
+          g_list_store_remove (G_LIST_STORE (self->model), i);
+          break;
+        }
+    }
+
+  self->toast_count++;
+
+  message = self->toast_count > 1
+                ? g_strdup_printf (_ ("Trashed User Data for %u Apps"), self->toast_count)
+                : g_strdup_printf (_ ("Trashed User Data for %s"), title);
+
+  if (self->toast == NULL)
+    {
+      self->toast = adw_toast_new (message);
+      g_object_add_weak_pointer (G_OBJECT (self->toast), (gpointer *) &self->toast);
+      g_signal_connect_swapped (self->toast, "dismissed",
+                                G_CALLBACK (toast_dismissed_cb), self);
+
+      bz_window_add_toast (
+          BZ_WINDOW (gtk_widget_get_root (GTK_WIDGET (self))),
+          self->toast);
+    }
+  else
+    adw_toast_set_title (self->toast, message);
+}
+
 static void
 items_changed (BzUserDataPage *self,
                guint           position,
@@ -196,6 +252,13 @@ items_changed (BzUserDataPage *self,
                GListModel     *model)
 {
   set_page (self);
+}
+
+static void
+toast_dismissed_cb (BzUserDataPage *self,
+                    AdwToast       *toast)
+{
+  self->toast_count = 0;
 }
 
 static void
@@ -226,15 +289,17 @@ fetch_user_data_fiber (GWeakRef *wr)
   GHashTableIter iter                  = { 0 };
   g_autoptr (GtkStringList) id_list    = NULL;
   BzApplicationMapFactory *factory     = NULL;
-  g_autoptr (GListModel) model         = NULL;
   g_autoptr (GListStore) sorted_store  = NULL;
   GListModel *installed_groups         = NULL;
   g_autoptr (GHashTable) installed_ids = NULL;
-  guint n_items;
+  const char *own_id                   = NULL;
+  guint       n_items                  = 0;
 
   self = g_weak_ref_get (wr);
   if (self == NULL)
     return dex_future_new_reject (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Page destroyed");
+
+  own_id = g_application_get_application_id (g_application_get_default ());
 
   installed_groups = bz_state_info_get_all_installed_entry_groups (self->state);
   installed_ids    = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -274,20 +339,31 @@ fetch_user_data_fiber (GWeakRef *wr)
       if (!g_hash_table_iter_next (&iter, (gpointer *) &app_id, NULL))
         break;
 
-      if (!g_hash_table_contains (installed_ids, app_id))
+      if (!g_hash_table_contains (installed_ids, app_id) &&
+          g_strcmp0 (app_id, own_id) != 0)
         gtk_string_list_append (id_list, app_id);
     }
 
-  factory = bz_state_info_get_application_factory (self->state);
-  model   = bz_application_map_factory_generate (factory, G_LIST_MODEL (id_list));
-
+  factory      = bz_state_info_get_application_factory (self->state);
   sorted_store = g_list_store_new (BZ_TYPE_ENTRY_GROUP);
-  n_items      = g_list_model_get_n_items (model);
+  n_items      = g_list_model_get_n_items (G_LIST_MODEL (id_list));
+
   for (guint i = 0; i < n_items; i++)
     {
-      g_autoptr (BzEntryGroup) group = g_list_model_get_item (model, i);
+      GtkStringObject *str_obj       = NULL;
+      g_autofree char *id_copy       = NULL;
+      g_autoptr (BzEntryGroup) group = NULL;
+
+      str_obj = g_list_model_get_item (G_LIST_MODEL (id_list), i);
+      id_copy = g_strdup (gtk_string_object_get_string (str_obj));
+
+      group = bz_application_map_factory_convert_one (factory, str_obj);
+      if (group == NULL)
+        group = bz_entry_group_new_manual (id_copy, id_copy, NULL);
+
       g_list_store_append (sorted_store, group);
     }
+
   g_list_store_sort (sorted_store, (GCompareDataFunc) compare_entry_groups_by_title, NULL);
 
   if (self->model != NULL)

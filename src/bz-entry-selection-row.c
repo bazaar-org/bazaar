@@ -25,7 +25,7 @@
 #include "bz-entry-selection-row.h"
 
 #include "bz-flatpak-entry.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 
 struct _BzEntrySelectionRow
 {

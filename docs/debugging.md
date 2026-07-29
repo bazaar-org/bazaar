@@ -60,10 +60,10 @@ flatpak run --devel --command=bash io.github.kolunmi.Bazaar
 ```
 
 This will get you a shell inside the flatpak sandbox: run this: `gdb
-/app/bin/bazaar`
+/app/bin/bazaar-daemon`
 
 ```sh
-[📦 io.github.kolunmi.Bazaar ~]$ gdb /app/bin/bazaar
+[📦 io.github.kolunmi.Bazaar ~]$ gdb /app/bin/bazaar-daemon
 ```
 
 Actually run bazaar:

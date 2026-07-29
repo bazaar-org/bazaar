@@ -290,7 +290,7 @@ refresh_background_color (BzBannerView    *self,
       gtk_widget_add_css_class (GTK_WIDGET (self->box), self->instance_class);
     }
 
-  css = g_strdup_printf (".card.%s { background-color: %s; }",
+  css = g_strdup_printf (".card.%s { background: %s; }",
                          self->instance_class, color);
 
   if (self->css_provider == NULL)

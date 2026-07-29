@@ -21,8 +21,8 @@
 #include "config.h"
 
 #include "bz-download-worker.h"
-#include "bz-env.h"
-#include "bz-util.h"
+#include "env.h"
+#include "util.h"
 
 struct _BzDownloadWorker
 {

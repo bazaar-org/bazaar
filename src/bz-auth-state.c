@@ -429,7 +429,7 @@ GdkPaintable *
 bz_auth_state_get_paintable (BzAuthState *self)
 {
   g_return_val_if_fail (BZ_IS_AUTH_STATE (self), NULL);
-  return GDK_PAINTABLE (self->paintable);
+  return (GdkPaintable *) self->paintable;
 }
 
 void

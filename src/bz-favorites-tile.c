@@ -24,11 +24,11 @@
 
 #include "bz-entry-group-util.h"
 #include "bz-entry-group.h"
-#include "bz-env.h"
-#include "bz-error.h"
+#include "env.h"
+#include "error.h"
 #include "bz-favorites-page.h"
 #include "bz-favorites-tile.h"
-#include "bz-global-net.h"
+#include "global-net.h"
 #include "bz-state-info.h"
 #include "bz-window.h"
 

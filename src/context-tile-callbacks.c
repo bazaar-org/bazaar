@@ -1,4 +1,4 @@
-/* bz-context-tile-callbacks.c
+/* context-tile-callbacks.c
  *
  * Copyright 2026 Eva M, Alexander Vanhee
  *
@@ -23,10 +23,10 @@
 #include <gtk/gtk.h>
 #include <math.h>
 
-#include "bz-context-tile-callbacks.h"
+#include "context-tile-callbacks.h"
 #include "bz-entry.h"
-#include "bz-safety-calculator.h"
-#include "bz-spdx.h"
+#include "safety-calculator.h"
+#include "spdx.h"
 
 static char *
 format_with_small_suffix (char *number, const char *suffix)
@@ -129,6 +129,7 @@ get_size_label (gpointer object,
   if (is_installable && !runtime_installed && runtime_size > 0)
     {
       g_autofree char *size_str = g_format_size (runtime_size);
+      // TRANSLATORS: %s is a formatted file size, for example: "128 MB"
       return g_strdup_printf (_ ("+%s runtime"), size_str);
     }
 
@@ -397,14 +398,19 @@ get_safety_rating_label (gpointer object,
   switch (importance)
     {
     case BZ_IMPORTANCE_UNIMPORTANT:
+      // TRANSLATORS: short app safety rating label
       return g_strdup (_ ("Safe"));
     case BZ_IMPORTANCE_NEUTRAL:
+      // TRANSLATORS: short app safety rating label
       return g_strdup (_ ("Low Risk"));
     case BZ_IMPORTANCE_INFORMATION:
+      // TRANSLATORS: short app safety rating label
       return g_strdup (_ ("Low Risk"));
     case BZ_IMPORTANCE_WARNING:
+      // TRANSLATORS: short app safety rating label
       return g_strdup (_ ("Medium Risk"));
     case BZ_IMPORTANCE_IMPORTANT:
+      // TRANSLATORS: short app safety rating label
       return g_strdup (_ ("High Risk"));
     default:
       return g_strdup (_ ("N/A"));

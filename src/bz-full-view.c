@@ -30,12 +30,12 @@
 #include "bz-app-tile.h"
 #include "bz-apps-page.h"
 #include "bz-appstream-description-render.h"
-#include "bz-context-tile-callbacks.h"
+#include "context-tile-callbacks.h"
 #include "bz-context-tile.h"
 #include "bz-developer-badge.h"
 #include "bz-dynamic-list-view.h"
 #include "bz-entry-inspector.h"
-#include "bz-error.h"
+#include "error.h"
 #include "bz-fading-clamp.h"
 #include "bz-favorite-button.h"
 #include "bz-flatpak-entry.h"
@@ -45,17 +45,17 @@
 #include "bz-license-dialog.h"
 #include "bz-metainfo-preview.h"
 #include "bz-releases-list.h"
-#include "bz-safety-calculator.h"
+#include "safety-calculator.h"
 #include "bz-safety-dialog.h"
 #include "bz-screenshot-page.h"
 #include "bz-screenshots-carousel.h"
 #include "bz-section-view.h"
 #include "bz-share-list.h"
-#include "bz-spdx.h"
+#include "spdx.h"
 #include "bz-state-info.h"
 #include "bz-stats-dialog.h"
-#include "bz-template-callbacks.h"
-#include "bz-util.h"
+#include "template-callbacks.h"
+#include "util.h"
 #include "bz-window.h"
 
 struct _BzFullView
@@ -273,14 +273,6 @@ get_developer_apps_entries (gpointer object, GtkStringList *app_ids, BzEntry *en
     return NULL;
 
   return bz_application_map_factory_generate (factory, G_LIST_MODEL (filtered));
-}
-
-static int
-get_dev_apps_max_children_per_line (gpointer object, GListModel *model)
-{
-  if (!model)
-    return 3;
-  return g_list_model_get_n_items (model) > 2 ? 3 : 2;
 }
 
 static void
@@ -765,7 +757,6 @@ bz_full_view_class_init (BzFullViewClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, format_other_apps_label);
   gtk_widget_class_bind_template_callback (widget_class, format_more_other_apps_label);
   gtk_widget_class_bind_template_callback (widget_class, get_developer_apps_entries);
-  gtk_widget_class_bind_template_callback (widget_class, get_dev_apps_max_children_per_line);
   gtk_widget_class_bind_template_callback (widget_class, more_apps_button_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, open_url_cb);
   gtk_widget_class_bind_template_callback (widget_class, license_cb);

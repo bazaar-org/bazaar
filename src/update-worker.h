@@ -1,6 +1,6 @@
-/* bz-env.h
+/* update-worker.h
  *
- * Copyright 2025 Adam Masciola
+ * Copyright 2026 Alexander Vanhee
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +24,8 @@
 
 G_BEGIN_DECLS
 
-gsize
-bz_get_dex_stack_size (void);
-
-guint64
-bz_get_n_download_workers (void);
-
-guint
-bz_get_desktop_search_provider_icon_size (void);
+int
+run_update_worker (int   argc,
+                   char *argv[]);
 
 G_END_DECLS

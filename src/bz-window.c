@@ -28,23 +28,23 @@
 #include "bz-curated-view.h"
 #include "bz-entry-group-util.h"
 #include "bz-entry-group.h"
-#include "bz-env.h"
-#include "bz-error.h"
+#include "env.h"
+#include "error.h"
 #include "bz-flathub-page.h"
 #include "bz-flatpak-entry.h"
 #include "bz-full-view.h"
-#include "bz-hooks.h"
-#include "bz-io.h"
+#include "hooks.h"
+#include "io.h"
 #include "bz-library-page.h"
 #include "bz-progress-bar.h"
 #include "bz-screenshot-page.h"
 #include "bz-search-bar.h"
 #include "bz-search-page.h"
-#include "bz-template-callbacks.h"
+#include "template-callbacks.h"
 #include "bz-transaction-dialog.h"
 #include "bz-transaction-manager.h"
 #include "bz-user-data-page.h"
-#include "bz-util.h"
+#include "util.h"
 #include "bz-window.h"
 
 struct _BzWindow
@@ -478,6 +478,27 @@ action_cancel_group (GtkWidget  *widget,
 }
 
 static void
+parent_ui_entry_show_group_cb (BzAddonsDialog *dialog,
+                               GParamSpec     *pspec,
+                               BzWindow       *self)
+{
+  BzEntry                 *entry = NULL;
+  g_autoptr (BzEntryGroup) group = NULL;
+
+  entry = bz_addons_dialog_get_parent_entry (dialog);
+  if (entry == NULL)
+    return;
+
+  group = bz_application_map_factory_convert_one (
+      bz_state_info_get_application_factory (bz_window_get_state_info (self)),
+      gtk_string_object_new (bz_entry_get_id (entry)));
+  if (group == NULL)
+    return;
+
+  bz_window_show_group (self, group);
+}
+
+static void
 action_show_group (GtkWidget  *widget,
                    const char *action_name,
                    GVariant   *parameter)
@@ -499,6 +520,10 @@ action_show_group (GtkWidget  *widget,
       AdwDialog *dialog = NULL;
 
       dialog = bz_addons_dialog_new_single (group);
+      g_signal_connect_object (dialog, "notify::parent-ui-entry",
+                               G_CALLBACK (parent_ui_entry_show_group_cb),
+                               self, 0);
+      parent_ui_entry_show_group_cb (BZ_ADDONS_DIALOG (dialog), NULL, self);
       adw_dialog_present (dialog, GTK_WIDGET (self));
     }
   else
@@ -678,6 +703,42 @@ action_launch_group (GtkWidget  *widget,
 }
 
 static void
+action_activate_hook_app (GtkWidget  *widget,
+                          const char *action_name,
+                          GVariant   *parameter)
+{
+  BzWindow   *self               = BZ_WINDOW (widget);
+  const char *id                 = NULL;
+  g_autoptr (BzEntryGroup) group = NULL;
+
+  id    = g_variant_get_string (parameter, NULL);
+  group = bz_entry_group_new_manual (id, NULL, NULL);
+
+  emit_hook_disown (self, BZ_HOOK_SIGNAL_ARTICLE_APP, group);
+}
+
+static void
+action_open_user_data_folder (GtkWidget  *widget,
+                              const char *action_name,
+                              GVariant   *parameter)
+{
+  const char      *id                  = NULL;
+  g_autofree char *path                = NULL;
+  g_autoptr (GFile) file               = NULL;
+  g_autoptr (GtkFileLauncher) launcher = NULL;
+
+  id = g_variant_get_string (parameter, NULL);
+  if (id == NULL)
+    return;
+
+  path     = bz_dup_user_data_path (id);
+  file     = g_file_new_for_path (path);
+  launcher = gtk_file_launcher_new (file);
+
+  gtk_file_launcher_launch (launcher, GTK_WINDOW (widget), NULL, NULL, NULL);
+}
+
+static void
 bz_window_class_init (BzWindowClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -745,6 +806,8 @@ bz_window_class_init (BzWindowClass *klass)
   gtk_widget_class_install_action (widget_class, "window.addons-group", "s", action_addons_group);
   gtk_widget_class_install_action (widget_class, "window.bulk-install", NULL, action_bulk_install);
   gtk_widget_class_install_action (widget_class, "window.launch-group", "s", action_launch_group);
+  gtk_widget_class_install_action (widget_class, "window.activate-hook-app", "s", action_activate_hook_app);
+  gtk_widget_class_install_action (widget_class, "window.open-user-data-folder", "s", action_open_user_data_folder);
 
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_d, GDK_CONTROL_MASK, "window.open-library", NULL);
   gtk_widget_class_add_binding_action (widget_class, GDK_KEY_w, GDK_CONTROL_MASK, "window.close", NULL);
@@ -991,7 +1054,14 @@ bz_window_new (BzStateInfo *state)
 
   config = bz_state_info_get_main_config (state);
   if (config != NULL && bz_main_config_get_start_on_curated (config))
-    adw_view_stack_set_visible_child_name (window->main_view_stack, "browse");
+    {
+      BzContentProvider *curated_provider = NULL;
+
+      curated_provider = bz_state_info_get_curated_provider (state);
+      if (curated_provider != NULL &&
+          g_list_model_get_n_items (G_LIST_MODEL (curated_provider)) > 0)
+        adw_view_stack_set_visible_child_name (window->main_view_stack, "browse");
+    }
 
   g_signal_connect_object (state,
                            "notify::busy",

@@ -1,6 +1,6 @@
-/* bz-error.h
+/* hooks.h
  *
- * Copyright 2025 Adam Masciola
+ * Copyright 2026 Eva M
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,17 +20,22 @@
 
 #pragma once
 
-#include <adwaita.h>
-#include <libdex.h>
+#include "bz-entry-group.h"
+#include "bz-hook.h"
 
 G_BEGIN_DECLS
 
-void
-bz_show_error_for_widget (GtkWidget  *widget,
-                          const char *title,
-                          const char *text);
+DexFuture *
+bz_execute_hook (BzHook               *hook,
+                 BzHookTransactionType ts_type,
+                 const char           *ts_appid,
+                 BzEntryGroup         *group);
 
 DexFuture *
-bz_make_alert_dialog_future (AdwAlertDialog *dialog);
+bz_run_hook_emission (GListModel           *hooks,
+                      BzHookSignal          signal,
+                      BzHookTransactionType ts_type,
+                      const char           *ts_appid,
+                      BzEntryGroup         *group);
 
 G_END_DECLS

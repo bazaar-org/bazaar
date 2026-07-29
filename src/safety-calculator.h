@@ -1,4 +1,4 @@
-/* bz-safety-calculator.h
+/* safety-calculator.h
  *
  * Copyright 2026 Alexander Vanhee
  *

@@ -8,70 +8,67 @@ template $BzUserDataPage: Adw.NavigationPage {
     [top]
     Adw.HeaderBar {}
 
-    content: Adw.BreakpointBin {
-      width-request: 360;
-      height-request: 450;
-      child: Adw.ViewStack stack {
-        enable-transitions: true;
-        transition-duration: 400;
-        Adw.ViewStackPage {
-          name: "loading";
-          title: _("Loading");
-          child:Adw.Spinner {
-            halign: fill;
-            valign: center;
-            width-request: 64;
-            height-request: 64;
-            margin-bottom: 18;
-          };
-        }
-        Adw.ViewStackPage {
-          name: "empty";
-          title: _("Empty");
-          child: Adw.StatusPage {
-            icon-name: "folder-documents-symbolic";
-            title: _("No User Data Found");
-          };
-        }
-        Adw.ViewStackPage {
-          name: "content";
-          title: _("User Data");
-          child: ScrolledWindow {
-            hscrollbar-policy: never;
-            child: Adw.ClampScrollable {
-              maximum-size: 650;
-              child: ListView list_view {
-                styles [
-                  "navigation-sidebar",
-                  "user-data-list-view"
-                ]
-                margin-start: 25;
-                margin-end: 25;
-                overflow: visible;
-                model: NoSelection {
-                  model: bind template.model;
-                };
-                factory: BuilderListItemFactory {
-                  template ListItem {
-                    activatable: false;
-                    selectable: false;
-                    focusable: false;
-                    child: $BzUserDataTile {
-                      group: bind template.item as <$BzEntryGroup>;
-                    };
-                  }
-                };
+    content: Adw.ViewStack stack {
+      enable-transitions: true;
+      transition-duration: 400;
+
+      Adw.ViewStackPage {
+        name: "loading";
+
+        child: Adw.Spinner {
+          halign: fill;
+          valign: center;
+          width-request: 64;
+          height-request: 64;
+          margin-bottom: 18;
+        };
+      }
+
+      Adw.ViewStackPage {
+        name: "empty";
+
+        child: Adw.StatusPage {
+          icon-name: "user-trash-symbolic";
+          title: _("No Leftover User Data Found");
+          description: _("Personal data left behind by apps that were removed will show up here");
+        };
+      }
+
+      Adw.ViewStackPage {
+        name: "content";
+
+        child: ScrolledWindow {
+          hscrollbar-policy: never;
+
+          child: Adw.ClampScrollable {
+            maximum-size: 650;
+
+            child: ListView list_view {
+              styles [
+                "navigation-sidebar",
+                "user-data-list-view",
+              ]
+
+              overflow: visible;
+
+              model: NoSelection {
+                model: bind template.model;
+              };
+
+              factory: BuilderListItemFactory {
+                template ListItem {
+                  activatable: false;
+                  selectable: false;
+                  focusable: false;
+
+                  child: $BzUserDataTile {
+                    group: bind template.item as <$BzEntryGroup>;
+                  };
+                }
               };
             };
           };
-        }
-      };
-      Adw.Breakpoint {
-        condition ("max-width: 700px")
-        setters {
-          list_view.margin-start: 0;
-          list_view.margin-end: 0;
-        }
+        };
       }
     };
   }

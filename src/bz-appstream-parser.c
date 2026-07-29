@@ -1,4 +1,22 @@
-/* bz-appstream-parser.c */
+/* bz-appstream-parser.c
+ *
+ * Copyright 2025 Adam Masciola, 2026 Alexander Vanhee
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #define G_LOG_DOMAIN  "BAZAAR::APPSTREAM-PARSER"
 #define BAZAAR_MODULE "appstream-parser"
@@ -10,7 +28,7 @@
 #include "bz-appstream-parser.h"
 #include "bz-async-texture.h"
 #include "bz-category-flags.h"
-#include "bz-io.h"
+#include "io.h"
 #include "bz-release.h"
 #include "bz-url.h"
 #include "bz-verification-status.h"
@@ -102,6 +120,8 @@ find_screenshot (GPtrArray  *images,
   const char *best_url      = NULL;
   gint        best_diff     = G_MAXINT;
   guint       best_res      = 0;
+  guint       best_width    = 0;
+  guint       best_height   = 0;
   guint       target_pixels = target_width * target_height;
 
   if (images == NULL)
@@ -125,8 +145,10 @@ find_screenshot (GPtrArray  *images,
         {
           if (best_url == NULL || pixels > best_res)
             {
-              best_url = url;
-              best_res = pixels;
+              best_url    = url;
+              best_res    = pixels;
+              best_width  = width;
+              best_height = height;
             }
         }
       else
@@ -134,8 +156,10 @@ find_screenshot (GPtrArray  *images,
           gint diff = ABS ((gint) pixels - (gint) target_pixels);
           if (best_url == NULL || diff < best_diff)
             {
-              best_url  = url;
-              best_diff = diff;
+              best_url    = url;
+              best_diff   = diff;
+              best_width  = width;
+              best_height = height;
             }
         }
     }
@@ -152,7 +176,10 @@ find_screenshot (GPtrArray  *images,
       cache_file      = g_file_new_build_filename (
           module_dir, unique_id_checksum, cache_filename, NULL);
 
-      texture = bz_async_texture_new_lazy (screenshot_file, cache_file);
+      if (best_width > 0 && best_height > 0)
+        texture = bz_async_texture_new_lazy_with_size (screenshot_file, cache_file, best_width, best_height);
+      else
+        texture = bz_async_texture_new_lazy (screenshot_file, cache_file);
 
       if (out_caption != NULL)
         *out_caption = g_strdup (caption ? caption : "");

@@ -31,7 +31,6 @@ template $BzFavoritesPage: Adw.NavigationPage {
 
         Adw.ViewStackPage {
           name: "loading";
-          title: _("Loading");
           child: Adw.Spinner {
             halign: fill;
             valign: center;
@@ -43,7 +42,6 @@ template $BzFavoritesPage: Adw.NavigationPage {
 
         Adw.ViewStackPage {
           name: "empty";
-          title: _("Empty");
           child: Adw.StatusPage {
             icon-name: "starred-symbolic";
             title: _("No Favorites");
@@ -53,7 +51,6 @@ template $BzFavoritesPage: Adw.NavigationPage {
 
         Adw.ViewStackPage {
           name: "content";
-          title: _("Favorites");
           child: ScrolledWindow {
             hscrollbar-policy: never;
             child: Adw.ClampScrollable {

@@ -25,6 +25,7 @@ DEPS=(
     libsecret-devel
     libproxy-devel
     malcontent-devel
+    systemd-devel
 
     # lsp
     clangd
