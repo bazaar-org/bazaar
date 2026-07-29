@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-22 17:51+0200\n"
-"PO-Revision-Date: 2026-07-23 00:38+0200\n"
+"POT-Creation-Date: 2026-07-29 00:36+0200\n"
+"PO-Revision-Date: 2026-07-29 13:12+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -136,11 +136,11 @@ msgstr ""
 msgid "Add-on Page"
 msgstr "Stránka doplňků"
 
-#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:411
+#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:408
 msgid "Downloads/Month"
 msgstr "Stažení/měsíc"
 
-#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:447
+#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:444
 msgid "Stopped Receiving Core Updates"
 msgstr "Příjem základních aktualizací zastaven"
 
@@ -170,8 +170,8 @@ msgid "Download Stats"
 msgstr "Statistiky stahování"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
-#: src/context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:187
+#: src/context-tile-callbacks.c:194
 msgid "Age Rating"
 msgstr "Vhodné od věku"
 
@@ -495,7 +495,7 @@ msgid "Violence"
 msgstr "Násilí"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:177
 #, c-format
 msgid "%d+"
 msgstr "%d+"
@@ -720,8 +720,8 @@ msgid "Runtime Download Size"
 msgstr "Stahovaná velikost prostředí"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:393
-#: src/context-tile-callbacks.c:410
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:394
+#: src/context-tile-callbacks.c:416
 msgid "N/A"
 msgstr "N/A"
 
@@ -736,7 +736,7 @@ msgstr "Ověřeno"
 
 #. Translators: As in 'The app is installed'.
 #: src/bz-app-tile.blp:87 src/bz-releases-list.c:206
-#: src/context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:136
 msgid "Installed"
 msgstr "Nainstalováno"
 
@@ -933,20 +933,21 @@ msgstr ""
 msgid "Successfully Installed!"
 msgstr "Úspěšně nainstalováno!"
 
-#: src/bz-bundle-install-dialog.blp:437 src/bz-bundle-install-dialog.blp:522
-#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:298
+#. TRANSLATORS: Button to launch an installed app
+#: src/bz-bundle-install-dialog.blp:438 src/bz-bundle-install-dialog.blp:524
+#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:299
 msgid "Open"
 msgstr "Otevřít"
 
-#: src/bz-bundle-install-dialog.blp:447 src/bz-bundle-install-dialog.blp:532
+#: src/bz-bundle-install-dialog.blp:448 src/bz-bundle-install-dialog.blp:534
 msgid "Show App Details"
 msgstr "Zobrazit podrobnosti o aplikaci"
 
-#: src/bz-bundle-install-dialog.blp:498
+#: src/bz-bundle-install-dialog.blp:499
 msgid "Already Installed"
 msgstr "Již nainstalováno"
 
-#: src/bz-bundle-install-dialog.blp:544
+#: src/bz-bundle-install-dialog.blp:546
 msgid "Installation Failed"
 msgstr "Instalace se nezdařila"
 
@@ -963,17 +964,11 @@ msgstr "Přibližně %s k instalaci"
 msgid "No special permissions"
 msgstr "Žádná zvláštní oprávnění"
 
-#: src/bz-curated-view.blp:24 src/bz-favorites-page.blp:46
-#: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30 src/bz-full-view.blp:41
-#: src/bz-library-page.blp:29 src/bz-user-data-page.blp:30
-msgid "Empty"
-msgstr "Prázdné"
-
-#: src/bz-curated-view.blp:28
+#: src/bz-curated-view.blp:27
 msgid "No Curation"
 msgstr "Žádné vybrané aplikace"
 
-#: src/bz-curated-view.blp:30
+#: src/bz-curated-view.blp:29
 msgid ""
 "There is no curation information provided on this system. You can still "
 "browse apps on Flathub"
@@ -981,22 +976,13 @@ msgstr ""
 "V tomto systému nejsou k dispozici žádné informace o vybraných aplikacích. "
 "Aplikace si stále můžete prohlížet na Flathubu"
 
-#: src/bz-curated-view.blp:34
+#: src/bz-curated-view.blp:33
 msgid "Browse Flathub"
 msgstr "Procházet Flathub"
 
-#: src/bz-curated-view.blp:47 src/bz-curated-view.blp:51
+#: src/bz-curated-view.blp:49
 msgid "Offline"
 msgstr "Off-line"
-
-#. Translators: Search suggestion: the english text will be used for the
-#. search regardless of what you put here, so don't worry about the string
-#. yielding poor search results. Focus on correctness and friendliness,
-#. etc
-#: src/bz-curated-view.blp:57 src/bz-flathub-page.blp:61
-#: src/bz-search-pill-list.c:67
-msgid "Browser"
-msgstr "Prohlížeč"
 
 #: src/bz-developer-badge.c:94 src/bz-developer-badge.c:98
 msgid "Not Verified"
@@ -1104,7 +1090,8 @@ msgstr "všichni uživatelé"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/bz-error-dialog.blp:47
+#. TRANSLATORS: tooltip for a button that copies text to the clipboard
+#: src/bz-error-dialog.blp:48
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -1129,8 +1116,7 @@ msgstr "Přihlaste se pomocí Flathubu pro správu oblíbených aplikací"
 msgid "Log In"
 msgstr "Přihlásit se"
 
-#: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:348
+#: src/bz-favorites-page.blp:5 src/bz-window.blp:348
 msgid "Favorites"
 msgstr "Oblíbené"
 
@@ -1138,15 +1124,11 @@ msgstr "Oblíbené"
 msgid "Install All"
 msgstr "Instalovat vše"
 
-#: src/bz-favorites-page.blp:34 src/bz-user-data-page.blp:17
-msgid "Loading"
-msgstr "Načítání"
-
-#: src/bz-favorites-page.blp:49
+#: src/bz-favorites-page.blp:47
 msgid "No Favorites"
 msgstr "Žádné oblíbené aplikace"
 
-#: src/bz-favorites-page.blp:50
+#: src/bz-favorites-page.blp:48
 msgid "Applications you mark as favorite will appear here"
 msgstr "Aplikace, které označíte jako oblíbené, se zobrazí zde"
 
@@ -1386,7 +1368,7 @@ msgstr "Více z Systém"
 msgid "Utilities"
 msgstr "Utility"
 
-#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:437
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:434
 msgid "Tools"
 msgstr "Nástroje"
 
@@ -1394,8 +1376,8 @@ msgstr "Nástroje"
 msgid "More Utilities"
 msgstr "Více z Utility"
 
-#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:109
-#: src/bz-flathub-page.blp:141
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:106
+#: src/bz-flathub-page.blp:138
 msgid "Trending"
 msgstr "Trendy"
 
@@ -1403,8 +1385,8 @@ msgstr "Trendy"
 msgid "More Trending"
 msgstr "Více z Trendů"
 
-#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:115
-#: src/bz-flathub-page.blp:174
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:112
+#: src/bz-flathub-page.blp:171
 msgid "Popular"
 msgstr "Populární"
 
@@ -1412,11 +1394,11 @@ msgstr "Populární"
 msgid "More Popular"
 msgstr "Více z Populárních"
 
-#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:163
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:160
 msgid "Recently Added"
 msgstr "Nedávno přidané"
 
-#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:121
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:118
 msgid "New"
 msgstr "Nové"
 
@@ -1424,11 +1406,11 @@ msgstr "Nové"
 msgid "More New"
 msgstr "Více z Nových"
 
-#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:152
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:149
 msgid "Recently Updated"
 msgstr "Nedávno aktualizované"
 
-#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:127
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:124
 msgid "Updated"
 msgstr "Aktualizované"
 
@@ -1460,15 +1442,15 @@ msgstr "KDE aplikace"
 msgid "More KDE Apps"
 msgstr "Více z KDE aplikací"
 
-#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:419
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:416
 msgid "Games"
 msgstr "Hry"
 
-#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:479
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:476
 msgid "More Games"
 msgstr "Více z Her"
 
-#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:425
+#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:422
 msgid "Emulators"
 msgstr "Emulátory"
 
@@ -1476,7 +1458,7 @@ msgstr "Emulátory"
 msgid "More Emulators"
 msgstr "Více z Emulátorů"
 
-#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:431
+#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:428
 msgid "Launchers"
 msgstr "Spouštěče"
 
@@ -1492,86 +1474,77 @@ msgstr "Herní nástroje"
 msgid "More Game Tools"
 msgstr "Více z Herních nástrojů"
 
-#: src/bz-flathub-page.blp:23
+#: src/bz-flathub-page.blp:22
 msgid "Flathub Not Added"
 msgstr "Flathub nebyl přidán"
 
-#: src/bz-flathub-page.blp:24
+#: src/bz-flathub-page.blp:23
 msgid "The Flathub remote was not found on any of your Flatpak installations"
 msgstr "Repozitář Flathubu nebyl nalezen v žádné z vašich instalací Flatpaku"
 
-#: src/bz-flathub-page.blp:30
-msgid "Flathub Unavailable"
-msgstr "Flathub není k dispozici"
-
-#: src/bz-flathub-page.blp:34
+#: src/bz-flathub-page.blp:32
 msgid "Can't Reach Flathub"
 msgstr "Nelze se připojit k Flathubu"
 
-#: src/bz-flathub-page.blp:35
+#: src/bz-flathub-page.blp:33
 msgid "You can still manage and search for apps."
 msgstr "Stále však můžete spravovat a vyhledávat aplikace."
 
-#: src/bz-flathub-page.blp:41
+#: src/bz-flathub-page.blp:39
 msgid "Search Apps"
 msgstr "Hledat aplikace"
 
-#: src/bz-flathub-page.blp:52
+#: src/bz-flathub-page.blp:50
 msgid "Reconnect"
 msgstr "Znovu připojit"
 
-#: src/bz-flathub-page.blp:202
+#: src/bz-flathub-page.blp:199
 msgid "App of the Day"
 msgstr "Aplikace dne"
 
-#: src/bz-flathub-page.blp:265
+#: src/bz-flathub-page.blp:262
 msgid "On the Go"
 msgstr "Na cestách"
 
-#: src/bz-flathub-page.blp:277
+#: src/bz-flathub-page.blp:274
 msgid "Apps for your Linux phones and tablets"
 msgstr "Aplikace pro vaše linuxové telefony a tablety"
 
-#: src/bz-flathub-page.blp:288 src/bz-flathub-page.blp:323
+#: src/bz-flathub-page.blp:285 src/bz-flathub-page.blp:320
 msgid "More Mobile Apps"
 msgstr "Více z Mobilních aplikací"
 
-#: src/bz-flathub-page.blp:381
+#: src/bz-flathub-page.blp:378
 msgid "We​ ♥​ Games"
 msgstr "Máme ♥​ hry"
 
-#: src/bz-flathub-page.blp:394
+#: src/bz-flathub-page.blp:391
 msgid "Games and apps to run your favorite titles"
 msgstr "Hry a aplikace pro spuštění vašich oblíbených titulů"
 
-#: src/bz-full-view.blp:34 src/bz-library-page.blp:40
-#: src/bz-library-page.blp:44
+#: src/bz-full-view.blp:33
 msgid "No Results"
 msgstr "Žádné výsledky"
 
-#: src/bz-full-view.blp:35
+#: src/bz-full-view.blp:34
 msgid "Try a different search query"
 msgstr "Zkuste jiný dotaz"
 
-#: src/bz-full-view.blp:47
-msgid "Content"
-msgstr "Obsah"
-
-#: src/bz-full-view.blp:106
+#: src/bz-full-view.blp:103
 msgid ""
 "This is a local preview, some details may differ from the published listing"
 msgstr ""
 "Toto je místní náhled, některé podrobnosti se mohou lišit od zveřejněné verze"
 
-#: src/bz-full-view.blp:109
+#: src/bz-full-view.blp:106
 msgid "Preview Store Appearance"
 msgstr "Náhled vzhledu obchodu"
 
-#: src/bz-full-view.blp:236
+#: src/bz-full-view.blp:233
 msgid "_Support"
 msgstr "_Podpořit"
 
-#: src/bz-full-view.blp:461
+#: src/bz-full-view.blp:458
 msgid ""
 "This app uses a runtime that no longer receives updates or security fixes. "
 "It may become unsafe to use."
@@ -1579,23 +1552,23 @@ msgstr ""
 "Tato aplikace používá běhové prostředí, které již nedostává aktualizace ani "
 "opravy zabezpečení. Její používání nemusí být bezpečné."
 
-#: src/bz-full-view.blp:539
+#: src/bz-full-view.blp:536
 msgid "Trash Data"
 msgstr "Vymazat data"
 
-#: src/bz-full-view.blp:602
+#: src/bz-full-view.blp:599
 msgid "Add-ons"
 msgstr "Doplňky"
 
-#: src/bz-full-view.blp:637
+#: src/bz-full-view.blp:634
 msgid "More Add-Ons"
 msgstr "Více doplňků"
 
-#: src/bz-full-view.blp:648
+#: src/bz-full-view.blp:645
 msgid "Links"
 msgstr "Odkazy"
 
-#: src/bz-full-view.blp:679
+#: src/bz-full-view.blp:676
 msgid "Similar Apps"
 msgstr "Podobné aplikace"
 
@@ -1655,7 +1628,7 @@ msgstr[0] "%d aplikace"
 msgstr[1] "%d aplikace"
 msgstr[2] "%d aplikací"
 
-#: src/bz-full-view.c:498 src/bz-user-data-tile.c:141
+#: src/bz-full-view.c:498 src/bz-user-data-tile.c:160
 msgid "Failed to Remove User Data"
 msgstr "Nezdařilo se odstranit uživatelská data"
 
@@ -1806,48 +1779,43 @@ msgstr "Tlačítko darování"
 msgid "Search installed apps"
 msgstr "hledat nainstalované aplikace"
 
-#: src/bz-library-page.blp:33
+#: src/bz-library-page.blp:32
 msgid "No Apps Found"
 msgstr "Nenalezeny žádné aplikace"
 
-#: src/bz-library-page.blp:52
+#: src/bz-library-page.blp:49
 msgid "Search Store Instead"
 msgstr "Hledat v obchodě"
 
-#. Translators: .
-#: src/bz-library-page.blp:62 src/bz-window.blp:114
-msgid "Library"
-msgstr "Knihovna"
-
-#: src/bz-library-page.blp:91
+#: src/bz-library-page.blp:86
 msgid "Pending Updates"
 msgstr "Čekající aktualizace"
 
-#: src/bz-library-page.blp:118
+#: src/bz-library-page.blp:113
 msgid "Downloads"
 msgstr "Stažení"
 
-#: src/bz-library-page.blp:161
+#: src/bz-library-page.blp:156
 msgid "Recently Uninstalled"
 msgstr "Nedávno odinstalované"
 
-#: src/bz-library-page.blp:212
+#: src/bz-library-page.blp:207
 msgid "Clear Finished Tasks"
 msgstr "Vymazat dokončené úlohy"
 
-#: src/bz-library-page.blp:239
+#: src/bz-library-page.blp:234
 msgid "Sort Options"
 msgstr "Možnosti řazení"
 
-#: src/bz-library-page.blp:298
+#: src/bz-library-page.blp:293
 msgid "Sort By"
 msgstr "Řadit podle"
 
-#: src/bz-library-page.blp:312
+#: src/bz-library-page.blp:307
 msgid "Name"
 msgstr "Název"
 
-#: src/bz-library-page.blp:318
+#: src/bz-library-page.blp:313
 msgid "Size"
 msgstr "Velikost"
 
@@ -1900,11 +1868,11 @@ msgstr "Neznámá licence"
 msgid "Community Built"
 msgstr "Vybudováno komunitou"
 
-#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:288
+#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:289
 msgid "Proprietary"
 msgstr "Uzavřené"
 
-#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:290
+#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:291
 msgid "Special License"
 msgstr "Zvláštní licence"
 
@@ -2298,7 +2266,8 @@ msgstr ""
 msgid "View Other Permissions"
 msgstr "Zobrazit další oprávnění"
 
-#: src/bz-safety-dialog.blp:79 src/context-tile-callbacks.c:400
+#. TRANSLATORS: short app safety rating label
+#: src/bz-safety-dialog.blp:79 src/context-tile-callbacks.c:402
 msgid "Safe"
 msgstr "Bezpečné"
 
@@ -2462,6 +2431,14 @@ msgstr "Žádné výsledky pro „%s“ v Flathubu"
 #. search regardless of what you put here, so don't worry about the string
 #. yielding poor search results. Focus on correctness and friendliness,
 #. etc
+#: src/bz-search-pill-list.c:67
+msgid "Browser"
+msgstr "Prohlížeč"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
 #: src/bz-search-pill-list.c:72
 msgid "Video"
 msgstr "Video"
@@ -2589,19 +2566,22 @@ msgstr "Manifest"
 msgid "Copy Link"
 msgstr "Kopírovat odkaz"
 
-#: src/bz-stats-dialog.blp:27
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:28
 msgid "Timeline"
 msgstr "Časová osa"
 
-#: src/bz-stats-dialog.blp:46
+#. TRANSLATORS: label prefix shown in graph tooltips, for example: "Installs: 42"
+#: src/bz-stats-dialog.blp:48
 msgid "Installs:"
 msgstr "Počet instalací:"
 
-#: src/bz-stats-dialog.blp:55
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:58
 msgid "World"
 msgstr "Svět"
 
-#: src/bz-stats-dialog.blp:69
+#: src/bz-stats-dialog.blp:72
 msgid "Since 4/15/2024"
 msgstr "Od 15. 4. 2024"
 
@@ -2799,15 +2779,15 @@ msgstr "Zrušeno"
 msgid "Error"
 msgstr "Chyba"
 
-#: src/bz-transaction-tile.blp:312
+#: src/bz-transaction-tile.blp:313
 msgid "Cancel Transaction"
 msgstr "Zrušit transakci"
 
-#: src/bz-transaction-tile.blp:322
+#: src/bz-transaction-tile.blp:323
 msgid "Show Details"
 msgstr "Zobrazit podrobnosti"
 
-#: src/bz-transaction-tile.blp:437
+#: src/bz-transaction-tile.blp:438
 msgid "Show Error Info"
 msgstr "Zobrazit informace o chybě"
 
@@ -2840,13 +2820,23 @@ msgstr[2] "%u aktualizací prostředí"
 msgid "Manage Leftover User Data"
 msgstr "Správa zbylých uživatelských dat"
 
-#: src/bz-user-data-page.blp:34
-msgid "No User Data Found"
-msgstr "Nenalezena žádná uživatelská data"
+#: src/bz-user-data-page.blp:32
+msgid "No Leftover User Data Found"
+msgstr "Nenalezena žádná zbylá uživatelská data"
 
-#: src/bz-user-data-page.blp:40
-msgid "User Data"
-msgstr "Uživatelská data"
+#: src/bz-user-data-page.blp:33
+msgid "Personal data left behind by apps that were removed will show up here"
+msgstr "Zde se zobrazí vlastní data, která zanechaly odstraněné aplikace"
+
+#: src/bz-user-data-page.c:229
+#, c-format
+msgid "Trashed User Data for %u Apps"
+msgstr "Uživatelská data %u aplikací byla vymazána"
+
+#: src/bz-user-data-page.c:230
+#, c-format
+msgid "Trashed User Data for %s"
+msgstr "Uživatelská data aplikace %s byla vymazána"
 
 #: src/bz-user-data-tile.blp:92
 msgid "Open User Data Folder"
@@ -2855,11 +2845,6 @@ msgstr "Otevřít složku uživatelských dat"
 #: src/bz-user-data-tile.blp:103
 msgid "Trash User Data"
 msgstr "Vymazat uživatelská data"
-
-#: src/bz-user-data-tile.c:147
-#, c-format
-msgid "Trashed User Data for %s"
-msgstr "Uživatelská data aplikace %s byla vymazána"
 
 #: src/bz-window.blp:72
 msgid "Refreshing"
@@ -2872,6 +2857,11 @@ msgstr "Vybrané"
 #: src/bz-window.blp:102
 msgid "Explore"
 msgstr "Procházet"
+
+#. Translators: .
+#: src/bz-window.blp:114
+msgid "Library"
+msgstr "Knihovna"
 
 #: src/bz-window.blp:129
 msgid "Search"
@@ -2982,94 +2972,98 @@ msgstr "%.*f tis."
 msgid "%d downloads in the last month"
 msgstr "%d stažení za poslední měsíc"
 
-#: src/context-tile-callbacks.c:132
+#. TRANSLATORS: %s is a formatted file size, for example: "128 MB"
+#: src/context-tile-callbacks.c:133
 #, c-format
 msgid "+%s runtime"
 msgstr "+ prostředí %s"
 
-#: src/context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:136
 msgid "Download"
 msgstr "Stáhnout"
 
-#: src/context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:156
 msgid "Size information unavailable"
 msgstr "Informace o velikosti nejsou k dispozici"
 
-#: src/context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:159
 #, c-format
 msgid "Download size of %s"
 msgstr "Stahovaná velikost %s"
 
-#: src/context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:192
 msgid "All Ages"
 msgstr "Libovolný věk"
 
-#: src/context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:204
 msgid "Age rating information unavailable"
 msgstr "Hodnocení věku není k dispozici"
 
-#: src/context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:209
 msgid "Suitable for all ages"
 msgstr "Vhodné pro všechny věkové skupiny"
 
-#: src/context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:211
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "Vhodné pro věk %d a více"
 
-#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
-#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
+#: src/context-tile-callbacks.c:244 src/context-tile-callbacks.c:249
+#: src/context-tile-callbacks.c:277 src/context-tile-callbacks.c:286
 msgid "Unknown"
 msgstr "Neznámé"
 
-#: src/context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:254
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "Svobodný software licencovaný pod %s"
 
-#: src/context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:259
 msgid "Free software"
 msgstr "Svobodný software"
 
-#: src/context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:262
 msgid "Proprietary Software"
 msgstr "Uzavřený software"
 
-#: src/context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:265
 #, c-format
 msgid "Special License: %s"
 msgstr "Zvláštní licence: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/context-tile-callbacks.c:282
+#: src/context-tile-callbacks.c:283
 msgid "Free Software"
 msgstr "Svobodné"
 
-#: src/context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:311
 msgid "Adaptive"
 msgstr "Adaptivní"
 
-#: src/context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:311
 msgid "Desktop Only"
 msgstr "Pouze pro PC"
 
-#: src/context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:317
 msgid "Works on desktop, tablets, and phones"
 msgstr "Funguje na PC, tabletech a telefonech"
 
-#: src/context-tile-callbacks.c:317
+#: src/context-tile-callbacks.c:318
 msgid "May not work on mobile devices"
 msgstr "Možná nefunguje na mobilních zařízeních"
 
-#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:405 src/context-tile-callbacks.c:408
 msgid "Low Risk"
 msgstr "Nízké riziko"
 
-#: src/context-tile-callbacks.c:406
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:411
 msgid "Medium Risk"
 msgstr "Střední riziko"
 
-#: src/context-tile-callbacks.c:408
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:414
 msgid "High Risk"
 msgstr "Vysoké riziko"
 
