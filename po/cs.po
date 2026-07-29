@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 00:36+0200\n"
-"PO-Revision-Date: 2026-07-29 13:12+0200\n"
+"POT-Creation-Date: 2026-07-29 21:11+0200\n"
+"PO-Revision-Date: 2026-07-30 01:58+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -2975,7 +2975,7 @@ msgstr "%d stažení za poslední měsíc"
 #. TRANSLATORS: %s is a formatted file size, for example: "128 MB"
 #: src/context-tile-callbacks.c:133
 #, c-format
-msgid "+%s runtime"
+msgid "+%s Runtime"
 msgstr "+ prostředí %s"
 
 #: src/context-tile-callbacks.c:136
