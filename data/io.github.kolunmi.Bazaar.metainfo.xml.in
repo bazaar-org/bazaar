@@ -33,7 +33,7 @@
   <url type="homepage">https://usebazaar.org/</url>
   <url type="vcs-browser">https://github.com/bazaar-org/bazaar</url>
   <url type="bugtracker">https://github.com/bazaar-org/bazaar/issues</url>
-  <url type="translate">https://github.com/bazaar-org/bazaar/tree/master/po</url>
+  <url type="translate">https://l10n.gnome.org/module/bazaar/</url>
   <url type="faq">https://github.com/bazaar-org/bazaar/blob/master/README.md</url>
   <url type="help">https://github.com/bazaar-org/bazaar/discussions</url>
   <url type="donation">https://github.com/sponsors/kolunmi</url>
