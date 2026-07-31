@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 21:11+0200\n"
-"PO-Revision-Date: 2026-07-30 01:58+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
+"POT-Creation-Date: 2026-07-31 01:49+0000\n"
+"PO-Revision-Date: 2026-07-31 13:16+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -1994,7 +1994,7 @@ msgstr "Obnovit ručně"
 msgid "App Updates"
 msgstr "Aktualizace aplikací"
 
-#: src/bz-preferences-dialog.blp:46
+#: src/bz-preferences-dialog.blp:47
 msgid ""
 "Checking for and downloading app updates uses data and power. Automatic app "
 "update features are therefore paused when on metered network connections and "
@@ -2004,155 +2004,155 @@ msgstr ""
 "Funkce automatických aktualizací aplikací jsou proto pozastaveny, když "
 "používáte měřená síťová připojení a když je zapnutý úsporný režim."
 
-#: src/bz-preferences-dialog.blp:52
+#: src/bz-preferences-dialog.blp:53
 msgid "_Automatic"
 msgstr "_Automatické"
 
-#: src/bz-preferences-dialog.blp:53
+#: src/bz-preferences-dialog.blp:54
 msgid "Automatically check for and download app updates"
 msgstr "Automaticky kontrolovat a stahovat aktualizace aplikací"
 
-#: src/bz-preferences-dialog.blp:62
+#: src/bz-preferences-dialog.blp:63
 msgid "_Manual"
 msgstr "_Ruční"
 
-#: src/bz-preferences-dialog.blp:63
+#: src/bz-preferences-dialog.blp:64
 msgid "Checking for and downloading app updates must be done manually"
 msgstr "Kontrola a stahování aktualizací aplikací musí být provedeno ručně"
 
-#: src/bz-preferences-dialog.blp:78
+#: src/bz-preferences-dialog.blp:80
 msgid "Automatic Update _Notifications"
 msgstr "Oz_namovat automatické aktualizace"
 
-#: src/bz-preferences-dialog.blp:79
+#: src/bz-preferences-dialog.blp:81
 msgid "Notify when updates have been automatically installed"
 msgstr "Oznámit, když jsou automaticky nainstalovány aktualizace"
 
-#: src/bz-preferences-dialog.blp:84
+#: src/bz-preferences-dialog.blp:86
 msgid "Content Filters"
 msgstr "Filtry obsahu"
 
-#: src/bz-preferences-dialog.blp:87
+#: src/bz-preferences-dialog.blp:89
 msgid "_Free Software Only"
 msgstr "Pouze svobodný so_ftware"
 
-#: src/bz-preferences-dialog.blp:88
+#: src/bz-preferences-dialog.blp:90
 msgid "Hide proprietary apps when browsing and searching"
 msgstr "Skrýt uzavřené aplikace z výsledků vyhledávání"
 
-#: src/bz-preferences-dialog.blp:93
+#: src/bz-preferences-dialog.blp:95
 msgid "F_lathub Results Only"
 msgstr "Pouze výsledky z F_lathubu"
 
-#: src/bz-preferences-dialog.blp:94
+#: src/bz-preferences-dialog.blp:96
 msgid "Limit search and browse results to apps only available on Flathub"
 msgstr "Omezit výsledky vyhledávání pouze na aplikace dostupné na Flathubu"
 
-#: src/bz-preferences-dialog.blp:99
+#: src/bz-preferences-dialog.blp:101
 msgid "_Verified Results Only"
 msgstr "Pouze o_věřené výsledky"
 
-#: src/bz-preferences-dialog.blp:100
+#: src/bz-preferences-dialog.blp:102
 msgid "Hide results that are not verified on Flathub"
 msgstr "Skrýt výsledky, které nejsou ověřeny na Flathubu"
 
-#: src/bz-preferences-dialog.blp:105
+#: src/bz-preferences-dialog.blp:107
 msgid "Hide _End-of-Life Apps"
 msgstr "Skrýt zastaralé aplikac_e"
 
-#: src/bz-preferences-dialog.blp:106
+#: src/bz-preferences-dialog.blp:108
 msgid "Hide apps which are no longer supported by their developers"
 msgstr "Skrýt aplikace, které již nejsou podporované jejich vývojáři"
 
-#: src/bz-preferences-dialog.blp:112
+#: src/bz-preferences-dialog.blp:114
 msgid "Progress Bar Theme"
 msgstr "Motiv ukazatele postupu"
 
-#: src/bz-preferences-dialog.c:32
+#: src/bz-preferences-dialog.c:33
 msgid "Accent Color"
 msgstr "Barevný odstín"
 
-#: src/bz-preferences-dialog.c:33
+#: src/bz-preferences-dialog.c:34
 msgid "Pride Colors"
 msgstr "Barvy hrdosti"
 
-#: src/bz-preferences-dialog.c:34
+#: src/bz-preferences-dialog.c:35
 msgid "Lesbian Pride Colors"
 msgstr "Barvy lesbické hrdosti"
 
-#: src/bz-preferences-dialog.c:35
+#: src/bz-preferences-dialog.c:36
 msgid "Male Homosexual Pride Colors"
 msgstr "Barvy mužské homosexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:36
+#: src/bz-preferences-dialog.c:37
 msgid "Transgender Pride Colors"
 msgstr "Barvy transgender hrdosti"
 
-#: src/bz-preferences-dialog.c:37
+#: src/bz-preferences-dialog.c:38
 msgid "Nonbinary Pride Colors"
 msgstr "Barvy nebinární hrdosti"
 
-#: src/bz-preferences-dialog.c:38
+#: src/bz-preferences-dialog.c:39
 msgid "Bisexual Pride Colors"
 msgstr "Barvy bisexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:39
+#: src/bz-preferences-dialog.c:40
 msgid "Asexual Pride Colors"
 msgstr "Barvy asexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:40
+#: src/bz-preferences-dialog.c:41
 msgid "Pansexual Pride Colors"
 msgstr "Barvy pansexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:41
+#: src/bz-preferences-dialog.c:42
 msgid "Aromantic Pride Colors"
 msgstr "Barvy aromatické hrdosti"
 
-#: src/bz-preferences-dialog.c:42
+#: src/bz-preferences-dialog.c:43
 msgid "Genderfluid Pride Colors"
 msgstr "Barvy genderfluidní hrdosti"
 
-#: src/bz-preferences-dialog.c:43
+#: src/bz-preferences-dialog.c:44
 msgid "Polysexual Pride Colors"
 msgstr "Barvy polysexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:44
+#: src/bz-preferences-dialog.c:45
 msgid "Omnisexual Pride Colors"
 msgstr "Barvy omnisexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:45
+#: src/bz-preferences-dialog.c:46
 msgid "Aroace Pride Colors"
 msgstr "Barvy aroace hrdosti"
 
-#: src/bz-preferences-dialog.c:46
+#: src/bz-preferences-dialog.c:47
 msgid "Agender Pride Colors"
 msgstr "Barvy agenderové hrdosti"
 
-#: src/bz-preferences-dialog.c:47
+#: src/bz-preferences-dialog.c:48
 msgid "Genderqueer Pride Colors"
 msgstr "Barvy genderqueer hrdosti"
 
-#: src/bz-preferences-dialog.c:48
+#: src/bz-preferences-dialog.c:49
 msgid "Intersex Pride Colors"
 msgstr "Barvy intersexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:49
+#: src/bz-preferences-dialog.c:50
 msgid "Demigender Pride Colors"
 msgstr "Barvy demigenderové hrdosti"
 
-#: src/bz-preferences-dialog.c:50
+#: src/bz-preferences-dialog.c:51
 msgid "Biromantic Pride Colors"
 msgstr "Barvy biromantické hrdosti"
 
-#: src/bz-preferences-dialog.c:51
+#: src/bz-preferences-dialog.c:52
 msgid "Disability Pride Colors"
 msgstr "Barvy hrdosti invalidů"
 
-#: src/bz-preferences-dialog.c:52
+#: src/bz-preferences-dialog.c:53
 msgid "Femboy Pride Colors"
 msgstr "Barvy hrdosti femboyů"
 
-#: src/bz-preferences-dialog.c:53
+#: src/bz-preferences-dialog.c:54
 msgid "Neutrois Pride Colors"
 msgstr "Barvy neutrois hrdosti"
 
@@ -2830,10 +2830,13 @@ msgstr "Zde se zobrazí vlastní data, která zanechaly odstraněné aplikace"
 
 #: src/bz-user-data-page.c:229
 #, c-format
-msgid "Trashed User Data for %u Apps"
-msgstr "Uživatelská data %u aplikací byla vymazána"
+msgid "Trashed User Data for %u App"
+msgid_plural "Trashed User Data for %u Apps"
+msgstr[0] "Uživatelská data %u aplikace byla vymazána"
+msgstr[1] "Uživatelská data %u aplikací byla vymazána"
+msgstr[2] "Uživatelská data %u aplikací byla vymazána"
 
-#: src/bz-user-data-page.c:230
+#: src/bz-user-data-page.c:233
 #, c-format
 msgid "Trashed User Data for %s"
 msgstr "Uživatelská data aplikace %s byla vymazána"
