@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
-"POT-Creation-Date: 2026-07-31 01:49+0000\n"
-"PO-Revision-Date: 2026-07-31 13:16+0200\n"
+"POT-Creation-Date: 2026-08-02 22:44+0000\n"
+"PO-Revision-Date: 2026-08-03 13:48+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -790,11 +790,11 @@ msgstr "Přesto pokračovat"
 msgid "Performing setup…"
 msgstr "Provádí se nastavení…"
 
-#: src/bz-application.c:1144
+#: src/bz-application.c:1145
 msgid "Set Up System Flathub?"
 msgstr "Nastavit systémový Flathub?"
 
-#: src/bz-application.c:1147
+#: src/bz-application.c:1148
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -809,11 +809,11 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1154
+#: src/bz-application.c:1155
 msgid "Set Up Flathub?"
 msgstr "Nastavit Flathub?"
 
-#: src/bz-application.c:1157
+#: src/bz-application.c:1158
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -826,52 +826,52 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1163
+#: src/bz-application.c:1164
 msgid "Later"
 msgstr "Později"
 
-#: src/bz-application.c:1164
+#: src/bz-application.c:1165
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1697
+#: src/bz-application.c:1698
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1905 src/bz-application.c:4152
+#: src/bz-application.c:1906 src/bz-application.c:4153
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:2069 src/bz-application.c:4150
+#: src/bz-application.c:2070 src/bz-application.c:4151
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:2122 src/bz-application.c:2196
+#: src/bz-application.c:2123 src/bz-application.c:2197
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:2210
+#: src/bz-application.c:2211
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:2304
+#: src/bz-application.c:2305
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2703
+#: src/bz-application.c:2704
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2759
+#: src/bz-application.c:2760
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3925
+#: src/bz-application.c:3926
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3926
+#: src/bz-application.c:3927
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -883,11 +883,11 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3934
+#: src/bz-application.c:3935
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:4154
+#: src/bz-application.c:4155
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1048,13 +1048,13 @@ msgid "Donate to Bazaar"
 msgstr "Podpořit Bazaar"
 
 #. Translators: the %s format specifier will be something along the lines of "0.7.6" etc
-#: src/bz-donations-dialog.c:227
+#: src/bz-donations-dialog.c:228
 #, c-format
 msgid "What's New in %s?"
 msgstr "Co je nového ve verzi %s?"
 
 #. Translators: this is a release date label, like "Released February 9, 2026"
-#: src/bz-donations-dialog.c:243
+#: src/bz-donations-dialog.c:244
 msgid "Released %B %-e, %Y"
 msgstr "Vydáno %-e. %B %Y"
 
@@ -2012,149 +2012,153 @@ msgstr "_Automatické"
 msgid "Automatically check for and download app updates"
 msgstr "Automaticky kontrolovat a stahovat aktualizace aplikací"
 
-#: src/bz-preferences-dialog.blp:63
+#: src/bz-preferences-dialog.blp:65
 msgid "_Manual"
 msgstr "_Ruční"
 
-#: src/bz-preferences-dialog.blp:64
+#: src/bz-preferences-dialog.blp:66
 msgid "Checking for and downloading app updates must be done manually"
 msgstr "Kontrola a stahování aktualizací aplikací musí být provedeno ručně"
 
-#: src/bz-preferences-dialog.blp:80
+#: src/bz-preferences-dialog.blp:83
 msgid "Automatic Update _Notifications"
 msgstr "Oz_namovat automatické aktualizace"
 
-#: src/bz-preferences-dialog.blp:81
+#: src/bz-preferences-dialog.blp:84
 msgid "Notify when updates have been automatically installed"
 msgstr "Oznámit, když jsou automaticky nainstalovány aktualizace"
 
-#: src/bz-preferences-dialog.blp:86
+#: src/bz-preferences-dialog.blp:89
 msgid "Content Filters"
 msgstr "Filtry obsahu"
 
-#: src/bz-preferences-dialog.blp:89
+#: src/bz-preferences-dialog.blp:92
 msgid "_Free Software Only"
 msgstr "Pouze svobodný so_ftware"
 
-#: src/bz-preferences-dialog.blp:90
+#: src/bz-preferences-dialog.blp:93
 msgid "Hide proprietary apps when browsing and searching"
 msgstr "Skrýt uzavřené aplikace z výsledků vyhledávání"
 
-#: src/bz-preferences-dialog.blp:95
+#: src/bz-preferences-dialog.blp:98
 msgid "F_lathub Results Only"
 msgstr "Pouze výsledky z F_lathubu"
 
-#: src/bz-preferences-dialog.blp:96
+#: src/bz-preferences-dialog.blp:99
 msgid "Limit search and browse results to apps only available on Flathub"
 msgstr "Omezit výsledky vyhledávání pouze na aplikace dostupné na Flathubu"
 
-#: src/bz-preferences-dialog.blp:101
+#: src/bz-preferences-dialog.blp:104
 msgid "_Verified Results Only"
 msgstr "Pouze o_věřené výsledky"
 
-#: src/bz-preferences-dialog.blp:102
+#: src/bz-preferences-dialog.blp:105
 msgid "Hide results that are not verified on Flathub"
 msgstr "Skrýt výsledky, které nejsou ověřeny na Flathubu"
 
-#: src/bz-preferences-dialog.blp:107
+#: src/bz-preferences-dialog.blp:110
 msgid "Hide _End-of-Life Apps"
 msgstr "Skrýt zastaralé aplikac_e"
 
-#: src/bz-preferences-dialog.blp:108
+#: src/bz-preferences-dialog.blp:111
 msgid "Hide apps which are no longer supported by their developers"
 msgstr "Skrýt aplikace, které již nejsou podporované jejich vývojáři"
 
-#: src/bz-preferences-dialog.blp:114
+#: src/bz-preferences-dialog.blp:117
 msgid "Progress Bar Theme"
 msgstr "Motiv ukazatele postupu"
 
-#: src/bz-preferences-dialog.c:33
+#: src/bz-preferences-dialog.c:39
 msgid "Accent Color"
 msgstr "Barevný odstín"
 
-#: src/bz-preferences-dialog.c:34
+#: src/bz-preferences-dialog.c:40
 msgid "Pride Colors"
 msgstr "Barvy hrdosti"
 
-#: src/bz-preferences-dialog.c:35
+#: src/bz-preferences-dialog.c:41
 msgid "Lesbian Pride Colors"
 msgstr "Barvy lesbické hrdosti"
 
-#: src/bz-preferences-dialog.c:36
+#: src/bz-preferences-dialog.c:42
 msgid "Male Homosexual Pride Colors"
 msgstr "Barvy mužské homosexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:37
+#: src/bz-preferences-dialog.c:43
 msgid "Transgender Pride Colors"
 msgstr "Barvy transgender hrdosti"
 
-#: src/bz-preferences-dialog.c:38
+#: src/bz-preferences-dialog.c:44
 msgid "Nonbinary Pride Colors"
 msgstr "Barvy nebinární hrdosti"
 
-#: src/bz-preferences-dialog.c:39
+#: src/bz-preferences-dialog.c:45
 msgid "Bisexual Pride Colors"
 msgstr "Barvy bisexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:40
+#: src/bz-preferences-dialog.c:46
 msgid "Asexual Pride Colors"
 msgstr "Barvy asexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:41
+#: src/bz-preferences-dialog.c:47
 msgid "Pansexual Pride Colors"
 msgstr "Barvy pansexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:42
+#: src/bz-preferences-dialog.c:48
 msgid "Aromantic Pride Colors"
 msgstr "Barvy aromatické hrdosti"
 
-#: src/bz-preferences-dialog.c:43
+#: src/bz-preferences-dialog.c:49
 msgid "Genderfluid Pride Colors"
 msgstr "Barvy genderfluidní hrdosti"
 
-#: src/bz-preferences-dialog.c:44
+#: src/bz-preferences-dialog.c:50
 msgid "Polysexual Pride Colors"
 msgstr "Barvy polysexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:45
+#: src/bz-preferences-dialog.c:51
 msgid "Omnisexual Pride Colors"
 msgstr "Barvy omnisexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:46
+#: src/bz-preferences-dialog.c:52
 msgid "Aroace Pride Colors"
 msgstr "Barvy aroace hrdosti"
 
-#: src/bz-preferences-dialog.c:47
+#: src/bz-preferences-dialog.c:53
 msgid "Agender Pride Colors"
 msgstr "Barvy agenderové hrdosti"
 
-#: src/bz-preferences-dialog.c:48
+#: src/bz-preferences-dialog.c:54
 msgid "Genderqueer Pride Colors"
 msgstr "Barvy genderqueer hrdosti"
 
-#: src/bz-preferences-dialog.c:49
+#: src/bz-preferences-dialog.c:55
 msgid "Intersex Pride Colors"
 msgstr "Barvy intersexuální hrdosti"
 
-#: src/bz-preferences-dialog.c:50
+#: src/bz-preferences-dialog.c:56
 msgid "Demigender Pride Colors"
 msgstr "Barvy demigenderové hrdosti"
 
-#: src/bz-preferences-dialog.c:51
+#: src/bz-preferences-dialog.c:57
 msgid "Biromantic Pride Colors"
 msgstr "Barvy biromantické hrdosti"
 
-#: src/bz-preferences-dialog.c:52
+#: src/bz-preferences-dialog.c:58
 msgid "Disability Pride Colors"
 msgstr "Barvy hrdosti invalidů"
 
-#: src/bz-preferences-dialog.c:53
+#: src/bz-preferences-dialog.c:59
 msgid "Femboy Pride Colors"
 msgstr "Barvy hrdosti femboyů"
 
-#: src/bz-preferences-dialog.c:54
+#: src/bz-preferences-dialog.c:60
 msgid "Neutrois Pride Colors"
 msgstr "Barvy neutrois hrdosti"
+
+#: src/bz-preferences-dialog.c:280
+msgid "Bazaar needs to run in the background to check for app updates"
+msgstr "Bazaar musí běžet na pozadí, aby mohl kontrolovat aktualizace aplikací"
 
 #: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:159
 msgid "Version History"
