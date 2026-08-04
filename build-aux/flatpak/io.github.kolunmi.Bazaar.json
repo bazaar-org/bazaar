@@ -62,7 +62,75 @@
                     "path": "../.."
                 }
             ],
-            "modules": [
+          "modules": [
+                {
+                  "name" : "libdex",
+                  "buildsystem" : "meson",
+                  "config-opts" : [
+                    "--buildtype=debugoptimized",
+                    "-Ddocs=false",
+                    "-Dintrospection=enabled",
+                    "-Dexamples=false",
+                    "-Dtests=false",
+                    "-Dsysprof=false"
+                  ],
+                  "sources" : [
+                    {
+                      "type" : "git",
+                      "url" : "https://gitlab.gnome.org/GNOME/libdex.git",
+                      "branch" : "main"
+                    }
+                  ]
+                },
+                {
+                    "name": "postgresql",
+                    "buildsystem": "autotools",
+                    "sources": [
+                        {
+                          "type": "archive",
+                          "url": "https://ftp.postgresql.org/pub/source/v14.23/postgresql-14.23.tar.bz2",
+                          "sha256": "cc7216822b546330e29c2f91e123c8734a4c41795082145bb962aa712e8c94a5"
+                        }
+                    ]
+                },
+                {
+                  "name" : "pgsql-glib",
+                  "buildsystem" : "meson",
+                  "config-opts" : [
+                    "--buildtype=debugoptimized",
+                    "-Ddocs=false",
+                    "-Dintrospection=enabled",
+                    "-Dtests=false"
+                  ],
+                  "sources" : [
+                    {
+                      "type" : "git",
+                      "url" : "https://gitlab.gnome.org/chergert/pgsql-glib.git",
+                      "branch" : "main"
+                    }
+                  ]
+                },
+                {
+                  "name" : "gom",
+                  "buildsystem" : "meson",
+                  "config-opts" : [
+                    "-Ddefault_library=shared",
+                    "--buildtype=debugoptimized",
+                    "-Dsqlite-backend=disabled",
+                    "-Dpostgresql-backend=enabled",
+                    "-Ddocs=false",
+                    "-Dintrospection=enabled",
+                    "-Dtests=false",
+                    "-Dsysprof=disabled"
+                  ],
+                  "sources" : [
+                    {
+                      "type" : "git",
+                      "url" : "https://gitlab.gnome.org/GNOME/gom.git",
+                      "branch" : "main"
+                    }
+                  ]
+                },
                 {
                     "name": "md4c",
                     "buildsystem": "cmake",
