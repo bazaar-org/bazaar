@@ -1027,7 +1027,7 @@ init_fiber (GWeakRef *wr)
           adw_alert_dialog_format_heading (ADW_ALERT_DIALOG (alert), _ ("Ubuntu Troubles!"));
           adw_alert_dialog_format_body_markup (
               ADW_ALERT_DIALOG (alert),
-              _ ("The more recent versions of Ubuntu have messed up default security rules, "
+              _ ("Ubuntu 25.10 and newer have messed up default security rules, "
                  "making it <b>impossible to install apps</b> from the Flatpak version "
                  "of Bazaar, please just use the normal package for now by using\n\n"
                  "<tt>sudo apt install bazaar</tt>\n\n"
