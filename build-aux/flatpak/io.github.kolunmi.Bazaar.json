@@ -181,7 +181,10 @@
                                     "sha256": "18f63100d6f94385c6ed57a72073443e1a71a4acb4339491615d0f16d6ff01b2",
                                     "x-checker-data": {
                                         "type": "pypi",
-                                        "name": "flit_core"
+                                        "name": "flit_core",
+                                        "versions": {
+                                          "<": "4"
+                                        }
                                     }
                                 }
                             ]
