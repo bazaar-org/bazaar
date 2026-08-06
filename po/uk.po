@@ -961,7 +961,7 @@ msgstr "Дані про розмір недоступні"
 #: src/context-tile-callbacks.c:158
 #, c-format
 msgid "Download size of %s"
-msgstr "Розмір завантаження"
+msgstr "Розмір завантаження %s"
 
 #: src/context-tile-callbacks.c:191
 msgid "All Ages"
@@ -1096,7 +1096,7 @@ msgid ""
 "The ownership of the %s app ID has not been verified and it may be a "
 "community package."
 msgstr ""
-"Володіння ідентифікатором цього застосунку не було підтверджено. Можливо, "
+"Володіння ідентифікатором цього застосунку %s не було підтверджено. Можливо, "
 "цей пакунок було вивантажено спільнотою."
 
 #: src/bz-developer-badge.c:237
@@ -1113,7 +1113,7 @@ msgid ""
 "The ownership of the %1$s app ID has been verified by <b>%2$s</b> on "
 "<b>%3$s</b>."
 msgstr ""
-"Володіння ідентифікатором %1$s було підтверджено <b>%2$s</b> станом на <b>%3%s"
+"Володіння ідентифікатором %1$s було підтверджено <b>%2$s</b> станом на <b>%3$s"
 "</b>."
 
 #: src/bz-developer-badge.c:260
