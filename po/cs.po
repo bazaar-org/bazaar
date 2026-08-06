@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
-"POT-Creation-Date: 2026-08-02 22:44+0000\n"
-"PO-Revision-Date: 2026-08-03 13:48+0200\n"
+"POT-Creation-Date: 2026-08-05 00:02+0000\n"
+"PO-Revision-Date: 2026-08-06 02:26+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -762,9 +762,9 @@ msgstr "Problémy s Ubuntu!"
 
 #: src/bz-application.c:1030
 msgid ""
-"The more recent versions of Ubuntu have messed up default security rules, "
-"making it <b>impossible to install apps</b> from the Flatpak version of "
-"Bazaar, please just use the normal package for now by using\n"
+"Ubuntu 25.10 and newer have messed up default security rules, making it "
+"<b>impossible to install apps</b> from the Flatpak version of Bazaar, please "
+"just use the normal package for now by using\n"
 "\n"
 "<tt>sudo apt install bazaar</tt>\n"
 "\n"
@@ -772,7 +772,7 @@ msgid ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 msgstr ""
-"Novější verze Ubuntu mají porušená výchozí bezpečnostní pravidla, takže "
+"Ubuntu 25.10 a novější mají porušená výchozí bezpečnostní pravidla, takže "
 "<b>není možné instalovat aplikace</b> z Flatpak verze Bazaaru. Prozatím "
 "prosím použijte normální balíček pomocí\n"
 "\n"
@@ -834,44 +834,44 @@ msgstr "Později"
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1698
+#: src/bz-application.c:1699
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1906 src/bz-application.c:4153
+#: src/bz-application.c:1907 src/bz-application.c:4156
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:2070 src/bz-application.c:4151
+#: src/bz-application.c:2071
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:2123 src/bz-application.c:2197
+#: src/bz-application.c:2124 src/bz-application.c:2198
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:2211
+#: src/bz-application.c:2212
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:2305
+#: src/bz-application.c:2306
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2704
+#: src/bz-application.c:2705
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2760
+#: src/bz-application.c:2761
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3926
+#: src/bz-application.c:3927
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3927
+#: src/bz-application.c:3928
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -883,11 +883,19 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3935
+#: src/bz-application.c:3936
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:4155
+#: src/bz-application.c:4153
+#, c-format
+msgid "Loading %d app…"
+msgid_plural "Loading %d apps…"
+msgstr[0] "Načítá se %d aplikace…"
+msgstr[1] "Načítají se %d aplikace…"
+msgstr[2] "Načítá se %d aplikací…"
+
+#: src/bz-application.c:4158
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1085,7 +1093,7 @@ msgstr "tento uživatel"
 msgid "all users"
 msgstr "všichni uživatelé"
 
-#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:98 src/error.c:69
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:101 src/error.c:69
 #: src/error.c:88
 msgid "Details"
 msgstr "Podrobnosti"
@@ -1928,7 +1936,7 @@ msgstr ""
 "\n"
 "Můžete nebo nemusíte být schopni do této aplikace přispívat."
 
-#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:101
+#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:104
 msgid "License"
 msgstr "Licence"
 
@@ -1994,77 +2002,75 @@ msgstr "Obnovit ručně"
 msgid "App Updates"
 msgstr "Aktualizace aplikací"
 
-#: src/bz-preferences-dialog.blp:47
+#: src/bz-preferences-dialog.blp:33
 msgid ""
-"Checking for and downloading app updates uses data and power. Automatic app "
-"update features are therefore paused when on metered network connections and "
-"when power saver is on."
+"Auto-updates will pause on metered networks or when power saving is on to "
+"save data and battery."
 msgstr ""
-"Kontrola a stahování aktualizací aplikací spotřebovává data a energii. "
-"Funkce automatických aktualizací aplikací jsou proto pozastaveny, když "
-"používáte měřená síťová připojení a když je zapnutý úsporný režim."
+"Automatické aktualizace budou pozastaveny v měřených sítích nebo při "
+"zapnutém úsporném režimu, aby se šetřila data a baterie."
 
-#: src/bz-preferences-dialog.blp:53
+#: src/bz-preferences-dialog.blp:36
 msgid "_Automatic"
 msgstr "_Automatické"
 
-#: src/bz-preferences-dialog.blp:54
+#: src/bz-preferences-dialog.blp:37
 msgid "Automatically check for and download app updates"
 msgstr "Automaticky kontrolovat a stahovat aktualizace aplikací"
 
-#: src/bz-preferences-dialog.blp:65
+#: src/bz-preferences-dialog.blp:48
 msgid "_Manual"
 msgstr "_Ruční"
 
-#: src/bz-preferences-dialog.blp:66
+#: src/bz-preferences-dialog.blp:49
 msgid "Checking for and downloading app updates must be done manually"
 msgstr "Kontrola a stahování aktualizací aplikací musí být provedeno ručně"
 
-#: src/bz-preferences-dialog.blp:83
+#: src/bz-preferences-dialog.blp:67
 msgid "Automatic Update _Notifications"
 msgstr "Oz_namovat automatické aktualizace"
 
-#: src/bz-preferences-dialog.blp:84
+#: src/bz-preferences-dialog.blp:68
 msgid "Notify when updates have been automatically installed"
 msgstr "Oznámit, když jsou automaticky nainstalovány aktualizace"
 
-#: src/bz-preferences-dialog.blp:89
+#: src/bz-preferences-dialog.blp:73
 msgid "Content Filters"
 msgstr "Filtry obsahu"
 
-#: src/bz-preferences-dialog.blp:92
+#: src/bz-preferences-dialog.blp:76
 msgid "_Free Software Only"
 msgstr "Pouze svobodný so_ftware"
 
-#: src/bz-preferences-dialog.blp:93
+#: src/bz-preferences-dialog.blp:77
 msgid "Hide proprietary apps when browsing and searching"
 msgstr "Skrýt uzavřené aplikace z výsledků vyhledávání"
 
-#: src/bz-preferences-dialog.blp:98
+#: src/bz-preferences-dialog.blp:82
 msgid "F_lathub Results Only"
 msgstr "Pouze výsledky z F_lathubu"
 
-#: src/bz-preferences-dialog.blp:99
+#: src/bz-preferences-dialog.blp:83
 msgid "Limit search and browse results to apps only available on Flathub"
 msgstr "Omezit výsledky vyhledávání pouze na aplikace dostupné na Flathubu"
 
-#: src/bz-preferences-dialog.blp:104
+#: src/bz-preferences-dialog.blp:88
 msgid "_Verified Results Only"
 msgstr "Pouze o_věřené výsledky"
 
-#: src/bz-preferences-dialog.blp:105
+#: src/bz-preferences-dialog.blp:89
 msgid "Hide results that are not verified on Flathub"
 msgstr "Skrýt výsledky, které nejsou ověřeny na Flathubu"
 
-#: src/bz-preferences-dialog.blp:110
+#: src/bz-preferences-dialog.blp:94
 msgid "Hide _End-of-Life Apps"
 msgstr "Skrýt zastaralé aplikac_e"
 
-#: src/bz-preferences-dialog.blp:111
+#: src/bz-preferences-dialog.blp:95
 msgid "Hide apps which are no longer supported by their developers"
 msgstr "Skrýt aplikace, které již nejsou podporované jejich vývojáři"
 
-#: src/bz-preferences-dialog.blp:117
+#: src/bz-preferences-dialog.blp:101
 msgid "Progress Bar Theme"
 msgstr "Motiv ukazatele postupu"
 
@@ -2242,16 +2248,16 @@ msgstr "Odinstalovat"
 msgid "Get"
 msgstr "Získat"
 
-#: src/bz-safety-dialog.blp:31 src/safety-calculator.c:161
+#: src/bz-safety-dialog.blp:32 src/safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Libovolná oprávnění"
 
-#: src/bz-safety-dialog.blp:48
+#: src/bz-safety-dialog.blp:50
 msgid ""
 "This app has a permission that indirectly allows it to grant itself <b>any "
 "other permission it wants</b>, bypassing the Flatpak sandbox.\n"
 "\n"
-"It can therefore do anything a normal, non-sandboxed application can do, "
+"It can therefore do anything a privileged, non-sandboxed application can do, "
 "such as accessing all your files and connecting to the internet.\n"
 "\n"
 "Viewing the other permissions may still give a better idea of what the app "
@@ -2260,30 +2266,30 @@ msgstr ""
 "Tato aplikace má oprávnění, které jí nepřímo umožňuje udělit si <b>jakékoli "
 "jiné oprávnění, které chce</b>, a obejít tak izolované prostředí Flatpaku.\n"
 "\n"
-"Může tedy dělat cokoli, co normální aplikace bez izolovaného prostředí, "
+"Může tedy dělat cokoli, co privilegovaná aplikace bez izolovaného prostředí, "
 "například přistupovat ke všem vašim souborům a připojením k internetu.\n"
 "\n"
 "Zobrazení dalších oprávnění vám může stále poskytnout lepší představu o tom, "
 "co aplikace pravděpodobně udělá."
 
-#: src/bz-safety-dialog.blp:52
+#: src/bz-safety-dialog.blp:54
 msgid "View Other Permissions"
 msgstr "Zobrazit další oprávnění"
 
 #. TRANSLATORS: short app safety rating label
-#: src/bz-safety-dialog.blp:79 src/context-tile-callbacks.c:402
+#: src/bz-safety-dialog.blp:82 src/context-tile-callbacks.c:402
 msgid "Safe"
 msgstr "Bezpečné"
 
-#: src/bz-safety-dialog.blp:112
+#: src/bz-safety-dialog.blp:115
 msgid "App ID"
 msgstr "ID aplikace"
 
-#: src/bz-safety-dialog.blp:122
+#: src/bz-safety-dialog.blp:125
 msgid "SDK"
 msgstr "SDK"
 
-#: src/bz-safety-dialog.blp:156
+#: src/bz-safety-dialog.blp:159
 msgid ""
 "This app uses an outdated version of the software platform (SDK) and might "
 "contain bugs or security vulnerabilities which will not be fixed."
@@ -2291,31 +2297,31 @@ msgstr ""
 "Tato aplikace používá zastaralou verzi softwarové platformy (SDK) a může "
 "obsahovat chyby nebo slabá místa zabezpečení, která nebudou opravena."
 
-#: src/bz-safety-dialog.c:287
+#: src/bz-safety-dialog.c:301
 msgid "Safety"
 msgstr "Bezpečnost"
 
-#: src/bz-safety-dialog.c:347
+#: src/bz-safety-dialog.c:361
 #, c-format
 msgid "%s is Safe"
 msgstr "Aplikace %s je bezpečná"
 
-#: src/bz-safety-dialog.c:352
+#: src/bz-safety-dialog.c:366
 #, c-format
 msgid "%s has no Unsafe Permissions"
 msgstr "Aplikace %s nemá žádná nebezpečná oprávnění"
 
-#: src/bz-safety-dialog.c:357
+#: src/bz-safety-dialog.c:371
 #, c-format
 msgid "%s is Probably Safe"
 msgstr "Aplikace %s je pravděpodobně bezpečná"
 
-#: src/bz-safety-dialog.c:362
+#: src/bz-safety-dialog.c:376
 #, c-format
 msgid "%s is Possibly Unsafe"
 msgstr "Aplikace %s pravděpodobně není bezpečná"
 
-#: src/bz-safety-dialog.c:367
+#: src/bz-safety-dialog.c:381
 #, c-format
 msgid "%s is Unsafe"
 msgstr "Aplikace %s není bezpečná"
