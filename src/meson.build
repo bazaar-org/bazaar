@@ -3,7 +3,7 @@ xmllint = find_program('xmllint', required: true)
 
 gtk_dep              = dependency('gtk4', version: '>= 4.22.1')
 libadwaita_dep       = dependency('libadwaita-1', version: '>= 1.8')
-libdex_dep           = dependency('libdex-1', version: '>= 1.0.0')
+libdex_dep           = dependency('libdex-1', version: '>= 1.2.alpha')
 flatpak_dep          = dependency('flatpak', version: '>= 1.9')
 appstream_dep        = dependency('appstream', version: '>= 1.0')
 xmlb_dep             = dependency('xmlb', version: '>= 0.3.4')
@@ -18,6 +18,7 @@ libproxy_dep         = dependency('libproxy-1.0', version: '>= 0.5')
 malcontent_dep 	     = dependency('malcontent-0', version: '>= 0.12.0')
 gtksourceview_dep    = dependency('gtksourceview-5', version: '>= 5.17')
 libsystemd_dep       = dependency('libsystemd', version: '>= 245')
+libgom_dep           = dependency('libgom', version: '>= 1.1.0', default_options: ['sysprof=disabled'])
 
 
 dl_worker_sources = [
@@ -199,6 +200,7 @@ bz_deps = [
   libproxy_dep,
   malcontent_dep,
   gtksourceview_dep,
+  libgom_dep,
 ]
 
 gen_gobject = find_program('./gen_gobject.sh')

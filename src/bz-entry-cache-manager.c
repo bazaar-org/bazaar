@@ -24,13 +24,14 @@
 #define MAX_CONCURRENT_WRITES       16
 #define WATCH_CLEANUP_INTERVAL_MSEC 5000
 
+#include <libgom.h>
 #include <malloc.h>
 
 #include "bz-entry-cache-manager.h"
-#include "env.h"
 #include "bz-flatpak-entry.h"
-#include "io.h"
 #include "bz-serializable.h"
+#include "env.h"
+#include "io.h"
 #include "util.h"
 
 /* clang-format off */
