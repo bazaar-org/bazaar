@@ -150,4 +150,5 @@ src/io.c
 src/main.c
 src/safety-calculator.c
 src/shortcuts-dialog.blp
+src/transaction-notification.c
 src/update-worker.c

@@ -26,9 +26,10 @@
 
 #include "bz-backend-transaction-op-payload.h"
 #include "bz-backend-transaction-op-progress-payload.h"
-#include "env.h"
 #include "bz-marshalers.h"
 #include "bz-transaction-manager.h"
+#include "env.h"
+#include "transaction-notification.h"
 #include "util.h"
 
 /* clang-format off */
@@ -807,6 +808,8 @@ transaction_finally (DexFuture          *future,
 
   self->current_progress = 1.0;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_PROGRESS]);
+
+  bz_transaction_notify_finished(transaction, value != NULL);
 
   if (value != NULL)
     {

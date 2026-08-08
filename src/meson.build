@@ -174,6 +174,7 @@ bz_sources = files(
   'search-index-write.c',
   'spdx.c',
   'template-callbacks.c',
+  'transaction-notification.c',
   'update-worker.c',
 )
 subdir('progress-bar-designs')

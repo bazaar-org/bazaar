@@ -21,6 +21,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libdex.h>
 
 G_BEGIN_DECLS
@@ -74,6 +75,9 @@ bz_async_texture_dup_texture (BzAsyncTexture *self);
 
 DexFuture *
 bz_async_texture_dup_future (BzAsyncTexture *self);
+
+DexFuture *
+bz_async_texture_dup_icon_future (BzAsyncTexture *self);
 
 void
 bz_async_texture_ensure (BzAsyncTexture *self);

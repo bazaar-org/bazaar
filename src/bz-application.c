@@ -312,6 +312,11 @@ disable_blocklists_changed (BzApplication *self,
                             BzStateInfo   *state);
 
 static void
+transactions_active_changed (BzApplication        *self,
+                             GParamSpec           *pspec,
+                             BzTransactionManager *transactions);
+
+static void
 show_hide_app_setting_changed (BzApplication *self,
                                const char    *key,
                                GSettings     *settings);
@@ -2909,6 +2914,18 @@ disable_blocklists_changed (BzApplication *self,
   gtk_filter_changed (GTK_FILTER (self->appid_filter), GTK_FILTER_CHANGE_DIFFERENT);
 }
 
+
+static void
+transactions_active_changed (BzApplication        *self,
+                              GParamSpec           *pspec,
+                              BzTransactionManager *transactions)
+{
+  if (bz_transaction_manager_get_active (transactions))
+    g_application_hold (G_APPLICATION (self));
+  else
+    g_application_release (G_APPLICATION (self));
+}
+
 static void
 show_hide_app_setting_changed (BzApplication *self,
                                const char    *key,
@@ -3632,6 +3649,11 @@ init_service_struct (BzApplication *self,
 
   self->transactions = bz_transaction_manager_new ();
   bz_transaction_manager_set_config (self->transactions, self->config);
+
+  g_signal_connect_swapped (
+    self->transactions, "notify::active",
+    G_CALLBACK (transactions_active_changed),
+    self);
 
   bz_state_info_set_all_entry_groups (self->state, G_LIST_MODEL (self->groups));
   bz_state_info_set_all_installed_entry_groups (self->state, G_LIST_MODEL (self->installed_apps));
