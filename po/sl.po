@@ -1,0 +1,3506 @@
+# Slovenian translation for bazaar.
+# Copyright (C) 2026 bazaar's COPYRIGHT HOLDER
+# This file is distributed under the same license as the bazaar package.
+# Martin <miles@filmsi.net>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bazaar main\n"
+"Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
+"POT-Creation-Date: 2026-08-05 00:02+0000\n"
+"PO-Revision-Date: 2026-08-06 17:58+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:2
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
+#: src/bz-window.blp:203 src/bz-window.c:387 src/bz-window.c:388
+msgid "Bazaar"
+msgstr "Bazar"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:3
+msgid "App Store"
+msgstr "Trgovina programov"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:4
+msgid "Add, remove or update flatpak software on this computer"
+msgstr ""
+"Dodajajte, odstranjujte in posodabljajte programsko opremo flatpak na tem "
+"računalniku"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:10
+msgid "System;Package;Manager;Discover;Flatpak;Software;App;Store;"
+msgstr ""
+"sistem;paket;upravitelj;odkrij;Flatpak;pogramska oprema;aplikacija;trgovina;"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:17
+msgid "New Window"
+msgstr "Novo okno"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:8
+msgid "Discover and install apps"
+msgstr "Odkrijte in namestite programe"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:10
+msgid ""
+"A fast and modern app store for Linux with a focus on discovering and "
+"installing Flatpak apps and add-ons, particularly from Flathub."
+msgstr ""
+"Hitra in sodobna trgovina s programi za Linux, namenjena predvsem odkrivanju "
+"in namestitvi programov ter dodatkov v obliki Flatpak, zlasti iz Flathuba."
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:15
+msgid "Queue multiple installs and keep browsing"
+msgstr "Postavite več namestitev v vrsto in nadaljujte z brskanjem"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:16
+msgid "Easily view app permissions"
+msgstr "Enostavno preglejte pravice programa"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:17
+msgid "Sign in to Flathub to view and manage your favorites"
+msgstr "Vpišite se v Flathub, da vidite in upravljate svoje priljubljene"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:18
+msgid "Search apps directly from GNOME Shell"
+msgstr "Programe iščite neposredno iz lupine GNOME"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:766
+msgid "The Bazaar Contributors"
+msgstr "Avtorji prispevkov Bazarja"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:55
+msgid "The home page displaying Flathub apps"
+msgstr "Domača stran, ki prikaže programe Flathub"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:59
+msgid "Exhibit app page"
+msgstr "Stran predstavitve programov"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:63
+msgid "Library page"
+msgstr "Stran knjižnic"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:67
+msgid "Search page"
+msgstr "Iskalna stran"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:71
+msgid "Category page"
+msgstr "Stran kategorij"
+
+#: src/bz-addon-tile.blp:64 src/bz-installed-tile.blp:55
+#: src/bz-rich-app-tile.blp:142
+msgid "Stopped Receiving Updates"
+msgstr "Ne prejema več posodobitev"
+
+#: src/bz-addon-tile.c:168 src/bz-favorites-tile.c:155
+msgctxt "Install Controls"
+msgid "Uninstall"
+msgstr "Odstrani namestitev"
+
+#: src/bz-addon-tile.c:170 src/bz-bundle-install-dialog.blp:148
+#: src/bz-bundle-install-dialog.blp:162 src/bz-favorites-tile.c:157
+#: src/bz-install-controls.wdgt:29
+msgctxt "Install Controls"
+msgid "Install"
+msgstr "Namesti"
+
+#: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
+#: src/bz-addons-dialog.blp:70 src/bz-installed-tile.blp:96
+msgid "Manage Add-Ons"
+msgstr "Upravljaj dodatke"
+
+#: src/bz-addons-dialog.blp:80
+msgid "No Add-Ons Visible"
+msgstr "Dodatki niso vidni"
+
+#: src/bz-addons-dialog.blp:81
+msgid ""
+"Your current filter preferences are hiding all known add-ons. Try adjusting "
+"them."
+msgstr ""
+"Vaše trenutne nastavitve filtrov skrivajo vse znane dodatke. Poskusite jih "
+"prilagoditi."
+
+#: src/bz-addons-dialog.blp:88
+msgid "Add-on Page"
+msgstr "Stran dodatkov"
+
+#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:408
+msgid "Downloads/Month"
+msgstr "prenosov na mesec"
+
+#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:444
+msgid "Stopped Receiving Core Updates"
+msgstr "Ne prejema več jedrnih posodobitev"
+
+#: src/bz-addons-dialog.blp:245
+msgid ""
+"This add-on uses a runtime that no longer receives updates or security "
+"fixes. It may become unsafe to use."
+msgstr ""
+"Ta dodatek uporablja izvedbeno okolje, za katero se ne izdajajo več "
+"posodobitve ali varnostne popravke. Njegova uporaba lahko postane nevarna."
+
+#: src/bz-addons-dialog.c:346
+#, c-format
+msgid "Add-on for %s"
+msgstr "Dodatek za %s"
+
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:618
+msgid "Show Less"
+msgstr "Pokaži manj"
+
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:618 src/bz-section-view.blp:72
+msgid "Show More"
+msgstr "Pokaži več"
+
+#: src/bz-addons-dialog.c:410
+msgid "Download Stats"
+msgstr "Statistika prejemov"
+
+#: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
+#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:187
+#: src/context-tile-callbacks.c:194
+msgid "Age Rating"
+msgstr "Ocena starosti"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:88
+msgid "Cartoon Violence"
+msgstr "‧Risano nasilje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:90
+msgid "No information regarding cartoon violence"
+msgstr "Ni podatkov o risanem prikazovanju nasilja"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:94
+msgid "Fantasy Violence"
+msgstr "‧Fantazijsko nasilje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:96
+msgid "No information regarding fantasy violence"
+msgstr "Ni podatkov o fantazijskem prikazovanju nasilja"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:100
+msgid "Realistic Violence"
+msgstr "‧Realistično nasilje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:102
+msgid "No information regarding realistic violence"
+msgstr "Ni podatkov o realističnem prikazovanju nasilja"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:106
+msgid "Violence Depicting Bloodshed"
+msgstr "‧Prelivanje krvi"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:108
+msgid "No information regarding bloodshed"
+msgstr "Ni podatkov o prikazovanju prelivanja krvi"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:112
+msgid "Sexual Violence"
+msgstr "‧Spolno nasilje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:114
+msgid "No information regarding sexual violence"
+msgstr "Ni podatkov o prikazovanju spolnega nasilja"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:118
+msgid "Alcohol"
+msgstr "Alkohol"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:120
+msgid "No information regarding references to alcohol"
+msgstr "Ni podatkov o omenjanju alkoholnih pijač"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:124
+msgid "Narcotics"
+msgstr "‧Droge"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:126
+msgid "No information regarding references to illicit drugs"
+msgstr "Ni podatkov o omenjanju prepovedanih drog"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:130
+msgid "Tobacco"
+msgstr "‧Tobak"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:132
+msgid "No information regarding references to tobacco products"
+msgstr "Ni podatkov o omenjanju tobačnih izdelkov"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:136 src/bz-age-rating-dialog.c:475
+msgid "Nudity"
+msgstr "‧Golota"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:138
+msgid "No information regarding nudity of any sort"
+msgstr "Ni podatkov o prikazu kakršnekoli golote"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:142
+msgid "Sexual Themes"
+msgstr "‧Spolne teme"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:144
+msgid "No information regarding references to or depictions of sexual nature"
+msgstr "Ni podatkov o kakršnemkoli sklicevanju ali prikazovanju spolnosti"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:148
+msgid "Profanity"
+msgstr "‧Preklinjanje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:150
+msgid "No information regarding profanity of any kind"
+msgstr "Ni podatkov o kletvicah in preklinjanju"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:154
+msgid "Inappropriate Humor"
+msgstr "‧Nekorekten humor"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:156
+msgid "No information regarding inappropriate humor"
+msgstr "Ni podatkov o neprimernem humorju"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:160
+msgid "Discrimination"
+msgstr "‧Diskriminacija"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:162
+msgid "No information regarding discriminatory language of any kind"
+msgstr "Ni podatkov o kakršnemkoli diskriminatornem namigovanju"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:166
+msgid "Advertising"
+msgstr "‧Oglaševanje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:168
+msgid "No information regarding advertising of any kind"
+msgstr "Ni podatkov o kakršnemkoli oglaševanju"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:172
+msgid "Gambling"
+msgstr "‧Igre na srečo"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:174
+msgid "No information regarding gambling of any kind"
+msgstr "Ni podatkov o sklicevanju na igre na srečo"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:178
+msgid "Purchasing"
+msgstr "‧Nakupovanje"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:180
+msgid "No information regarding the ability to spend money"
+msgstr "Ni podatkov o sklicevanju na zapravljanje"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:184
+msgid "Chat Between Users"
+msgstr "‧Klepet med uporabniki"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:186
+msgid "No information regarding ways to chat with other users"
+msgstr "Ni podatkov o možnostih klepeta z drugimi uporabniki"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:190
+msgid "Audio Chat Between Users"
+msgstr "‧Zvočni klepet med uporabniki"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:192
+msgid "No information regarding ways to talk with other users"
+msgstr "Ni podatkov o možnostih pogovora z drugimi uporabniki"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:196
+msgid "Contact Details"
+msgstr "‧Podrobnosti stikov"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:198
+msgid ""
+"No information regarding sharing of social network usernames or email "
+"addresses"
+msgstr ""
+"Ni podatkov o možnosti objavljanja uporabniških imen družbenih omrežij ali "
+"elektronskih naslovov"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:202
+msgid "Identifying Information"
+msgstr "‧Določevalne podrobnosti"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:204
+msgid "No information regarding sharing of user information with third parties"
+msgstr ""
+"Ni podatkov o možnostih objavljanja uporabniških podrobnosti tretjim osebam"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:208
+msgid "Location Sharing"
+msgstr "‧Objavljanje mesta"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:210
+msgid "No information regarding sharing of physical location with other users"
+msgstr ""
+"Ni podatkov o možnosti objavljanja geolokacijskih podatkov drugim uporabnikom"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:214
+msgid "Prostitution"
+msgstr "‧Prostitucija"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:216
+msgid "No information regarding references to prostitution"
+msgstr "Ni podatkov o sklicevanju na prostitucijo"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:220
+msgid "Adultery"
+msgstr "‧Nezvestoba"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:222
+msgid "No information regarding references to adultery"
+msgstr "Ni podatkov o sklicevanju na nezvestobo"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:226
+msgid "Sexualized Characters"
+msgstr "‧Spolno izraženi posamezniki"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:228
+msgid "No information regarding sexualized characters"
+msgstr "Ni podatkov o spolno izraženim lastnostih likov"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:232
+msgid "Desecration"
+msgstr "‧Skrunitev"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:234
+msgid "No information regarding references to desecration"
+msgstr "Ni podatkov o sklicevanju na skrunjenje človeškega telesa"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:238
+msgid "Human Remains"
+msgstr "‧Ostanki človeških teles"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:240
+msgid "No information regarding visible dead human remains"
+msgstr "Ni podatkov o prikazovanju ostankov mrtvih ljudi"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:244
+msgid "Slavery"
+msgstr "‧Suženjstvo"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:246
+msgid "No information regarding references to slavery"
+msgstr "Ni podatkov o sklicevanju na suženjstvo"
+
+#: src/bz-age-rating-dialog.c:424
+msgid "Does not include references to drugs"
+msgstr "Ni omenjanja prepovedanih drog"
+
+#: src/bz-age-rating-dialog.c:426
+msgid ""
+"Does not include swearing, profanity, and other kinds of strong language"
+msgstr "Ne vključuje preklinjanja, žaljivk in drugih vrst ostrega jezika"
+
+#: src/bz-age-rating-dialog.c:428
+msgid "Does not include ads or monetary transactions"
+msgstr "Ne vključuje oglasov ali napeljevanja na kupovanje"
+
+#: src/bz-age-rating-dialog.c:430
+msgid "Does not include sex or nudity"
+msgstr "Ne vključuje golote ali spolnosti"
+
+#: src/bz-age-rating-dialog.c:432
+msgid "Does not include uncontrolled chat functionality"
+msgstr "Ne vključuje nenadzorovane možnosti klepeta med uporabniki"
+
+#: src/bz-age-rating-dialog.c:434
+msgid "Does not include violence"
+msgstr "Ne vključuje nasilja"
+
+#: src/bz-age-rating-dialog.c:469
+msgid "Drugs"
+msgstr "‧Droge"
+
+#: src/bz-age-rating-dialog.c:471
+msgid "Strong Language"
+msgstr "Ostro jezikovno izražanje"
+
+#: src/bz-age-rating-dialog.c:473
+msgid "Money"
+msgstr "‧Denar"
+
+#: src/bz-age-rating-dialog.c:477
+msgid "Social"
+msgstr "Družbena omrežja"
+
+#: src/bz-age-rating-dialog.c:479
+msgid "Violence"
+msgstr "‧Nasilje"
+
+#. Translators: Age rating format, e.g. "12+" for ages 12 and up
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:177
+#, c-format
+msgid "%d+"
+msgstr "%d+"
+
+#: src/bz-age-rating-dialog.c:711
+msgctxt "Age rating"
+msgid "All"
+msgstr "Vsi"
+
+#: src/bz-age-rating-dialog.c:747
+#, c-format
+msgid "%s has an unknown age rating"
+msgstr "Program %s nima podatka o starostni omejitvi"
+
+#: src/bz-age-rating-dialog.c:753
+#, c-format
+msgid "%s is suitable for everyone"
+msgstr "Progam %s je primeren za vse uporabnike"
+
+#: src/bz-age-rating-dialog.c:756
+#, c-format
+msgid "%s is suitable for young children"
+msgstr "Progam %s je primeren za majhne otroke"
+
+#: src/bz-age-rating-dialog.c:759
+#, c-format
+msgid "%s is suitable for children"
+msgstr "Progam %s je primeren za otroke"
+
+#: src/bz-age-rating-dialog.c:762
+#, c-format
+msgid "%s is suitable for teenagers"
+msgstr "Progam %s je primeren za najstnike"
+
+#: src/bz-age-rating-dialog.c:765
+#, c-format
+msgid "%s is suitable for adults"
+msgstr "Progam %s je primeren za odrasle"
+
+#: src/bz-age-rating-dialog.c:768
+#, c-format
+msgid "%s is suitable for %s"
+msgstr "Progam %s je primeren za skupino %s"
+
+#: src/bz-age-rating-dialog.c:862
+#, c-format
+msgid "%s • %s"
+msgstr "%s • %s"
+
+#: src/bz-app-permissions.c:160
+#, c-format
+msgid "System folder %s"
+msgstr "Sistemska mapa %s"
+
+#: src/bz-app-permissions.c:162
+#, c-format
+msgid "Home subfolder %s"
+msgstr "Podrejena osebna mapa %s"
+
+#: src/bz-app-permissions.c:164
+msgid "Host system folders"
+msgstr "Sistemske gostiteljske mape"
+
+#: src/bz-app-permissions.c:166
+msgid "Host system configuration from /etc"
+msgstr "Nastavitve gostiteljevega sistema iz /etc"
+
+#: src/bz-app-permissions.c:169
+#, c-format
+msgid "Desktop subfolder %s"
+msgstr "Podrejena mapa namizja %s"
+
+#: src/bz-app-permissions.c:170
+msgid "Desktop folder"
+msgstr "Mapa namizja"
+
+#: src/bz-app-permissions.c:173
+#, c-format
+msgid "Documents subfolder %s"
+msgstr "Podrejena mapa dokumentov %s"
+
+#: src/bz-app-permissions.c:174
+msgid "Documents folder"
+msgstr "Mapa dokumentov"
+
+#: src/bz-app-permissions.c:177
+#, c-format
+msgid "Music subfolder %s"
+msgstr "Podrejena mapa glasbe %s"
+
+#: src/bz-app-permissions.c:178
+msgid "Music folder"
+msgstr "Glasbena mapa"
+
+#: src/bz-app-permissions.c:181
+#, c-format
+msgid "Pictures subfolder %s"
+msgstr "Podrejena mapa slik %s"
+
+#: src/bz-app-permissions.c:182
+msgid "Pictures folder"
+msgstr "Mapa s slikami"
+
+#: src/bz-app-permissions.c:185
+#, c-format
+msgid "Public Share subfolder %s"
+msgstr "Podrejena mapa javne souporabe %s"
+
+#: src/bz-app-permissions.c:186
+msgid "Public Share folder"
+msgstr "Mapa javne souporabe"
+
+#: src/bz-app-permissions.c:189
+#, c-format
+msgid "Videos subfolder %s"
+msgstr "Podrejena mapa videa %s"
+
+#: src/bz-app-permissions.c:190
+msgid "Videos folder"
+msgstr "Mapa video posnetkov"
+
+#: src/bz-app-permissions.c:193
+#, c-format
+msgid "Templates subfolder %s"
+msgstr "Podrejena mapa predlog %s"
+
+#: src/bz-app-permissions.c:194
+msgid "Templates folder"
+msgstr "Mapa predlog"
+
+#: src/bz-app-permissions.c:197
+#, c-format
+msgid "User cache subfolder %s"
+msgstr "Podrejena mapa uporabnikovega predpomnilnika %s"
+
+#: src/bz-app-permissions.c:198
+msgid "User cache folder"
+msgstr "Uporabnikova mapa predpomnilnika"
+
+#: src/bz-app-permissions.c:201
+#, c-format
+msgid "User configuration subfolder %s"
+msgstr "Podrejena mapa uporabniških nastavitev %s"
+
+#: src/bz-app-permissions.c:202
+msgid "User configuration folder"
+msgstr "Mapa uporabniških nastavitev"
+
+#: src/bz-app-permissions.c:205
+#, c-format
+msgid "User data subfolder %s"
+msgstr "Podrejena mapa uporabnikovih podatkov %s"
+
+#: src/bz-app-permissions.c:206
+msgid "User data folder"
+msgstr "Uporabniška podatkovna mapa"
+
+#: src/bz-app-permissions.c:209
+#, c-format
+msgid "User runtime subfolder %s"
+msgstr "Podrejena uporabnikova izvedbena mapa %s"
+
+#: src/bz-app-permissions.c:210
+msgid "User runtime folder"
+msgstr "Uporabniška izvajalna mapa"
+
+#: src/bz-app-permissions.c:212
+#, c-format
+msgid "Filesystem access to %s"
+msgstr "Dostopa do datotečnega sistema %s"
+
+#: src/bz-app-permissions.c:214
+msgid "Unknown filesystem path"
+msgstr "Neznana pot datotečnega sistema"
+
+#: src/bz-app-size-dialog.blp:30 src/bz-app-size-dialog.blp:71
+msgid "Download Size"
+msgstr "Velikost prejema"
+
+#: src/bz-app-size-dialog.blp:40 src/bz-app-size-dialog.blp:99
+msgid "Installed Size"
+msgstr "Velikost namestitve"
+
+#: src/bz-app-size-dialog.blp:72
+msgid "Amount to download from the internet"
+msgstr "Količina za prejem iz interneta"
+
+#: src/bz-app-size-dialog.blp:100
+msgid "Size on Disk"
+msgstr "Velikost na disku"
+
+#: src/bz-app-size-dialog.blp:203
+msgid "Open user data folder"
+msgstr "Odpri uporabniško podatkovno mapo"
+
+#: src/bz-app-size-dialog.blp:213
+msgid "Your User Data"
+msgstr "Vaši uporabniški podatki"
+
+#: src/bz-app-size-dialog.blp:214
+msgid "Caches, settings, and other app data"
+msgstr "Predpomnilniki, nastavitve in drugi podatki programa"
+
+#: src/bz-app-size-dialog.blp:234
+msgid "Cache"
+msgstr "Predpomnilnik"
+
+#: src/bz-app-size-dialog.blp:235
+msgid "Temporary cached data"
+msgstr "Začasni podatki predpomnilnika"
+
+#: src/bz-app-size-dialog.blp:247
+msgid "Clear Cache"
+msgstr "Počisti predpomnilnik"
+
+#: src/bz-app-size-dialog.c:99
+msgid "Installed Runtime Size"
+msgstr "Velikost nameščenega progama"
+
+#: src/bz-app-size-dialog.c:99
+msgid "Runtime Download Size"
+msgstr "Velikost prejetega programa"
+
+#: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:394
+#: src/context-tile-callbacks.c:416
+msgid "N/A"
+msgstr "ni na voljo"
+
+#: src/bz-app-size-dialog.c:207
+msgid "App Size"
+msgstr "Velikost programa"
+
+#: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
+#: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
+msgid "Verified"
+msgstr "Overjeno"
+
+#. Translators: As in 'The app is installed'.
+#: src/bz-app-tile.blp:87 src/bz-releases-list.c:206
+#: src/context-tile-callbacks.c:136
+msgid "Installed"
+msgstr "Nameščeno"
+
+#. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+#: src/bz-application.c:769
+msgid "translator-credits"
+msgstr "Martin Srebotnjak <miles@filmsi.net>"
+
+#: src/bz-application.c:779
+msgid "Special Thanks"
+msgstr "Posebne zahvale"
+
+#: src/bz-application.c:837
+msgid "Logged Out Successfully!"
+msgstr "Uspešno odjavljeni!"
+
+#: src/bz-application.c:1027
+msgid "Ubuntu Troubles!"
+msgstr "Težave z Ubuntujem!"
+
+#: src/bz-application.c:1030
+msgid ""
+"Ubuntu 25.10 and newer have messed up default security rules, making it "
+"<b>impossible to install apps</b> from the Flatpak version of Bazaar, please "
+"just use the normal package for now by using\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"You can then remove this Flatpak version with\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+msgstr ""
+"V Ubuntu 25.10 in novejših različicah so privzeta varnostna pravila napačno "
+"nastavljena, zaradi česar <b>ni možno namestiti programov</b> iz različice "
+"Bazar za Flatpak; zaenkrat prosimo, da uporabite običajni paket s pomočjo "
+"ukaza\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"To različico za Flatpak lahko nato odstranite z ukazom\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+
+#: src/bz-application.c:1036
+msgid "Continue Anyway"
+msgstr "Vseeno nadaljuj"
+
+#: src/bz-application.c:1052
+msgid "Performing setup…"
+msgstr "Izvajanje namestitve …"
+
+#: src/bz-application.c:1145
+msgid "Set Up System Flathub?"
+msgstr "Ali želite nastaviti sistemski Flathub?"
+
+#: src/bz-application.c:1148
+msgid ""
+"The system Flathub remote is not set up. Bazaar requires Flathub to be "
+"configured on the system Flatpak installation to browse and install "
+"applications.\n"
+"\n"
+"You can still use Bazaar to browse and remove already installed apps."
+msgstr ""
+"Sistem Flathub remote ni nastavljen. Bazar za brskanje po programih in "
+"njihovo namestitev zahteva, da je Flathub prilagojen v sistemski namestitvi "
+"Flatpak.\n"
+"\n"
+"Bazar lahko še vedno uporabljate za brskanje po že nameščenih programih in "
+"njihovo odstranjevanje."
+
+#: src/bz-application.c:1155
+msgid "Set Up Flathub?"
+msgstr "Ali želite nastaviti flathub?"
+
+#: src/bz-application.c:1158
+msgid ""
+"Flathub is not set up on this system. You will not be able to browse and "
+"install applications in Bazaar if its unavailable.\n"
+"\n"
+"You can still use Bazaar to browse and remove already installed apps."
+msgstr ""
+"Sistem Flathub ni nastavljen na tem sistemu. V Bazarju ne boste mogli "
+"brskati po programih in jih nameščati, če ni na voljo.\n"
+"\n"
+"Bazar lahko še vedno uporabljate za brskanje po že nameščenih programih in "
+"njihovo odstranjevanje."
+
+#: src/bz-application.c:1164
+msgid "Later"
+msgstr "Kasneje"
+
+#: src/bz-application.c:1165
+msgid "Set Up Flathub"
+msgstr "Nastavi flathub"
+
+#: src/bz-application.c:1699
+msgid "A backend error occurred"
+msgstr "Prišlo je do napake zaledja"
+
+#: src/bz-application.c:1907 src/bz-application.c:4156
+msgid "Refreshing…"
+msgstr "Poteka osveževanje …"
+
+#: src/bz-application.c:2071
+#, c-format
+msgid "Loading %d apps…"
+msgstr "Nalaganje %d programov …"
+
+#: src/bz-application.c:2124 src/bz-application.c:2198
+msgid "Failed to open file"
+msgstr "Odpiranje datoteke ni uspelo"
+
+#: src/bz-application.c:2212
+msgid "Failed to load metainfo"
+msgstr "Nalaganje metapodatkov je spodletelo"
+
+#: src/bz-application.c:2306
+msgid "An initialization error occurred"
+msgstr "Prišlo je do napake inicializacije"
+
+#: src/bz-application.c:2705
+msgid "Checking for updates…"
+msgstr "Preverjanje posodobitev ..."
+
+#: src/bz-application.c:2761
+msgid "Failed to check for updates"
+msgstr "Preverjanja obstoja posodobitev ni bilo uspešno"
+
+#: src/bz-application.c:3927
+msgid "Malformed Link"
+msgstr "Napačno oblikovana povezava"
+
+#: src/bz-application.c:3928
+msgid ""
+"The link used to open this app has incorrect capitalization and may stop "
+"working in the future.\n"
+"\n"
+"This is most likely caused by KRunner sending incorrect app IDs"
+msgstr ""
+"Povezava, uporabljena za odpiranje tega programa, ima nepravilno določene "
+"velike začetnice in lahko v prihodnje preneha delovati.\n"
+"\n"
+"Vzrok je najverjetneje KRunner, ki pošilja nepravilne ID-je programa"
+
+#: src/bz-application.c:3936
+msgid "Could not find app"
+msgstr "Programa ni možno najti"
+
+#: src/bz-application.c:4153
+#, c-format
+msgid "Loading %d app…"
+msgid_plural "Loading %d apps…"
+msgstr[0] "Nalaganje %d programov …"
+msgstr[1] "Nalaganje %d programa …"
+msgstr[2] "Nalaganje %d programov …"
+msgstr[3] "Nalaganje %d programov …"
+
+#: src/bz-application.c:4158
+msgid "Writing to cache…"
+msgstr "Pisanje v predpomnilnik …"
+
+#: src/bz-apps-page.blp:97
+msgid "Show All"
+msgstr "Pokaži vse"
+
+#: src/bz-apps-page.c:214
+#, c-format
+msgid "All \"%s\""
+msgstr "Vse »%s«"
+
+#: src/bz-apps-page.c:462 src/bz-subcategory-list.c:89
+#, c-format
+msgid "%d Applications"
+msgstr "%d programov"
+
+#: src/bz-article.blp:86
+msgid "Failed to Load Article"
+msgstr "Prispevka/članks ni možno naložiti"
+
+#: src/bz-bundle-install-dialog.blp:21 src/bz-bundle-install-dialog.blp:27
+msgid "Bundle Installation"
+msgstr "Namestitev svežnja"
+
+#: src/bz-bundle-install-dialog.blp:198
+msgid "Additional dependencies may take extra space"
+msgstr "Dodatne odvisnosti lahko zavzamejo dodaten prostor"
+
+#: src/bz-bundle-install-dialog.blp:232
+msgid ""
+"Installing this app may require adding a new software source. Other apps "
+"from this source will show up in Bazaar.\n"
+"\n"
+"Only add this source if you're sure you trust it."
+msgstr ""
+"Za namestitev tega programa bo morda treba dodati nov vir programske opreme. "
+"Drugi programi iz tega vira se bodo prikazali v trgovini Bazar.\n"
+"\n"
+"Ta vir dodajte le, če ste prepričani, da mu zaupate."
+
+#: src/bz-bundle-install-dialog.blp:412
+msgid "Successfully Installed!"
+msgstr "Uspešno nameščeno!"
+
+#. TRANSLATORS: Button to launch an installed app
+#: src/bz-bundle-install-dialog.blp:438 src/bz-bundle-install-dialog.blp:524
+#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:299
+msgid "Open"
+msgstr "Odpri"
+
+#: src/bz-bundle-install-dialog.blp:448 src/bz-bundle-install-dialog.blp:534
+msgid "Show App Details"
+msgstr "Pokaži podrobnosti o programu"
+
+#: src/bz-bundle-install-dialog.blp:499
+msgid "Already Installed"
+msgstr "Že nameščeno"
+
+#: src/bz-bundle-install-dialog.blp:546
+msgid "Installation Failed"
+msgstr "Namestitev je spodletela"
+
+#: src/bz-bundle-install-dialog.c:168
+msgid "Unknown install size"
+msgstr "Velikost nameščenega ni znana"
+
+#: src/bz-bundle-install-dialog.c:171
+#, c-format
+msgid "About %s to install"
+msgstr "O programu %s, ki bo nameščen"
+
+#: src/bz-bundle-install-dialog.c:214
+msgid "No special permissions"
+msgstr "Ni posebnih dovoljenj"
+
+#: src/bz-curated-view.blp:27
+msgid "No Curation"
+msgstr "Ni kurirano"
+
+#: src/bz-curated-view.blp:29
+msgid ""
+"There is no curation information provided on this system. You can still "
+"browse apps on Flathub"
+msgstr ""
+"Na tem sistemu niso podani podatki o kuriranju. Kljub temu lahko prebrskate "
+"programe na Flathubu"
+
+#: src/bz-curated-view.blp:33
+msgid "Browse Flathub"
+msgstr "Prebrskaj Flathub"
+
+#: src/bz-curated-view.blp:49
+msgid "Offline"
+msgstr "Brez povezave"
+
+#: src/bz-developer-badge.c:94 src/bz-developer-badge.c:98
+msgid "Not Verified"
+msgstr "Nepreverjeno"
+
+#: src/bz-developer-badge.c:213
+msgid "Developer information not available."
+msgstr "Ni podatkov o razvijalcih."
+
+#: src/bz-developer-badge.c:219 src/bz-developer-badge.c:233
+#, c-format
+msgid ""
+"The ownership of the %s app ID has not been verified and it may be a "
+"community package."
+msgstr ""
+"Lastništvo ID programa %s ni bilo preverjeno in lahko da gre za skupnostni "
+"paket."
+
+#: src/bz-developer-badge.c:237
+#, c-format
+msgid ""
+"The ownership of the %s app ID has been manually verified by the Flathub "
+"team."
+msgstr "Lastništvo ID programa %1$s je ročno preverila ekipa Flathub."
+
+#: src/bz-developer-badge.c:253
+#, c-format
+msgid ""
+"The ownership of the %1$s app ID has been verified by <b>%2$s</b> on "
+"<b>%3$s</b>."
+msgstr "Lastništvo ID programa %1$s je preveril <b>%2$s</b> na <b>%3$s</b>."
+
+#: src/bz-developer-badge.c:260
+#, c-format
+msgid "The ownership of the %1$s app ID has been verified using %2$s."
+msgstr "Lastništvo ID programa %1$s je bilo preverjeno s pomočjo %2$s."
+
+#: src/bz-developer-badge.c:264
+#, c-format
+msgid "The ownership of the %s app ID has been verified."
+msgstr "Lastništvo programa %s je bilo preverjeno."
+
+#: src/bz-donations-dialog.blp:74
+msgid "Full Release Notes"
+msgstr "Celotne opombe ob izdaji"
+
+#: src/bz-donations-dialog.blp:108
+msgid "This release was made possible by users like you!"
+msgstr "To izdajo so omogočili uporabniki, kot ste vi!"
+
+#: src/bz-donations-dialog.blp:116
+msgid ""
+"I love making Bazaar, but I cannot do it alone. Help support further "
+"development by donating on Ko-Fi."
+msgstr ""
+"Zelo rad ustvarjam Bazaar, a sam tega ne zmorem. Pomagajte podpreti "
+"nadaljnji razvoj s prispevkom na Ko-Fi."
+
+#: src/bz-donations-dialog.blp:131
+msgid "Donate to Bazaar"
+msgstr "Donirajte Bazarju"
+
+#. Translators: the %s format specifier will be something along the lines of "0.7.6" etc
+#: src/bz-donations-dialog.c:228
+#, c-format
+msgid "What's New in %s?"
+msgstr "Kaj je novega v %s?"
+
+#. Translators: this is a release date label, like "Released February 9, 2026"
+#: src/bz-donations-dialog.c:244
+msgid "Released %B %-e, %Y"
+msgstr "Izšlo %-e. %B %Y"
+
+#: src/bz-entry-group-util.c:73
+msgid "Choose an Installation"
+msgstr "Izberite namestitev"
+
+#: src/bz-entry-group-util.c:76
+msgid ""
+"You have multiple versions of this app installed. Which one would you like "
+"to proceed with?"
+msgstr ""
+"Na vašem napravi je nameščenih več različic tega programa. Katero želite "
+"uporabiti?"
+
+#: src/bz-entry-group-util.c:80 src/bz-rich-app-tile.blp:233
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: src/bz-entry-selection-row.blp:17
+msgid "For This User Only"
+msgstr "Samo za tega uporabnika"
+
+#: src/bz-entry-selection-row.c:112
+msgid "this user"
+msgstr "ta uporabnik"
+
+#: src/bz-entry-selection-row.c:112
+msgid "all users"
+msgstr "vsi uporabniki"
+
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:101 src/error.c:69
+#: src/error.c:88
+msgid "Details"
+msgstr "Podrobnosti"
+
+#. TRANSLATORS: tooltip for a button that copies text to the clipboard
+#: src/bz-error-dialog.blp:48
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:446
+#: src/bz-share-list.c:364
+msgid "Copied!"
+msgstr "Kopirano!"
+
+#: src/bz-favorite-button.blp:14
+msgid "Favorite Count"
+msgstr "Priljubljeni števec"
+
+#: src/bz-favorite-button.c:388
+msgid "Failed to update favorite"
+msgstr "Priljubljenih ni bilo možno posodobiti"
+
+#: src/bz-favorite-button.c:434
+msgid "Log in with Flathub to manage favorites"
+msgstr "Prijavite se s Flathuba, da upravljate prljubljene"
+
+#: src/bz-favorite-button.c:440
+msgid "Log In"
+msgstr "Prijavi"
+
+#: src/bz-favorites-page.blp:5 src/bz-window.blp:348
+msgid "Favorites"
+msgstr "Priljubljeni"
+
+#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:87
+msgid "Install All"
+msgstr "Namesti vse"
+
+#: src/bz-favorites-page.blp:47
+msgid "No Favorites"
+msgstr "Ni priljubljenih"
+
+#: src/bz-favorites-page.blp:48
+msgid "Applications you mark as favorite will appear here"
+msgstr "Programe, ki jih označite kot priljubljene, se pojavijo tukaj."
+
+#: src/bz-favorites-tile.blp:60
+msgid "Support This Application"
+msgstr "Podprite ta program"
+
+#: src/bz-favorites-tile.blp:109
+msgid "Remove From Favorites"
+msgstr "Odstrani iz priljubljenih"
+
+#: src/bz-favorites-tile.c:353
+msgid "Failed to remove favorite"
+msgstr "Odstranitev iz priljubljenih ni uspela"
+
+#: src/bz-featured-carousel.blp:32
+msgid "Previous"
+msgstr "Predhodni"
+
+#: src/bz-featured-carousel.blp:55
+msgid "Next"
+msgstr "Naslednji"
+
+#: src/bz-flathub-category.c:95
+msgid "Editing"
+msgstr "Urejanje"
+
+#: src/bz-flathub-category.c:96
+msgid "Midi"
+msgstr "MIDI"
+
+#: src/bz-flathub-category.c:97
+msgid "Mixer"
+msgstr "Mešalnik"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-flathub-category.c:98 src/bz-search-pill-list.c:77
+msgid "Music"
+msgstr "Glasba"
+
+#: src/bz-flathub-category.c:99
+msgid "Player"
+msgstr "Predvajalnik"
+
+#: src/bz-flathub-category.c:100
+msgid "Recorder"
+msgstr "Snemalnik"
+
+#: src/bz-flathub-category.c:101
+msgid "Sequencer"
+msgstr "Sekvenčnik"
+
+#: src/bz-flathub-category.c:102
+msgid "Tuner"
+msgstr "Radijski sprejemnik"
+
+#: src/bz-flathub-category.c:103
+msgid "TV"
+msgstr "TV"
+
+#: src/bz-flathub-category.c:108
+msgid "Emulation"
+msgstr "Posnemanje"
+
+#: src/bz-flathub-category.c:109
+msgid "Action"
+msgstr "Akcijske igre"
+
+#: src/bz-flathub-category.c:110
+msgid "Adventure"
+msgstr "Avantura"
+
+#: src/bz-flathub-category.c:111
+msgid "Arcade"
+msgstr "Arkadne igre"
+
+#: src/bz-flathub-category.c:112
+msgid "Blocks"
+msgstr "Bloki"
+
+#: src/bz-flathub-category.c:113
+msgid "Board"
+msgstr "Namizne igre"
+
+#: src/bz-flathub-category.c:114
+msgid "Card"
+msgstr "Karte"
+
+#: src/bz-flathub-category.c:115
+msgid "Kids"
+msgstr "Za otroke"
+
+#: src/bz-flathub-category.c:116
+msgid "Logic"
+msgstr "Logika"
+
+#: src/bz-flathub-category.c:117
+msgid "Role Playing"
+msgstr "Igra vlog"
+
+#: src/bz-flathub-category.c:118
+msgid "Shooter"
+msgstr "Streljanje"
+
+#: src/bz-flathub-category.c:119
+msgid "Simulation"
+msgstr "Simulacija"
+
+#: src/bz-flathub-category.c:120
+msgid "Sports"
+msgstr "Šport"
+
+#: src/bz-flathub-category.c:121
+msgid "Strategy"
+msgstr "Strateške igre"
+
+#: src/bz-flathub-category.c:126
+msgid "Browsers"
+msgstr "Brskalniki"
+
+#: src/bz-flathub-category.c:127
+msgid "Chat"
+msgstr "Klepet"
+
+#: src/bz-flathub-category.c:128
+msgid "Mail"
+msgstr "Pošta"
+
+#: src/bz-flathub-category.c:129
+msgid "File Sharing"
+msgstr "Skupna raba datotek"
+
+#: src/bz-flathub-category.c:134
+msgid "Audio & Video"
+msgstr "Zvok in video"
+
+#: src/bz-flathub-category.c:134
+msgid "Media"
+msgstr "Večpredstavnost"
+
+#: src/bz-flathub-category.c:134
+msgid "More Audio & Video"
+msgstr "Dodatno za zvok/video"
+
+#: src/bz-flathub-category.c:135
+msgid "Developer Tools"
+msgstr "Razvojna orodja"
+
+#: src/bz-flathub-category.c:135
+msgid "Develop"
+msgstr "Razvoj"
+
+#: src/bz-flathub-category.c:135
+msgid "More Developer Tools"
+msgstr "Dodatna razvojna orodja"
+
+#: src/bz-flathub-category.c:136
+msgid "Education"
+msgstr "Izobraževanje"
+
+#: src/bz-flathub-category.c:136
+msgid "Learn"
+msgstr "Učenje"
+
+#: src/bz-flathub-category.c:136
+msgid "More Education"
+msgstr "Dodatno za izobraževanje"
+
+#: src/bz-flathub-category.c:137
+msgid "Gaming"
+msgstr "Igre"
+
+#: src/bz-flathub-category.c:137
+msgid "Play"
+msgstr "Predvajanje"
+
+#: src/bz-flathub-category.c:137
+msgid "More Gaming"
+msgstr "Več iger"
+
+#: src/bz-flathub-category.c:138
+msgid "Graphics & Photography"
+msgstr "Grafika in fotografija"
+
+#: src/bz-flathub-category.c:138
+msgid "Create"
+msgstr "Ustvarjanje"
+
+#: src/bz-flathub-category.c:138
+msgid "More Graphics & Photography"
+msgstr "Dodatno iz grafike in fotografije"
+
+#: src/bz-flathub-category.c:139
+msgid "Networking"
+msgstr "Omrežja"
+
+#: src/bz-flathub-category.c:139
+msgid "Internet"
+msgstr "Internet"
+
+#: src/bz-flathub-category.c:139
+msgid "More Networking"
+msgstr "Dodatno iz omrežij"
+
+#: src/bz-flathub-category.c:140
+msgid "Productivity"
+msgstr "Produktivnost"
+
+#: src/bz-flathub-category.c:140
+msgid "Work"
+msgstr "Delo"
+
+#: src/bz-flathub-category.c:140
+msgid "More Productivity"
+msgstr "Dodatno iz produktivnosti"
+
+#: src/bz-flathub-category.c:141
+msgid "Science"
+msgstr "Znanost"
+
+#: src/bz-flathub-category.c:141
+msgid "More Science"
+msgstr "Dodatno iz znanosti"
+
+#: src/bz-flathub-category.c:142
+msgid "System"
+msgstr "Sistem"
+
+#: src/bz-flathub-category.c:142
+msgid "More System"
+msgstr "Dodatna sistemska orodja"
+
+#: src/bz-flathub-category.c:143
+msgid "Utilities"
+msgstr "Pripomočki"
+
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:434
+msgid "Tools"
+msgstr "Orodja"
+
+#: src/bz-flathub-category.c:143
+msgid "More Utilities"
+msgstr "Dodatni pripomočki"
+
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:106
+#: src/bz-flathub-page.blp:138
+msgid "Trending"
+msgstr "V trendu"
+
+#: src/bz-flathub-category.c:144
+msgid "More Trending"
+msgstr "Dodatni v trendu"
+
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:112
+#: src/bz-flathub-page.blp:171
+msgid "Popular"
+msgstr "Priljubljeni"
+
+#: src/bz-flathub-category.c:145
+msgid "More Popular"
+msgstr "Najpriljubljenejši"
+
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:160
+msgid "Recently Added"
+msgstr "Nedavno dodano"
+
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:118
+msgid "New"
+msgstr "Novo"
+
+#: src/bz-flathub-category.c:146
+msgid "More New"
+msgstr "Dodatni novi"
+
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:149
+msgid "Recently Updated"
+msgstr "Nedavno posodobljeni"
+
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:124
+msgid "Updated"
+msgstr "Posodobljeno"
+
+#: src/bz-flathub-category.c:147
+msgid "More Updated"
+msgstr "Dodatne posodobljene"
+
+#: src/bz-flathub-category.c:148
+msgid "Mobile"
+msgstr "Mobilne naprave"
+
+#: src/bz-flathub-category.c:148
+msgid "More Mobile"
+msgstr "Dodatni za mobilne naprave"
+
+#: src/bz-flathub-category.c:149
+msgid "Adwaita"
+msgstr "Adwaita"
+
+#: src/bz-flathub-category.c:149
+msgid "More Adwaita"
+msgstr "Dodatni z Adwaito"
+
+#: src/bz-flathub-category.c:150
+msgid "KDE Apps"
+msgstr "Programi KDE"
+
+#: src/bz-flathub-category.c:150
+msgid "More KDE Apps"
+msgstr "Dodatni programi KDE"
+
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:416
+msgid "Games"
+msgstr "Igre"
+
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:476
+msgid "More Games"
+msgstr "Dodatne igre"
+
+#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:422
+msgid "Emulators"
+msgstr "Posnemovalniki"
+
+#: src/bz-flathub-category.c:152
+msgid "More Emulators"
+msgstr "Dodatni posnemovalniki"
+
+#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:428
+msgid "Launchers"
+msgstr "Zaganjalniki"
+
+#: src/bz-flathub-category.c:153
+msgid "More Game Launchers"
+msgstr "Dodatni zaganjalniki iger"
+
+#: src/bz-flathub-category.c:154
+msgid "Game Tools"
+msgstr "Orodja za igre"
+
+#: src/bz-flathub-category.c:154
+msgid "More Game Tools"
+msgstr "Dodatna orodja za igre"
+
+#: src/bz-flathub-page.blp:22
+msgid "Flathub Not Added"
+msgstr "Flathub ni dodan"
+
+#: src/bz-flathub-page.blp:23
+msgid "The Flathub remote was not found on any of your Flatpak installations"
+msgstr "Oddaljeni Flathub ni najden na nobeni od vaših namestitev Flatpak"
+
+#: src/bz-flathub-page.blp:32
+msgid "Can't Reach Flathub"
+msgstr "Ni možno doseči Flathuba"
+
+#: src/bz-flathub-page.blp:33
+msgid "You can still manage and search for apps."
+msgstr "Še vedno lahko upravljate in iščete programe."
+
+#: src/bz-flathub-page.blp:39
+msgid "Search Apps"
+msgstr "Iskanje programov"
+
+#: src/bz-flathub-page.blp:50
+msgid "Reconnect"
+msgstr "Ponovno poveži"
+
+#: src/bz-flathub-page.blp:199
+msgid "App of the Day"
+msgstr "Program dneva"
+
+#: src/bz-flathub-page.blp:262
+msgid "On the Go"
+msgstr "Na poti"
+
+#: src/bz-flathub-page.blp:274
+msgid "Apps for your Linux phones and tablets"
+msgstr "Aplikacije za vaše telefone in tablice Linux"
+
+#: src/bz-flathub-page.blp:285 src/bz-flathub-page.blp:320
+msgid "More Mobile Apps"
+msgstr "Dodatni programi za mobilne naprave"
+
+#: src/bz-flathub-page.blp:378
+msgid "We​ ♥​ Games"
+msgstr "♥​ igre"
+
+#: src/bz-flathub-page.blp:391
+msgid "Games and apps to run your favorite titles"
+msgstr "Igre in programi za izvajanje vaših najljubših naslovov"
+
+#: src/bz-full-view.blp:33
+msgid "No Results"
+msgstr "Ni najdenih zadetkov"
+
+#: src/bz-full-view.blp:34
+msgid "Try a different search query"
+msgstr "Poskusite uporabiti drugo iskalno poizvedbo"
+
+#: src/bz-full-view.blp:103
+msgid ""
+"This is a local preview, some details may differ from the published listing"
+msgstr ""
+"To je krajevni predogled, nekatere podrobnosti se lahko razlikujejo od "
+"objavljenega opisa"
+
+#: src/bz-full-view.blp:106
+msgid "Preview Store Appearance"
+msgstr "Predogled videza trgovine"
+
+#: src/bz-full-view.blp:233
+msgid "_Support"
+msgstr "_Podpri"
+
+#: src/bz-full-view.blp:458
+msgid ""
+"This app uses a runtime that no longer receives updates or security fixes. "
+"It may become unsafe to use."
+msgstr ""
+"Ta program uporablja izvajalnik, ki ne prejema več posodobitev ali "
+"varnostnih popravkov. Za uporabo lahko postane nič več varen."
+
+#: src/bz-full-view.blp:536
+msgid "Trash Data"
+msgstr "Vrzi podatke v smeti"
+
+#: src/bz-full-view.blp:599
+msgid "Add-ons"
+msgstr "Dodatki"
+
+#: src/bz-full-view.blp:634
+msgid "More Add-Ons"
+msgstr "Več dodatkov"
+
+#: src/bz-full-view.blp:645
+msgid "Links"
+msgstr "Povezave"
+
+#: src/bz-full-view.blp:676
+msgid "Similar Apps"
+msgstr "Podobni programi"
+
+#: src/bz-full-view.c:181
+msgid "No URL"
+msgstr "Ni naslova URL"
+
+#: src/bz-full-view.c:199
+msgid ""
+"This app has a FLOSS license, meaning the source code can be audited for "
+"safety."
+msgstr ""
+"Ta program ima dovoljenje FLOSS, kar pomeni, da lahko izvorno kodo preverite "
+"glede varnosti."
+
+#: src/bz-full-view.c:200
+msgid ""
+"This app has a proprietary license, meaning the source code is developed "
+"privately and cannot be audited by an independent third party."
+msgstr ""
+"Ta program ima lastniško dovoljenje, kar pomeni, da izvorno kodo razvijajo "
+"zasebno in je ne more preveriti nobena neodvisna tretja stran."
+
+#: src/bz-full-view.c:207
+msgid "More Apps"
+msgstr "Dodatni programi"
+
+#: src/bz-full-view.c:208
+#, c-format
+msgid "More Apps by %s"
+msgstr "Dodatni programi %s"
+
+#: src/bz-full-view.c:215
+msgid "Other Apps by this Developer"
+msgstr "Dodatni programi tega razvijalca"
+
+#: src/bz-full-view.c:217 src/bz-full-view.c:309
+#, c-format
+msgid "Other Apps by %s"
+msgstr "Drugi programi %s"
+
+#: src/bz-full-view.c:226
+#, c-format
+msgid "%s is not installed, but it still has <b>%s</b> of data present."
+msgstr ""
+"Program %s trenutno ni nameščen, a ima še vedno prisotne podatke (<b>%s</b>)."
+
+#: src/bz-full-view.c:311
+msgid "Other Apps"
+msgstr "Dodatni programi"
+
+#: src/bz-full-view.c:313
+#, c-format
+msgid "%d Application"
+msgid_plural "%d Applications"
+msgstr[0] "%d programi"
+msgstr[1] "%d program"
+msgstr[2] "%d programa"
+msgstr[3] "%d programi"
+
+#: src/bz-full-view.c:498 src/bz-user-data-tile.c:160
+msgid "Failed to Remove User Data"
+msgstr "Odstranjevanje uporabniških podatkov ni uspelo"
+
+#: src/bz-hardware-support-dialog.blp:7 src/bz-hardware-support-dialog.blp:31
+msgid "Hardware Support"
+msgstr "Strojna podpora"
+
+#: src/bz-hardware-support-dialog.c:62
+msgid "Keyboard support"
+msgstr "Podpora tipkovnice"
+
+#: src/bz-hardware-support-dialog.c:64
+msgid "Requires keyboards"
+msgstr "Zahteva tipkovnico"
+
+#: src/bz-hardware-support-dialog.c:65
+msgid "Recommends keyboards"
+msgstr "Priporoča tipkovnico"
+
+#: src/bz-hardware-support-dialog.c:66
+msgid "Supports keyboards"
+msgstr "Omogoča uporabo tipkovnice"
+
+#: src/bz-hardware-support-dialog.c:67
+msgid "Unknown support for keyboards"
+msgstr "Neznana podpora za tipkovnico"
+
+#: src/bz-hardware-support-dialog.c:69
+msgid "Mouse support"
+msgstr "Podpora za miško"
+
+#: src/bz-hardware-support-dialog.c:71
+msgid "Requires mice or pointing devices"
+msgstr "Zahteva miško ali kazalno napravo"
+
+#: src/bz-hardware-support-dialog.c:72
+msgid "Recommends mice or pointing devices"
+msgstr "Priporoča uporabo miške ali kazalne naprave"
+
+#: src/bz-hardware-support-dialog.c:73
+msgid "Supports mice or pointing devices"
+msgstr "Podprta je uporaba miške ali kazalne naprave"
+
+#: src/bz-hardware-support-dialog.c:74
+msgid "Unknown support for mice or pointing devices"
+msgstr "Neznana podpora za miške in kazalne naprave"
+
+#: src/bz-hardware-support-dialog.c:76
+msgid "Touchscreen support"
+msgstr "Podpira zaslone na dotik"
+
+#: src/bz-hardware-support-dialog.c:78
+msgid "Requires touchscreens"
+msgstr "Zahteva zaslon na dotik"
+
+#: src/bz-hardware-support-dialog.c:79
+msgid "Recommends touchscreens"
+msgstr "Svetuje rabo zaslona na dotik"
+
+#: src/bz-hardware-support-dialog.c:80
+msgid "Supports touchscreens"
+msgstr "Podpira večdotične zaslone"
+
+#: src/bz-hardware-support-dialog.c:81
+msgid "Unknown support for touchscreens"
+msgstr "Neznana podpora za zaslone na dotik"
+
+#: src/bz-hardware-support-dialog.c:160
+msgid "Mobile support"
+msgstr "Podpora za mobilne naprave"
+
+#: src/bz-hardware-support-dialog.c:161
+msgid "Works on mobile devices"
+msgstr "Deluje na mobilnih napravah"
+
+#: src/bz-hardware-support-dialog.c:161
+msgid "May not work well on mobile devices"
+msgstr "Morda ne deluje dobro na mobilnih napravah"
+
+#: src/bz-hardware-support-dialog.c:166
+msgid "Desktop support"
+msgstr "Podpora za namizja"
+
+#: src/bz-hardware-support-dialog.c:167
+msgid "Works well on large screens"
+msgstr "Deluje dobro na velikih zaslonih"
+
+#: src/bz-hardware-support-dialog.c:201
+#, c-format
+msgid "%s works best on specific hardware"
+msgstr "Program %s deluje najbolje na določenih napravah"
+
+#: src/bz-hardware-support-dialog.c:209
+#, c-format
+msgid "%s works on most devices"
+msgstr "Program %s deluje na večini naprav"
+
+#: src/bz-inspector.blp:23
+msgid "Inspector Menu"
+msgstr "Meni nadzornika"
+
+#: src/bz-install-controls.blp:58
+msgid "_Open"
+msgstr "_Odpri"
+
+#: src/bz-install-controls.blp:73 src/bz-install-controls.blp:128
+msgid "Uninstall Application"
+msgstr "Odstrani program"
+
+#: src/bz-install-controls.blp:83 src/bz-transaction-dialog.c:230
+msgid "_Remove"
+msgstr "O_dstrani"
+
+#: src/bz-install-controls.blp:115 src/bz-updates-card.c:168
+#: src/bz-updates-card.c:187
+msgid "Update"
+msgstr "Posodobi"
+
+#: src/bz-install-controls.blp:138 src/bz-installed-tile.blp:109
+msgid "Remove"
+msgstr "Odstrani"
+
+#: src/bz-install-controls.c:638
+#, c-format
+msgid "Install %s from %s"
+msgstr "Namesti %s z %s"
+
+#: src/bz-install-controls.c:640
+#, c-format
+msgid "Install %s"
+msgstr "Namesti %s"
+
+#: src/bz-install-controls.wdgt:32
+msgctxt "Install Controls"
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: src/bz-install-controls.wdgt:35
+msgctxt "Install Controls"
+msgid "Cancelling"
+msgstr "Poteka preklic …"
+
+#: src/bz-installed-tile.blp:80
+msgid "Donate Button"
+msgstr "Gumb za doniranje"
+
+#: src/bz-library-page.blp:17
+msgid "Search installed apps"
+msgstr "Išči med nameščenimi programi"
+
+#: src/bz-library-page.blp:32
+msgid "No Apps Found"
+msgstr "Ni najdenih programov"
+
+#: src/bz-library-page.blp:49
+msgid "Search Store Instead"
+msgstr "Namesto tega išči po trgovini"
+
+#: src/bz-library-page.blp:86
+msgid "Pending Updates"
+msgstr "Pripravljene posodobitve programov"
+
+#: src/bz-library-page.blp:113
+msgid "Downloads"
+msgstr "Prejemi"
+
+#: src/bz-library-page.blp:156
+msgid "Recently Uninstalled"
+msgstr "Nedavno odstranjeno"
+
+#: src/bz-library-page.blp:207
+msgid "Clear Finished Tasks"
+msgstr "Počisti končane naloge"
+
+#: src/bz-library-page.blp:234
+msgid "Sort Options"
+msgstr "Možnosti razvrščanja"
+
+#: src/bz-library-page.blp:293
+msgid "Sort By"
+msgstr "Razvrsti po"
+
+#: src/bz-library-page.blp:307
+msgid "Name"
+msgstr "Ime"
+
+#: src/bz-library-page.blp:313
+msgid "Size"
+msgstr "Velikost"
+
+#: src/bz-library-page.c:181
+#, c-format
+msgid "No matches found for \"%s\" in the list of installed apps"
+msgstr "Ni zadetkov za »%s« na seznamu nameščenih programov"
+
+#: src/bz-library-page.c:194 src/bz-updates-card.c:437
+#, c-format
+msgid "%u Available Update"
+msgid_plural "%u Available Updates"
+msgstr[0] "Na voljo je %u posodobitev"
+msgstr[1] "Na voljo je %u posodobitev"
+msgstr[2] "Na voljo sta %u posodobitvi"
+msgstr[3] "Na voljo so %u posodobitve"
+
+#: src/bz-library-page.c:204
+#, c-format
+msgid "%u Installed App"
+msgid_plural "%u Installed Apps"
+msgstr[0] "%u nameščenih programov"
+msgstr[1] "%u nameščeni program"
+msgstr[2] "%u nameščena programa"
+msgstr[3] "%u nameščeni programi"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:786
+msgid "No applications found"
+msgstr "Ni najdenih programov"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:788
+#, c-format
+msgid "One application found"
+msgid_plural "%u applications found"
+msgstr[0] "Najdenih %u programov"
+msgstr[1] "Najden %u program"
+msgstr[2] "Najdena %u programa"
+msgstr[3] "Najdeni %u programi"
+
+#: src/bz-license-dialog.blp:87
+msgid "Get Involved"
+msgstr "Sodelujte"
+
+#: src/bz-license-dialog.blp:114
+msgid "Learn More"
+msgstr "Več podrobnosti"
+
+#: src/bz-license-dialog.c:127
+msgid "Unknown License"
+msgstr "Neznano dovoljenje"
+
+#: src/bz-license-dialog.c:130
+msgid "Community Built"
+msgstr "Vzdržuje skupnost"
+
+#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:289
+msgid "Proprietary"
+msgstr "Lastniško"
+
+#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:291
+msgid "Special License"
+msgstr "Posebno dovoljenje"
+
+#: src/bz-license-dialog.c:203
+msgid ""
+"This app is developed in the open by an international community.\n"
+"\n"
+"You can participate and help make it even better."
+msgstr ""
+"Ta program razvija vsem na očeh mednarodna skupnost.\n"
+"\n"
+"Sodelujete lahko in jo pomagate izboljšati."
+
+#: src/bz-license-dialog.c:206
+msgid "The license of this app is not known"
+msgstr "Program je objavljen pod pogoji neznanega dovoljenja"
+
+#: src/bz-license-dialog.c:212
+#, c-format
+msgid ""
+"This app is developed in the open by an international community, and "
+"released under the %s license.\n"
+"\n"
+"You can participate and help make it even better."
+msgstr ""
+"Ta program je odprtokoden in ga razvija mednarodna skupnost prostovoljcev, "
+"objavljen pa je z dovoljenjem %s.\n"
+"\n"
+"Vsakdo lahko sodeluje pri zasnovi in razvoju."
+
+#: src/bz-license-dialog.c:220
+msgid ""
+"This app is not developed in the open, so only its developers know how it "
+"works. It may be insecure in ways that are hard to detect, and it may change "
+"without oversight.\n"
+"\n"
+"You may or may not be able to contribute to this app."
+msgstr ""
+"Program ni prosta programska oprema, zato delovanje poznajo le razvijalci. "
+"Morda je nezanesljiva na načine, ki jih je težko odkriti, in se lahko "
+"spreminja brez nadzora.\n"
+"\n"
+"K razvoju tega programa morda lahko, morda ne morete prispevati."
+
+#: src/bz-license-dialog.c:226
+#, c-format
+msgid ""
+"This app is developed under the special license %s.\n"
+"\n"
+"You may or may not be able to contribute to this app."
+msgstr ""
+"Program je objavljen pod pogoji posebnega dovoljenja %s.\n"
+"\n"
+"Morda je, morda ni možno prispevati k razvoju tega programa."
+
+#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:104
+msgid "License"
+msgstr "Dovoljenje"
+
+#: src/bz-login-page.blp:6 src/bz-login-page.blp:45
+msgid "Connect to Flathub"
+msgstr "Poveži se s flathubom"
+
+#: src/bz-login-page.blp:35
+msgid "Something Went Wrong"
+msgstr "Nekaj je šlo narobe"
+
+#: src/bz-login-page.blp:46
+msgid "Log in to sync your favorited apps across devices"
+msgstr "Prijavite se, da uskladite svoje priljubljene programe med napravami"
+
+#: src/bz-login-page.blp:113
+msgid "Finish"
+msgstr "Končaj"
+
+#: src/bz-login-page.c:665
+#, c-format
+msgid "Hello, %s!"
+msgstr "Pozdravljeni, %s!"
+
+#: src/bz-metainfo-preview.c:105
+msgid "Add Icon to Metainfo Preview?"
+msgstr "Ali želite dodati ikono v predogled metapodatkov?"
+
+#: src/bz-metainfo-preview.c:108
+msgid ""
+"Metainfo files don't include app icons by themselves. Would you like to "
+"select one manually?"
+msgstr ""
+"Datoteke metapodatkov same po sebi ne vključujejo ikon programov. Ali jo "
+"želite izbrati ročno?"
+
+#: src/bz-metainfo-preview.c:111
+msgid "Skip"
+msgstr "Preskoči"
+
+#: src/bz-metainfo-preview.c:112 src/bz-metainfo-preview.c:163
+msgid "Select Icon"
+msgstr "Izbor ikone"
+
+#: src/bz-metainfo-preview.c:166
+msgid "Image Files"
+msgstr "Slikovne datoteke"
+
+#: src/bz-preferences-dialog.blp:19
+msgid "Preferences"
+msgstr "Nastavitve"
+
+#: src/bz-preferences-dialog.blp:25
+msgid "Network connection is metered — automatic store data refresh is paused"
+msgstr ""
+"Omrežna povezava je plačljiva — samodejno osveževanje podatkov trgovine je "
+"prekinjeno"
+
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:236 src/bz-window.blp:247
+msgid "Refresh Manually"
+msgstr "Ročno osveži"
+
+#: src/bz-preferences-dialog.blp:31
+msgid "App Updates"
+msgstr "Posodobitev programa"
+
+#: src/bz-preferences-dialog.blp:33
+msgid ""
+"Auto-updates will pause on metered networks or when power saving is on to "
+"save data and battery."
+msgstr ""
+"Samodejne posodobitve bodo zaustavljene na plačljivih omrežjih po prometu "
+"ali ko bo vklopljeno varčevanje z energijo, da prihrani pri prenosu podatkov "
+"in baterijah."
+
+#: src/bz-preferences-dialog.blp:36
+msgid "_Automatic"
+msgstr "_Samodejno"
+
+#: src/bz-preferences-dialog.blp:37
+msgid "Automatically check for and download app updates"
+msgstr "Samodejno preveri obstoj in prejmi posodobitve programov"
+
+#: src/bz-preferences-dialog.blp:48
+msgid "_Manual"
+msgstr "_Ročno"
+
+#: src/bz-preferences-dialog.blp:49
+msgid "Checking for and downloading app updates must be done manually"
+msgstr ""
+"Preverjanje in prejemanje posodobitev programov mora biti opravljeno ročno"
+
+#: src/bz-preferences-dialog.blp:67
+msgid "Automatic Update _Notifications"
+msgstr "Obvestila _samodejnega posodabljanja"
+
+#: src/bz-preferences-dialog.blp:68
+msgid "Notify when updates have been automatically installed"
+msgstr "Pokaži obvestilo, ko so posodobitve samodejno nameščene"
+
+#: src/bz-preferences-dialog.blp:73
+msgid "Content Filters"
+msgstr "Filtri vsebine"
+
+#: src/bz-preferences-dialog.blp:76
+msgid "_Free Software Only"
+msgstr "Samo _prosto programje"
+
+#: src/bz-preferences-dialog.blp:77
+msgid "Hide proprietary apps when browsing and searching"
+msgstr "Med brskanjem in iskanjem skrij lastniško programsko opremo"
+
+#: src/bz-preferences-dialog.blp:82
+msgid "F_lathub Results Only"
+msgstr "Samo zadetki s F_lathuba"
+
+#: src/bz-preferences-dialog.blp:83
+msgid "Limit search and browse results to apps only available on Flathub"
+msgstr ""
+"Omeji iskanje in brskaj po rezultatih samo med programi, ki so na voljo na "
+"Flathubu"
+
+#: src/bz-preferences-dialog.blp:88
+msgid "_Verified Results Only"
+msgstr "Samo _overjeni zadetki"
+
+#: src/bz-preferences-dialog.blp:89
+msgid "Hide results that are not verified on Flathub"
+msgstr "Skrij zadetke, ki niso overjeni na Flathubu"
+
+#: src/bz-preferences-dialog.blp:94
+msgid "Hide _End-of-Life Apps"
+msgstr "Skrij  programe na _koncu življenjske dobe"
+
+#: src/bz-preferences-dialog.blp:95
+msgid "Hide apps which are no longer supported by their developers"
+msgstr "Skrij programe, ki nimajo več podpore svojih razvijalcev"
+
+#: src/bz-preferences-dialog.blp:101
+msgid "Progress Bar Theme"
+msgstr "Tema kazalnika napredka"
+
+#: src/bz-preferences-dialog.c:39
+msgid "Accent Color"
+msgstr "Barva poudarkov"
+
+#: src/bz-preferences-dialog.c:40
+msgid "Pride Colors"
+msgstr "Barve ponosa"
+
+#: src/bz-preferences-dialog.c:41
+#, fuzzy
+msgid "Lesbian Pride Colors"
+msgstr "Barve ponosa - lezbištvo"
+
+#: src/bz-preferences-dialog.c:42
+#, fuzzy
+msgid "Male Homosexual Pride Colors"
+msgstr "Barve ponosa - moška homoseksualnost"
+
+#: src/bz-preferences-dialog.c:43
+#, fuzzy
+msgid "Transgender Pride Colors"
+msgstr "Barve ponosa - transspolnost"
+
+#: src/bz-preferences-dialog.c:44
+#, fuzzy
+msgid "Nonbinary Pride Colors"
+msgstr "Barve ponosa - nebinarnost"
+
+#: src/bz-preferences-dialog.c:45
+#, fuzzy
+msgid "Bisexual Pride Colors"
+msgstr "Barve ponosa - biseksualnost"
+
+#: src/bz-preferences-dialog.c:46
+#, fuzzy
+msgid "Asexual Pride Colors"
+msgstr "Barve ponosa - aseksualnost"
+
+#: src/bz-preferences-dialog.c:47
+#, fuzzy
+msgid "Pansexual Pride Colors"
+msgstr "Barve ponosa - panseksualnost"
+
+#: src/bz-preferences-dialog.c:48
+#, fuzzy
+msgid "Aromantic Pride Colors"
+msgstr "Barve ponosa - aromantičnost"
+
+#: src/bz-preferences-dialog.c:49
+#, fuzzy
+msgid "Genderfluid Pride Colors"
+msgstr "Barve ponosa - fluidni spol"
+
+#: src/bz-preferences-dialog.c:50
+#, fuzzy
+msgid "Polysexual Pride Colors"
+msgstr "Barve ponosa - poliseksualnost"
+
+#: src/bz-preferences-dialog.c:51
+#, fuzzy
+msgid "Omnisexual Pride Colors"
+msgstr "Barve ponosa - omniseksualnost"
+
+#: src/bz-preferences-dialog.c:52
+#, fuzzy
+msgid "Aroace Pride Colors"
+msgstr "Barve ponosa - aroace"
+
+#: src/bz-preferences-dialog.c:53
+#, fuzzy
+msgid "Agender Pride Colors"
+msgstr "Barve ponosa - aspolnost"
+
+#: src/bz-preferences-dialog.c:54
+#, fuzzy
+msgid "Genderqueer Pride Colors"
+msgstr "Barve ponosa - genderqueer"
+
+#: src/bz-preferences-dialog.c:55
+#, fuzzy
+msgid "Intersex Pride Colors"
+msgstr "Barve ponosa - interseksualnost"
+
+#: src/bz-preferences-dialog.c:56
+#, fuzzy
+msgid "Demigender Pride Colors"
+msgstr "Barve ponosa - demiseksualnost"
+
+#: src/bz-preferences-dialog.c:57
+#, fuzzy
+msgid "Biromantic Pride Colors"
+msgstr "Barve ponosa - biromantičnost"
+
+#: src/bz-preferences-dialog.c:58
+#, fuzzy
+msgid "Disability Pride Colors"
+msgstr "Barve ponosa - nezmožnost"
+
+#: src/bz-preferences-dialog.c:59
+#, fuzzy
+msgid "Femboy Pride Colors"
+msgstr "Barve ponosa - femboy"
+
+#: src/bz-preferences-dialog.c:60
+#, fuzzy
+msgid "Neutrois Pride Colors"
+msgstr "Barve ponosa - neutrois"
+
+#: src/bz-preferences-dialog.c:280
+msgid "Bazaar needs to run in the background to check for app updates"
+msgstr ""
+"Bazar se mora izvajati v ozadju, da preverja dosegljivost posodobitev "
+"programov"
+
+#: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:159
+msgid "Version History"
+msgstr "Zgodovina različice"
+
+#: src/bz-releases-list.blp:27
+msgid "_Version History"
+msgstr "_Zgodovina različic"
+
+#. Translators: something happened less than a day ago
+#: src/bz-releases-list.c:122
+msgid "Today"
+msgstr "Danes"
+
+#. Translators: something happened more than a day ago but less than 2 days ago
+#: src/bz-releases-list.c:125
+msgid "Yesterday"
+msgstr "Včeraj"
+
+#. Translators: something happened days ago
+#: src/bz-releases-list.c:128
+#, c-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] "pred %d dnevi"
+msgstr[1] "pred %d dnem"
+msgstr[2] "pred %d dnevoma"
+msgstr[3] "pred %d dnevi"
+
+#. Translators: something happened weeks ago
+#: src/bz-releases-list.c:131
+#, c-format
+msgid "%d week ago"
+msgid_plural "%d weeks ago"
+msgstr[0] "Pred %d tedni"
+msgstr[1] "Pred %d tednom"
+msgstr[2] "Pred %d tednoma"
+msgstr[3] "Pred %d tedni"
+
+#. Translators: something happened months ago
+#: src/bz-releases-list.c:134
+#, c-format
+msgid "%d month ago"
+msgid_plural "%d months ago"
+msgstr[0] "Pred %d meseci"
+msgstr[1] "Pred %d mesecem"
+msgstr[2] "Pred %d mesecema"
+msgstr[3] "Pred %d meseci"
+
+#. Translators: something happened years ago
+#: src/bz-releases-list.c:137
+#, c-format
+msgid "%d year ago"
+msgid_plural "%d years ago"
+msgstr[0] "Pred %d leti"
+msgstr[1] "Pred %d letom"
+msgstr[2] "Pred %d letoma"
+msgstr[3] "Pred %d leti"
+
+#. TRANSLATORS: This is the date string with: day number, month name, year.
+#. i.e. "22 March 2026"
+#: src/bz-releases-list.c:155
+msgid "%e %B %Y"
+msgstr "%e. %B %Y"
+
+#: src/bz-releases-list.c:196
+#, c-format
+msgid "Version %s"
+msgstr "Različica %s"
+
+#: src/bz-releases-list.c:251
+msgid "No details for this release"
+msgstr "Za to objavo ni podrobnosti"
+
+#: src/bz-releases-list.c:264
+msgid "Get More Information"
+msgstr "Pridobiti več informacij"
+
+#: src/bz-rich-app-tile.blp:218
+msgid "Uninstall"
+msgstr "Odstrani namestitev"
+
+#. Translators: If you can't find a short enough translation, use "/" to use an icon instead.
+#: src/bz-rich-app-tile.c:383
+msgid "Get"
+msgstr "Get"
+
+#: src/bz-safety-dialog.blp:32 src/safety-calculator.c:161
+msgid "Arbitrary Permissions"
+msgstr "Dovoljenja po potrebi"
+
+#: src/bz-safety-dialog.blp:50
+msgid ""
+"This app has a permission that indirectly allows it to grant itself <b>any "
+"other permission it wants</b>, bypassing the Flatpak sandbox.\n"
+"\n"
+"It can therefore do anything a privileged, non-sandboxed application can do, "
+"such as accessing all your files and connecting to the internet.\n"
+"\n"
+"Viewing the other permissions may still give a better idea of what the app "
+"is likely to do."
+msgstr ""
+"Ta program ima dovoljenje, ki ji posredno omogoča, da si sam dodeli "
+"<b>poljubno drugo dovoljenje, ki ga želi</b>, s čimer zaobide Flatpakov "
+"peskovnik.\n"
+"\n"
+"Zato lahko počne vse, kar lahko počne privilegirani program, ki ni omejen s "
+"peskovnikom, npr. dostopa do vseh vaših datotek in se poveže z internetom.\n"
+"\n"
+"Pregled drugih dovoljenj vam lahko kljub temu ponudi boljšo predstavo o tem, "
+"kaj bo program verjetno počel."
+
+#: src/bz-safety-dialog.blp:54
+msgid "View Other Permissions"
+msgstr "Pokaži druga dovoljenja"
+
+#. TRANSLATORS: short app safety rating label
+#: src/bz-safety-dialog.blp:82 src/context-tile-callbacks.c:402
+msgid "Safe"
+msgstr "Varno"
+
+#: src/bz-safety-dialog.blp:115
+msgid "App ID"
+msgstr "ID programa"
+
+#: src/bz-safety-dialog.blp:125
+msgid "SDK"
+msgstr "SDK"
+
+#: src/bz-safety-dialog.blp:159
+msgid ""
+"This app uses an outdated version of the software platform (SDK) and might "
+"contain bugs or security vulnerabilities which will not be fixed."
+msgstr ""
+"Ta program uporablja zastarelo različico programske platforme (SDK) in lahko "
+"vsebuje napake ali varnostne ranljivosti, ki ne bodo odpravljene."
+
+#: src/bz-safety-dialog.c:301
+msgid "Safety"
+msgstr "Varnost"
+
+#: src/bz-safety-dialog.c:361
+#, c-format
+msgid "%s is Safe"
+msgstr "Program %s je varen za uporabo"
+
+#: src/bz-safety-dialog.c:366
+#, c-format
+msgid "%s has no Unsafe Permissions"
+msgstr "Program %s ne zahteva pravic, ki niso varne"
+
+#: src/bz-safety-dialog.c:371
+#, c-format
+msgid "%s is Probably Safe"
+msgstr "Program %s je najverjetneje varen za uporabo"
+
+#: src/bz-safety-dialog.c:376
+#, c-format
+msgid "%s is Possibly Unsafe"
+msgstr "Program %s morda ni povsem varen"
+
+#: src/bz-safety-dialog.c:381
+#, c-format
+msgid "%s is Unsafe"
+msgstr "Program %s ni varen"
+
+#: src/bz-screenshot-page.blp:41
+msgid "Back"
+msgstr "Nazaj"
+
+#: src/bz-screenshot-page.blp:71
+msgid "Previous Screenshot"
+msgstr "Predhodna zaslonska slika"
+
+#: src/bz-screenshot-page.blp:81
+msgid "Next Screenshot"
+msgstr "Naslednja zaslonska slika"
+
+#: src/bz-screenshot-page.blp:97
+msgid "Copy Image"
+msgstr "Kopiraj sliko"
+
+#: src/bz-screenshot-page.blp:160
+msgid "Reset View"
+msgstr "Ponastavi pogled"
+
+#: src/bz-screenshot-page.blp:171
+msgid "Zoom Out"
+msgstr "Oddalji"
+
+#: src/bz-screenshot-page.blp:181
+msgid "Zoom In"
+msgstr "Približaj"
+
+#: src/bz-screenshots-carousel.blp:6
+msgid "Screenshots Carousel"
+msgstr "Vrtiljak posnetkov zaslona"
+
+#: src/bz-screenshots-carousel.blp:104
+msgid "No Screenshots"
+msgstr "Ni zaslonskih slik"
+
+#: src/bz-screenshots-carousel.blp:128
+msgid "Open Screenshot Viewer"
+msgstr "Odpri pregledovalnik zaslonskih slik"
+
+#: src/bz-screenshots-carousel.c:308
+#, c-format
+msgid "Screenshot %u %s"
+msgstr "Posnetek zaslona %u %s"
+
+#: src/bz-screenshots-carousel.c:310
+#, c-format
+msgid "Screenshot %u"
+msgstr "Posnetek zaslona %u"
+
+#: src/bz-search-bar.blp:55
+msgid "Clear Search"
+msgstr "Počisti iskanje"
+
+#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:66
+msgid "Filters"
+msgstr "Filtri"
+
+#: src/bz-search-filter-popover.blp:35
+msgid "_Verified"
+msgstr "Pre_verjeno"
+
+#: src/bz-search-filter-popover.blp:42
+msgid "_Free/Open"
+msgstr "_Prosto/odprta koda"
+
+#: src/bz-search-filter-popover.blp:49
+msgid "Non-_EOL"
+msgstr "_Ne-opuščeno"
+
+#: src/bz-search-filter-popover.blp:52
+msgid "Filter out End-of-Life apps"
+msgstr "Izloči programe na koncu življenjske dobe"
+
+#: src/bz-search-filter-popover.blp:57
+msgid "_Mobile Friendly"
+msgstr "Prijazno _mobilnim napravam"
+
+#: src/bz-search-filter-popover.blp:64
+msgid "Categories"
+msgstr "Kategorije"
+
+#: src/bz-search-page.blp:45
+msgid "Search Apps, Games, Software"
+msgstr "Poiščite programje, igre, aplikacije"
+
+#: src/bz-search-page.blp:52
+msgid "Search Filters"
+msgstr "Filtri iskanja"
+
+#: src/bz-search-page.blp:170
+msgid "Browse Categories"
+msgstr "Prebrskaj kategorije"
+
+#: src/bz-search-page.blp:206
+msgid "Categories Unavailable"
+msgstr "Kategorije niso na voljo"
+
+#: src/bz-search-page.blp:207
+msgid "Search for apps using the search bar above."
+msgstr "Poiščite programe z uporabo zgodnje iskalne vrstice."
+
+#: src/bz-search-page.blp:325
+msgid "No Applications Found"
+msgstr "Ni najdenih programov"
+
+#: src/bz-search-page.c:249
+#, c-format
+msgid "No results found for \"%s\" in Flathub"
+msgstr "Ni zadetkov za »%s« v Flathubu"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:67
+msgid "Browser"
+msgstr "Brskalnik"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:72
+msgid "Video"
+msgstr "Video"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:82
+msgid "Office"
+msgstr "Pisarna"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:87
+msgid "PDF"
+msgstr "PDF"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:92
+msgid "Calendar"
+msgstr "Koledar"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:97
+msgid "Messaging"
+msgstr "Sporočanje"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:102
+msgid "Paint"
+msgstr "Slikanje"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:107
+msgid "VPN"
+msgstr "VPN"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:112
+msgid "Torrent"
+msgstr "Torrent"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:117
+msgid "Emulator"
+msgstr "Posnemovalnik"
+
+#: src/bz-share-list.c:58
+msgctxt "Project URL Type"
+msgid "Flathub Page"
+msgstr "Stran na flathubu"
+
+#: src/bz-share-list.c:59
+msgctxt "Project URL Type"
+msgid "Project Website"
+msgstr "Spletišče projekta"
+
+#: src/bz-share-list.c:60
+msgctxt "Project URL Type"
+msgid "Issue Tracker"
+msgstr "Sledilnik težav"
+
+#: src/bz-share-list.c:61
+msgctxt "Project URL Type"
+msgid "FAQ"
+msgstr "Pogosta vprašanja"
+
+#: src/bz-share-list.c:62
+msgctxt "Project URL Type"
+msgid "Help"
+msgstr "Pomoč"
+
+#: src/bz-share-list.c:63
+msgctxt "Project URL Type"
+msgid "Donate"
+msgstr "Doniraj"
+
+#: src/bz-share-list.c:64
+msgctxt "Project URL Type"
+msgid "Translate"
+msgstr "Prevedi"
+
+#: src/bz-share-list.c:65
+msgctxt "Project URL Type"
+msgid "Contact"
+msgstr "Stik"
+
+#: src/bz-share-list.c:66
+msgctxt "Project URL Type"
+msgid "Source Code"
+msgstr "Izvorna koda"
+
+#: src/bz-share-list.c:67
+msgctxt "Project URL Type"
+msgid "Contribute"
+msgstr "Prispevajte"
+
+#: src/bz-share-list.c:68
+msgctxt "Project URL Type"
+msgid "Manifest"
+msgstr "Manifest"
+
+#: src/bz-share-list.c:326
+msgid "Copy Link"
+msgstr "Kopiraj povezavo"
+
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:28
+msgid "Timeline"
+msgstr "Časovnica"
+
+#. TRANSLATORS: label prefix shown in graph tooltips, for example: "Installs: 42"
+#: src/bz-stats-dialog.blp:48
+msgid "Installs:"
+msgstr "Namestitve."
+
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:58
+msgid "World"
+msgstr "Cel svet"
+
+#: src/bz-stats-dialog.blp:72
+msgid "Since 4/15/2024"
+msgstr "Od 15. 4. 2024"
+
+#. Translators: M is the suffix for millions
+#: src/bz-stats-dialog.c:126
+#, c-format
+msgid "%.2fM Total Installs"
+msgstr "%.2fM vseh namestitev"
+
+#. Translators: K is the suffix for thousands
+#: src/bz-stats-dialog.c:129
+#, c-format
+msgid "%.2fK Total Installs"
+msgstr "%.2fK vseh namestitev"
+
+#: src/bz-stats-dialog.c:131
+#, c-format
+msgid "%'d Total Installs"
+msgstr "%'d vseh namestitev"
+
+#: src/bz-subcategory-list.c:78
+msgid "No Results Found"
+msgstr "Ni najdenih zadetkov"
+
+#: src/bz-subcategory-list.c:100
+msgid "Search failed"
+msgstr "Iskanje je spodletelo"
+
+#: src/bz-transaction-dialog.c:154
+msgid "Keep User Data"
+msgstr "Ohrani uporabniške podatke"
+
+#: src/bz-transaction-dialog.c:155
+msgid "Allow restoring personal settings &amp; content"
+msgstr "Omogoči obnavljanje osebnih nastavitev in vsebine"
+
+#: src/bz-transaction-dialog.c:164
+msgid "Delete All Data"
+msgstr "Izbriši vse podatke"
+
+#: src/bz-transaction-dialog.c:165
+msgid "Permanently erase user data to save space"
+msgstr "Trajno izbriši uporabniške podatke za prihranek prostora na disku"
+
+#: src/bz-transaction-dialog.c:190
+#, c-format
+msgid "Install %s?"
+msgstr "Ali želite namestiti %s?"
+
+#: src/bz-transaction-dialog.c:195
+msgid ""
+"Select which version to install. May install additional shared components"
+msgstr ""
+"Izberite, katero različico želite namestiti. Lahko namesti še dodatne "
+"komponente v skupni rabi"
+
+#: src/bz-transaction-dialog.c:197
+msgid "May install additional shared components"
+msgstr "Lahko namesti dodatne komponente v skupni rabi"
+
+#: src/bz-transaction-dialog.c:200 src/bz-transaction-dialog.c:229
+#: src/bz-transaction-dialog.c:274 src/bz-transaction-dialog.c:576
+msgid "_Cancel"
+msgstr "Pre_kliči"
+
+#: src/bz-transaction-dialog.c:201
+msgid "_Install"
+msgstr "_Namesti"
+
+#: src/bz-transaction-dialog.c:218
+#, c-format
+msgid "Remove %s?"
+msgstr "Ali želite odstraniti %s?"
+
+#: src/bz-transaction-dialog.c:221
+msgid "Select which version to remove."
+msgstr "Izberite različico, ki jo želite odstraniti."
+
+#: src/bz-transaction-dialog.c:223
+#, c-format
+msgid "It will not be possible to use %s after it is uninstalled."
+msgstr "Programa %s po odstranitvi ne bo možno več uporabljati."
+
+#: src/bz-transaction-dialog.c:246
+#, c-format
+msgid "“%s” is High Risk"
+msgstr "»%s« predstavlja visoko tveganje"
+
+#: src/bz-transaction-dialog.c:250
+msgid ""
+"This app has full access to your system, including all <b>your files, "
+"browser history, saved passwords</b>, and more. It also has access to the "
+"internet, meaning it could send your data to outside parties.\n"
+"\n"
+"Because the app is proprietary, it can not be audited for what it does with "
+"these permissions."
+msgstr ""
+"Ta program ima neomejen dostop do vašega sistema, vključno z vsemi <b>vašimi "
+"datotekami, zgodovino brskanja, shranjenimi gesli</b> in še več. Ima tudi "
+"dostop do interneta, kar pomeni, da lahko vaše podatke pošilja zunanjim "
+"strankam.\n"
+"\n"
+"Ker gre za lastniški program, ni mogoče preveriti, kako ta uporablja ta "
+"dovoljenja."
+
+#: src/bz-transaction-dialog.c:259
+msgid ""
+"This app uses the legacy X11 windowing system, which allows it to <b>record "
+"all keystrokes, capture screenshots, and monitor other applications</b>. It "
+"also has access to the internet, meaning it could send your data to outside "
+"parties.\n"
+"\n"
+"Because the app is proprietary, it can not be audited for what it does with "
+"these permissions."
+msgstr ""
+"Ta program uporablja zastareli okenski sistem X11, ki mu omogoča <b>snemanje "
+"vseh pritiskov na tipke, zajemanje posnetkov zaslona in spremljanje drugih "
+"programov</b>. Ima tudi dostop do interneta, kar pomeni, da bi lahko vaše "
+"podatke pošiljal zunanjim strankam.\n"
+"\n"
+"Ker je program lastniški, ni mogoče preveriti, kako ravna s temi dovoljenji."
+
+#: src/bz-transaction-dialog.c:275
+msgid "_Install Anyway"
+msgstr "Vseeno _namesti"
+
+#: src/bz-transaction-dialog.c:330
+msgid "Failed to load transaction dialog"
+msgstr "Nalaganje pogovornega okna transakcije je spodletelo"
+
+#: src/bz-transaction-dialog.c:547
+msgid "All apps are already installed"
+msgstr "Vsi programi so že nameščeni"
+
+#: src/bz-transaction-dialog.c:549
+msgid "_OK"
+msgstr "V _redu"
+
+#: src/bz-transaction-dialog.c:565
+#, c-format
+msgid "Install %u App?"
+msgid_plural "Install %u Apps?"
+msgstr[0] "Ali želite namestiti %u programov?"
+msgstr[1] "Ali želite namestiti %u program?"
+msgstr[2] "Ali želite namestiti %u programa?"
+msgstr[3] "Ali želite namestiti %u programe?"
+
+#: src/bz-transaction-dialog.c:573
+msgid ""
+"The following will be installed. Additional shared components may also be "
+"installed"
+msgstr ""
+"Naslednje bo nameščeno. Dodatne skupne komponente bodo tudi morda nameščene"
+
+#: src/bz-transaction-dialog.c:574
+#, c-format
+msgid "%d addons will be installed."
+msgstr "%d dodatkov bo nameščenih."
+
+#: src/bz-transaction-dialog.c:575
+msgid "Additionally, addons will be installed."
+msgstr "Poleg tega bodo nameščeni še dodatki."
+
+#: src/bz-transaction-dialog.c:577
+msgid "_Install All"
+msgstr "Namesti _vse"
+
+#: src/bz-transaction-manager.c:795
+#, c-format
+msgid "Finished in %.02f seconds"
+msgstr "Končano v %.02f s"
+
+#: src/bz-transaction-tile.blp:129
+msgid "App Add-On"
+msgstr "Dodatek za program"
+
+#: src/bz-transaction-tile.blp:158
+msgid "Runtime"
+msgstr "Izvajalni program"
+
+#: src/bz-transaction-tile.blp:182
+msgid "In Queue"
+msgstr "V vrsti"
+
+#: src/bz-transaction-tile.blp:206
+msgid "Done"
+msgstr "Končano"
+
+#: src/bz-transaction-tile.blp:230
+msgid "Cancelled"
+msgstr "Preklicano"
+
+#: src/bz-transaction-tile.blp:254
+msgid "Error"
+msgstr "Napaka"
+
+#: src/bz-transaction-tile.blp:313
+msgid "Cancel Transaction"
+msgstr "Prekliči transakcijo"
+
+#: src/bz-transaction-tile.blp:323
+msgid "Show Details"
+msgstr "Pokaži podrobnosti"
+
+#: src/bz-transaction-tile.blp:438
+msgid "Show Error Info"
+msgstr "Pokaži podatke o napaki"
+
+#: src/bz-transaction-tile.c:107
+#, c-format
+msgid "%s Freed"
+msgstr "%s sproščenega"
+
+#: src/bz-transaction-tile.c:360 src/bz-transaction-tile.c:363
+msgid "Transaction Error"
+msgstr "Napaka transakcije"
+
+#: src/bz-transaction.c:344
+msgid "Pending"
+msgstr "Na čakanju"
+
+#: src/bz-updates-card.blp:23
+msgid "_Update All"
+msgstr "Posodo_bi vse"
+
+#: src/bz-updates-card.c:215
+#, c-format
+msgid "%u Runtime Update"
+msgid_plural "%u Runtime Updates"
+msgstr[0] "%u posodobitev izvajalnikov"
+msgstr[1] "%u posodobitev izvajalnika"
+msgstr[2] "%u posodobitvi izvajalnikov"
+msgstr[3] "%u posodobitve izvajalnikov"
+
+#: src/bz-user-data-page.blp:5
+msgid "Manage Leftover User Data"
+msgstr "Upravljaj preostale uporabniške podatke"
+
+#: src/bz-user-data-page.blp:32
+msgid "No Leftover User Data Found"
+msgstr "Preostalih uporabniških podatkov ni mogoče najti"
+
+#: src/bz-user-data-page.blp:33
+msgid "Personal data left behind by apps that were removed will show up here"
+msgstr ""
+"Tukaj se bodo prikazali osebni podatki, ki so jih za seboj pustile "
+"odstranjeni programi"
+
+#: src/bz-user-data-page.c:229
+#, c-format
+msgid "Trashed User Data for %u App"
+msgid_plural "Trashed User Data for %u Apps"
+msgstr[0] "V koš vrženi uporabniški podatki za %u programov"
+msgstr[1] "V koš vrženi uporabniški podatki za %u program"
+msgstr[2] "V koš vrženi uporabniški podatki za %u programa"
+msgstr[3] "V koš vrženi uporabniški podatki za %u programe"
+
+#: src/bz-user-data-page.c:233
+#, c-format
+msgid "Trashed User Data for %s"
+msgstr "V koš vrženi uporabniški podatki za %s"
+
+#: src/bz-user-data-tile.blp:92
+msgid "Open User Data Folder"
+msgstr "Odpri mapo z uporabniškimi podatki"
+
+#: src/bz-user-data-tile.blp:103
+msgid "Trash User Data"
+msgstr "Vrzi uporabniške podatke v koš"
+
+#: src/bz-window.blp:72
+msgid "Refreshing"
+msgstr "Poteka osveževanje …"
+
+#: src/bz-window.blp:90
+msgid "Curated"
+msgstr "Kurirano"
+
+#: src/bz-window.blp:102
+msgid "Explore"
+msgstr "Razišči"
+
+#. Translators: .
+#: src/bz-window.blp:114
+msgid "Library"
+msgstr "Knjižnica"
+
+#: src/bz-window.blp:129
+msgid "Search"
+msgstr "Poišči"
+
+#: src/bz-window.blp:216
+msgid "Main Menu"
+msgstr "Glavni meni"
+
+#: src/bz-window.blp:227
+msgid "You are running a new version of Bazaar!"
+msgstr "Poganjate novo različico Bazarja!"
+
+#: src/bz-window.blp:228
+msgid "See What's New"
+msgstr "Poglejte, kaj je novega"
+
+#: src/bz-window.blp:235
+msgid ""
+"You have a network connection but are viewing a cached version of Flathub"
+msgstr ""
+"Imate omrežno povezavo, vendar si ogledujete različico Flathuba iz "
+"predpomnilnika"
+
+#: src/bz-window.blp:246
+msgid "Network connection is metered — automatic refreshes disabled"
+msgstr "Omrežna povezava je plačljiva - samodejne osvežitve so onemogočene"
+
+#: src/bz-window.blp:292
+msgid "_Donate to Bazaar"
+msgstr "_Doniraj Bazarju"
+
+#: src/bz-window.blp:298
+msgid "_Refresh"
+msgstr "Osve_ži"
+
+#: src/bz-window.blp:302
+msgid "_Login With Flathub"
+msgstr "_Prijavi prek flathuba"
+
+#: src/bz-window.blp:308
+msgid "_Manage Leftover User Data"
+msgstr "_Upravljaj preostanle uporabniške podatke"
+
+#: src/bz-window.blp:314
+msgid "_Preferences"
+msgstr "_Nastavitve"
+
+#: src/bz-window.blp:319
+msgid "_Keyboard Shortcuts"
+msgstr "_Tipkovne bližnjice"
+
+#: src/bz-window.blp:324
+msgid "_About Bazaar"
+msgstr "_O programu Bazar"
+
+#: src/bz-window.blp:330
+msgid "_Quit Bazaar"
+msgstr "_Končaj Bazar"
+
+#: src/bz-window.blp:355
+msgid "Log Out"
+msgstr "Odjavi"
+
+#. Translators: %s is the title of the current page
+#: src/bz-window.c:390
+#, c-format
+msgid "Bazaar — %s"
+msgstr "Bazar — %s"
+
+#: src/bz-window.c:635 src/bz-window.c:673
+msgid "Failed to launch application"
+msgstr "Zagon programa ni uspel"
+
+#: src/bz-window.c:925
+msgid "You can't remove Bazaar from Bazaar!"
+msgstr "Ne morete odstraniti Bazarja v Bazarju!"
+
+#: src/bz-window.c:1238 src/bz-window.c:1272
+msgid "Can't do that right now!"
+msgstr "Tega zdaj ni možno narediti!"
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "namestitev"
+msgstr[1] "Namestitev"
+msgstr[2] "Namestitvi"
+msgstr[3] "Namestitve"
+
+#: src/context-tile-callbacks.c:68
+msgid "---"
+msgstr "---"
+
+#. Translators: M is the suffix for millions
+#: src/context-tile-callbacks.c:75
+#, c-format
+msgid "%.*fM"
+msgstr "%.*fM"
+
+#. Translators: K is the suffix for thousands
+#: src/context-tile-callbacks.c:82
+#, c-format
+msgid "%.*fK"
+msgstr "%.*f K"
+
+#: src/context-tile-callbacks.c:92
+#, c-format
+msgid "%d downloads in the last month"
+msgstr "%d prenosov v zadnjem mesecu"
+
+#. TRANSLATORS: %s is a formatted file size, for example: "128 MB"
+#: src/context-tile-callbacks.c:133
+#, c-format
+msgid "+%s Runtime"
+msgstr "+ %s izvajalnika"
+
+#: src/context-tile-callbacks.c:136
+msgid "Download"
+msgstr "Prejmi"
+
+#: src/context-tile-callbacks.c:156
+msgid "Size information unavailable"
+msgstr "Podatki o velikosti niso na voljo"
+
+#: src/context-tile-callbacks.c:159
+#, c-format
+msgid "Download size of %s"
+msgstr "Velikost prejema %s"
+
+#: src/context-tile-callbacks.c:192
+msgid "All Ages"
+msgstr "Vse starosti"
+
+#: src/context-tile-callbacks.c:204
+msgid "Age rating information unavailable"
+msgstr "Ni podatkov o starostno pogojeni vsebini"
+
+#: src/context-tile-callbacks.c:209
+msgid "Suitable for all ages"
+msgstr "Primerno za vse starosti"
+
+#: src/context-tile-callbacks.c:211
+#, c-format
+msgid "Suitable for ages %d and up"
+msgstr "Primerno za starost %d let in več"
+
+#: src/context-tile-callbacks.c:244 src/context-tile-callbacks.c:249
+#: src/context-tile-callbacks.c:277 src/context-tile-callbacks.c:286
+msgid "Unknown"
+msgstr "Neznano"
+
+#: src/context-tile-callbacks.c:254
+#, c-format
+msgid "Free software licensed under %s"
+msgstr "Prosto programje je izdano pod dovoljenjem %s"
+
+#: src/context-tile-callbacks.c:259
+msgid "Free software"
+msgstr "Prosto programje"
+
+#: src/context-tile-callbacks.c:262
+msgid "Proprietary Software"
+msgstr "Lastniška programska oprema"
+
+#: src/context-tile-callbacks.c:265
+#, c-format
+msgid "Special License: %s"
+msgstr "Posebno dovoljenje: %s"
+
+#. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
+#: src/context-tile-callbacks.c:283
+msgid "Free Software"
+msgstr "Prosto programje"
+
+#: src/context-tile-callbacks.c:311
+msgid "Adaptive"
+msgstr "Prilagodljivo"
+
+#: src/context-tile-callbacks.c:311
+msgid "Desktop Only"
+msgstr "Le za namizja"
+
+#: src/context-tile-callbacks.c:317
+msgid "Works on desktop, tablets, and phones"
+msgstr "Deluje na namizju, tabličnih računalnikih in pametnih telefonih"
+
+#: src/context-tile-callbacks.c:318
+msgid "May not work on mobile devices"
+msgstr "Morda ne deluje na mobilnih napravah"
+
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:405 src/context-tile-callbacks.c:408
+msgid "Low Risk"
+msgstr "Nizko tveganje"
+
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:411
+msgid "Medium Risk"
+msgstr "Srednje tveganje"
+
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:414
+msgid "High Risk"
+msgstr "Visoko tveganje"
+
+#: src/safety-calculator.c:87
+msgid "Unknown Permissions"
+msgstr "Neznana dovoljenja"
+
+#: src/safety-calculator.c:88
+msgid "Permissions are missing for this app."
+msgstr "Temu programu manjkajo ustrezne pravice."
+
+#: src/safety-calculator.c:101
+msgid "No Permissions"
+msgstr "Ni posebnih dovoljenj"
+
+#: src/safety-calculator.c:102
+msgid "App is fully sandboxed"
+msgstr "Program se v celoti izvaja v peskovniku"
+
+#: src/safety-calculator.c:108
+msgid "Network Access"
+msgstr "Zahteva dostop do omrežja"
+
+#: src/safety-calculator.c:109
+msgid "Can access the internet"
+msgstr "Omogočen je dostop do interneta"
+
+#: src/safety-calculator.c:111
+msgid "No Network Access"
+msgstr "Ne zahteva dostopa do omrežja"
+
+#: src/safety-calculator.c:112
+msgid "Cannot access the internet"
+msgstr "Ni omogočenega dostopa do omrežja"
+
+#: src/safety-calculator.c:117
+msgid "User Device Access"
+msgstr "Uporabniški dostop do naprave"
+
+#: src/safety-calculator.c:118
+msgid "Can access devices such as webcams or gaming controllers"
+msgstr "Lahko dostopa do naprav, kot so spletne kamere in igralne konzole"
+
+#: src/safety-calculator.c:120
+msgid "No User Device Access"
+msgstr "Ne zahteva dostopa do povezanih naprav"
+
+#: src/safety-calculator.c:121
+msgid "Cannot access devices such as webcams or gaming controllers"
+msgstr "Nima dostopa do naprav, kot so spletne kamere in igralne konzole"
+
+#: src/safety-calculator.c:126
+msgid "Input Device Access"
+msgstr "Dostop do vhodne naprave"
+
+#: src/safety-calculator.c:127
+msgid "Can access input devices"
+msgstr "Lahko dostopa do vhodnih naprav"
+
+#: src/safety-calculator.c:133
+msgid "Microphone Access and Audio Playback"
+msgstr "Dostop do mikrofona in predvajanja zvoka"
+
+#: src/safety-calculator.c:134
+msgid "Can listen using microphones and play audio without asking permission"
+msgstr ""
+"Omogočen je dostop do mikrofonov in predvaja zvok brez spraševanja za "
+"dovoljenje"
+
+#: src/safety-calculator.c:140
+msgid "System Device Access"
+msgstr "Dostop do sistemske naprave"
+
+#: src/safety-calculator.c:141
+msgid "Can access system devices which require elevated permissions"
+msgstr "Lahko dostopa do sistemskih naprav, ki zahtevajo višja dovoljenja"
+
+#: src/safety-calculator.c:147
+msgid "Screen Contents Access"
+msgstr "Dostop do vsebine namizja"
+
+#: src/safety-calculator.c:148
+msgid "Can access the contents of the screen or other windows"
+msgstr "Omogočen je dostop vsebine zaslona ali drugih oken"
+
+#: src/safety-calculator.c:154
+msgid "Legacy Windowing System"
+msgstr "Uporablja opuščen zaslonski sistem"
+
+#: src/safety-calculator.c:155
+msgid "Always uses a legacy windowing system (X11)"
+msgstr "Vedno uporablja opuščen zaslonski sistem (X11)"
+
+#: src/safety-calculator.c:162
+msgid "Can acquire arbitrary permissions"
+msgstr "Zahteva dovoljenja po potrebi"
+
+#: src/safety-calculator.c:168
+msgid "User Settings"
+msgstr "Uporabniške nastavitve"
+
+#: src/safety-calculator.c:169
+msgid "Can access and change user settings"
+msgstr "Uporablja in spreminja nastavitve uporabnika"
+
+#: src/safety-calculator.c:175
+msgid "Full File System Read/Write Access"
+msgstr "Poln dostop za branje/pisanje vsebine datotečnega sistema"
+
+#: src/safety-calculator.c:176
+msgid "Can read and write all data on the file system"
+msgstr "Bere in zapisuje vse podatke datotečnega sistema"
+
+#: src/safety-calculator.c:183
+msgid "Home Folder Read/Write Access"
+msgstr "Dovoljenje za branje/pisanje vsebine v osebno mapo"
+
+#: src/safety-calculator.c:184
+msgid "Can read and write all data in your home directory"
+msgstr "Bere in zapisuje vse podatke v osebni mapi"
+
+#: src/safety-calculator.c:191
+msgid "Full File System Read Access"
+msgstr "Poln dostop za branje vsebine datotečnega sistema"
+
+#: src/safety-calculator.c:192
+msgid "Can read all data on the file system"
+msgstr "Bere vse podatke datotečnega sistema"
+
+#: src/safety-calculator.c:200
+msgid "Home Folder Read Access"
+msgstr "Dovoljenje za branje vsebine osebne mape"
+
+#: src/safety-calculator.c:201
+msgid "Can read all data in your home directory"
+msgstr "Bere vse podatke v osebni mapi"
+
+#: src/safety-calculator.c:209
+msgid "Download Folder Read/Write Access"
+msgstr "Dovoljenje za branje/pisanje vsebine v mapo prejema"
+
+#: src/safety-calculator.c:210
+msgid "Can read and write all data in your downloads directory"
+msgstr "Bere in zapisuje vse podatke v mapi prejemov"
+
+#: src/safety-calculator.c:220
+msgid "Download Folder Read Access"
+msgstr "Dovoljenje za branje vsebine mape prejema"
+
+#: src/safety-calculator.c:221
+msgid "Can read all data in your downloads directory"
+msgstr "Bere vse podatke v mapi prejemov"
+
+#: src/safety-calculator.c:242
+msgid "Can read and write all data in the directory"
+msgstr "Lahko prebere in zapisuje vse podatke v mapi"
+
+#: src/safety-calculator.c:266
+msgid "Can read all data in the directory"
+msgstr "Lahko prebere vse podatke v mapi"
+
+#: src/safety-calculator.c:281
+msgid "No File System Access"
+msgstr "Ne zahteva dostopa do datotečnega sistema"
+
+#: src/safety-calculator.c:282
+msgid "Cannot access the file system at all"
+msgstr "Ne zahteva in nima dovoljenj za dostop do datotečnega sistema"
+
+#: src/safety-calculator.c:289
+msgid "Uses System Services"
+msgstr "Uporablja sistemske storitve"
+
+#: src/safety-calculator.c:290
+msgid "Can request data from non-portal system services"
+msgstr "Lahko zahteva uporabo sistemskih storitev, ki niso portalske"
+
+#: src/safety-calculator.c:296
+msgid "Uses Session Services"
+msgstr "Uporablja storitve seje"
+
+#: src/safety-calculator.c:297
+msgid "Can request data from non-portal session services"
+msgstr "Lahko zahteva dostop do storitev seje, ki niso portalske"
+
+#: src/safety-calculator.c:345
+msgid "No Service Access"
+msgstr "Brez dostopa do storitve"
+
+#: src/safety-calculator.c:346
+msgid "Cannot access non-portal session or system services at all"
+msgstr "Sploh ni mogoče dostopati do neportalne seje ali sistemskih storitev"
+
+#: src/safety-calculator.c:354
+msgid "Verified App Developer"
+msgstr "Razvijalci programa so preverjeni"
+
+#: src/safety-calculator.c:355
+msgid "The developer of this app has been verified to be who they say they are"
+msgstr "Istovetnost razvijalca tega programa je bila preverjena"
+
+#: src/safety-calculator.c:364
+msgid "Proprietary Code"
+msgstr "Lastniška programska koda"
+
+#: src/safety-calculator.c:365
+msgid ""
+"The source code is not public, so it cannot be independently audited and "
+"might be unsafe"
+msgstr ""
+"Izvorna koda ni javna, je ni mogoče preveriti, zato je program morda ni varen"
+
+#: src/safety-calculator.c:375
+msgid "Auditable Code"
+msgstr "Koda je odprta za pregled"
+
+#: src/safety-calculator.c:376
+msgid ""
+"The source code is public and can be independently audited, which makes the "
+"app more likely to be safe"
+msgstr ""
+"Izvorna koda je javno dostopna in jo je mogoče skrbno pregledati, kar naredi "
+"program veliko bolj varen"
+
+#: src/safety-calculator.c:516
+#, c-format
+msgid "Use the %s System Service"
+msgstr "Uporabi sistemsko storitev %s"
+
+#: src/safety-calculator.c:520
+#, c-format
+msgid "Use the %s Session Service"
+msgstr "Uporabi storitev seje %s"
+
+#: src/safety-calculator.c:524
+#, c-format
+msgid "Use the %s Service"
+msgstr "Uporabi storitev %s"
+
+#: src/safety-calculator.c:534
+msgid "Can see the non-portal service"
+msgstr "Lahko vidi storitev, ki ni portalska"
+
+#: src/safety-calculator.c:536
+msgid "Can talk to the non-portal service"
+msgstr "Lahko se pogovarja s storitvijo, ki ni portalska"
+
+#: src/safety-calculator.c:538
+msgid "Can own the non-portal service"
+msgstr "Lahko je lastnik storitve, ki ni portalska"
+
+#: src/safety-calculator.c:553
+msgid "Global Menu Integration"
+msgstr "Integracija v globalni meni"
+
+#: src/safety-calculator.c:554
+msgid "Can display its menus in a global menu bar"
+msgstr "Lahko prikaže svoje menije v glavni, splošni menijski vrstici"
+
+#: src/safety-calculator.c:559
+msgid "KDE Settings Integration"
+msgstr "Integracija nastavitev KDE"
+
+#: src/safety-calculator.c:560
+msgid "Can detect when KDE desktop settings change"
+msgstr "Lahko zazna, kdaj se nastavitve namizja KDE spremenijo"
+
+#: src/safety-calculator.c:565
+msgid "KDE Global Settings"
+msgstr "Splošne nastavitve KDE"
+
+#: src/safety-calculator.c:566
+msgid "Can read KDE desktop preferences like fonts and colors"
+msgstr "Lahko prebere nastavitve namizja KDE, kot so pisave in barve"
+
+#: src/safety-calculator.c:571
+msgid "Secret Storage Service"
+msgstr "Storitev skrivne hrambe"
+
+#: src/safety-calculator.c:572
+msgid "Can store and retrieve its own passwords using the system keyring"
+msgstr ""
+"Lahko shranjuje in pridobi lastna gesla z uporabo sistemske zbirke ključev"
+
+#: src/safety-calculator.c:577
+msgid "Desktop Notifications Service"
+msgstr "Storitev namiznih obvestil"
+
+#: src/safety-calculator.c:578
+msgid "Can send desktop notifications"
+msgstr "Lahko pošilja namizna obvestila"
+
+#: src/safety-calculator.c:584
+msgid "System Tray Integration"
+msgstr "Integracija v sistemsko vrstico"
+
+#: src/safety-calculator.c:585
+msgid "Can display an icon in the system tray"
+msgstr "Lahko prikaže ikono v sistemskem pladnju"
+
+#: src/safety-calculator.c:590
+msgid "KDE Connect Integration"
+msgstr "Integracija KDE Connect"
+
+#: src/safety-calculator.c:591
+msgid "Can interact with devices paired via KDE Connect"
+msgstr "Je lahko v interakciji z napravami, povezanimi prek KDE Connect"
+
+#: src/shortcuts-dialog.blp:5
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Krmarjenje"
+
+#: src/shortcuts-dialog.blp:8
+msgctxt "shortcut window"
+msgid "Open Explore Page"
+msgstr "Odpre stran raziskovanja"
+
+#: src/shortcuts-dialog.blp:14
+msgctxt "shortcut window"
+msgid "Open Library Page"
+msgstr "Odpri stran knjižnice"
+
+#: src/shortcuts-dialog.blp:20
+msgctxt "shortcut window"
+msgid "Open Search Page"
+msgstr "Odpri stran iskanja"
+
+#: src/shortcuts-dialog.blp:25
+msgctxt "shortcut window"
+msgid "Remotes"
+msgstr "Oddaljeni"
+
+#: src/shortcuts-dialog.blp:27
+msgctxt "shortcut window"
+msgid "Sync Remotes"
+msgstr "Uskladi oddaljene"
+
+#: src/shortcuts-dialog.blp:33
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Splošno"
+
+#: src/shortcuts-dialog.blp:36
+msgctxt "shortcut window"
+msgid "Open Preferences"
+msgstr "Odpre nastavitve"
+
+#: src/shortcuts-dialog.blp:41
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Pokaže tipkovne bližnjice‫"
+
+#: src/shortcuts-dialog.blp:46
+msgctxt "shortcut window"
+msgid "Close Window"
+msgstr "Zapre okno"
+
+#: src/shortcuts-dialog.blp:52
+msgctxt "shortcut window"
+msgid "Quit Bazaar"
+msgstr "Konča Bazar"
+
+#: src/update-worker.c:358
+#, c-format
+msgid "%u App Updated"
+msgid_plural "%u Apps Updated"
+msgstr[0] "%u posodobljenih programov"
+msgstr[1] "%u posodobljeni program"
+msgstr[2] "%u posodobljena programa"
+msgstr[3] "%u posodobljeni programi"
+
+#: src/update-worker.c:361
+#, c-format
+msgid "%s has been updated."
+msgstr "Program %s je posodobljen."
+
+#: src/update-worker.c:364
+#, c-format
+msgid "%s and %s have been updated."
+msgstr "Programa %s in %s sta posodobljena."
+
+#: src/update-worker.c:368
+#, c-format
+msgid "Includes %s, %s and %s."
+msgstr "Vključuje %s, %s in %s."
