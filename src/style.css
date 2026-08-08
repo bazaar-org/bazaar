@@ -48,6 +48,10 @@
     color: white;
 }
 
+.bz-donations-dialog button:focus {
+    outline-color: white;
+}
+
 .bz-donations-banner {
     --banner-color: var(--accent-bg-color);
 }
