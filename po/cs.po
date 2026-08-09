@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar\n"
 "Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
-"POT-Creation-Date: 2026-08-05 00:02+0000\n"
-"PO-Revision-Date: 2026-08-06 02:26+0200\n"
+"POT-Creation-Date: 2026-08-08 07:18+0000\n"
+"PO-Revision-Date: 2026-08-09 14:42+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -115,16 +115,20 @@ msgctxt "Install Controls"
 msgid "Install"
 msgstr "Instalovat"
 
-#: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
-#: src/bz-addons-dialog.blp:70 src/bz-installed-tile.blp:96
+#: src/bz-addons-dialog.blp:7
+msgid "Add-on"
+msgstr "Doplněk"
+
+#: src/bz-addons-dialog.blp:15 src/bz-addons-dialog.blp:22
+#: src/bz-addons-dialog.blp:71 src/bz-installed-tile.blp:96
 msgid "Manage Add-Ons"
 msgstr "Spravovat doplňky"
 
-#: src/bz-addons-dialog.blp:80
+#: src/bz-addons-dialog.blp:81
 msgid "No Add-Ons Visible"
 msgstr "Žádné viditelné doplňky"
 
-#: src/bz-addons-dialog.blp:81
+#: src/bz-addons-dialog.blp:82
 msgid ""
 "Your current filter preferences are hiding all known add-ons. Try adjusting "
 "them."
@@ -132,19 +136,19 @@ msgstr ""
 "Vaše aktuální nastavení filtrů skrývají všechny známé doplňky. Zkuste je "
 "upravit."
 
-#: src/bz-addons-dialog.blp:88
+#: src/bz-addons-dialog.blp:89
 msgid "Add-on Page"
 msgstr "Stránka doplňků"
 
-#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:408
+#: src/bz-addons-dialog.blp:205 src/bz-full-view.blp:408
 msgid "Downloads/Month"
 msgstr "Stažení/měsíc"
 
-#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:444
+#: src/bz-addons-dialog.blp:232 src/bz-full-view.blp:444
 msgid "Stopped Receiving Core Updates"
 msgstr "Příjem základních aktualizací zastaven"
 
-#: src/bz-addons-dialog.blp:245
+#: src/bz-addons-dialog.blp:246
 msgid ""
 "This add-on uses a runtime that no longer receives updates or security "
 "fixes. It may become unsafe to use."
@@ -170,7 +174,7 @@ msgid "Download Stats"
 msgstr "Statistiky stahování"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:187
+#: src/bz-age-rating-dialog.c:737 src/context-tile-callbacks.c:187
 #: src/context-tile-callbacks.c:194
 msgid "Age Rating"
 msgstr "Vhodné od věku"
@@ -500,47 +504,47 @@ msgstr "Násilí"
 msgid "%d+"
 msgstr "%d+"
 
-#: src/bz-age-rating-dialog.c:711
+#: src/bz-age-rating-dialog.c:712
 msgctxt "Age rating"
 msgid "All"
 msgstr "Vše"
 
-#: src/bz-age-rating-dialog.c:747
+#: src/bz-age-rating-dialog.c:748
 #, c-format
 msgid "%s has an unknown age rating"
 msgstr "Aplikace %s má neznámé věkové hodnocení"
 
-#: src/bz-age-rating-dialog.c:753
+#: src/bz-age-rating-dialog.c:754
 #, c-format
 msgid "%s is suitable for everyone"
 msgstr "Aplikace %s je vhodná pro každého"
 
-#: src/bz-age-rating-dialog.c:756
+#: src/bz-age-rating-dialog.c:757
 #, c-format
 msgid "%s is suitable for young children"
 msgstr "Aplikace %s je vhodná pro malé děti"
 
-#: src/bz-age-rating-dialog.c:759
+#: src/bz-age-rating-dialog.c:760
 #, c-format
 msgid "%s is suitable for children"
 msgstr "Aplikace %s je vhodná pro děti"
 
-#: src/bz-age-rating-dialog.c:762
+#: src/bz-age-rating-dialog.c:763
 #, c-format
 msgid "%s is suitable for teenagers"
 msgstr "Aplikace %s je vhodná pro dospívající mládež"
 
-#: src/bz-age-rating-dialog.c:765
+#: src/bz-age-rating-dialog.c:766
 #, c-format
 msgid "%s is suitable for adults"
 msgstr "Aplikace %s je vhodná pro dospělé"
 
-#: src/bz-age-rating-dialog.c:768
+#: src/bz-age-rating-dialog.c:769
 #, c-format
 msgid "%s is suitable for %s"
 msgstr "Aplikace %s je vhodná pro %s"
 
-#: src/bz-age-rating-dialog.c:862
+#: src/bz-age-rating-dialog.c:868
 #, c-format
 msgid "%s • %s"
 msgstr "%s • %s"
@@ -725,9 +729,9 @@ msgstr "Stahovaná velikost prostředí"
 msgid "N/A"
 msgstr "N/A"
 
-#: src/bz-app-size-dialog.c:207
-msgid "App Size"
-msgstr "Velikost aplikace"
+#: src/bz-app-size-dialog.c:195 src/bz-app-size-dialog.c:208
+msgid "Storage"
+msgstr "Úložiště"
 
 #: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
 #: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
@@ -756,11 +760,11 @@ msgstr "Zvláštní poděkování patří"
 msgid "Logged Out Successfully!"
 msgstr "Úspěšně odhlášeni!"
 
-#: src/bz-application.c:1027
+#: src/bz-application.c:1043
 msgid "Ubuntu Troubles!"
 msgstr "Problémy s Ubuntu!"
 
-#: src/bz-application.c:1030
+#: src/bz-application.c:1046
 msgid ""
 "Ubuntu 25.10 and newer have messed up default security rules, making it "
 "<b>impossible to install apps</b> from the Flatpak version of Bazaar, please "
@@ -782,19 +786,19 @@ msgstr ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
-#: src/bz-application.c:1036
+#: src/bz-application.c:1052
 msgid "Continue Anyway"
 msgstr "Přesto pokračovat"
 
-#: src/bz-application.c:1052
+#: src/bz-application.c:1068
 msgid "Performing setup…"
 msgstr "Provádí se nastavení…"
 
-#: src/bz-application.c:1145
+#: src/bz-application.c:1167
 msgid "Set Up System Flathub?"
 msgstr "Nastavit systémový Flathub?"
 
-#: src/bz-application.c:1148
+#: src/bz-application.c:1170
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -809,11 +813,11 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1155
+#: src/bz-application.c:1177
 msgid "Set Up Flathub?"
 msgstr "Nastavit Flathub?"
 
-#: src/bz-application.c:1158
+#: src/bz-application.c:1180
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -826,52 +830,52 @@ msgstr ""
 "Bazaar můžete i nadále používat k procházení a odstraňování již "
 "nainstalovaných aplikací."
 
-#: src/bz-application.c:1164
+#: src/bz-application.c:1186
 msgid "Later"
 msgstr "Později"
 
-#: src/bz-application.c:1165
+#: src/bz-application.c:1187
 msgid "Set Up Flathub"
 msgstr "Nastavit Flathub"
 
-#: src/bz-application.c:1699
+#: src/bz-application.c:1721
 msgid "A backend error occurred"
 msgstr "Došlo k chybě backendu"
 
-#: src/bz-application.c:1907 src/bz-application.c:4156
+#: src/bz-application.c:1929 src/bz-application.c:4183
 msgid "Refreshing…"
 msgstr "Obnovuje se…"
 
-#: src/bz-application.c:2071
+#: src/bz-application.c:2093
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Načítá se %d aplikací…"
 
-#: src/bz-application.c:2124 src/bz-application.c:2198
+#: src/bz-application.c:2146 src/bz-application.c:2220
 msgid "Failed to open file"
 msgstr "Nezdařilo se otevřít soubor"
 
-#: src/bz-application.c:2212
+#: src/bz-application.c:2234
 msgid "Failed to load metainfo"
 msgstr "Nezdařilo se načíst metainfo"
 
-#: src/bz-application.c:2306
+#: src/bz-application.c:2328
 msgid "An initialization error occurred"
 msgstr "Došlo k chybě inicializace"
 
-#: src/bz-application.c:2705
+#: src/bz-application.c:2727
 msgid "Checking for updates…"
 msgstr "Kontrolují se aktualizace…"
 
-#: src/bz-application.c:2761
+#: src/bz-application.c:2783
 msgid "Failed to check for updates"
 msgstr "Nezdařilo se zkontrolovat aktualizace"
 
-#: src/bz-application.c:3927
+#: src/bz-application.c:3954
 msgid "Malformed Link"
 msgstr "Špatně formátovaný odkaz"
 
-#: src/bz-application.c:3928
+#: src/bz-application.c:3955
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -883,11 +887,11 @@ msgstr ""
 "\n"
 "To je pravděpodobně způsobeno tím, že KRunner odesílá nesprávná ID aplikací"
 
-#: src/bz-application.c:3936
+#: src/bz-application.c:3963
 msgid "Could not find app"
 msgstr "Nezdařilo se najít aplikaci"
 
-#: src/bz-application.c:4153
+#: src/bz-application.c:4180
 #, c-format
 msgid "Loading %d app…"
 msgid_plural "Loading %d apps…"
@@ -895,7 +899,7 @@ msgstr[0] "Načítá se %d aplikace…"
 msgstr[1] "Načítají se %d aplikace…"
 msgstr[2] "Načítá se %d aplikací…"
 
-#: src/bz-application.c:4158
+#: src/bz-application.c:4185
 msgid "Writing to cache…"
 msgstr "Zapisuje se do mezipaměti…"
 
@@ -1093,7 +1097,7 @@ msgstr "tento uživatel"
 msgid "all users"
 msgstr "všichni uživatelé"
 
-#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:101 src/error.c:69
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:100 src/error.c:69
 #: src/error.c:88
 msgid "Details"
 msgstr "Podrobnosti"
@@ -1936,7 +1940,8 @@ msgstr ""
 "\n"
 "Můžete nebo nemusíte být schopni do této aplikace přispívat."
 
-#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:104
+#: src/bz-license-dialog.c:345 src/bz-license-dialog.c:364
+#: src/bz-safety-dialog.blp:103
 msgid "License"
 msgstr "Licence"
 
@@ -2248,11 +2253,12 @@ msgstr "Odinstalovat"
 msgid "Get"
 msgstr "Získat"
 
-#: src/bz-safety-dialog.blp:32 src/safety-calculator.c:161
+#: src/bz-safety-dialog.blp:32 src/bz-safety-dialog.c:297
+#: src/safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Libovolná oprávnění"
 
-#: src/bz-safety-dialog.blp:50
+#: src/bz-safety-dialog.blp:49
 msgid ""
 "This app has a permission that indirectly allows it to grant itself <b>any "
 "other permission it wants</b>, bypassing the Flatpak sandbox.\n"
@@ -2272,24 +2278,24 @@ msgstr ""
 "Zobrazení dalších oprávnění vám může stále poskytnout lepší představu o tom, "
 "co aplikace pravděpodobně udělá."
 
-#: src/bz-safety-dialog.blp:54
+#: src/bz-safety-dialog.blp:53
 msgid "View Other Permissions"
 msgstr "Zobrazit další oprávnění"
 
 #. TRANSLATORS: short app safety rating label
-#: src/bz-safety-dialog.blp:82 src/context-tile-callbacks.c:402
+#: src/bz-safety-dialog.blp:81 src/context-tile-callbacks.c:402
 msgid "Safe"
 msgstr "Bezpečné"
 
-#: src/bz-safety-dialog.blp:115
+#: src/bz-safety-dialog.blp:114
 msgid "App ID"
 msgstr "ID aplikace"
 
-#: src/bz-safety-dialog.blp:125
+#: src/bz-safety-dialog.blp:124
 msgid "SDK"
 msgstr "SDK"
 
-#: src/bz-safety-dialog.blp:159
+#: src/bz-safety-dialog.blp:158
 msgid ""
 "This app uses an outdated version of the software platform (SDK) and might "
 "contain bugs or security vulnerabilities which will not be fixed."
@@ -2297,31 +2303,31 @@ msgstr ""
 "Tato aplikace používá zastaralou verzi softwarové platformy (SDK) a může "
 "obsahovat chyby nebo slabá místa zabezpečení, která nebudou opravena."
 
-#: src/bz-safety-dialog.c:301
+#: src/bz-safety-dialog.c:283 src/bz-safety-dialog.c:317
 msgid "Safety"
 msgstr "Bezpečnost"
 
-#: src/bz-safety-dialog.c:361
+#: src/bz-safety-dialog.c:377
 #, c-format
 msgid "%s is Safe"
 msgstr "Aplikace %s je bezpečná"
 
-#: src/bz-safety-dialog.c:366
+#: src/bz-safety-dialog.c:382
 #, c-format
 msgid "%s has no Unsafe Permissions"
 msgstr "Aplikace %s nemá žádná nebezpečná oprávnění"
 
-#: src/bz-safety-dialog.c:371
+#: src/bz-safety-dialog.c:387
 #, c-format
 msgid "%s is Probably Safe"
 msgstr "Aplikace %s je pravděpodobně bezpečná"
 
-#: src/bz-safety-dialog.c:376
+#: src/bz-safety-dialog.c:392
 #, c-format
 msgid "%s is Possibly Unsafe"
 msgstr "Aplikace %s pravděpodobně není bezpečná"
 
-#: src/bz-safety-dialog.c:381
+#: src/bz-safety-dialog.c:397
 #, c-format
 msgid "%s is Unsafe"
 msgstr "Aplikace %s není bezpečná"
@@ -3440,7 +3446,15 @@ msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Ukončit Bazaar"
 
-#: src/update-worker.c:358
+#: src/update-worker.c:263
+msgid "Updates Are Out of Date"
+msgstr "Údaje o aktualizacích jsou zastaralé"
+
+#: src/update-worker.c:264
+msgid "Please check for available updates"
+msgstr "Zkontrolujte prosím dostupné aktualizace"
+
+#: src/update-worker.c:449
 #, c-format
 msgid "%u App Updated"
 msgid_plural "%u Apps Updated"
@@ -3448,17 +3462,17 @@ msgstr[0] "Byla aktualizována %u aplikace"
 msgstr[1] "Byly aktualizovány %u aplikace"
 msgstr[2] "Bylo aktualizováno %u aplikací"
 
-#: src/update-worker.c:361
+#: src/update-worker.c:452
 #, c-format
 msgid "%s has been updated."
 msgstr "Aplikace %s byla aktualizována."
 
-#: src/update-worker.c:364
+#: src/update-worker.c:455
 #, c-format
 msgid "%s and %s have been updated."
 msgstr "Aplikace %s a %s byly aktualizovány."
 
-#: src/update-worker.c:368
+#: src/update-worker.c:459
 #, c-format
 msgid "Includes %s, %s and %s."
 msgstr "Včetně %s, %s a %s."
