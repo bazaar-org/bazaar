@@ -1,0 +1,8 @@
+[wrap-git]
+directory=gom
+url=https://gitlab.gnome.org/GNOME/gom.git
+revision=main
+depth=1
+
+[provide]
+libgom = libgom_dep
