@@ -28,6 +28,9 @@
 #include "template-callbacks.h"
 #include "util.h"
 
+#define AUTOSTART_DESKTOP_FILE_NAME     "bazaar.desktop"
+#define AUTOSTART_DESKTOP_RESOURCE_PATH "/io/github/kolunmi/Bazaar/bazaar.desktop"
+
 typedef struct
 {
   const char *id;
@@ -255,7 +258,9 @@ bz_preferences_dialog_set_property (GObject      *object,
 static DexFuture *
 request_autostart_fiber (gpointer user_data)
 {
-  gboolean enable                 = GPOINTER_TO_INT (user_data);
+  gboolean enable = GPOINTER_TO_INT (user_data);
+
+#ifdef SANDBOXED_LIBFLATPAK
   g_autoptr (GDBusConnection) bus = NULL;
   g_autoptr (GError) error        = NULL;
   g_autoptr (GVariant) reply      = NULL;
@@ -294,6 +299,51 @@ request_autostart_fiber (gpointer user_data)
     }
 
   return dex_future_new_true ();
+#else
+  g_autoptr (GError) error        = NULL;
+  g_autofree char *autostart_dir  = NULL;
+  g_autofree char *dest_path      = NULL;
+  g_autoptr (GFile) dir           = NULL;
+  g_autoptr (GFile) dst           = NULL;
+
+  autostart_dir = g_build_filename (g_get_user_config_dir (), "autostart", NULL);
+  dest_path     = g_build_filename (autostart_dir, AUTOSTART_DESKTOP_FILE_NAME, NULL);
+
+  dir = g_file_new_for_path (autostart_dir);
+  dst = g_file_new_for_path (dest_path);
+
+  if (!dex_await (dex_file_make_directory_with_parents (dir), &error) &&
+      !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+    {
+      g_warning ("Could not create autostart dir: %s", error->message);
+      return dex_future_new_for_error (g_steal_pointer (&error));
+    }
+  g_clear_error (&error);
+
+  if (enable)
+    {
+      g_autoptr (GFile) src = NULL;
+
+      src = g_file_new_for_uri ("resource://" AUTOSTART_DESKTOP_RESOURCE_PATH);
+
+      if (!dex_await (dex_file_copy (src, dst, G_FILE_COPY_OVERWRITE, G_PRIORITY_DEFAULT), &error))
+        {
+          g_warning ("Failed to install autostart file: %s", error->message);
+          return dex_future_new_for_error (g_steal_pointer (&error));
+        }
+    }
+  else
+    {
+      if (!dex_await (dex_file_delete (dst, G_PRIORITY_DEFAULT), &error) &&
+          !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
+        {
+          g_warning ("Failed to remove autostart file: %s", error->message);
+          return dex_future_new_for_error (g_steal_pointer (&error));
+        }
+    }
+
+  return dex_future_new_true ();
+#endif
 }
 
 static void
