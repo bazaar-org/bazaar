@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazaar main\n"
 "Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
-"POT-Creation-Date: 2026-08-05 00:02+0000\n"
-"PO-Revision-Date: 2026-08-06 17:58+0200\n"
+"POT-Creation-Date: 2026-08-11 13:49+0000\n"
+"PO-Revision-Date: 2026-08-12 03:02+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -73,7 +73,7 @@ msgstr "Vpišite se v Flathub, da vidite in upravljate svoje priljubljene"
 msgid "Search apps directly from GNOME Shell"
 msgstr "Programe iščite neposredno iz lupine GNOME"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:766
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:771
 msgid "The Bazaar Contributors"
 msgstr "Avtorji prispevkov Bazarja"
 
@@ -82,8 +82,8 @@ msgid "The home page displaying Flathub apps"
 msgstr "Domača stran, ki prikaže programe Flathub"
 
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:59
-msgid "Exhibit app page"
-msgstr "Stran predstavitve programov"
+msgid "App page for Exhibit"
+msgstr "Stran predstavitve programa"
 
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:63
 msgid "Library page"
@@ -114,16 +114,20 @@ msgctxt "Install Controls"
 msgid "Install"
 msgstr "Namesti"
 
-#: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
-#: src/bz-addons-dialog.blp:70 src/bz-installed-tile.blp:96
+#: src/bz-addons-dialog.blp:7
+msgid "Add-on"
+msgstr "Dodatek"
+
+#: src/bz-addons-dialog.blp:15 src/bz-addons-dialog.blp:22
+#: src/bz-addons-dialog.blp:71 src/bz-installed-tile.blp:96
 msgid "Manage Add-Ons"
 msgstr "Upravljaj dodatke"
 
-#: src/bz-addons-dialog.blp:80
+#: src/bz-addons-dialog.blp:81
 msgid "No Add-Ons Visible"
 msgstr "Dodatki niso vidni"
 
-#: src/bz-addons-dialog.blp:81
+#: src/bz-addons-dialog.blp:82
 msgid ""
 "Your current filter preferences are hiding all known add-ons. Try adjusting "
 "them."
@@ -131,19 +135,19 @@ msgstr ""
 "Vaše trenutne nastavitve filtrov skrivajo vse znane dodatke. Poskusite jih "
 "prilagoditi."
 
-#: src/bz-addons-dialog.blp:88
+#: src/bz-addons-dialog.blp:89
 msgid "Add-on Page"
 msgstr "Stran dodatkov"
 
-#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:408
+#: src/bz-addons-dialog.blp:205 src/bz-full-view.blp:408
 msgid "Downloads/Month"
 msgstr "prenosov na mesec"
 
-#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:444
+#: src/bz-addons-dialog.blp:232 src/bz-full-view.blp:444
 msgid "Stopped Receiving Core Updates"
 msgstr "Ne prejema več jedrnih posodobitev"
 
-#: src/bz-addons-dialog.blp:245
+#: src/bz-addons-dialog.blp:246
 msgid ""
 "This add-on uses a runtime that no longer receives updates or security "
 "fixes. It may become unsafe to use."
@@ -169,7 +173,7 @@ msgid "Download Stats"
 msgstr "Statistika prejemov"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:187
+#: src/bz-age-rating-dialog.c:737 src/context-tile-callbacks.c:187
 #: src/context-tile-callbacks.c:194
 msgid "Age Rating"
 msgstr "Ocena starosti"
@@ -501,47 +505,47 @@ msgstr "‧Nasilje"
 msgid "%d+"
 msgstr "%d+"
 
-#: src/bz-age-rating-dialog.c:711
+#: src/bz-age-rating-dialog.c:712
 msgctxt "Age rating"
 msgid "All"
 msgstr "Vsi"
 
-#: src/bz-age-rating-dialog.c:747
+#: src/bz-age-rating-dialog.c:748
 #, c-format
 msgid "%s has an unknown age rating"
 msgstr "Program %s nima podatka o starostni omejitvi"
 
-#: src/bz-age-rating-dialog.c:753
+#: src/bz-age-rating-dialog.c:754
 #, c-format
 msgid "%s is suitable for everyone"
 msgstr "Progam %s je primeren za vse uporabnike"
 
-#: src/bz-age-rating-dialog.c:756
+#: src/bz-age-rating-dialog.c:757
 #, c-format
 msgid "%s is suitable for young children"
 msgstr "Progam %s je primeren za majhne otroke"
 
-#: src/bz-age-rating-dialog.c:759
+#: src/bz-age-rating-dialog.c:760
 #, c-format
 msgid "%s is suitable for children"
 msgstr "Progam %s je primeren za otroke"
 
-#: src/bz-age-rating-dialog.c:762
+#: src/bz-age-rating-dialog.c:763
 #, c-format
 msgid "%s is suitable for teenagers"
 msgstr "Progam %s je primeren za najstnike"
 
-#: src/bz-age-rating-dialog.c:765
+#: src/bz-age-rating-dialog.c:766
 #, c-format
 msgid "%s is suitable for adults"
 msgstr "Progam %s je primeren za odrasle"
 
-#: src/bz-age-rating-dialog.c:768
+#: src/bz-age-rating-dialog.c:769
 #, c-format
 msgid "%s is suitable for %s"
 msgstr "Progam %s je primeren za skupino %s"
 
-#: src/bz-age-rating-dialog.c:862
+#: src/bz-age-rating-dialog.c:868
 #, c-format
 msgid "%s • %s"
 msgstr "%s • %s"
@@ -726,9 +730,9 @@ msgstr "Velikost prejetega programa"
 msgid "N/A"
 msgstr "ni na voljo"
 
-#: src/bz-app-size-dialog.c:207
-msgid "App Size"
-msgstr "Velikost programa"
+#: src/bz-app-size-dialog.c:195 src/bz-app-size-dialog.c:208
+msgid "Storage"
+msgstr "Shramba"
 
 #: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
 #: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
@@ -742,23 +746,23 @@ msgid "Installed"
 msgstr "Nameščeno"
 
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:769
+#: src/bz-application.c:774
 msgid "translator-credits"
 msgstr "Martin Srebotnjak <miles@filmsi.net>"
 
-#: src/bz-application.c:779
+#: src/bz-application.c:784
 msgid "Special Thanks"
 msgstr "Posebne zahvale"
 
-#: src/bz-application.c:837
+#: src/bz-application.c:842
 msgid "Logged Out Successfully!"
 msgstr "Uspešno odjavljeni!"
 
-#: src/bz-application.c:1027
+#: src/bz-application.c:1048
 msgid "Ubuntu Troubles!"
 msgstr "Težave z Ubuntujem!"
 
-#: src/bz-application.c:1030
+#: src/bz-application.c:1051
 msgid ""
 "Ubuntu 25.10 and newer have messed up default security rules, making it "
 "<b>impossible to install apps</b> from the Flatpak version of Bazaar, please "
@@ -781,19 +785,19 @@ msgstr ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
-#: src/bz-application.c:1036
+#: src/bz-application.c:1057
 msgid "Continue Anyway"
 msgstr "Vseeno nadaljuj"
 
-#: src/bz-application.c:1052
+#: src/bz-application.c:1073
 msgid "Performing setup…"
 msgstr "Izvajanje namestitve …"
 
-#: src/bz-application.c:1145
+#: src/bz-application.c:1172
 msgid "Set Up System Flathub?"
 msgstr "Ali želite nastaviti sistemski Flathub?"
 
-#: src/bz-application.c:1148
+#: src/bz-application.c:1175
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
@@ -808,11 +812,11 @@ msgstr ""
 "Bazar lahko še vedno uporabljate za brskanje po že nameščenih programih in "
 "njihovo odstranjevanje."
 
-#: src/bz-application.c:1155
+#: src/bz-application.c:1182
 msgid "Set Up Flathub?"
 msgstr "Ali želite nastaviti flathub?"
 
-#: src/bz-application.c:1158
+#: src/bz-application.c:1185
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
@@ -825,52 +829,52 @@ msgstr ""
 "Bazar lahko še vedno uporabljate za brskanje po že nameščenih programih in "
 "njihovo odstranjevanje."
 
-#: src/bz-application.c:1164
+#: src/bz-application.c:1191
 msgid "Later"
 msgstr "Kasneje"
 
-#: src/bz-application.c:1165
+#: src/bz-application.c:1192
 msgid "Set Up Flathub"
 msgstr "Nastavi flathub"
 
-#: src/bz-application.c:1699
+#: src/bz-application.c:1726
 msgid "A backend error occurred"
 msgstr "Prišlo je do napake zaledja"
 
-#: src/bz-application.c:1907 src/bz-application.c:4156
+#: src/bz-application.c:1934 src/bz-application.c:4204
 msgid "Refreshing…"
 msgstr "Poteka osveževanje …"
 
-#: src/bz-application.c:2071
+#: src/bz-application.c:2098
 #, c-format
 msgid "Loading %d apps…"
 msgstr "Nalaganje %d programov …"
 
-#: src/bz-application.c:2124 src/bz-application.c:2198
+#: src/bz-application.c:2151 src/bz-application.c:2225
 msgid "Failed to open file"
 msgstr "Odpiranje datoteke ni uspelo"
 
-#: src/bz-application.c:2212
+#: src/bz-application.c:2239
 msgid "Failed to load metainfo"
 msgstr "Nalaganje metapodatkov je spodletelo"
 
-#: src/bz-application.c:2306
+#: src/bz-application.c:2333
 msgid "An initialization error occurred"
 msgstr "Prišlo je do napake inicializacije"
 
-#: src/bz-application.c:2705
+#: src/bz-application.c:2732
 msgid "Checking for updates…"
 msgstr "Preverjanje posodobitev ..."
 
-#: src/bz-application.c:2761
+#: src/bz-application.c:2788
 msgid "Failed to check for updates"
 msgstr "Preverjanja obstoja posodobitev ni bilo uspešno"
 
-#: src/bz-application.c:3927
+#: src/bz-application.c:3975
 msgid "Malformed Link"
 msgstr "Napačno oblikovana povezava"
 
-#: src/bz-application.c:3928
+#: src/bz-application.c:3976
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
@@ -882,11 +886,11 @@ msgstr ""
 "\n"
 "Vzrok je najverjetneje KRunner, ki pošilja nepravilne ID-je programa"
 
-#: src/bz-application.c:3936
+#: src/bz-application.c:3984
 msgid "Could not find app"
 msgstr "Programa ni možno najti"
 
-#: src/bz-application.c:4153
+#: src/bz-application.c:4201
 #, c-format
 msgid "Loading %d app…"
 msgid_plural "Loading %d apps…"
@@ -895,7 +899,7 @@ msgstr[1] "Nalaganje %d programa …"
 msgstr[2] "Nalaganje %d programov …"
 msgstr[3] "Nalaganje %d programov …"
 
-#: src/bz-application.c:4158
+#: src/bz-application.c:4206
 msgid "Writing to cache…"
 msgstr "Pisanje v predpomnilnik …"
 
@@ -943,7 +947,7 @@ msgstr "Uspešno nameščeno!"
 
 #. TRANSLATORS: Button to launch an installed app
 #: src/bz-bundle-install-dialog.blp:438 src/bz-bundle-install-dialog.blp:524
-#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:299
+#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:300
 msgid "Open"
 msgstr "Odpri"
 
@@ -1033,15 +1037,19 @@ msgstr "Lastništvo ID programa %1$s je bilo preverjeno s pomočjo %2$s."
 msgid "The ownership of the %s app ID has been verified."
 msgstr "Lastništvo programa %s je bilo preverjeno."
 
-#: src/bz-donations-dialog.blp:74
+#: src/bz-donations-dialog.blp:7
+msgid "Bazaar Release"
+msgstr "Bazar - izdaja"
+
+#: src/bz-donations-dialog.blp:77
 msgid "Full Release Notes"
 msgstr "Celotne opombe ob izdaji"
 
-#: src/bz-donations-dialog.blp:108
+#: src/bz-donations-dialog.blp:112
 msgid "This release was made possible by users like you!"
 msgstr "To izdajo so omogočili uporabniki, kot ste vi!"
 
-#: src/bz-donations-dialog.blp:116
+#: src/bz-donations-dialog.blp:121
 msgid ""
 "I love making Bazaar, but I cannot do it alone. Help support further "
 "development by donating on Ko-Fi."
@@ -1049,7 +1057,7 @@ msgstr ""
 "Zelo rad ustvarjam Bazaar, a sam tega ne zmorem. Pomagajte podpreti "
 "nadaljnji razvoj s prispevkom na Ko-Fi."
 
-#: src/bz-donations-dialog.blp:131
+#: src/bz-donations-dialog.blp:136
 msgid "Donate to Bazaar"
 msgstr "Donirajte Bazarju"
 
@@ -1092,7 +1100,7 @@ msgstr "ta uporabnik"
 msgid "all users"
 msgstr "vsi uporabniki"
 
-#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:101 src/error.c:69
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:100 src/error.c:69
 #: src/error.c:88
 msgid "Details"
 msgstr "Podrobnosti"
@@ -1375,7 +1383,7 @@ msgstr "Dodatna sistemska orodja"
 msgid "Utilities"
 msgstr "Pripomočki"
 
-#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:434
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:439
 msgid "Tools"
 msgstr "Orodja"
 
@@ -1383,8 +1391,8 @@ msgstr "Orodja"
 msgid "More Utilities"
 msgstr "Dodatni pripomočki"
 
-#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:106
-#: src/bz-flathub-page.blp:138
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:111
+#: src/bz-flathub-page.blp:143
 msgid "Trending"
 msgstr "V trendu"
 
@@ -1392,8 +1400,8 @@ msgstr "V trendu"
 msgid "More Trending"
 msgstr "Dodatni v trendu"
 
-#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:112
-#: src/bz-flathub-page.blp:171
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:117
+#: src/bz-flathub-page.blp:176
 msgid "Popular"
 msgstr "Priljubljeni"
 
@@ -1401,11 +1409,11 @@ msgstr "Priljubljeni"
 msgid "More Popular"
 msgstr "Najpriljubljenejši"
 
-#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:160
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:165
 msgid "Recently Added"
 msgstr "Nedavno dodano"
 
-#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:118
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:123
 msgid "New"
 msgstr "Novo"
 
@@ -1413,11 +1421,11 @@ msgstr "Novo"
 msgid "More New"
 msgstr "Dodatni novi"
 
-#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:149
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:154
 msgid "Recently Updated"
 msgstr "Nedavno posodobljeni"
 
-#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:124
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:129
 msgid "Updated"
 msgstr "Posodobljeno"
 
@@ -1449,15 +1457,15 @@ msgstr "Programi KDE"
 msgid "More KDE Apps"
 msgstr "Dodatni programi KDE"
 
-#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:416
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:421
 msgid "Games"
 msgstr "Igre"
 
-#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:476
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:481
 msgid "More Games"
 msgstr "Dodatne igre"
 
-#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:422
+#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:427
 msgid "Emulators"
 msgstr "Posnemovalniki"
 
@@ -1465,7 +1473,7 @@ msgstr "Posnemovalniki"
 msgid "More Emulators"
 msgstr "Dodatni posnemovalniki"
 
-#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:428
+#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:433
 msgid "Launchers"
 msgstr "Zaganjalniki"
 
@@ -1480,6 +1488,111 @@ msgstr "Orodja za igre"
 #: src/bz-flathub-category.c:154
 msgid "More Game Tools"
 msgstr "Dodatna orodja za igre"
+
+#: src/bz-flathub-curated-section.c:65
+msgid "New Year, New Workflows"
+msgstr "Novo leto, novi načini dela"
+
+#: src/bz-flathub-curated-section.c:65
+msgid "Apps to take notes, track tasks, and make plans"
+msgstr "Programi za izdelavo zapiskov, sledenje nalogam in načrtovanje"
+
+#: src/bz-flathub-curated-section.c:66
+msgid "Staff Picks"
+msgstr "Po izboru naših zaposlenih"
+
+#: src/bz-flathub-curated-section.c:66
+msgid "Apps we love right now"
+msgstr "Programi, ki so nam trenutno zelo všeč"
+
+#: src/bz-flathub-curated-section.c:67
+msgid "Get Creative"
+msgstr "Ustvarjajte"
+
+#: src/bz-flathub-curated-section.c:67
+msgid "Essential apps for drawing, editing photos, and digital design"
+msgstr ""
+"Osnovni programi za risanje, urejanje fotografij in digitalno oblikovanje"
+
+#: src/bz-flathub-curated-section.c:68
+msgid "Build Native Apps"
+msgstr "Izdelajte domorodne programe"
+
+#: src/bz-flathub-curated-section.c:68
+msgid "Develop apps that feel at home on your system"
+msgstr "Razvijajte programe, ki se počutijo na vašem sistemu domače"
+
+#: src/bz-flathub-curated-section.c:69
+msgid "Stay in Touch"
+msgstr "Ostanite v stiku"
+
+#: src/bz-flathub-curated-section.c:69
+msgid "Essential collaboration and communication apps"
+msgstr "Osnovni programi za sodelovanje in komuniciranje"
+
+#: src/bz-flathub-curated-section.c:70
+msgid "Ready for Vacations"
+msgstr "Pripravljeni na počitnice"
+
+#: src/bz-flathub-curated-section.c:70
+msgid "Maps, transit, weather, and trip planning apps"
+msgstr "Programi za zemljevide, prevoze, vreme in načrtovanje potovanj"
+
+#: src/bz-flathub-curated-section.c:71
+msgid "Smarter Every Day"
+msgstr "Pametnejši vsakdan"
+
+#: src/bz-flathub-curated-section.c:71
+msgid "Apps to help you study, research, and write"
+msgstr "Programi, ki pomagajo študirati, raziskovati in pisati"
+
+#: src/bz-flathub-curated-section.c:72
+msgid "Get Cozy"
+msgstr "Naj vam bo v užitek"
+
+#: src/bz-flathub-curated-section.c:72
+msgid "Great apps for reading, watching movies, and playing games"
+msgstr "Krasni programi za branje, ogled filmov in igranje iger"
+
+#: src/bz-flathub-curated-section.c:73
+msgid "Web Developer Essentials"
+msgstr "Osnove za spletni razvoj"
+
+#: src/bz-flathub-curated-section.c:73
+msgid "Making websites is more fun with these apps"
+msgstr "Izdelava spletišč je zabavnejša s temi programi"
+
+#: src/bz-flathub-curated-section.c:74
+msgid "Take Better Notes"
+msgstr "Delajte boljše zapiske"
+
+#: src/bz-flathub-curated-section.c:74
+msgid "Find your new favorite note taking tool"
+msgstr "Poiščite svojo naslednjo najbolj priljubljeno orodje za zapiske"
+
+#: src/bz-flathub-curated-section.c:75
+msgid "Get Focused"
+msgstr "Osredotočite se"
+
+#: src/bz-flathub-curated-section.c:75
+msgid "Great apps for task management"
+msgstr "Krasni programi za upravljanje zadolžitev"
+
+#: src/bz-flathub-curated-section.c:76
+msgid "Make Some Noise"
+msgstr "Naj bo naglas"
+
+#: src/bz-flathub-curated-section.c:76
+msgid "Apps for creating and producing music"
+msgstr "Programi za ustvarjanje glasbe in glasbeno produkcijo"
+
+#: src/bz-flathub-curated-section.c:77
+msgid "Get To Work"
+msgstr "Spravite se k delu"
+
+#: src/bz-flathub-curated-section.c:77
+msgid "Essential office apps"
+msgstr "Osnovni pisarniški programi"
 
 #: src/bz-flathub-page.blp:22
 msgid "Flathub Not Added"
@@ -1505,27 +1618,27 @@ msgstr "Iskanje programov"
 msgid "Reconnect"
 msgstr "Ponovno poveži"
 
-#: src/bz-flathub-page.blp:199
+#: src/bz-flathub-page.blp:204
 msgid "App of the Day"
 msgstr "Program dneva"
 
-#: src/bz-flathub-page.blp:262
+#: src/bz-flathub-page.blp:267
 msgid "On the Go"
 msgstr "Na poti"
 
-#: src/bz-flathub-page.blp:274
+#: src/bz-flathub-page.blp:279
 msgid "Apps for your Linux phones and tablets"
 msgstr "Aplikacije za vaše telefone in tablice Linux"
 
-#: src/bz-flathub-page.blp:285 src/bz-flathub-page.blp:320
+#: src/bz-flathub-page.blp:290 src/bz-flathub-page.blp:325
 msgid "More Mobile Apps"
 msgstr "Dodatni programi za mobilne naprave"
 
-#: src/bz-flathub-page.blp:378
+#: src/bz-flathub-page.blp:383
 msgid "We​ ♥​ Games"
 msgstr "♥​ igre"
 
-#: src/bz-flathub-page.blp:391
+#: src/bz-flathub-page.blp:396
 msgid "Games and apps to run your favorite titles"
 msgstr "Igre in programi za izvajanje vaših najljubših naslovov"
 
@@ -1781,8 +1894,8 @@ msgid "Cancelling"
 msgstr "Poteka preklic …"
 
 #: src/bz-installed-tile.blp:80
-msgid "Donate Button"
-msgstr "Gumb za doniranje"
+msgid "Donate"
+msgstr "Doniraj"
 
 #: src/bz-library-page.blp:17
 msgid "Search installed apps"
@@ -1940,7 +2053,8 @@ msgstr ""
 "\n"
 "Morda je, morda ni možno prispevati k razvoju tega programa."
 
-#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:104
+#: src/bz-license-dialog.c:345 src/bz-license-dialog.c:364
+#: src/bz-safety-dialog.blp:103
 msgid "License"
 msgstr "Dovoljenje"
 
@@ -2083,115 +2197,95 @@ msgstr "Skrij programe, ki nimajo več podpore svojih razvijalcev"
 msgid "Progress Bar Theme"
 msgstr "Tema kazalnika napredka"
 
-#: src/bz-preferences-dialog.c:39
+#: src/bz-preferences-dialog.c:42
 msgid "Accent Color"
 msgstr "Barva poudarkov"
 
-#: src/bz-preferences-dialog.c:40
+#: src/bz-preferences-dialog.c:43
 msgid "Pride Colors"
 msgstr "Barve ponosa"
 
-#: src/bz-preferences-dialog.c:41
-#, fuzzy
+#: src/bz-preferences-dialog.c:44
 msgid "Lesbian Pride Colors"
 msgstr "Barve ponosa - lezbištvo"
 
-#: src/bz-preferences-dialog.c:42
-#, fuzzy
+#: src/bz-preferences-dialog.c:45
 msgid "Male Homosexual Pride Colors"
 msgstr "Barve ponosa - moška homoseksualnost"
 
-#: src/bz-preferences-dialog.c:43
-#, fuzzy
+#: src/bz-preferences-dialog.c:46
 msgid "Transgender Pride Colors"
 msgstr "Barve ponosa - transspolnost"
 
-#: src/bz-preferences-dialog.c:44
-#, fuzzy
+#: src/bz-preferences-dialog.c:47
 msgid "Nonbinary Pride Colors"
 msgstr "Barve ponosa - nebinarnost"
 
-#: src/bz-preferences-dialog.c:45
-#, fuzzy
+#: src/bz-preferences-dialog.c:48
 msgid "Bisexual Pride Colors"
 msgstr "Barve ponosa - biseksualnost"
 
-#: src/bz-preferences-dialog.c:46
-#, fuzzy
+#: src/bz-preferences-dialog.c:49
 msgid "Asexual Pride Colors"
 msgstr "Barve ponosa - aseksualnost"
 
-#: src/bz-preferences-dialog.c:47
-#, fuzzy
+#: src/bz-preferences-dialog.c:50
 msgid "Pansexual Pride Colors"
 msgstr "Barve ponosa - panseksualnost"
 
-#: src/bz-preferences-dialog.c:48
-#, fuzzy
+#: src/bz-preferences-dialog.c:51
 msgid "Aromantic Pride Colors"
 msgstr "Barve ponosa - aromantičnost"
 
-#: src/bz-preferences-dialog.c:49
-#, fuzzy
+#: src/bz-preferences-dialog.c:52
 msgid "Genderfluid Pride Colors"
 msgstr "Barve ponosa - fluidni spol"
 
-#: src/bz-preferences-dialog.c:50
-#, fuzzy
+#: src/bz-preferences-dialog.c:53
 msgid "Polysexual Pride Colors"
 msgstr "Barve ponosa - poliseksualnost"
 
-#: src/bz-preferences-dialog.c:51
-#, fuzzy
+#: src/bz-preferences-dialog.c:54
 msgid "Omnisexual Pride Colors"
 msgstr "Barve ponosa - omniseksualnost"
 
-#: src/bz-preferences-dialog.c:52
-#, fuzzy
+#: src/bz-preferences-dialog.c:55
 msgid "Aroace Pride Colors"
 msgstr "Barve ponosa - aroace"
 
-#: src/bz-preferences-dialog.c:53
-#, fuzzy
+#: src/bz-preferences-dialog.c:56
 msgid "Agender Pride Colors"
 msgstr "Barve ponosa - aspolnost"
 
-#: src/bz-preferences-dialog.c:54
-#, fuzzy
+#: src/bz-preferences-dialog.c:57
 msgid "Genderqueer Pride Colors"
 msgstr "Barve ponosa - genderqueer"
 
-#: src/bz-preferences-dialog.c:55
-#, fuzzy
+#: src/bz-preferences-dialog.c:58
 msgid "Intersex Pride Colors"
 msgstr "Barve ponosa - interseksualnost"
 
-#: src/bz-preferences-dialog.c:56
-#, fuzzy
+#: src/bz-preferences-dialog.c:59
 msgid "Demigender Pride Colors"
 msgstr "Barve ponosa - demiseksualnost"
 
-#: src/bz-preferences-dialog.c:57
-#, fuzzy
+#: src/bz-preferences-dialog.c:60
 msgid "Biromantic Pride Colors"
 msgstr "Barve ponosa - biromantičnost"
 
-#: src/bz-preferences-dialog.c:58
-#, fuzzy
+#: src/bz-preferences-dialog.c:61
 msgid "Disability Pride Colors"
 msgstr "Barve ponosa - nezmožnost"
 
-#: src/bz-preferences-dialog.c:59
-#, fuzzy
+#: src/bz-preferences-dialog.c:62
 msgid "Femboy Pride Colors"
 msgstr "Barve ponosa - femboy"
 
-#: src/bz-preferences-dialog.c:60
-#, fuzzy
+#: src/bz-preferences-dialog.c:63
 msgid "Neutrois Pride Colors"
 msgstr "Barve ponosa - neutrois"
 
-#: src/bz-preferences-dialog.c:280
+#: src/bz-preferences-dialog.c:285
 msgid "Bazaar needs to run in the background to check for app updates"
 msgstr ""
 "Bazar se mora izvajati v ozadju, da preverja dosegljivost posodobitev "
@@ -2283,11 +2377,12 @@ msgstr "Odstrani namestitev"
 msgid "Get"
 msgstr "Get"
 
-#: src/bz-safety-dialog.blp:32 src/safety-calculator.c:161
+#: src/bz-safety-dialog.blp:32 src/bz-safety-dialog.c:297
+#: src/safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Dovoljenja po potrebi"
 
-#: src/bz-safety-dialog.blp:50
+#: src/bz-safety-dialog.blp:49
 msgid ""
 "This app has a permission that indirectly allows it to grant itself <b>any "
 "other permission it wants</b>, bypassing the Flatpak sandbox.\n"
@@ -2308,24 +2403,24 @@ msgstr ""
 "Pregled drugih dovoljenj vam lahko kljub temu ponudi boljšo predstavo o tem, "
 "kaj bo program verjetno počel."
 
-#: src/bz-safety-dialog.blp:54
+#: src/bz-safety-dialog.blp:53
 msgid "View Other Permissions"
 msgstr "Pokaži druga dovoljenja"
 
 #. TRANSLATORS: short app safety rating label
-#: src/bz-safety-dialog.blp:82 src/context-tile-callbacks.c:402
+#: src/bz-safety-dialog.blp:81 src/context-tile-callbacks.c:402
 msgid "Safe"
 msgstr "Varno"
 
-#: src/bz-safety-dialog.blp:115
+#: src/bz-safety-dialog.blp:114
 msgid "App ID"
 msgstr "ID programa"
 
-#: src/bz-safety-dialog.blp:125
+#: src/bz-safety-dialog.blp:124
 msgid "SDK"
 msgstr "SDK"
 
-#: src/bz-safety-dialog.blp:159
+#: src/bz-safety-dialog.blp:158
 msgid ""
 "This app uses an outdated version of the software platform (SDK) and might "
 "contain bugs or security vulnerabilities which will not be fixed."
@@ -2333,31 +2428,31 @@ msgstr ""
 "Ta program uporablja zastarelo različico programske platforme (SDK) in lahko "
 "vsebuje napake ali varnostne ranljivosti, ki ne bodo odpravljene."
 
-#: src/bz-safety-dialog.c:301
+#: src/bz-safety-dialog.c:283 src/bz-safety-dialog.c:317
 msgid "Safety"
 msgstr "Varnost"
 
-#: src/bz-safety-dialog.c:361
+#: src/bz-safety-dialog.c:377
 #, c-format
 msgid "%s is Safe"
 msgstr "Program %s je varen za uporabo"
 
-#: src/bz-safety-dialog.c:366
+#: src/bz-safety-dialog.c:382
 #, c-format
 msgid "%s has no Unsafe Permissions"
 msgstr "Program %s ne zahteva pravic, ki niso varne"
 
-#: src/bz-safety-dialog.c:371
+#: src/bz-safety-dialog.c:387
 #, c-format
 msgid "%s is Probably Safe"
 msgstr "Program %s je najverjetneje varen za uporabo"
 
-#: src/bz-safety-dialog.c:376
+#: src/bz-safety-dialog.c:392
 #, c-format
 msgid "%s is Possibly Unsafe"
 msgstr "Program %s morda ni povsem varen"
 
-#: src/bz-safety-dialog.c:381
+#: src/bz-safety-dialog.c:397
 #, c-format
 msgid "%s is Unsafe"
 msgstr "Program %s ni varen"
@@ -2795,44 +2890,44 @@ msgstr "Poleg tega bodo nameščeni še dodatki."
 msgid "_Install All"
 msgstr "Namesti _vse"
 
-#: src/bz-transaction-manager.c:795
+#: src/bz-transaction-manager.c:796
 #, c-format
 msgid "Finished in %.02f seconds"
 msgstr "Končano v %.02f s"
 
-#: src/bz-transaction-tile.blp:129
+#: src/bz-transaction-tile.blp:130
 msgid "App Add-On"
 msgstr "Dodatek za program"
 
-#: src/bz-transaction-tile.blp:158
+#: src/bz-transaction-tile.blp:159
 msgid "Runtime"
 msgstr "Izvajalni program"
 
-#: src/bz-transaction-tile.blp:182
+#: src/bz-transaction-tile.blp:183
 msgid "In Queue"
 msgstr "V vrsti"
 
-#: src/bz-transaction-tile.blp:206
+#: src/bz-transaction-tile.blp:207
 msgid "Done"
 msgstr "Končano"
 
-#: src/bz-transaction-tile.blp:230
+#: src/bz-transaction-tile.blp:231
 msgid "Cancelled"
 msgstr "Preklicano"
 
-#: src/bz-transaction-tile.blp:254
+#: src/bz-transaction-tile.blp:255
 msgid "Error"
 msgstr "Napaka"
 
-#: src/bz-transaction-tile.blp:313
+#: src/bz-transaction-tile.blp:314
 msgid "Cancel Transaction"
 msgstr "Prekliči transakcijo"
 
-#: src/bz-transaction-tile.blp:323
+#: src/bz-transaction-tile.blp:324
 msgid "Show Details"
 msgstr "Pokaži podrobnosti"
 
-#: src/bz-transaction-tile.blp:438
+#: src/bz-transaction-tile.blp:439
 msgid "Show Error Info"
 msgstr "Pokaži podatke o napaki"
 
@@ -3481,7 +3576,24 @@ msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Konča Bazar"
 
-#: src/update-worker.c:358
+#: src/transaction-notification.c:133
+#, c-format
+msgid "%s Installed"
+msgstr "%s (nameščeno)"
+
+#: src/transaction-notification.c:135
+msgid "The app is ready to be used"
+msgstr "Program je pripravljen za uporabo"
+
+#: src/update-worker.c:263
+msgid "Updates Are Out of Date"
+msgstr "Posodobitve programske opreme so zastarele"
+
+#: src/update-worker.c:264
+msgid "Please check for available updates"
+msgstr "Preveri za razpoložljive posodobitve"
+
+#: src/update-worker.c:449
 #, c-format
 msgid "%u App Updated"
 msgid_plural "%u Apps Updated"
@@ -3490,17 +3602,17 @@ msgstr[1] "%u posodobljeni program"
 msgstr[2] "%u posodobljena programa"
 msgstr[3] "%u posodobljeni programi"
 
-#: src/update-worker.c:361
+#: src/update-worker.c:452
 #, c-format
 msgid "%s has been updated."
 msgstr "Program %s je posodobljen."
 
-#: src/update-worker.c:364
+#: src/update-worker.c:455
 #, c-format
 msgid "%s and %s have been updated."
 msgstr "Programa %s in %s sta posodobljena."
 
-#: src/update-worker.c:368
+#: src/update-worker.c:459
 #, c-format
 msgid "Includes %s, %s and %s."
 msgstr "Vključuje %s, %s in %s."
