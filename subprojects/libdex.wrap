@@ -2,7 +2,7 @@
 directory=libdex
 url=https://gitlab.gnome.org/GNOME/libdex.git
 push-url=ssh://git@ssh.gitlab.gnome.org:GNOME/libdex.git
-revision=1.2.alpha
+revision=1.2.beta
 depth=1
 
 [provide]
