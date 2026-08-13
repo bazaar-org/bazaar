@@ -26,11 +26,11 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Kolunmi</foaf:name>
+      <foaf:mbox rdf:resource="mailto:kolunmi@posteo.net" />
       <foaf:account>
         <foaf:OnlineAccount>
           <foaf:accountServiceHomepage rdf:resource="https://github.com" />
           <foaf:accountName>kolunmi</foaf:accountName>
-          <foaf:mbox rdf:resource="mailto:kolunmi@posteo.net" />
         </foaf:OnlineAccount>
       </foaf:account>
     </foaf:Person>
