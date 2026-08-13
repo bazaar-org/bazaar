@@ -21,16 +21,15 @@
 #define G_LOG_DOMAIN  "BAZAAR::ENTRY-CACHE"
 #define BAZAAR_MODULE "entry-cache"
 
-#define MAX_CONCURRENT_WRITES       16
 #define WATCH_CLEANUP_INTERVAL_MSEC 5000
 
 #include <malloc.h>
 
 #include "bz-entry-cache-manager.h"
-#include "env.h"
 #include "bz-flatpak-entry.h"
-#include "io.h"
 #include "bz-serializable.h"
+#include "env.h"
+#include "io.h"
 #include "util.h"
 
 /* clang-format off */
@@ -44,19 +43,11 @@ struct _BzEntryCacheManager
   GMutex mutex;
   guint  living_entries;
 
-  DexScheduler *scheduler;
-  guint64       memory_usage;
-
   DexPromise *init;
 
   GHashTable *alive_hash;
   GHashTable *writing_hash;
   GHashTable *reading_hash;
-
-  BzGuard *ongoing_gates[MAX_CONCURRENT_WRITES];
-  GMutex   ongoing_mutexes[MAX_CONCURRENT_WRITES];
-  guint    ongoing_queued[MAX_CONCURRENT_WRITES];
-  GMutex   ongoing_queueing_mutex;
 
   BzGuard *alive_gate;
   GMutex   alive_mutex;
@@ -143,18 +134,12 @@ bz_entry_cache_manager_dispose (GObject *object)
 
   g_mutex_clear (&self->mutex);
 
-  dex_clear (&self->scheduler);
   dex_clear (&self->watch_task);
 
   g_clear_pointer (&self->init, dex_unref);
   g_clear_pointer (&self->alive_hash, g_hash_table_unref);
   g_clear_pointer (&self->writing_hash, g_hash_table_unref);
   g_clear_pointer (&self->reading_hash, g_hash_table_unref);
-  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_gates); i++)
-    g_clear_pointer (&self->ongoing_gates[i], bz_guard_destroy);
-  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_mutexes); i++)
-    g_mutex_clear (&self->ongoing_mutexes[i]);
-  g_mutex_clear (&self->ongoing_queueing_mutex);
   g_clear_pointer (&self->alive_gate, bz_guard_destroy);
   g_clear_pointer (&self->reading_gate, bz_guard_destroy);
   g_clear_pointer (&self->writing_gate, bz_guard_destroy);
@@ -225,8 +210,6 @@ bz_entry_cache_manager_init (BzEntryCacheManager *self)
 {
   g_mutex_init (&self->mutex);
 
-  self->scheduler = dex_thread_pool_scheduler_new ();
-
   self->init       = dex_promise_new ();
   self->alive_hash = g_hash_table_new_full (
       g_str_hash, g_str_equal, g_free, living_entry_data_unref);
@@ -234,15 +217,12 @@ bz_entry_cache_manager_init (BzEntryCacheManager *self)
       g_str_hash, g_str_equal, g_free, dex_unref);
   self->reading_hash = g_hash_table_new_full (
       g_str_hash, g_str_equal, g_free, dex_unref);
-  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_mutexes); i++)
-    g_mutex_init (&self->ongoing_mutexes[i]);
-  g_mutex_init (&self->ongoing_queueing_mutex);
   g_mutex_init (&self->alive_mutex);
   g_mutex_init (&self->reading_mutex);
   g_mutex_init (&self->writing_mutex);
 
   self->watch_task = dex_scheduler_spawn (
-      self->scheduler,
+      dex_thread_pool_scheduler_get_default (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) watch_init_fiber,
       bz_track_weak (self), bz_weak_release);
@@ -281,8 +261,9 @@ bz_entry_cache_manager_add (BzEntryCacheManager *self,
   data->unique_id_checksum = g_strdup (bz_entry_get_unique_id_checksum (entry));
   data->entry              = g_object_ref (entry);
 
-  future = dex_scheduler_spawn (
-      self->scheduler,
+  future = dex_limiter_run (
+      bz_get_io_limiter (),
+      bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) write_task_fiber,
       write_task_data_ref (data),
@@ -304,8 +285,9 @@ bz_entry_cache_manager_get (BzEntryCacheManager *self,
   data->self               = bz_track_weak (self);
   data->unique_id_checksum = g_compute_checksum_for_string (G_CHECKSUM_MD5, unique_id, -1);
 
-  future = dex_scheduler_spawn (
-      self->scheduler,
+  future = dex_limiter_run (
+      bz_get_io_limiter (),
+      bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) read_task_fiber,
       read_task_data_ref (data),
@@ -327,8 +309,9 @@ bz_entry_cache_manager_get_by_checksum (BzEntryCacheManager *self,
   data->self               = bz_track_weak (self);
   data->unique_id_checksum = g_strdup (unique_id_checksum);
 
-  future = dex_scheduler_spawn (
-      self->scheduler,
+  future = dex_limiter_run (
+      bz_get_io_limiter (),
+      bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) read_task_fiber,
       read_task_data_ref (data),
@@ -343,8 +326,9 @@ bz_entry_cache_manager_enumerate_disk (BzEntryCacheManager *self)
 
   dex_return_error_if_fail (BZ_IS_ENTRY_CACHE_MANAGER (self));
 
-  future = dex_scheduler_spawn (
-      self->scheduler,
+  future = dex_limiter_run (
+      bz_get_io_limiter (),
+      bz_get_io_scheduler (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) enumerate_disk_fiber,
       bz_track_weak (self), bz_weak_release);
@@ -361,8 +345,6 @@ write_task_fiber (WriteTaskData *data)
   g_autoptr (BzGuard) slot_guard          = NULL;
   g_autoptr (BzGuard) other_guard         = NULL;
   g_autoptr (GMutexLocker) locker         = NULL;
-  guint      slot_queued                  = G_MAXUINT;
-  guint      slot_index                   = 0;
   DexFuture *writing_future               = NULL;
   g_autoptr (LivingEntryData) living      = NULL;
   g_autoptr (DexPromise) promise          = NULL;
@@ -391,32 +373,6 @@ write_task_fiber (WriteTaskData *data)
         "Entry with unique ID checksum '%s' cannot be "
         "cached because it is not a flatpak entry",
         unique_id_checksum);
-
-  /* Rate limit to reduce competition for resources
-   * when refresh triggers a flood of requests
-   *
-   * Here we make sure to pick the slot with the
-   * least tasks waiting in line
-   */
-  locker = g_mutex_locker_new (&self->ongoing_queueing_mutex);
-  for (guint i = 0; i < G_N_ELEMENTS (self->ongoing_gates); i++)
-    {
-      if (self->ongoing_queued[i] < slot_queued)
-        {
-          slot_queued = self->ongoing_queued[i];
-          slot_index  = i;
-        }
-    }
-  self->ongoing_queued[slot_index]++;
-  g_clear_pointer (&locker, g_mutex_locker_free);
-
-  BZ_BEGIN_GUARD_WITH_CONTEXT (&slot_guard,
-                               &self->ongoing_mutexes[slot_index],
-                               &self->ongoing_gates[slot_index]);
-
-  locker = g_mutex_locker_new (&self->ongoing_queueing_mutex);
-  self->ongoing_queued[slot_index]--;
-  g_clear_pointer (&locker, g_mutex_locker_free);
 
   dex_await (dex_ref (self->init), NULL);
 
@@ -817,7 +773,7 @@ watch_cb (DexFuture *future,
   bz_weak_get_or_return_reject (self, wr);
 
   return dex_scheduler_spawn (
-      self->scheduler,
+      dex_thread_pool_scheduler_get_default (),
       bz_get_dex_stack_size (),
       (DexFiberFunc) watch_work_fiber,
       bz_track_weak (self), bz_weak_release);
