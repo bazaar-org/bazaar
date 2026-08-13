@@ -19,8 +19,8 @@
  */
 
 #include "io.h"
-#include "env.h"
 #include "bz-size-result.h"
+#include "env.h"
 
 static DexFuture *
 reap_file_fiber (GFile *file);
@@ -67,7 +67,19 @@ bz_get_io_limiter (void)
   static DexLimiter *limiter = NULL;
 
   if (g_once_init_enter_pointer (&limiter))
-    g_once_init_leave_pointer (&limiter, dex_limiter_new (16));
+    {
+      guint concurrent_io = 0;
+
+      /* Ensure we don't overload the system with work; aim for # of logical
+         processors divided by 2
+
+        See:
+          https://github.com/bazaar-org/bazaar/issues/497
+          https://docs.gtk.org/glib/func.get_num_processors.html */
+      concurrent_io = MIN (32, MAX (1, g_get_num_processors () / 2));
+
+      g_once_init_leave_pointer (&limiter, dex_limiter_new (concurrent_io));
+    }
 
   return limiter;
 }
