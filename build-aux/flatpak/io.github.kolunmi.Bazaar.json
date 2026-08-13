@@ -64,6 +64,26 @@
       ],
       "modules": [
         {
+          "name" : "libdex",
+          "buildsystem" : "meson",
+          "config-opts" : [
+            "--buildtype=debugoptimized",
+            "-Ddocs=false",
+            "-Dintrospection=enabled",
+            "-Dexamples=false",
+            "-Dtests=false",
+            "-Dsysprof=false"
+          ],
+          "sources" : [
+            {
+              "type" : "git",
+              "url" : "https://gitlab.gnome.org/GNOME/libdex.git",
+              "commit" : "26d094f2d7a4561862cce3efa00bb5aa1e4b0720",
+              "tag" : "1.2.beta"
+            }
+          ]
+        },
+        {
           "name": "md4c",
           "buildsystem": "cmake",
           "config-opts": [
