@@ -1143,8 +1143,8 @@ scroll_begin (BgeCarousel              *self,
               GtkEventControllerScroll *controller)
 {
   self->scrolling       = TRUE;
-  self->hscroll_start   = self->motion_x;
-  self->hscroll_current = self->motion_x;
+  self->hscroll_start   = 0;
+  self->hscroll_current = 0;
 }
 
 static void
