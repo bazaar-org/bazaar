@@ -209,14 +209,14 @@
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Popular.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.New.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Updated.svg</file>
-    <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Adwaita.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Gnome.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Kde.svg</file>
 
-    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.github.svg</file>
-    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.gitlab.svg</file>
-    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.gnome.svg</file>
-    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.kde.svg</file>
-    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.google.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.login-github.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.login-gitlab.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.login-gnome.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.login-kde.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.login-google.svg</file>
 
     <file>bz-install-controls.wdgt</file>
     <file>bz-transact-icon.wdgt</file>

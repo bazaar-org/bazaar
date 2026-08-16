@@ -543,7 +543,7 @@ on_providers_loaded (GObject      *source_object,
       method       = json_object_get_string_member (provider_obj, "method");
       name         = json_object_get_string_member (provider_obj, "name");
       row          = adw_action_row_new ();
-      icon_name    = g_strdup_printf ("io.github.kolunmi.Bazaar.%s", method);
+      icon_name    = g_strdup_printf ("io.github.kolunmi.Bazaar.login-%s", method);
 
       bz_flathub_auth_provider_set_name (provider, name);
       bz_flathub_auth_provider_set_method (provider, method);

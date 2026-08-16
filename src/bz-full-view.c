@@ -204,17 +204,16 @@ static char *
 format_other_apps_label (gpointer object, const char *developer)
 {
   if (!developer || *developer == '\0')
-    return g_strdup (_ ("More Apps"));
-  return g_strdup_printf (_ ("More Apps by %s"), developer);
+    return g_strdup (_ ("Other Apps from this Developer"));
+  return g_strdup_printf (_ ("Other Apps from %s"), developer);
 }
 
 static char *
 format_more_other_apps_label (gpointer object, const char *developer)
 {
   if (!developer || *developer == '\0')
-    return g_strdup (_ ("Other Apps by this Developer"));
-
-  return g_strdup_printf (_ ("Other Apps by %s"), developer);
+    return g_strdup (_ ("Show All Apps"));
+  return g_strdup_printf (_ ("Show All Apps from %s"), developer);
 }
 
 static char *
@@ -306,9 +305,9 @@ more_apps_button_clicked_cb (BzFullView *self,
 
   developer = bz_entry_get_developer (entry);
   if (developer != NULL && *developer != '\0')
-    title = g_strdup_printf (_ ("Other Apps by %s"), developer);
+    title = g_strdup_printf (_ ("All Apps by %s"), developer);
   else
-    title = g_strdup (_ ("Other Apps"));
+    title = g_strdup (_ ("All Apps from this developer"));
 
   subtitle = g_strdup_printf (ngettext ("%d Application", "%d Applications", n_items), n_items);
 

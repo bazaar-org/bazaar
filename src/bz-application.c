@@ -1025,12 +1025,14 @@ init_fiber (BzWeakRef *wr)
             window = new_window (self);
 
           alert = adw_alert_dialog_new (NULL, NULL);
-          adw_alert_dialog_format_heading (ADW_ALERT_DIALOG (alert), _ ("Ubuntu Troubles!"));
+          adw_alert_dialog_format_heading (ADW_ALERT_DIALOG (alert), _ ("Notice for Ubuntu Users"));
           adw_alert_dialog_format_body_markup (
               ADW_ALERT_DIALOG (alert),
-              _ ("Ubuntu 25.10 and newer have messed up default security rules, "
-                 "making it <b>impossible to install apps</b> from the Flatpak version "
-                 "of Bazaar, please just use the normal package for now by using\n\n"
+              _ ("Ubuntu 25.10 and newer have changed default security rules in "
+                 "a way that makes it <b>impossible to install apps</b> from "
+                 "the Flatpak version of Bazaar. "
+                 "For the time being, please use the apt package instead. "
+                 "Install it with\n\n"
                  "<tt>sudo apt install bazaar</tt>\n\n"
                  "You can then remove this Flatpak version with\n\n"
                  "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"));
@@ -3950,8 +3952,9 @@ open_generic_id (BzApplication *self,
       if (case_fixed)
         bz_show_error_for_widget (
             GTK_WIDGET (window),
-            _ ("Malformed Link"),
-            _ ("The link used to open this app has incorrect capitalization and may stop working in the future.\n\n"
+            _ ("Corrected Link"),
+            _ ("The link used to open this app has incorrect capitalization and "
+               "has been corrected by Bazaar.\n\n"
                "This is most likely caused by KRunner sending incorrect app IDs"));
     }
   else
