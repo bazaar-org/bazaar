@@ -1,0 +1,3474 @@
+# Finnish translation for bazaar.
+# Copyright (C) 2026 bazaar's COPYRIGHT HOLDER
+# This file is distributed under the same license as the bazaar package.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bazaar main\n"
+"Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
+"POT-Creation-Date: 2026-08-16 10:25+0000\n"
+"PO-Revision-Date: 2026-08-17 22:25+0300\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
+"Language-Team: Finnish <Finnish>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:2
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:54
+#: src/bz-window.blp:210 src/bz-window.c:392 src/bz-window.c:393
+msgid "Bazaar"
+msgstr "Bazaar"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:3
+msgid "App Store"
+msgstr "Sovelluskauppa"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:4
+msgid "Add, remove or update flatpak software on this computer"
+msgstr "Lisää, poista tai päivitä tämän tietokoneen Flatpak-ohjelmistoja"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:10
+msgid "System;Package;Manager;Discover;Flatpak;Software;App;Store;"
+msgstr "System;Package;Manager;Discover;Flatpak;Software;App;Store;sovellus;äppi;appi;sovelluskauppa;ohjelma;ohjelmisto;"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:17
+msgid "New Window"
+msgstr "Uusi ikkuna"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:8
+msgid "Discover and install apps"
+msgstr "Löydä ja asenna sovelluksia"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:10
+msgid ""
+"A fast and modern app store for Linux with a focus on discovering and "
+"installing Flatpak apps and add-ons, particularly from Flathub."
+msgstr ""
+"Nopea ja moderni sovelluskauppa Linuxille. Löydä ja asenna Flatpak-"
+"sovelluksia sekä -lisäosia erityisesti Flathubista."
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:15
+msgid "Queue multiple installs and keep browsing"
+msgstr "Aseta useita asennuksia jonoon ja jatka selailua"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:16
+msgid "Easily view app permissions"
+msgstr "Tutki vaivattomasti sovellusten käyttöoikeuksia"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:17
+msgid "Sign in to Flathub to view and manage your favorites"
+msgstr "Kirjaudu Flathubiin nähdäksesi ja hallinnoidaksesi suosikkejasi"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:18
+msgid "Search apps directly from GNOME Shell"
+msgstr "Etsi sovelluksia suoraan Gnomen yleisnäkymästä"
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:32 src/bz-application.c:750
+msgid "The Bazaar Contributors"
+msgstr ""
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:57
+msgid "The home page displaying Flathub apps"
+msgstr ""
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:61
+msgid "App page for Exhibit"
+msgstr ""
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:65
+msgid "Library page"
+msgstr ""
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:69
+msgid "Search page"
+msgstr ""
+
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:73
+msgid "Category page"
+msgstr ""
+
+#: src/bz-addon-tile.blp:64 src/bz-installed-tile.blp:55
+#: src/bz-rich-app-tile.blp:142
+msgid "Stopped Receiving Updates"
+msgstr "Lopetti päivitysten vastaanottamisen"
+
+#: src/bz-addon-tile.c:168 src/bz-favorites-tile.c:155
+msgctxt "Install Controls"
+msgid "Uninstall"
+msgstr "Poista asennus"
+
+#: src/bz-addon-tile.c:170 src/bz-bundle-install-dialog.blp:148
+#: src/bz-bundle-install-dialog.blp:162 src/bz-favorites-tile.c:157
+#: src/bz-install-controls.wdgt:29
+msgctxt "Install Controls"
+msgid "Install"
+msgstr "Asenna"
+
+#: src/bz-addons-dialog.blp:7
+msgid "Add-on"
+msgstr "Lisäosa"
+
+#: src/bz-addons-dialog.blp:15 src/bz-addons-dialog.blp:22
+#: src/bz-addons-dialog.blp:71 src/bz-installed-tile.blp:96
+msgid "Manage Add-Ons"
+msgstr ""
+
+#: src/bz-addons-dialog.blp:81
+msgid "No Add-Ons Visible"
+msgstr ""
+
+#: src/bz-addons-dialog.blp:82
+msgid ""
+"Your current filter preferences are hiding all known add-ons. Try adjusting "
+"them."
+msgstr ""
+
+#: src/bz-addons-dialog.blp:89
+msgid "Add-on Page"
+msgstr ""
+
+#: src/bz-addons-dialog.blp:205 src/bz-full-view.blp:408
+msgid "Downloads/Month"
+msgstr "Latauksia kuukaudessa"
+
+#: src/bz-addons-dialog.blp:232 src/bz-full-view.blp:444
+msgid "Stopped Receiving Core Updates"
+msgstr ""
+
+#: src/bz-addons-dialog.blp:246
+msgid ""
+"This add-on uses a runtime that no longer receives updates or security "
+"fixes. It may become unsafe to use."
+msgstr ""
+
+#: src/bz-addons-dialog.c:346
+#, c-format
+msgid "Add-on for %s"
+msgstr ""
+
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:590
+msgid "Show Less"
+msgstr "Näytä vähemmän"
+
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:590 src/bz-section-view.blp:72
+msgid "Show More"
+msgstr "Näytä enemmän"
+
+#: src/bz-addons-dialog.c:410
+msgid "Download Stats"
+msgstr "Lataustilastot"
+
+#: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
+#: src/bz-age-rating-dialog.c:737 src/context-tile-callbacks.c:187
+#: src/context-tile-callbacks.c:194
+msgid "Age Rating"
+msgstr "Ikäraja"
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:88
+msgid "Cartoon Violence"
+msgstr "Piirrosväkivalta"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:90
+msgid "No information regarding cartoon violence"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:94
+msgid "Fantasy Violence"
+msgstr "Fantasianomainen väkivalta"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:96
+msgid "No information regarding fantasy violence"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:100
+msgid "Realistic Violence"
+msgstr "Realistinen väkivalta"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:102
+msgid "No information regarding realistic violence"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:106
+msgid "Violence Depicting Bloodshed"
+msgstr "Väkivaltaa kuvaten verilöylyn"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:108
+msgid "No information regarding bloodshed"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:112
+msgid "Sexual Violence"
+msgstr "Seksuaalinen väkivalta"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:114
+msgid "No information regarding sexual violence"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:118
+msgid "Alcohol"
+msgstr "Alkoholi"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:120
+msgid "No information regarding references to alcohol"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:124
+msgid "Narcotics"
+msgstr "Huumausaineet"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:126
+msgid "No information regarding references to illicit drugs"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:130
+msgid "Tobacco"
+msgstr "Tupakkatuotteet"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:132
+msgid "No information regarding references to tobacco products"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:136 src/bz-age-rating-dialog.c:475
+msgid "Nudity"
+msgstr "Alastomuus"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:138
+msgid "No information regarding nudity of any sort"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:142
+msgid "Sexual Themes"
+msgstr "Seksuaaliset teemat"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:144
+msgid "No information regarding references to or depictions of sexual nature"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:148
+msgid "Profanity"
+msgstr "Kiroilu"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:150
+msgid "No information regarding profanity of any kind"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:154
+msgid "Inappropriate Humor"
+msgstr "Epäasiallinen huumori"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:156
+msgid "No information regarding inappropriate humor"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:160
+msgid "Discrimination"
+msgstr "Syrjintä"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:162
+msgid "No information regarding discriminatory language of any kind"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:166
+msgid "Advertising"
+msgstr "Mainostaminen"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:168
+msgid "No information regarding advertising of any kind"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:172
+msgid "Gambling"
+msgstr "Uhkapelaaminen"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:174
+msgid "No information regarding gambling of any kind"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:178
+msgid "Purchasing"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:180
+msgid "No information regarding the ability to spend money"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:184
+msgid "Chat Between Users"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:186
+msgid "No information regarding ways to chat with other users"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:190
+msgid "Audio Chat Between Users"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:192
+msgid "No information regarding ways to talk with other users"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:196
+msgid "Contact Details"
+msgstr "Yhteystiedot"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:198
+msgid ""
+"No information regarding sharing of social network usernames or email "
+"addresses"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:202
+msgid "Identifying Information"
+msgstr "Tunnistettavat tiedot"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:204
+msgid "No information regarding sharing of user information with third parties"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:208
+msgid "Location Sharing"
+msgstr "Sijainnin jakaminen"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:210
+msgid "No information regarding sharing of physical location with other users"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:214
+msgid "Prostitution"
+msgstr "Prostituutio"
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:216
+msgid "No information regarding references to prostitution"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:220
+msgid "Adultery"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:222
+msgid "No information regarding references to adultery"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:226
+msgid "Sexualized Characters"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:228
+msgid "No information regarding sexualized characters"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:232
+msgid "Desecration"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:234
+msgid "No information regarding references to desecration"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:238
+msgid "Human Remains"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:240
+msgid "No information regarding visible dead human remains"
+msgstr ""
+
+#. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:244
+msgid "Slavery"
+msgstr ""
+
+#. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
+#: src/bz-age-rating-dialog.c:246
+msgid "No information regarding references to slavery"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:424
+msgid "Does not include references to drugs"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:426
+msgid ""
+"Does not include swearing, profanity, and other kinds of strong language"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:428
+msgid "Does not include ads or monetary transactions"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:430
+msgid "Does not include sex or nudity"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:432
+msgid "Does not include uncontrolled chat functionality"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:434
+msgid "Does not include violence"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:469
+msgid "Drugs"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:471
+msgid "Strong Language"
+msgstr "Voimasta kielenkäyttöä"
+
+#: src/bz-age-rating-dialog.c:473
+msgid "Money"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:477
+msgid "Social"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:479
+msgid "Violence"
+msgstr "Väkivalta"
+
+#. Translators: Age rating format, e.g. "12+" for ages 12 and up
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:177
+#, c-format
+msgid "%d+"
+msgstr "%d+"
+
+#: src/bz-age-rating-dialog.c:712
+msgctxt "Age rating"
+msgid "All"
+msgstr "Kaikki"
+
+#: src/bz-age-rating-dialog.c:748
+#, c-format
+msgid "%s has an unknown age rating"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:754
+#, c-format
+msgid "%s is suitable for everyone"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:757
+#, c-format
+msgid "%s is suitable for young children"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:760
+#, c-format
+msgid "%s is suitable for children"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:763
+#, c-format
+msgid "%s is suitable for teenagers"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:766
+#, c-format
+msgid "%s is suitable for adults"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:769
+#, c-format
+msgid "%s is suitable for %s"
+msgstr ""
+
+#: src/bz-age-rating-dialog.c:868
+#, c-format
+msgid "%s • %s"
+msgstr "%s • %s"
+
+#: src/bz-app-permissions.c:160
+#, c-format
+msgid "System folder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:162
+#, c-format
+msgid "Home subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:164
+msgid "Host system folders"
+msgstr ""
+
+#: src/bz-app-permissions.c:166
+msgid "Host system configuration from /etc"
+msgstr ""
+
+#: src/bz-app-permissions.c:169
+#, c-format
+msgid "Desktop subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:170
+msgid "Desktop folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:173
+#, c-format
+msgid "Documents subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:174
+msgid "Documents folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:177
+#, c-format
+msgid "Music subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:178
+msgid "Music folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:181
+#, c-format
+msgid "Pictures subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:182
+msgid "Pictures folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:185
+#, c-format
+msgid "Public Share subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:186
+msgid "Public Share folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:189
+#, c-format
+msgid "Videos subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:190
+msgid "Videos folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:193
+#, c-format
+msgid "Templates subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:194
+msgid "Templates folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:197
+#, c-format
+msgid "User cache subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:198
+msgid "User cache folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:201
+#, c-format
+msgid "User configuration subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:202
+msgid "User configuration folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:205
+#, c-format
+msgid "User data subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:206
+msgid "User data folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:209
+#, c-format
+msgid "User runtime subfolder %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:210
+msgid "User runtime folder"
+msgstr ""
+
+#: src/bz-app-permissions.c:212
+#, c-format
+msgid "Filesystem access to %s"
+msgstr ""
+
+#: src/bz-app-permissions.c:214
+msgid "Unknown filesystem path"
+msgstr ""
+
+#: src/bz-app-size-dialog.blp:30 src/bz-app-size-dialog.blp:71
+msgid "Download Size"
+msgstr "Latauksen koko"
+
+#: src/bz-app-size-dialog.blp:40 src/bz-app-size-dialog.blp:99
+msgid "Installed Size"
+msgstr "Koko asennettuna"
+
+#: src/bz-app-size-dialog.blp:72
+msgid "Amount to download from the internet"
+msgstr ""
+
+#: src/bz-app-size-dialog.blp:100
+msgid "Size on Disk"
+msgstr "Koko levyllä"
+
+#: src/bz-app-size-dialog.blp:203
+msgid "Open user data folder"
+msgstr ""
+
+#: src/bz-app-size-dialog.blp:213
+msgid "Your User Data"
+msgstr ""
+
+#: src/bz-app-size-dialog.blp:214
+msgid "Caches, settings, and other app data"
+msgstr ""
+
+#: src/bz-app-size-dialog.blp:234
+msgid "Cache"
+msgstr "Välimuisti"
+
+#: src/bz-app-size-dialog.blp:235
+msgid "Temporary cached data"
+msgstr "Väliaikaisesti välimuistissa oleva data"
+
+#: src/bz-app-size-dialog.blp:247
+msgid "Clear Cache"
+msgstr "Tyhjennä välimuisti"
+
+#: src/bz-app-size-dialog.c:99
+msgid "Installed Runtime Size"
+msgstr "Asennetun suoritusaikaisen koko"
+
+#: src/bz-app-size-dialog.c:99
+msgid "Runtime Download Size"
+msgstr "Suoritusaikaisen latauksen koko"
+
+#: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:394
+#: src/context-tile-callbacks.c:416
+msgid "N/A"
+msgstr ""
+
+#: src/bz-app-size-dialog.c:195 src/bz-app-size-dialog.c:208
+msgid "Storage"
+msgstr ""
+
+#: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
+#: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
+msgid "Verified"
+msgstr "Vahvistettu"
+
+#. Translators: As in 'The app is installed'.
+#: src/bz-app-tile.blp:87 src/bz-releases-list.c:206
+#: src/context-tile-callbacks.c:136
+msgid "Installed"
+msgstr "Asennettu"
+
+#. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+#: src/bz-application.c:753
+msgid "translator-credits"
+msgstr "Jiri Grönroos"
+
+#: src/bz-application.c:763
+msgid "Special Thanks"
+msgstr "Erikoiskiitokset"
+
+#: src/bz-application.c:821
+msgid "Logged Out Successfully!"
+msgstr "Kirjauduttu ulos!"
+
+#: src/bz-application.c:1028
+msgid "Ubuntu Troubles!"
+msgstr "Ubuntu-ongelmia!"
+
+#: src/bz-application.c:1031
+msgid ""
+"Ubuntu 25.10 and newer have messed up default security rules, making it "
+"<b>impossible to install apps</b> from the Flatpak version of Bazaar, please "
+"just use the normal package for now by using\n"
+"\n"
+"<tt>sudo apt install bazaar</tt>\n"
+"\n"
+"You can then remove this Flatpak version with\n"
+"\n"
+"<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
+msgstr ""
+
+#: src/bz-application.c:1037
+msgid "Continue Anyway"
+msgstr "Jatka silti"
+
+#: src/bz-application.c:1053
+msgid "Performing setup…"
+msgstr ""
+
+#: src/bz-application.c:1152
+msgid "Set Up System Flathub?"
+msgstr "Määritetäänkö järjestelmän Flathub?"
+
+#: src/bz-application.c:1155
+msgid ""
+"The system Flathub remote is not set up. Bazaar requires Flathub to be "
+"configured on the system Flatpak installation to browse and install "
+"applications.\n"
+"\n"
+"You can still use Bazaar to browse and remove already installed apps."
+msgstr ""
+
+#: src/bz-application.c:1162
+msgid "Set Up Flathub?"
+msgstr "Määritetäänkö Flathub?"
+
+#: src/bz-application.c:1165
+msgid ""
+"Flathub is not set up on this system. You will not be able to browse and "
+"install applications in Bazaar if its unavailable.\n"
+"\n"
+"You can still use Bazaar to browse and remove already installed apps."
+msgstr ""
+
+#: src/bz-application.c:1171
+msgid "Later"
+msgstr "Myöhemmin"
+
+#: src/bz-application.c:1172
+msgid "Set Up Flathub"
+msgstr "Määritä Flathub"
+
+#: src/bz-application.c:1703
+msgid "A backend error occurred"
+msgstr ""
+
+#: src/bz-application.c:1911 src/bz-application.c:4185
+msgid "Refreshing…"
+msgstr "Päivitetään…"
+
+#: src/bz-application.c:2070
+#, c-format
+msgid "Loading %d apps…"
+msgstr ""
+
+#: src/bz-application.c:2123 src/bz-application.c:2197
+msgid "Failed to open file"
+msgstr "Tiedoston avaaminen epäonnistui"
+
+#: src/bz-application.c:2211
+msgid "Failed to load metainfo"
+msgstr ""
+
+#: src/bz-application.c:2305
+msgid "An initialization error occurred"
+msgstr ""
+
+#: src/bz-application.c:2701
+msgid "Checking for updates…"
+msgstr "Tarkistetaan päivityksiä…"
+
+#: src/bz-application.c:2757
+msgid "Failed to check for updates"
+msgstr ""
+
+#: src/bz-application.c:3953
+msgid "Malformed Link"
+msgstr ""
+
+#: src/bz-application.c:3954
+msgid ""
+"The link used to open this app has incorrect capitalization and may stop "
+"working in the future.\n"
+"\n"
+"This is most likely caused by KRunner sending incorrect app IDs"
+msgstr ""
+
+#: src/bz-application.c:3962
+msgid "Could not find app"
+msgstr "Sovellusta ei löytynyt"
+
+#: src/bz-application.c:4182
+#, c-format
+msgid "Loading %d app…"
+msgid_plural "Loading %d apps…"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/bz-application.c:4187
+msgid "Writing to cache…"
+msgstr ""
+
+#: src/bz-apps-page.blp:97
+msgid "Show All"
+msgstr "Näytä kaikki"
+
+#: src/bz-apps-page.c:214
+#, c-format
+msgid "All \"%s\""
+msgstr "Kaikki \"%s\""
+
+#: src/bz-apps-page.c:462 src/bz-subcategory-list.c:89
+#, c-format
+msgid "%d Applications"
+msgstr ""
+
+#: src/bz-article.blp:86
+msgid "Failed to Load Article"
+msgstr "Artikkelin lataaminen epäonnistui"
+
+#: src/bz-bundle-install-dialog.blp:21 src/bz-bundle-install-dialog.blp:27
+msgid "Bundle Installation"
+msgstr ""
+
+#: src/bz-bundle-install-dialog.blp:198
+msgid "Additional dependencies may take extra space"
+msgstr ""
+
+#: src/bz-bundle-install-dialog.blp:232
+msgid ""
+"Installing this app may require adding a new software source. Other apps "
+"from this source will show up in Bazaar.\n"
+"\n"
+"Only add this source if you're sure you trust it."
+msgstr ""
+
+#: src/bz-bundle-install-dialog.blp:412
+msgid "Successfully Installed!"
+msgstr "Asennus onnistui!"
+
+#. TRANSLATORS: Button to launch an installed app
+#: src/bz-bundle-install-dialog.blp:438 src/bz-bundle-install-dialog.blp:524
+#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:300
+msgid "Open"
+msgstr "Avaa"
+
+#: src/bz-bundle-install-dialog.blp:448 src/bz-bundle-install-dialog.blp:534
+msgid "Show App Details"
+msgstr "Näytä sovelluksen tiedot"
+
+#: src/bz-bundle-install-dialog.blp:499
+msgid "Already Installed"
+msgstr ""
+
+#: src/bz-bundle-install-dialog.blp:546
+msgid "Installation Failed"
+msgstr "Asennus epäonnistui"
+
+#: src/bz-bundle-install-dialog.c:168
+msgid "Unknown install size"
+msgstr "Tuntematon asennuksen koko"
+
+#: src/bz-bundle-install-dialog.c:171
+#, c-format
+msgid "About %s to install"
+msgstr ""
+
+#: src/bz-bundle-install-dialog.c:214
+msgid "No special permissions"
+msgstr "Ei erikoisoikeuksia"
+
+#: src/bz-curated-view.blp:27
+msgid "No Curation"
+msgstr ""
+
+#: src/bz-curated-view.blp:29
+msgid ""
+"There is no curation information provided on this system. You can still "
+"browse apps on Flathub"
+msgstr ""
+
+#: src/bz-curated-view.blp:33
+msgid "Browse Flathub"
+msgstr "Selaa Flathubia"
+
+#: src/bz-curated-view.blp:49
+msgid "Offline"
+msgstr ""
+
+#: src/bz-developer-badge.c:94 src/bz-developer-badge.c:98
+msgid "Not Verified"
+msgstr "Ei vahvistettu"
+
+#: src/bz-developer-badge.c:213
+msgid "Developer information not available."
+msgstr ""
+
+#: src/bz-developer-badge.c:219 src/bz-developer-badge.c:233
+#, c-format
+msgid ""
+"The ownership of the %s app ID has not been verified and it may be a "
+"community package."
+msgstr ""
+
+#: src/bz-developer-badge.c:237
+#, c-format
+msgid ""
+"The ownership of the %s app ID has been manually verified by the Flathub "
+"team."
+msgstr ""
+
+#: src/bz-developer-badge.c:253
+#, c-format
+msgid ""
+"The ownership of the %1$s app ID has been verified by <b>%2$s</b> on "
+"<b>%3$s</b>."
+msgstr ""
+
+#: src/bz-developer-badge.c:260
+#, c-format
+msgid "The ownership of the %1$s app ID has been verified using %2$s."
+msgstr ""
+
+#: src/bz-developer-badge.c:264
+#, c-format
+msgid "The ownership of the %s app ID has been verified."
+msgstr ""
+
+#: src/bz-donations-dialog.blp:7
+msgid "Bazaar Release"
+msgstr "Bazaar-julkaisu"
+
+#: src/bz-donations-dialog.blp:77
+msgid "Full Release Notes"
+msgstr "Julkaisutiedot kokonaisuudessaan"
+
+#: src/bz-donations-dialog.blp:112
+msgid "This release was made possible by users like you!"
+msgstr "Tämän julkaisun mahdollisti kaltaisesi käyttäjät!"
+
+#: src/bz-donations-dialog.blp:121
+msgid ""
+"I love making Bazaar, but I cannot do it alone. Help support further "
+"development by donating on Ko-Fi."
+msgstr ""
+
+#: src/bz-donations-dialog.blp:136
+msgid "Donate to Bazaar"
+msgstr "Lahjoita Bazaarille"
+
+#. Translators: the %s format specifier will be something along the lines of "0.7.6" etc
+#: src/bz-donations-dialog.c:228
+#, c-format
+msgid "What's New in %s?"
+msgstr "Mitä uutta %s sisältää?"
+
+#. Translators: this is a release date label, like "Released February 9, 2026"
+#: src/bz-donations-dialog.c:244
+msgid "Released %B %-e, %Y"
+msgstr "Julkaistu %B %-e, %Y"
+
+#: src/bz-entry-group-util.c:73
+msgid "Choose an Installation"
+msgstr ""
+
+#: src/bz-entry-group-util.c:76
+msgid ""
+"You have multiple versions of this app installed. Which one would you like "
+"to proceed with?"
+msgstr ""
+
+#: src/bz-entry-group-util.c:80 src/bz-rich-app-tile.blp:233
+msgid "Cancel"
+msgstr "Peru"
+
+#: src/bz-entry-selection-row.blp:17
+msgid "For This User Only"
+msgstr "Vain tälle käyttäjälle"
+
+#: src/bz-entry-selection-row.c:112
+msgid "this user"
+msgstr ""
+
+#: src/bz-entry-selection-row.c:112
+msgid "all users"
+msgstr ""
+
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:100 src/error.c:69
+#: src/error.c:88
+msgid "Details"
+msgstr ""
+
+#. TRANSLATORS: tooltip for a button that copies text to the clipboard
+#: src/bz-error-dialog.blp:48
+msgid "Copy"
+msgstr "Kopioi"
+
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:461
+#: src/bz-share-list.c:364
+msgid "Copied!"
+msgstr "Kopioitu!"
+
+#: src/bz-favorite-button.blp:14
+msgid "Favorite Count"
+msgstr "Suosikkimäärä"
+
+#: src/bz-favorite-button.c:388
+msgid "Failed to update favorite"
+msgstr ""
+
+#: src/bz-favorite-button.c:434
+msgid "Log in with Flathub to manage favorites"
+msgstr "Kirjaudu Flathubiin hallinnoidaksesi suosikkejasi"
+
+#: src/bz-favorite-button.c:440
+msgid "Log In"
+msgstr "Kirjaudu sisään"
+
+#: src/bz-favorites-page.blp:5 src/bz-window.blp:345
+msgid "Favorites"
+msgstr "Suosikit"
+
+#: src/bz-favorites-page.blp:17 src/bz-section-view.blp:87
+msgid "Install All"
+msgstr "Asenna kaikki"
+
+#: src/bz-favorites-page.blp:47
+msgid "No Favorites"
+msgstr "Ei suosikkeja"
+
+#: src/bz-favorites-page.blp:48
+msgid "Applications you mark as favorite will appear here"
+msgstr "Suosikeiksi merkitsemäsi sovellukset näkyvät täällä"
+
+#: src/bz-favorites-tile.blp:60
+msgid "Support This Application"
+msgstr "Tue tätä sovellusta"
+
+#: src/bz-favorites-tile.blp:109
+msgid "Remove From Favorites"
+msgstr "Poista suosikeista"
+
+#: src/bz-favorites-tile.c:353
+msgid "Failed to remove favorite"
+msgstr ""
+
+#: src/bz-featured-carousel.blp:32
+msgid "Previous"
+msgstr "Edellinen"
+
+#: src/bz-featured-carousel.blp:55
+msgid "Next"
+msgstr "Seuraava"
+
+#: src/bz-flathub-category.c:95
+msgid "Editing"
+msgstr ""
+
+#: src/bz-flathub-category.c:96
+msgid "Midi"
+msgstr ""
+
+#: src/bz-flathub-category.c:97
+msgid "Mixer"
+msgstr ""
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-flathub-category.c:98 src/bz-search-pill-list.c:77
+msgid "Music"
+msgstr "Musiikki"
+
+#: src/bz-flathub-category.c:99
+msgid "Player"
+msgstr ""
+
+#: src/bz-flathub-category.c:100
+msgid "Recorder"
+msgstr ""
+
+#: src/bz-flathub-category.c:101
+msgid "Sequencer"
+msgstr ""
+
+#: src/bz-flathub-category.c:102
+msgid "Tuner"
+msgstr ""
+
+#: src/bz-flathub-category.c:103
+msgid "TV"
+msgstr "TV"
+
+#: src/bz-flathub-category.c:108
+msgid "Emulation"
+msgstr ""
+
+#: src/bz-flathub-category.c:109
+msgid "Action"
+msgstr ""
+
+#: src/bz-flathub-category.c:110
+msgid "Adventure"
+msgstr ""
+
+#: src/bz-flathub-category.c:111
+msgid "Arcade"
+msgstr ""
+
+#: src/bz-flathub-category.c:112
+msgid "Blocks"
+msgstr ""
+
+#: src/bz-flathub-category.c:113
+msgid "Board"
+msgstr ""
+
+#: src/bz-flathub-category.c:114
+msgid "Card"
+msgstr "Korttipelit"
+
+#: src/bz-flathub-category.c:115
+msgid "Kids"
+msgstr "Lastenpelit"
+
+#: src/bz-flathub-category.c:116
+msgid "Logic"
+msgstr "Logiikkapelit"
+
+#: src/bz-flathub-category.c:117
+msgid "Role Playing"
+msgstr "Roolipelit"
+
+#: src/bz-flathub-category.c:118
+msgid "Shooter"
+msgstr ""
+
+#: src/bz-flathub-category.c:119
+msgid "Simulation"
+msgstr ""
+
+#: src/bz-flathub-category.c:120
+msgid "Sports"
+msgstr ""
+
+#: src/bz-flathub-category.c:121
+msgid "Strategy"
+msgstr ""
+
+#: src/bz-flathub-category.c:126
+msgid "Browsers"
+msgstr "Verkkoselaimet"
+
+#: src/bz-flathub-category.c:127
+msgid "Chat"
+msgstr "Keskustelu"
+
+#: src/bz-flathub-category.c:128
+msgid "Mail"
+msgstr "Sähköposti"
+
+#: src/bz-flathub-category.c:129
+msgid "File Sharing"
+msgstr ""
+
+#: src/bz-flathub-category.c:134
+msgid "Audio & Video"
+msgstr "Ääni ja video"
+
+#: src/bz-flathub-category.c:134
+msgid "Media"
+msgstr "Media"
+
+#: src/bz-flathub-category.c:134
+msgid "More Audio & Video"
+msgstr "Lisää ääni- ja videosovelluksia"
+
+#: src/bz-flathub-category.c:135
+msgid "Developer Tools"
+msgstr "Kehitystyökalut"
+
+#: src/bz-flathub-category.c:135
+msgid "Develop"
+msgstr ""
+
+#: src/bz-flathub-category.c:135
+msgid "More Developer Tools"
+msgstr ""
+
+#: src/bz-flathub-category.c:136
+msgid "Education"
+msgstr "Koulutus"
+
+#: src/bz-flathub-category.c:136
+msgid "Learn"
+msgstr ""
+
+#: src/bz-flathub-category.c:136
+msgid "More Education"
+msgstr "Lisää koulutussovelluksia"
+
+#: src/bz-flathub-category.c:137
+msgid "Gaming"
+msgstr ""
+
+#: src/bz-flathub-category.c:137
+msgid "Play"
+msgstr ""
+
+#: src/bz-flathub-category.c:137
+msgid "More Gaming"
+msgstr "Lisää pelejä"
+
+#: src/bz-flathub-category.c:138
+msgid "Graphics & Photography"
+msgstr "Grafiikka ja valokuvaus"
+
+#: src/bz-flathub-category.c:138
+msgid "Create"
+msgstr ""
+
+#: src/bz-flathub-category.c:138
+msgid "More Graphics & Photography"
+msgstr ""
+
+#: src/bz-flathub-category.c:139
+msgid "Networking"
+msgstr ""
+
+#: src/bz-flathub-category.c:139
+msgid "Internet"
+msgstr "Internet"
+
+#: src/bz-flathub-category.c:139
+msgid "More Networking"
+msgstr ""
+
+#: src/bz-flathub-category.c:140
+msgid "Productivity"
+msgstr "Tuottavuus"
+
+#: src/bz-flathub-category.c:140
+msgid "Work"
+msgstr "Työ"
+
+#: src/bz-flathub-category.c:140
+msgid "More Productivity"
+msgstr "Lisää tuottavuussovelluksia"
+
+#: src/bz-flathub-category.c:141
+msgid "Science"
+msgstr "Tiede"
+
+#: src/bz-flathub-category.c:141
+msgid "More Science"
+msgstr "Lisää tiedesovelluksia"
+
+#: src/bz-flathub-category.c:142
+msgid "System"
+msgstr "Järjestelmä"
+
+#: src/bz-flathub-category.c:142
+msgid "More System"
+msgstr "Lisää järjestelmäsovelluksia"
+
+#: src/bz-flathub-category.c:143
+msgid "Utilities"
+msgstr "Apuohjelmat"
+
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:436
+msgid "Tools"
+msgstr "Työkalut"
+
+#: src/bz-flathub-category.c:143
+msgid "More Utilities"
+msgstr "Lisää työkaluja"
+
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:111
+#: src/bz-flathub-page.blp:143
+msgid "Trending"
+msgstr "Nousussa"
+
+#: src/bz-flathub-category.c:144
+msgid "More Trending"
+msgstr "Lisää nousussa olevia"
+
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:117
+#: src/bz-flathub-page.blp:176
+msgid "Popular"
+msgstr "Suositut"
+
+#: src/bz-flathub-category.c:145
+msgid "More Popular"
+msgstr "Lisää suosittuja"
+
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:165
+msgid "Recently Added"
+msgstr "Äskettäin lisätty"
+
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:123
+msgid "New"
+msgstr "Uutta"
+
+#: src/bz-flathub-category.c:146
+msgid "More New"
+msgstr "Lisää uutta"
+
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:154
+msgid "Recently Updated"
+msgstr "Äskettäin lisätty"
+
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:129
+msgid "Updated"
+msgstr "Päivitetty"
+
+#: src/bz-flathub-category.c:147
+msgid "More Updated"
+msgstr "Lisää päivitettyjä"
+
+#: src/bz-flathub-category.c:148
+msgid "Mobile"
+msgstr "Mobiili"
+
+#: src/bz-flathub-category.c:148
+msgid "More Mobile"
+msgstr "Lisää mobiilisovelluksia"
+
+#: src/bz-flathub-category.c:149
+msgid "Adwaita"
+msgstr "Adwaita"
+
+#: src/bz-flathub-category.c:149
+msgid "More Adwaita"
+msgstr "Lisää Adwaitaa"
+
+#: src/bz-flathub-category.c:150
+msgid "KDE Apps"
+msgstr "KDE-sovellukset"
+
+#: src/bz-flathub-category.c:150
+msgid "More KDE Apps"
+msgstr "Lisää KDE-sovelluksia"
+
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:418
+msgid "Games"
+msgstr "Pelit"
+
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:475
+msgid "More Games"
+msgstr "Lisää pelejä"
+
+#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:424
+msgid "Emulators"
+msgstr "Emulaattorit"
+
+#: src/bz-flathub-category.c:152
+msgid "More Emulators"
+msgstr "Lisää emulaattoreita"
+
+#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:430
+msgid "Launchers"
+msgstr "Käynnistimet"
+
+#: src/bz-flathub-category.c:153
+msgid "More Game Launchers"
+msgstr "Lisää pelikäynnistimiä"
+
+#: src/bz-flathub-category.c:154
+msgid "Game Tools"
+msgstr "Pelityökalut"
+
+#: src/bz-flathub-category.c:154
+msgid "More Game Tools"
+msgstr "Lisää pelityökaluja"
+
+#: src/bz-flathub-curated-section.c:65
+msgid "New Year, New Workflows"
+msgstr "Uusi vuosi, uudet työnkulut"
+
+#: src/bz-flathub-curated-section.c:65
+msgid "Apps to take notes, track tasks, and make plans"
+msgstr ""
+"Sovellukset muistiinpanoihin, tehtävien seuraamiseksi ja suunnitelmien "
+"tekemiseksi"
+
+#: src/bz-flathub-curated-section.c:66
+msgid "Staff Picks"
+msgstr "Toimituksen valinnat"
+
+#: src/bz-flathub-curated-section.c:66
+msgid "Apps we love right now"
+msgstr "Rakastamamme sovellukset juuri nyt"
+
+#: src/bz-flathub-curated-section.c:67
+msgid "Get Creative"
+msgstr "Vapauta luovuutesi"
+
+#: src/bz-flathub-curated-section.c:67
+msgid "Essential apps for drawing, editing photos, and digital design"
+msgstr ""
+"Tärkeimmät sovellukset piirtämiseen, valokuvien muokkaamiseen ja "
+"digitaaliseen suunnitteluun"
+
+#: src/bz-flathub-curated-section.c:68
+msgid "Build Native Apps"
+msgstr "Rakenna natiivisovelluksia"
+
+#: src/bz-flathub-curated-section.c:68
+msgid "Develop apps that feel at home on your system"
+msgstr "Kehitä järjestelmällesi ominaisia sovelluksia"
+
+#: src/bz-flathub-curated-section.c:69
+msgid "Stay in Touch"
+msgstr "Pysy yhteydessä"
+
+#: src/bz-flathub-curated-section.c:69
+msgid "Essential collaboration and communication apps"
+msgstr "Tärkeimmät yhteistyö- ja yhteydenpitosovellukset"
+
+#: src/bz-flathub-curated-section.c:70
+msgid "Ready for Vacations"
+msgstr "Valmis lomaan"
+
+#: src/bz-flathub-curated-section.c:70
+msgid "Maps, transit, weather, and trip planning apps"
+msgstr "Kartat, kulkeminen, sää ja matkasuunnittelun sovellukset"
+
+#: src/bz-flathub-curated-section.c:71
+msgid "Smarter Every Day"
+msgstr "Päivittäistä oppimista"
+
+#: src/bz-flathub-curated-section.c:71
+msgid "Apps to help you study, research, and write"
+msgstr "Sovellukset opiskeluun, tutkimukseen ja kirjoittamiseen"
+
+#: src/bz-flathub-curated-section.c:72
+msgid "Get Cozy"
+msgstr "Ole kotoisasti"
+
+#: src/bz-flathub-curated-section.c:72
+msgid "Great apps for reading, watching movies, and playing games"
+msgstr ""
+"Loistavia sovelluksia lukemiseen, elokuvien katsomiseen ja pelien pelaamiseen"
+
+#: src/bz-flathub-curated-section.c:73
+msgid "Web Developer Essentials"
+msgstr "Web-kehittäjän tärkeimmät"
+
+#: src/bz-flathub-curated-section.c:73
+msgid "Making websites is more fun with these apps"
+msgstr "Sivustojen tekeminen on hauskempaa näillä sovelluksilla"
+
+#: src/bz-flathub-curated-section.c:74
+msgid "Take Better Notes"
+msgstr "Tee parempia muistiinpanoja"
+
+#: src/bz-flathub-curated-section.c:74
+msgid "Find your new favorite note taking tool"
+msgstr "Löydä uusi suosikkisovellus muistiipanojen tekemiseen"
+
+#: src/bz-flathub-curated-section.c:75
+msgid "Get Focused"
+msgstr "Keskity"
+
+#: src/bz-flathub-curated-section.c:75
+msgid "Great apps for task management"
+msgstr "Erinomaisia sovelluksia tehtävienhallintaan"
+
+#: src/bz-flathub-curated-section.c:76
+msgid "Make Some Noise"
+msgstr "Pidä hieman meteliä"
+
+#: src/bz-flathub-curated-section.c:76
+msgid "Apps for creating and producing music"
+msgstr "Sovellukset musiikin luomiseen ja tuottamiseen"
+
+#: src/bz-flathub-curated-section.c:77
+msgid "Get To Work"
+msgstr "Töiden pariin"
+
+#: src/bz-flathub-curated-section.c:77
+msgid "Essential office apps"
+msgstr "Tärkeimmät toimistosovellukset"
+
+#: src/bz-flathub-page.blp:22
+msgid "Flathub Not Added"
+msgstr "Flathubia ei ole lisätty"
+
+#: src/bz-flathub-page.blp:23
+msgid "The Flathub remote was not found on any of your Flatpak installations"
+msgstr ""
+
+#: src/bz-flathub-page.blp:32
+msgid "Can't Reach Flathub"
+msgstr "Flathubiin ei saatu yhteyttä"
+
+#: src/bz-flathub-page.blp:33
+msgid "You can still manage and search for apps."
+msgstr ""
+
+#: src/bz-flathub-page.blp:39
+msgid "Search Apps"
+msgstr "Etsi sovelluksia"
+
+#: src/bz-flathub-page.blp:50
+msgid "Reconnect"
+msgstr "Yhdistä uudelleen"
+
+#: src/bz-flathub-page.blp:204
+msgid "App of the Day"
+msgstr "Päivän sovellus"
+
+#: src/bz-flathub-page.blp:267
+msgid "On the Go"
+msgstr "Matkassa"
+
+#: src/bz-flathub-page.blp:279
+msgid "Apps for your Linux phones and tablets"
+msgstr "Sovelluksia Linux-puhelimille ja -tableteille"
+
+#: src/bz-flathub-page.blp:290 src/bz-flathub-page.blp:322
+msgid "More Mobile Apps"
+msgstr "Lisää mobiilisovelluksia"
+
+#: src/bz-flathub-page.blp:380
+msgid "We​ ♥​ Games"
+msgstr "Me ♥​ pelejä"
+
+#: src/bz-flathub-page.blp:393
+msgid "Games and apps to run your favorite titles"
+msgstr "Pelejä ja sovelluksia suosikkipeliesi pelaamiseen"
+
+#: src/bz-full-view.blp:33
+msgid "No Results"
+msgstr "Ei tuloksia"
+
+#: src/bz-full-view.blp:34
+msgid "Try a different search query"
+msgstr "Kokeile eri hakuehtoja"
+
+#: src/bz-full-view.blp:103
+msgid ""
+"This is a local preview, some details may differ from the published listing"
+msgstr ""
+
+#: src/bz-full-view.blp:106
+msgid "Preview Store Appearance"
+msgstr ""
+
+#: src/bz-full-view.blp:233
+msgid "_Support"
+msgstr "_Tue"
+
+#: src/bz-full-view.blp:458
+msgid ""
+"This app uses a runtime that no longer receives updates or security fixes. "
+"It may become unsafe to use."
+msgstr ""
+
+#: src/bz-full-view.blp:536
+msgid "Trash Data"
+msgstr ""
+
+#: src/bz-full-view.blp:599
+msgid "Add-ons"
+msgstr "Lisäosat"
+
+#: src/bz-full-view.blp:634
+msgid "More Add-Ons"
+msgstr "Lisää lisäosia"
+
+#: src/bz-full-view.blp:645
+msgid "Links"
+msgstr "Linkit"
+
+#: src/bz-full-view.blp:676
+msgid "Similar Apps"
+msgstr "Samankaltaiset sovellukset"
+
+#: src/bz-full-view.c:181
+msgid "No URL"
+msgstr ""
+
+#: src/bz-full-view.c:199
+msgid ""
+"This app has a FLOSS license, meaning the source code can be audited for "
+"safety."
+msgstr ""
+
+#: src/bz-full-view.c:200
+msgid ""
+"This app has a proprietary license, meaning the source code is developed "
+"privately and cannot be audited by an independent third party."
+msgstr ""
+
+#: src/bz-full-view.c:207
+msgid "More Apps"
+msgstr "Lisää sovelluksia"
+
+#: src/bz-full-view.c:208
+#, c-format
+msgid "More Apps by %s"
+msgstr "Lisää sovelluksia kehittäjältä %s"
+
+#: src/bz-full-view.c:215
+msgid "Other Apps by this Developer"
+msgstr "Muut tämän kehittäjän sovellukset"
+
+#: src/bz-full-view.c:217 src/bz-full-view.c:309
+#, c-format
+msgid "Other Apps by %s"
+msgstr "Muut kehittäjän %s sovellukset"
+
+#: src/bz-full-view.c:226
+#, c-format
+msgid "%s is not installed, but it still has <b>%s</b> of data present."
+msgstr ""
+
+#: src/bz-full-view.c:311
+msgid "Other Apps"
+msgstr "Muut sovellukset"
+
+#: src/bz-full-view.c:313
+#, c-format
+msgid "%d Application"
+msgid_plural "%d Applications"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/bz-full-view.c:470 src/bz-user-data-tile.c:160
+msgid "Failed to Remove User Data"
+msgstr ""
+
+#: src/bz-hardware-support-dialog.blp:7 src/bz-hardware-support-dialog.blp:31
+msgid "Hardware Support"
+msgstr "Laitetuki"
+
+#: src/bz-hardware-support-dialog.c:62
+msgid "Keyboard support"
+msgstr "Näppäimistötuki"
+
+#: src/bz-hardware-support-dialog.c:64
+msgid "Requires keyboards"
+msgstr "Vaatii näppäimistön"
+
+#: src/bz-hardware-support-dialog.c:65
+msgid "Recommends keyboards"
+msgstr "Suosittelee näppäimistöä"
+
+#: src/bz-hardware-support-dialog.c:66
+msgid "Supports keyboards"
+msgstr "Tukee näppäimistöjä"
+
+#: src/bz-hardware-support-dialog.c:67
+msgid "Unknown support for keyboards"
+msgstr ""
+
+#: src/bz-hardware-support-dialog.c:69
+msgid "Mouse support"
+msgstr "Hiirituki"
+
+#: src/bz-hardware-support-dialog.c:71
+msgid "Requires mice or pointing devices"
+msgstr "Vaatii hiiren tai osoitinlaitteen"
+
+#: src/bz-hardware-support-dialog.c:72
+msgid "Recommends mice or pointing devices"
+msgstr "Suosittelee hiirtä tai osoitinlaitetta"
+
+#: src/bz-hardware-support-dialog.c:73
+msgid "Supports mice or pointing devices"
+msgstr "Tukee hiirtä ja osoitinlaitteita"
+
+#: src/bz-hardware-support-dialog.c:74
+msgid "Unknown support for mice or pointing devices"
+msgstr ""
+
+#: src/bz-hardware-support-dialog.c:76
+msgid "Touchscreen support"
+msgstr "Kosketusnäytön tuki"
+
+#: src/bz-hardware-support-dialog.c:78
+msgid "Requires touchscreens"
+msgstr "Vaatii kosketusnäytön"
+
+#: src/bz-hardware-support-dialog.c:79
+msgid "Recommends touchscreens"
+msgstr "Suosittelee kosketusnäyttöä"
+
+#: src/bz-hardware-support-dialog.c:80
+msgid "Supports touchscreens"
+msgstr "Tukee kosketusnäyttöjä"
+
+#: src/bz-hardware-support-dialog.c:81
+msgid "Unknown support for touchscreens"
+msgstr ""
+
+#: src/bz-hardware-support-dialog.c:160
+msgid "Mobile support"
+msgstr "Mobiilituki"
+
+#: src/bz-hardware-support-dialog.c:161
+msgid "Works on mobile devices"
+msgstr "Toimii mobiililaitteilla"
+
+#: src/bz-hardware-support-dialog.c:161
+msgid "May not work well on mobile devices"
+msgstr ""
+
+#: src/bz-hardware-support-dialog.c:166
+msgid "Desktop support"
+msgstr "Työpöytätuki"
+
+#: src/bz-hardware-support-dialog.c:167
+msgid "Works well on large screens"
+msgstr ""
+
+#: src/bz-hardware-support-dialog.c:201
+#, c-format
+msgid "%s works best on specific hardware"
+msgstr "%s toimii parhaiten tietynlaisella laitteistolla"
+
+#: src/bz-hardware-support-dialog.c:209
+#, c-format
+msgid "%s works on most devices"
+msgstr "%s toimii useimmilla laitteilla"
+
+#: src/bz-inspector.blp:23
+msgid "Inspector Menu"
+msgstr ""
+
+#: src/bz-install-controls.blp:58
+msgid "_Open"
+msgstr "_Avaa"
+
+#: src/bz-install-controls.blp:73 src/bz-install-controls.blp:128
+msgid "Uninstall Application"
+msgstr "Poista sovelluksen asennus"
+
+#: src/bz-install-controls.blp:83 src/bz-transaction-dialog.c:230
+msgid "_Remove"
+msgstr "_Poista"
+
+#: src/bz-install-controls.blp:115 src/bz-updates-card.c:168
+#: src/bz-updates-card.c:187
+msgid "Update"
+msgstr "Päivitä"
+
+#: src/bz-install-controls.blp:138 src/bz-installed-tile.blp:109
+msgid "Remove"
+msgstr "Poista"
+
+#: src/bz-install-controls.c:638
+#, c-format
+msgid "Install %s from %s"
+msgstr ""
+
+#: src/bz-install-controls.c:640
+#, c-format
+msgid "Install %s"
+msgstr "Asenna %s"
+
+#: src/bz-install-controls.wdgt:32
+msgctxt "Install Controls"
+msgid "Cancel"
+msgstr "Peru"
+
+#: src/bz-install-controls.wdgt:35
+msgctxt "Install Controls"
+msgid "Cancelling"
+msgstr "Perutaan"
+
+#: src/bz-installed-tile.blp:80
+msgid "Donate"
+msgstr "Lahjoita"
+
+#: src/bz-library-page.blp:17
+msgid "Search installed apps"
+msgstr "Etsi asennettuja sovelluksia"
+
+#: src/bz-library-page.blp:32
+msgid "No Apps Found"
+msgstr "Sovelluksia ei löytynyt"
+
+#: src/bz-library-page.blp:49
+msgid "Search Store Instead"
+msgstr ""
+
+#: src/bz-library-page.blp:86
+msgid "Pending Updates"
+msgstr "Odottavat päivitykset"
+
+#: src/bz-library-page.blp:113
+msgid "Downloads"
+msgstr ""
+
+#: src/bz-library-page.blp:156
+msgid "Recently Uninstalled"
+msgstr ""
+
+#: src/bz-library-page.blp:207
+msgid "Clear Finished Tasks"
+msgstr ""
+
+#: src/bz-library-page.blp:234
+msgid "Sort Options"
+msgstr ""
+
+#: src/bz-library-page.blp:293
+msgid "Sort By"
+msgstr ""
+
+#: src/bz-library-page.blp:307
+msgid "Name"
+msgstr "Nimi"
+
+#: src/bz-library-page.blp:313
+msgid "Size"
+msgstr "Koko"
+
+#: src/bz-library-page.c:181
+#, c-format
+msgid "No matches found for \"%s\" in the list of installed apps"
+msgstr ""
+
+#: src/bz-library-page.c:194 src/bz-updates-card.c:437
+#, c-format
+msgid "%u Available Update"
+msgid_plural "%u Available Updates"
+msgstr[0] "%u päivitys saatavilla"
+msgstr[1] "%u päivitystä saatavilla"
+
+#: src/bz-library-page.c:204
+#, c-format
+msgid "%u Installed App"
+msgid_plural "%u Installed Apps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:786
+msgid "No applications found"
+msgstr "Sovelluksia ei löytynyt"
+
+#: src/bz-library-page.c:629 src/bz-search-page.c:788
+#, c-format
+msgid "One application found"
+msgid_plural "%u applications found"
+msgstr[0] "Yksi sovellus löytyi"
+msgstr[1] "%u sovellusta löytyi"
+
+#: src/bz-license-dialog.blp:87
+msgid "Get Involved"
+msgstr "Osallistu"
+
+#: src/bz-license-dialog.blp:114
+msgid "Learn More"
+msgstr "Lue lisää"
+
+#: src/bz-license-dialog.c:127
+msgid "Unknown License"
+msgstr "Tuntematon lisenssi"
+
+#: src/bz-license-dialog.c:130
+msgid "Community Built"
+msgstr "Yhteisön tekemä"
+
+#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:289
+msgid "Proprietary"
+msgstr "Omisteinen"
+
+#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:291
+msgid "Special License"
+msgstr "Erikoislisenssi"
+
+#: src/bz-license-dialog.c:203
+msgid ""
+"This app is developed in the open by an international community.\n"
+"\n"
+"You can participate and help make it even better."
+msgstr ""
+
+#: src/bz-license-dialog.c:206
+msgid "The license of this app is not known"
+msgstr "Tällä sovelluksella on tuntematon lisenssi"
+
+#: src/bz-license-dialog.c:212
+#, c-format
+msgid ""
+"This app is developed in the open by an international community, and "
+"released under the %s license.\n"
+"\n"
+"You can participate and help make it even better."
+msgstr ""
+
+#: src/bz-license-dialog.c:220
+msgid ""
+"This app is not developed in the open, so only its developers know how it "
+"works. It may be insecure in ways that are hard to detect, and it may change "
+"without oversight.\n"
+"\n"
+"You may or may not be able to contribute to this app."
+msgstr ""
+
+#: src/bz-license-dialog.c:226
+#, c-format
+msgid ""
+"This app is developed under the special license %s.\n"
+"\n"
+"You may or may not be able to contribute to this app."
+msgstr ""
+
+#: src/bz-license-dialog.c:345 src/bz-license-dialog.c:364
+#: src/bz-safety-dialog.blp:103
+msgid "License"
+msgstr "Lisenssi"
+
+#: src/bz-login-page.blp:6 src/bz-login-page.blp:45
+msgid "Connect to Flathub"
+msgstr "Yhdistä Flathubiin"
+
+#: src/bz-login-page.blp:35
+msgid "Something Went Wrong"
+msgstr "Jokin meni pieleen"
+
+#: src/bz-login-page.blp:46
+msgid "Log in to sync your favorited apps across devices"
+msgstr ""
+"Kirjaudu sisään synkronoidaksesi suosikkisovelluksesi laitteiden välillä"
+
+#: src/bz-login-page.blp:113
+msgid "Finish"
+msgstr "Valmis"
+
+#: src/bz-login-page.c:665
+#, c-format
+msgid "Hello, %s!"
+msgstr "Hei, %s!"
+
+#: src/bz-metainfo-preview.c:105
+msgid "Add Icon to Metainfo Preview?"
+msgstr ""
+
+#: src/bz-metainfo-preview.c:108
+msgid ""
+"Metainfo files don't include app icons by themselves. Would you like to "
+"select one manually?"
+msgstr ""
+
+#: src/bz-metainfo-preview.c:111
+msgid "Skip"
+msgstr "Ohita"
+
+#: src/bz-metainfo-preview.c:112 src/bz-metainfo-preview.c:163
+msgid "Select Icon"
+msgstr "Valitse kuvake"
+
+#: src/bz-metainfo-preview.c:166
+msgid "Image Files"
+msgstr "Kuvatiedostot"
+
+#: src/bz-preferences-dialog.blp:19
+msgid "Preferences"
+msgstr "Asetukset"
+
+#: src/bz-preferences-dialog.blp:25
+msgid "Network connection is metered — automatic store data refresh is paused"
+msgstr ""
+
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:243 src/bz-window.blp:254
+msgid "Refresh Manually"
+msgstr "Päivitä manuaalisesti"
+
+#: src/bz-preferences-dialog.blp:31
+msgid "App Updates"
+msgstr "Sovelluspäivitykset"
+
+#: src/bz-preferences-dialog.blp:33
+msgid ""
+"Auto-updates will pause on metered networks or when power saving is on to "
+"save data and battery."
+msgstr ""
+
+#: src/bz-preferences-dialog.blp:36
+msgid "_Automatic"
+msgstr "_Automaattinen"
+
+#: src/bz-preferences-dialog.blp:37
+msgid "Automatically check for and download app updates"
+msgstr "Tarkista ja lataa päivitykset automaattisesti"
+
+#: src/bz-preferences-dialog.blp:49
+msgid "_Manual"
+msgstr "_Manuaalinen"
+
+#: src/bz-preferences-dialog.blp:50
+msgid "Checking for and downloading app updates must be done manually"
+msgstr "Päivitysten tarkistaminen ja lataaminen tulee tehdä manuaalisesti"
+
+#: src/bz-preferences-dialog.blp:69
+msgid "Automatic Update _Notifications"
+msgstr "Automaattisen päivityksen _ilmoitukset"
+
+#: src/bz-preferences-dialog.blp:70
+msgid "Notify when updates have been automatically installed"
+msgstr "Näytä ilmoitus, kun päivitykset on asennettu automaattisesti"
+
+#: src/bz-preferences-dialog.blp:75
+msgid "Content Filters"
+msgstr "Sisältösuodattimet"
+
+#: src/bz-preferences-dialog.blp:78
+msgid "_Free Software Only"
+msgstr "Vain _vapaat ohjelmistot"
+
+#: src/bz-preferences-dialog.blp:79
+msgid "Hide proprietary apps when browsing and searching"
+msgstr "Piilota omisteiset sovellukset selatessa ja etsiessä"
+
+#: src/bz-preferences-dialog.blp:84
+msgid "F_lathub Results Only"
+msgstr "Vain Flathub-tulokset"
+
+#: src/bz-preferences-dialog.blp:85
+msgid "Limit search and browse results to apps only available on Flathub"
+msgstr "Rajoita haku- ja selailutulokset vain Flathubissa oleviin sovelluksiin"
+
+#: src/bz-preferences-dialog.blp:90
+msgid "_Verified Results Only"
+msgstr "Vain vahvistetut _tulokset"
+
+#: src/bz-preferences-dialog.blp:91
+msgid "Hide results that are not verified on Flathub"
+msgstr "Piilota tulokset, joita ei ole vahvistettu Flathubissa"
+
+#: src/bz-preferences-dialog.blp:96
+msgid "Hide _End-of-Life Apps"
+msgstr "Piilota tuen ulkopuoliset sovellukset"
+
+#: src/bz-preferences-dialog.blp:97
+msgid "Hide apps which are no longer supported by their developers"
+msgstr "Piilota sovellukset, jotka eivät enää saa tukea kehittäjiltään"
+
+#: src/bz-preferences-dialog.blp:103
+msgid "Progress Bar Theme"
+msgstr "Edistymispalkin teema"
+
+#: src/bz-preferences-dialog.c:42
+msgid "Accent Color"
+msgstr "Korostusväri"
+
+#: src/bz-preferences-dialog.c:43
+msgid "Pride Colors"
+msgstr "Pride-värit"
+
+#: src/bz-preferences-dialog.c:44
+msgid "Lesbian Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:45
+msgid "Male Homosexual Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:46
+msgid "Transgender Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:47
+msgid "Nonbinary Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:48
+msgid "Bisexual Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:49
+msgid "Asexual Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:50
+msgid "Pansexual Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:51
+msgid "Aromantic Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:52
+msgid "Genderfluid Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:53
+msgid "Polysexual Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:54
+msgid "Omnisexual Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:55
+msgid "Aroace Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:56
+msgid "Agender Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:57
+msgid "Genderqueer Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:58
+msgid "Intersex Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:59
+msgid "Demigender Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:60
+msgid "Biromantic Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:61
+msgid "Disability Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:62
+msgid "Femboy Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:63
+msgid "Neutrois Pride Colors"
+msgstr ""
+
+#: src/bz-preferences-dialog.c:285
+msgid "Bazaar needs to run in the background to check for app updates"
+msgstr ""
+"Bazaar tulee olla käynnissä taustalla, jotta se voi tarkistaa sovellusten "
+"päivitykset"
+
+#: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:159
+msgid "Version History"
+msgstr "Versiohistoria"
+
+#: src/bz-releases-list.blp:27
+msgid "_Version History"
+msgstr "_Versiohistoria"
+
+#. Translators: something happened less than a day ago
+#: src/bz-releases-list.c:122
+msgid "Today"
+msgstr "Tänään"
+
+#. Translators: something happened more than a day ago but less than 2 days ago
+#: src/bz-releases-list.c:125
+msgid "Yesterday"
+msgstr "Eilen"
+
+#. Translators: something happened days ago
+#: src/bz-releases-list.c:128
+#, c-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] "%d päivä sitten"
+msgstr[1] "%d päivää sitten"
+
+#. Translators: something happened weeks ago
+#: src/bz-releases-list.c:131
+#, c-format
+msgid "%d week ago"
+msgid_plural "%d weeks ago"
+msgstr[0] "%d viikko sitten"
+msgstr[1] "%d viikkoa sitten"
+
+#. Translators: something happened months ago
+#: src/bz-releases-list.c:134
+#, c-format
+msgid "%d month ago"
+msgid_plural "%d months ago"
+msgstr[0] "%d kuukausi sitten"
+msgstr[1] "%d kuukautta sitten"
+
+#. Translators: something happened years ago
+#: src/bz-releases-list.c:137
+#, c-format
+msgid "%d year ago"
+msgid_plural "%d years ago"
+msgstr[0] "%d vuosi sitten"
+msgstr[1] "%d vuotta sitten"
+
+#. TRANSLATORS: This is the date string with: day number, month name, year.
+#. i.e. "22 March 2026"
+#: src/bz-releases-list.c:155
+msgid "%e %B %Y"
+msgstr ""
+
+#: src/bz-releases-list.c:196
+#, c-format
+msgid "Version %s"
+msgstr "Versio %s"
+
+#: src/bz-releases-list.c:251
+msgid "No details for this release"
+msgstr "Tästä julkaisusta ei ole saatavilla lisätietoja"
+
+#: src/bz-releases-list.c:264
+msgid "Get More Information"
+msgstr ""
+
+#: src/bz-rich-app-tile.blp:218
+msgid "Uninstall"
+msgstr "Poista asennus"
+
+#. Translators: If you can't find a short enough translation, use "/" to use an icon instead.
+#: src/bz-rich-app-tile.c:383
+msgid "Get"
+msgstr ""
+
+#: src/bz-safety-dialog.blp:32 src/bz-safety-dialog.c:307
+#: src/safety-calculator.c:161
+msgid "Arbitrary Permissions"
+msgstr "Mielivaltaiset oikeudet"
+
+#: src/bz-safety-dialog.blp:49
+msgid ""
+"This app has a permission that indirectly allows it to grant itself <b>any "
+"other permission it wants</b>, bypassing the Flatpak sandbox.\n"
+"\n"
+"It can therefore do anything a privileged, non-sandboxed application can do, "
+"such as accessing all your files and connecting to the internet.\n"
+"\n"
+"Viewing the other permissions may still give a better idea of what the app "
+"is likely to do."
+msgstr ""
+
+#: src/bz-safety-dialog.blp:53
+msgid "View Other Permissions"
+msgstr ""
+
+#. TRANSLATORS: short app safety rating label
+#: src/bz-safety-dialog.blp:81 src/context-tile-callbacks.c:402
+msgid "Safe"
+msgstr "Turvallinen"
+
+#: src/bz-safety-dialog.blp:114
+msgid "App ID"
+msgstr ""
+
+#: src/bz-safety-dialog.blp:124
+msgid "SDK"
+msgstr ""
+
+#: src/bz-safety-dialog.blp:158
+msgid ""
+"This app uses an outdated version of the software platform (SDK) and might "
+"contain bugs or security vulnerabilities which will not be fixed."
+msgstr ""
+
+#: src/bz-safety-dialog.c:293 src/bz-safety-dialog.c:326
+msgid "Safety"
+msgstr "Turvallisuus"
+
+#: src/bz-safety-dialog.c:386
+#, c-format
+msgid "%s is Safe"
+msgstr "%s on turvallinen"
+
+#: src/bz-safety-dialog.c:391
+#, c-format
+msgid "%s has no Unsafe Permissions"
+msgstr ""
+
+#: src/bz-safety-dialog.c:396
+#, c-format
+msgid "%s is Probably Safe"
+msgstr "%s on luultavasti turvallinen"
+
+#: src/bz-safety-dialog.c:401
+#, c-format
+msgid "%s is Possibly Unsafe"
+msgstr "%s on mahdollisesti turvaton"
+
+#: src/bz-safety-dialog.c:406
+#, c-format
+msgid "%s is Unsafe"
+msgstr "%s on turvaton"
+
+#: src/bz-screenshot-page.blp:73
+msgid "Back"
+msgstr "Takaisin"
+
+#: src/bz-screenshot-page.blp:103
+msgid "Previous Screenshot"
+msgstr "Edellinen kuvakaappaus"
+
+#: src/bz-screenshot-page.blp:113
+msgid "Next Screenshot"
+msgstr "Seuraava kuvakaappaus"
+
+#: src/bz-screenshot-page.blp:129
+msgid "Copy Image"
+msgstr "Kopioi kuva"
+
+#: src/bz-screenshot-page.blp:192
+msgid "Reset View"
+msgstr ""
+
+#: src/bz-screenshot-page.blp:203
+msgid "Zoom Out"
+msgstr "Loitonna"
+
+#: src/bz-screenshot-page.blp:213
+msgid "Zoom In"
+msgstr "Lähennä"
+
+#: src/bz-screenshots-carousel.blp:6
+msgid "Screenshots Carousel"
+msgstr "Kuvakaappausten karuselli"
+
+#: src/bz-screenshots-carousel.blp:104
+msgid "No Screenshots"
+msgstr "Ei kuvakaappauksia"
+
+#: src/bz-screenshots-carousel.blp:128
+msgid "Open Screenshot Viewer"
+msgstr ""
+
+#: src/bz-screenshots-carousel.c:308
+#, c-format
+msgid "Screenshot %u %s"
+msgstr ""
+
+#: src/bz-screenshots-carousel.c:310
+#, c-format
+msgid "Screenshot %u"
+msgstr "Kuvakaappaus %u"
+
+#: src/bz-search-bar.blp:55
+msgid "Clear Search"
+msgstr ""
+
+#: src/bz-search-filter-popover.blp:18 src/bz-search-page.blp:66
+msgid "Filters"
+msgstr "Suodattimet"
+
+#: src/bz-search-filter-popover.blp:35
+msgid "_Verified"
+msgstr "_Vahvistettu"
+
+#: src/bz-search-filter-popover.blp:42
+msgid "_Free/Open"
+msgstr "Vapaa/_avoin"
+
+#: src/bz-search-filter-popover.blp:49
+msgid "Non-_EOL"
+msgstr "Tuen piirissä"
+
+#: src/bz-search-filter-popover.blp:52
+msgid "Filter out End-of-Life apps"
+msgstr "Suodata tuen ulkopuoliset sovellukset"
+
+#: src/bz-search-filter-popover.blp:57
+msgid "_Mobile Friendly"
+msgstr "_Mobiilille soveltuva"
+
+#: src/bz-search-filter-popover.blp:64
+msgid "Categories"
+msgstr "Luokat"
+
+#: src/bz-search-page.blp:45
+msgid "Search Apps, Games, Software"
+msgstr "Etsi sovelluksia, pelejä ja ohjelmistoja"
+
+#: src/bz-search-page.blp:52
+msgid "Search Filters"
+msgstr ""
+
+#: src/bz-search-page.blp:170
+msgid "Browse Categories"
+msgstr "Selaa luokkia"
+
+#: src/bz-search-page.blp:206
+msgid "Categories Unavailable"
+msgstr ""
+
+#: src/bz-search-page.blp:207
+msgid "Search for apps using the search bar above."
+msgstr ""
+
+#: src/bz-search-page.blp:325
+msgid "No Applications Found"
+msgstr "Sovelluksia ei löytynyt"
+
+#: src/bz-search-page.c:249
+#, c-format
+msgid "No results found for \"%s\" in Flathub"
+msgstr ""
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:67
+msgid "Browser"
+msgstr "Selain"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:72
+msgid "Video"
+msgstr "Video"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:82
+msgid "Office"
+msgstr "Toimisto"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:87
+msgid "PDF"
+msgstr "PDF"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:92
+msgid "Calendar"
+msgstr "Kalenteri"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:97
+msgid "Messaging"
+msgstr "Viestintä"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:102
+msgid "Paint"
+msgstr ""
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:107
+msgid "VPN"
+msgstr "VPN"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:112
+msgid "Torrent"
+msgstr "Torrent"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:117
+msgid "Emulator"
+msgstr ""
+
+#: src/bz-share-list.c:58
+msgctxt "Project URL Type"
+msgid "Flathub Page"
+msgstr "Flathub-sivu"
+
+#: src/bz-share-list.c:59
+msgctxt "Project URL Type"
+msgid "Project Website"
+msgstr "Projektin sivusto"
+
+#: src/bz-share-list.c:60
+msgctxt "Project URL Type"
+msgid "Issue Tracker"
+msgstr "Vianseurantajärjestelmä"
+
+#: src/bz-share-list.c:61
+msgctxt "Project URL Type"
+msgid "FAQ"
+msgstr "UKK"
+
+#: src/bz-share-list.c:62
+msgctxt "Project URL Type"
+msgid "Help"
+msgstr "Ohje"
+
+#: src/bz-share-list.c:63
+msgctxt "Project URL Type"
+msgid "Donate"
+msgstr "Lahjoita"
+
+#: src/bz-share-list.c:64
+msgctxt "Project URL Type"
+msgid "Translate"
+msgstr "Käännä"
+
+#: src/bz-share-list.c:65
+msgctxt "Project URL Type"
+msgid "Contact"
+msgstr "Yhteys"
+
+#: src/bz-share-list.c:66
+msgctxt "Project URL Type"
+msgid "Source Code"
+msgstr "Lähdekoodi"
+
+#: src/bz-share-list.c:67
+msgctxt "Project URL Type"
+msgid "Contribute"
+msgstr "Osallistu"
+
+#: src/bz-share-list.c:68
+msgctxt "Project URL Type"
+msgid "Manifest"
+msgstr "Manifesti"
+
+#: src/bz-share-list.c:326
+msgid "Copy Link"
+msgstr "Kopioi linkki"
+
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:28
+msgid "Timeline"
+msgstr "Aikajana"
+
+#. TRANSLATORS: label prefix shown in graph tooltips, for example: "Installs: 42"
+#: src/bz-stats-dialog.blp:48
+msgid "Installs:"
+msgstr "Asennuksia:"
+
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:58
+msgid "World"
+msgstr "Maailma"
+
+#: src/bz-stats-dialog.blp:72
+msgid "Since 4/15/2024"
+msgstr "15.4.2024 alkaen"
+
+#. Translators: M is the suffix for millions
+#: src/bz-stats-dialog.c:126
+#, c-format
+msgid "%.2fM Total Installs"
+msgstr "%.2fM asennusta yhteensä"
+
+#. Translators: K is the suffix for thousands
+#: src/bz-stats-dialog.c:129
+#, c-format
+msgid "%.2fK Total Installs"
+msgstr "%.2fK asennusta yhteensä"
+
+#: src/bz-stats-dialog.c:131
+#, c-format
+msgid "%'d Total Installs"
+msgstr "%'d asennusta yhteensä"
+
+#: src/bz-subcategory-list.c:78
+msgid "No Results Found"
+msgstr "Tuloksia ei löytynyt"
+
+#: src/bz-subcategory-list.c:100
+msgid "Search failed"
+msgstr "Haku epäonnistui"
+
+#: src/bz-transaction-dialog.c:154
+msgid "Keep User Data"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:155
+msgid "Allow restoring personal settings &amp; content"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:164
+msgid "Delete All Data"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:165
+msgid "Permanently erase user data to save space"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:190
+#, c-format
+msgid "Install %s?"
+msgstr "Asennetaanko %s?"
+
+#: src/bz-transaction-dialog.c:195
+msgid ""
+"Select which version to install. May install additional shared components"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:197
+msgid "May install additional shared components"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:200 src/bz-transaction-dialog.c:229
+#: src/bz-transaction-dialog.c:274 src/bz-transaction-dialog.c:576
+msgid "_Cancel"
+msgstr "_Peru"
+
+#: src/bz-transaction-dialog.c:201
+msgid "_Install"
+msgstr "_Asenna"
+
+#: src/bz-transaction-dialog.c:218
+#, c-format
+msgid "Remove %s?"
+msgstr "Poistetaanko %s?"
+
+#: src/bz-transaction-dialog.c:221
+msgid "Select which version to remove."
+msgstr "Valitse poistettava versio."
+
+#: src/bz-transaction-dialog.c:223
+#, c-format
+msgid "It will not be possible to use %s after it is uninstalled."
+msgstr "Sovellusta %s ei voi käyttää, kun se on poistettu."
+
+#: src/bz-transaction-dialog.c:246
+#, c-format
+msgid "“%s” is High Risk"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:250
+msgid ""
+"This app has full access to your system, including all <b>your files, "
+"browser history, saved passwords</b>, and more. It also has access to the "
+"internet, meaning it could send your data to outside parties.\n"
+"\n"
+"Because the app is proprietary, it can not be audited for what it does with "
+"these permissions."
+msgstr ""
+
+#: src/bz-transaction-dialog.c:259
+msgid ""
+"This app uses the legacy X11 windowing system, which allows it to <b>record "
+"all keystrokes, capture screenshots, and monitor other applications</b>. It "
+"also has access to the internet, meaning it could send your data to outside "
+"parties.\n"
+"\n"
+"Because the app is proprietary, it can not be audited for what it does with "
+"these permissions."
+msgstr ""
+
+#: src/bz-transaction-dialog.c:275
+msgid "_Install Anyway"
+msgstr "_Asenna silti"
+
+#: src/bz-transaction-dialog.c:330
+msgid "Failed to load transaction dialog"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:547
+msgid "All apps are already installed"
+msgstr "Kaikki sovellukset on jo asennettu"
+
+#: src/bz-transaction-dialog.c:549
+msgid "_OK"
+msgstr "_OK"
+
+#: src/bz-transaction-dialog.c:565
+#, c-format
+msgid "Install %u App?"
+msgid_plural "Install %u Apps?"
+msgstr[0] "Asennetaanko %u sovellus?"
+msgstr[1] "Asennetaanko %u sovellusta?"
+
+#: src/bz-transaction-dialog.c:573
+msgid ""
+"The following will be installed. Additional shared components may also be "
+"installed"
+msgstr ""
+
+#: src/bz-transaction-dialog.c:574
+#, c-format
+msgid "%d addons will be installed."
+msgstr ""
+
+#: src/bz-transaction-dialog.c:575
+msgid "Additionally, addons will be installed."
+msgstr ""
+
+#: src/bz-transaction-dialog.c:577
+msgid "_Install All"
+msgstr "_Asenna kaikki"
+
+#: src/bz-transaction-manager.c:796
+#, c-format
+msgid "Finished in %.02f seconds"
+msgstr "Valmistui %.02f sekunnissa"
+
+#: src/bz-transaction-tile.blp:130
+msgid "App Add-On"
+msgstr ""
+
+#: src/bz-transaction-tile.blp:159
+msgid "Runtime"
+msgstr "Suoritusaikainen"
+
+#: src/bz-transaction-tile.blp:183
+msgid "In Queue"
+msgstr "Jonossa"
+
+#: src/bz-transaction-tile.blp:207
+msgid "Done"
+msgstr "Valmis"
+
+#: src/bz-transaction-tile.blp:231
+msgid "Cancelled"
+msgstr "Peruttu"
+
+#: src/bz-transaction-tile.blp:255
+msgid "Error"
+msgstr "Virhe"
+
+#: src/bz-transaction-tile.blp:314
+msgid "Cancel Transaction"
+msgstr ""
+
+#: src/bz-transaction-tile.blp:324
+msgid "Show Details"
+msgstr "Näytä tiedot"
+
+#: src/bz-transaction-tile.blp:439
+msgid "Show Error Info"
+msgstr "Näytä virheen tiedot"
+
+#: src/bz-transaction-tile.c:107
+#, c-format
+msgid "%s Freed"
+msgstr "%s vapautettu"
+
+#: src/bz-transaction-tile.c:360 src/bz-transaction-tile.c:363
+msgid "Transaction Error"
+msgstr ""
+
+#: src/bz-transaction.c:344
+msgid "Pending"
+msgstr "Odottaa"
+
+#: src/bz-updates-card.blp:23
+msgid "_Update All"
+msgstr "_Päivitä kaikki"
+
+#: src/bz-updates-card.c:215
+#, c-format
+msgid "%u Runtime Update"
+msgid_plural "%u Runtime Updates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/bz-user-data-page.blp:5
+msgid "Manage Leftover User Data"
+msgstr ""
+
+#: src/bz-user-data-page.blp:32
+msgid "No Leftover User Data Found"
+msgstr ""
+
+#: src/bz-user-data-page.blp:33
+msgid "Personal data left behind by apps that were removed will show up here"
+msgstr ""
+
+#: src/bz-user-data-page.c:229
+#, c-format
+msgid "Trashed User Data for %u App"
+msgid_plural "Trashed User Data for %u Apps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/bz-user-data-page.c:233
+#, c-format
+msgid "Trashed User Data for %s"
+msgstr ""
+
+#: src/bz-user-data-tile.blp:92
+msgid "Open User Data Folder"
+msgstr ""
+
+#: src/bz-user-data-tile.blp:103
+msgid "Trash User Data"
+msgstr ""
+
+#: src/bz-window.blp:79
+msgid "Refreshing"
+msgstr ""
+
+#: src/bz-window.blp:97
+msgid "Curated"
+msgstr "Valikoitu"
+
+#: src/bz-window.blp:109
+msgid "Explore"
+msgstr "Tutki"
+
+#. Translators: .
+#: src/bz-window.blp:121
+msgid "Library"
+msgstr "Kirjasto"
+
+#: src/bz-window.blp:136
+msgid "Search"
+msgstr "Hae"
+
+#: src/bz-window.blp:223
+msgid "Main Menu"
+msgstr "Päävalikko"
+
+#: src/bz-window.blp:234
+msgid "You are running a new version of Bazaar!"
+msgstr "Käytössäsi on uusi Bazaar-versio!"
+
+#: src/bz-window.blp:235
+msgid "See What's New"
+msgstr "Katso mitä uutta se sisältää"
+
+#: src/bz-window.blp:242
+msgid ""
+"You have a network connection but are viewing a cached version of Flathub"
+msgstr ""
+
+#: src/bz-window.blp:253
+msgid "Network connection is metered — automatic refreshes disabled"
+msgstr ""
+
+#: src/bz-window.blp:289
+msgid "_Donate to Bazaar"
+msgstr "_Lahjoita Bazaarille"
+
+#: src/bz-window.blp:295
+msgid "_Refresh"
+msgstr "_Päivitä"
+
+#: src/bz-window.blp:299
+msgid "_Login With Flathub"
+msgstr "_Kirjaudu Flathubiin"
+
+#: src/bz-window.blp:305
+msgid "_Manage Leftover User Data"
+msgstr ""
+
+#: src/bz-window.blp:311
+msgid "_Preferences"
+msgstr "_Asetukset"
+
+#: src/bz-window.blp:316
+msgid "_Keyboard Shortcuts"
+msgstr "_Pikanäppäimet"
+
+#: src/bz-window.blp:321
+msgid "_About Bazaar"
+msgstr "_Tietoja - Bazaar"
+
+#: src/bz-window.blp:327
+msgid "_Quit Bazaar"
+msgstr "_Lopeta Bazaar"
+
+#: src/bz-window.blp:352
+msgid "Log Out"
+msgstr "Kirjaudu ulos"
+
+#. Translators: %s is the title of the current page
+#: src/bz-window.c:395
+#, c-format
+msgid "Bazaar — %s"
+msgstr "Bazaar — %s"
+
+#: src/bz-window.c:668 src/bz-window.c:706
+msgid "Failed to launch application"
+msgstr "Sovelluksen käynnistäminen epäonnistui"
+
+#: src/bz-window.c:962
+msgid "You can't remove Bazaar from Bazaar!"
+msgstr "Et voi poistaa Bazaaria Bazaarista!"
+
+#: src/bz-window.c:1298 src/bz-window.c:1332
+msgid "Can't do that right now!"
+msgstr ""
+
+#. Translators: As in, "1 Install" / "100 Installs"
+#: src/bz-world-map.c:604
+msgid "Install"
+msgid_plural "Installs"
+msgstr[0] "asennus"
+msgstr[1] "asennusta"
+
+#: src/context-tile-callbacks.c:68
+msgid "---"
+msgstr "---"
+
+#. Translators: M is the suffix for millions
+#: src/context-tile-callbacks.c:75
+#, c-format
+msgid "%.*fM"
+msgstr ""
+
+#. Translators: K is the suffix for thousands
+#: src/context-tile-callbacks.c:82
+#, c-format
+msgid "%.*fK"
+msgstr ""
+
+#: src/context-tile-callbacks.c:92
+#, c-format
+msgid "%d downloads in the last month"
+msgstr "%d latausta viimeisen kuukauden aikana"
+
+#. TRANSLATORS: %s is a formatted file size, for example: "128 MB"
+#: src/context-tile-callbacks.c:133
+#, c-format
+msgid "+%s Runtime"
+msgstr ""
+
+#: src/context-tile-callbacks.c:136
+msgid "Download"
+msgstr "Lataus"
+
+#: src/context-tile-callbacks.c:156
+msgid "Size information unavailable"
+msgstr "Kokotiedot eivät ole saatavilla"
+
+#: src/context-tile-callbacks.c:159
+#, c-format
+msgid "Download size of %s"
+msgstr ""
+
+#: src/context-tile-callbacks.c:192
+msgid "All Ages"
+msgstr "Kaikki iät"
+
+#: src/context-tile-callbacks.c:204
+msgid "Age rating information unavailable"
+msgstr ""
+
+#: src/context-tile-callbacks.c:209
+msgid "Suitable for all ages"
+msgstr "Soveltuu kaikenikäisille"
+
+#: src/context-tile-callbacks.c:211
+#, c-format
+msgid "Suitable for ages %d and up"
+msgstr ""
+
+#: src/context-tile-callbacks.c:244 src/context-tile-callbacks.c:249
+#: src/context-tile-callbacks.c:277 src/context-tile-callbacks.c:286
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: src/context-tile-callbacks.c:254
+#, c-format
+msgid "Free software licensed under %s"
+msgstr ""
+
+#: src/context-tile-callbacks.c:259
+msgid "Free software"
+msgstr "Vapaa ohjelmisto"
+
+#: src/context-tile-callbacks.c:262
+msgid "Proprietary Software"
+msgstr "Omisteinen ohjelmisto"
+
+#: src/context-tile-callbacks.c:265
+#, c-format
+msgid "Special License: %s"
+msgstr "Erikoislisenssi: %s"
+
+#. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
+#: src/context-tile-callbacks.c:283
+msgid "Free Software"
+msgstr "Vapaa ohjelmisto"
+
+#: src/context-tile-callbacks.c:311
+msgid "Adaptive"
+msgstr "Mukautuva"
+
+#: src/context-tile-callbacks.c:311
+msgid "Desktop Only"
+msgstr "Vain työpöytä"
+
+#: src/context-tile-callbacks.c:317
+msgid "Works on desktop, tablets, and phones"
+msgstr ""
+
+#: src/context-tile-callbacks.c:318
+msgid "May not work on mobile devices"
+msgstr "Ei välttämättä toimi mobiililaitteilla"
+
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:405 src/context-tile-callbacks.c:408
+msgid "Low Risk"
+msgstr "Matala riski"
+
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:411
+msgid "Medium Risk"
+msgstr "Keskitason riski"
+
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:414
+msgid "High Risk"
+msgstr "Korkea riski"
+
+#: src/safety-calculator.c:87
+msgid "Unknown Permissions"
+msgstr "Tuntemattomat oikeudet"
+
+#: src/safety-calculator.c:88
+msgid "Permissions are missing for this app."
+msgstr ""
+
+#: src/safety-calculator.c:101
+msgid "No Permissions"
+msgstr "Ei oikeuksia"
+
+#: src/safety-calculator.c:102
+msgid "App is fully sandboxed"
+msgstr "Sovellus on täysin eristetty"
+
+#: src/safety-calculator.c:108
+msgid "Network Access"
+msgstr "Verkon käyttö"
+
+#: src/safety-calculator.c:109
+msgid "Can access the internet"
+msgstr "Voi yhdistää internetiin"
+
+#: src/safety-calculator.c:111
+msgid "No Network Access"
+msgstr "Ei pääsyä verkkoon"
+
+#: src/safety-calculator.c:112
+msgid "Cannot access the internet"
+msgstr "Ei pääsyä internetiin"
+
+#: src/safety-calculator.c:117
+msgid "User Device Access"
+msgstr "Pääsy käyttäjälaitteisiin"
+
+#: src/safety-calculator.c:118
+msgid "Can access devices such as webcams or gaming controllers"
+msgstr ""
+
+#: src/safety-calculator.c:120
+msgid "No User Device Access"
+msgstr "Ei pääsyä käyttäjälaitteisiin"
+
+#: src/safety-calculator.c:121
+msgid "Cannot access devices such as webcams or gaming controllers"
+msgstr ""
+
+#: src/safety-calculator.c:126
+msgid "Input Device Access"
+msgstr "Pääsy syötelaitteisiin"
+
+#: src/safety-calculator.c:127
+msgid "Can access input devices"
+msgstr "Voi käyttää syötelaitteita"
+
+#: src/safety-calculator.c:133
+msgid "Microphone Access and Audio Playback"
+msgstr "Mikrofonin käyttö ja äänen toisto"
+
+#: src/safety-calculator.c:134
+msgid "Can listen using microphones and play audio without asking permission"
+msgstr ""
+
+#: src/safety-calculator.c:140
+msgid "System Device Access"
+msgstr "Pääsy järjestelmälaitteisiin"
+
+#: src/safety-calculator.c:141
+msgid "Can access system devices which require elevated permissions"
+msgstr ""
+
+#: src/safety-calculator.c:147
+msgid "Screen Contents Access"
+msgstr "Pääsy näytön sisältöön"
+
+#: src/safety-calculator.c:148
+msgid "Can access the contents of the screen or other windows"
+msgstr ""
+
+#: src/safety-calculator.c:154
+msgid "Legacy Windowing System"
+msgstr "Vanha ikkunointijärjestelmä"
+
+#: src/safety-calculator.c:155
+msgid "Always uses a legacy windowing system (X11)"
+msgstr ""
+
+#: src/safety-calculator.c:162
+msgid "Can acquire arbitrary permissions"
+msgstr "Voi hankkia mielivaltaisia oikeuksia"
+
+#: src/safety-calculator.c:168
+msgid "User Settings"
+msgstr "Käyttäjäasetukset"
+
+#: src/safety-calculator.c:169
+msgid "Can access and change user settings"
+msgstr "Voi lukea ja muuttaa käyttäjäasetuksia"
+
+#: src/safety-calculator.c:175
+msgid "Full File System Read/Write Access"
+msgstr "Täysi luku-/kirjoitusoikeus tiedostojärjestelmään"
+
+#: src/safety-calculator.c:176
+msgid "Can read and write all data on the file system"
+msgstr ""
+
+#: src/safety-calculator.c:183
+msgid "Home Folder Read/Write Access"
+msgstr "Luku-/kirjoitusoikeus kotikansioon"
+
+#: src/safety-calculator.c:184
+msgid "Can read and write all data in your home directory"
+msgstr ""
+
+#: src/safety-calculator.c:191
+msgid "Full File System Read Access"
+msgstr "Täysi lukuoikeus tiedostojärjestelmään"
+
+#: src/safety-calculator.c:192
+msgid "Can read all data on the file system"
+msgstr "Voi lukea kaiken tiedostojärjestelmän sisällön"
+
+#: src/safety-calculator.c:200
+msgid "Home Folder Read Access"
+msgstr "Kotikansion lukuoikeus"
+
+#: src/safety-calculator.c:201
+msgid "Can read all data in your home directory"
+msgstr "Voi lukea kaiken kotikansion sisällön"
+
+#: src/safety-calculator.c:209
+msgid "Download Folder Read/Write Access"
+msgstr "Luku-/kirjoitusoikeus Lataukset-kansioon"
+
+#: src/safety-calculator.c:210
+msgid "Can read and write all data in your downloads directory"
+msgstr ""
+
+#: src/safety-calculator.c:220
+msgid "Download Folder Read Access"
+msgstr "Lukuoikeus Lataukset-kansioon"
+
+#: src/safety-calculator.c:221
+msgid "Can read all data in your downloads directory"
+msgstr "Voi lukea Lataukset-kansion kaiken sisällön"
+
+#: src/safety-calculator.c:242
+msgid "Can read and write all data in the directory"
+msgstr "Voi lukea kaikkea kansiossa olevaa sisältöä ja kirjoittaa kansioon"
+
+#: src/safety-calculator.c:266
+msgid "Can read all data in the directory"
+msgstr "Voi lukea kaiken kansion sisällön"
+
+#: src/safety-calculator.c:281
+msgid "No File System Access"
+msgstr "Ei pääsyä tiedostojärjestelmään"
+
+#: src/safety-calculator.c:282
+msgid "Cannot access the file system at all"
+msgstr ""
+
+#: src/safety-calculator.c:289
+msgid "Uses System Services"
+msgstr "Käyttää järjestelmäpalveluja"
+
+#: src/safety-calculator.c:290
+msgid "Can request data from non-portal system services"
+msgstr ""
+
+#: src/safety-calculator.c:296
+msgid "Uses Session Services"
+msgstr "Käyttää istuntopalveluja"
+
+#: src/safety-calculator.c:297
+msgid "Can request data from non-portal session services"
+msgstr ""
+
+#: src/safety-calculator.c:345
+msgid "No Service Access"
+msgstr ""
+
+#: src/safety-calculator.c:346
+msgid "Cannot access non-portal session or system services at all"
+msgstr ""
+
+#: src/safety-calculator.c:354
+msgid "Verified App Developer"
+msgstr "Vahvistettu sovelluskehittäjä"
+
+#: src/safety-calculator.c:355
+msgid "The developer of this app has been verified to be who they say they are"
+msgstr ""
+
+#: src/safety-calculator.c:364
+msgid "Proprietary Code"
+msgstr "Omisteinen koodi"
+
+#: src/safety-calculator.c:365
+msgid ""
+"The source code is not public, so it cannot be independently audited and "
+"might be unsafe"
+msgstr ""
+
+#: src/safety-calculator.c:375
+msgid "Auditable Code"
+msgstr "Koodi auditoitavissa"
+
+#: src/safety-calculator.c:376
+msgid ""
+"The source code is public and can be independently audited, which makes the "
+"app more likely to be safe"
+msgstr ""
+
+#: src/safety-calculator.c:516
+#, c-format
+msgid "Use the %s System Service"
+msgstr ""
+
+#: src/safety-calculator.c:520
+#, c-format
+msgid "Use the %s Session Service"
+msgstr ""
+
+#: src/safety-calculator.c:524
+#, c-format
+msgid "Use the %s Service"
+msgstr ""
+
+#: src/safety-calculator.c:534
+msgid "Can see the non-portal service"
+msgstr "Näkee portaalittoman palvelun"
+
+#: src/safety-calculator.c:536
+msgid "Can talk to the non-portal service"
+msgstr "Voi puhua portaalittomalle palvelulle"
+
+#: src/safety-calculator.c:538
+msgid "Can own the non-portal service"
+msgstr "Voi omistaa portaalittoman palvelun"
+
+#: src/safety-calculator.c:553
+msgid "Global Menu Integration"
+msgstr ""
+
+#: src/safety-calculator.c:554
+msgid "Can display its menus in a global menu bar"
+msgstr ""
+
+#: src/safety-calculator.c:559
+msgid "KDE Settings Integration"
+msgstr ""
+
+#: src/safety-calculator.c:560
+msgid "Can detect when KDE desktop settings change"
+msgstr ""
+
+#: src/safety-calculator.c:565
+msgid "KDE Global Settings"
+msgstr ""
+
+#: src/safety-calculator.c:566
+msgid "Can read KDE desktop preferences like fonts and colors"
+msgstr ""
+
+#: src/safety-calculator.c:571
+msgid "Secret Storage Service"
+msgstr ""
+
+#: src/safety-calculator.c:572
+msgid "Can store and retrieve its own passwords using the system keyring"
+msgstr ""
+
+#: src/safety-calculator.c:577
+msgid "Desktop Notifications Service"
+msgstr "Työpöytäilmoitusten palvelu"
+
+#: src/safety-calculator.c:578
+msgid "Can send desktop notifications"
+msgstr "Voi lähettää työpöytäilmoituksia"
+
+#: src/safety-calculator.c:584
+msgid "System Tray Integration"
+msgstr ""
+
+#: src/safety-calculator.c:585
+msgid "Can display an icon in the system tray"
+msgstr ""
+
+#: src/safety-calculator.c:590
+msgid "KDE Connect Integration"
+msgstr ""
+
+#: src/safety-calculator.c:591
+msgid "Can interact with devices paired via KDE Connect"
+msgstr ""
+
+#: src/shortcuts-dialog.blp:5
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Liikkuminen"
+
+#: src/shortcuts-dialog.blp:8
+msgctxt "shortcut window"
+msgid "Open Explore Page"
+msgstr "Avaa Tutki-sivu"
+
+#: src/shortcuts-dialog.blp:14
+msgctxt "shortcut window"
+msgid "Open Library Page"
+msgstr "Avaa Kirjasto-sivu"
+
+#: src/shortcuts-dialog.blp:20
+msgctxt "shortcut window"
+msgid "Open Search Page"
+msgstr "Avaa Hae-sivu"
+
+#: src/shortcuts-dialog.blp:25
+msgctxt "shortcut window"
+msgid "Remotes"
+msgstr "Etätietovarastot"
+
+#: src/shortcuts-dialog.blp:27
+msgctxt "shortcut window"
+msgid "Sync Remotes"
+msgstr "Synkronoi etätietovarastot"
+
+#: src/shortcuts-dialog.blp:33
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Yleiset"
+
+#: src/shortcuts-dialog.blp:36
+msgctxt "shortcut window"
+msgid "Open Preferences"
+msgstr "Avaa asetukset"
+
+#: src/shortcuts-dialog.blp:41
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Näytä pikanäppäimet"
+
+#: src/shortcuts-dialog.blp:46
+msgctxt "shortcut window"
+msgid "Close Window"
+msgstr "Sulje ikkuna"
+
+#: src/shortcuts-dialog.blp:52
+msgctxt "shortcut window"
+msgid "Quit Bazaar"
+msgstr "Lopeta Bazaar"
+
+#: src/transaction-notification.c:133
+#, c-format
+msgid "%s Installed"
+msgstr "%s asennettu"
+
+#: src/transaction-notification.c:135
+msgid "The app is ready to be used"
+msgstr "Sovellus on valmis käytettäväksi"
+
+#: src/update-worker.c:263
+msgid "Updates Are Out of Date"
+msgstr "Päivitykset eivät ole ajan tasalla"
+
+#: src/update-worker.c:264
+msgid "Please check for available updates"
+msgstr "Tarkista saatavilla olevat ohjelmistopäivitykset"
+
+#: src/update-worker.c:449
+#, c-format
+msgid "%u App Updated"
+msgid_plural "%u Apps Updated"
+msgstr[0] "%u sovellus päivitetty"
+msgstr[1] "%u sovellusta päivitetty"
+
+#: src/update-worker.c:452
+#, c-format
+msgid "%s has been updated."
+msgstr "%s on päivitetty."
+
+#: src/update-worker.c:455
+#, c-format
+msgid "%s and %s have been updated."
+msgstr "%s ja %s on päviitetty."
+
+#: src/update-worker.c:459
+#, c-format
+msgid "Includes %s, %s and %s."
+msgstr "Mukaan lukien %s, %s ja %s."
