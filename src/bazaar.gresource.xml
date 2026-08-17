@@ -209,7 +209,7 @@
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Popular.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.New.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Updated.svg</file>
-    <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Gnome.svg</file>
+    <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Adwaita.svg</file>
     <file preprocess="xml-stripblanks">icons/io.github.kolumni.Bazaar.Kde.svg</file>
 
     <file preprocess="xml-stripblanks">icons/io.github.kolunmi.Bazaar.login-github.svg</file>
