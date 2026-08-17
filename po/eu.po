@@ -5,12 +5,11 @@
 # Ibai Oihanguren Sala <ibaios@disroot.org>, 2026.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: bazaar\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-20 11:09+0200\n"
-"PO-Revision-Date: 2026-07-21 22:54+0200\n"
-"Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
+msgstr "Project-Id-Version: bazaar\n"
+"Report-Msgid-Bugs-To: https://github.com/bazaar-org/bazaar/issues\n"
+"POT-Creation-Date: 2026-08-16 10:25+0000\n"
+"PO-Revision-Date: 2026-08-17 22:54+0200\n"
+"Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
@@ -20,20 +19,24 @@ msgstr ""
 "X-Generator: Gtranslator 50.0\n"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:2
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:47
-#: src/bz-window.blp:203 src/bz-window.c:387 src/bz-window.c:388
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:7 src/bz-window.blp:54
+#: src/bz-window.blp:210 src/bz-window.c:392 src/bz-window.c:393
 msgid "Bazaar"
 msgstr "Bazaar"
 
 #: data/io.github.kolunmi.Bazaar.desktop.in:3
+msgid "App Store"
+msgstr "Aplikazioen denda"
+
+#: data/io.github.kolunmi.Bazaar.desktop.in:4
 msgid "Add, remove or update flatpak software on this computer"
 msgstr "Gehitu, kendu edo eguneratu ordenagailuko flatpak softwarea"
 
-#: data/io.github.kolunmi.Bazaar.desktop.in:9
-msgid "GTK;System;PackageManager;Discover;Flatpak;Software;Store;"
-msgstr "GTK;Sistema;Pakete;Kudeatzailea;Deskubritu;Flatpak;Softwarea;Denda;Biltegia;"
+#: data/io.github.kolunmi.Bazaar.desktop.in:10
+msgid "System;Package;Manager;Discover;Flatpak;Software;App;Store;"
+msgstr "Sistema;Paketea;Kudeatzailea;Deskubritu;Flatpak;Softwarea;Appa;Denda;"
 
-#: data/io.github.kolunmi.Bazaar.desktop.in:16
+#: data/io.github.kolunmi.Bazaar.desktop.in:17
 msgid "New Window"
 msgstr "Leiho berria"
 
@@ -45,9 +48,7 @@ msgstr "Deskubritu eta instalatu aplikazioak"
 msgid ""
 "A fast and modern app store for Linux with a focus on discovering and "
 "installing Flatpak apps and add-ons, particularly from Flathub."
-msgstr ""
-"Aplikazio biltegi bizkor eta modernoa Linuxerako, Flatpak aplikazio eta "
-"gehigarriak (bereziki Flathub-etik) deskubritu eta instalatzera bideratua."
+msgstr "Aplikazio biltegi bizkor eta modernoa Linuxerako, Flatpak aplikazio eta gehigarriak (bereziki Flathub-etik) deskubritu eta instalatzera bideratua."
 
 #: data/io.github.kolunmi.Bazaar.metainfo.xml.in:15
 msgid "Queue multiple installs and keep browsing"
@@ -65,29 +66,29 @@ msgstr "Hasi saioa Flathub-en zure gogokoak ikusi eta kudeatzeko"
 msgid "Search apps directly from GNOME Shell"
 msgstr "Bilatu aplikazioak zuzenean GNOME Shell-etik"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:30 src/bz-application.c:780
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:32 src/bz-application.c:750
 msgid "The Bazaar Contributors"
 msgstr "Bazaarren kolaboratzaileak"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:55
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:57
 msgid "The home page displaying Flathub apps"
 msgstr "Flathub aplikazioak erakusten dituen orri nagusia"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:59
-msgid "Exhibit app page"
-msgstr "Aplikazio baten orria"
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:61
+msgid "App page for Exhibit"
+msgstr "Erakusketarako aplikazio-orria"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:63
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:65
 msgid "Library page"
-msgstr "Liburutegi orria"
+msgstr "'Liburutegia' orria"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:67
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:69
 msgid "Search page"
-msgstr "Bilaketa orria"
+msgstr "'Bilaketa' orria"
 
-#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:71
+#: data/io.github.kolunmi.Bazaar.metainfo.xml.in:73
 msgid "Category page"
-msgstr "Kategoria orria"
+msgstr "'Kategoria' orria"
 
 #: src/bz-addon-tile.blp:64 src/bz-installed-tile.blp:55
 #: src/bz-rich-app-tile.blp:142
@@ -106,53 +107,53 @@ msgctxt "Install Controls"
 msgid "Install"
 msgstr "Instalatu"
 
-#: src/bz-addons-dialog.blp:14 src/bz-addons-dialog.blp:21
-#: src/bz-addons-dialog.blp:70 src/bz-installed-tile.blp:96
+#: src/bz-addons-dialog.blp:7
+msgid "Add-on"
+msgstr "Gehigarria"
+
+#: src/bz-addons-dialog.blp:15 src/bz-addons-dialog.blp:22
+#: src/bz-addons-dialog.blp:71 src/bz-installed-tile.blp:96
 msgid "Manage Add-Ons"
 msgstr "Kudeatu gehigarriak"
 
-#: src/bz-addons-dialog.blp:80
+#: src/bz-addons-dialog.blp:81
 msgid "No Add-Ons Visible"
 msgstr "Ez dago gehigarririk ikusgai"
 
-#: src/bz-addons-dialog.blp:81
+#: src/bz-addons-dialog.blp:82
 msgid ""
 "Your current filter preferences are hiding all known add-ons. Try adjusting "
 "them."
-msgstr ""
-"Uneko iragazki hobespenek gehigarri erabilgarri guztiak ezkutatu dituzte. "
-"Doitu hobespenak gehigarriak ikusteko."
+msgstr "Uneko iragazki hobespenek gehigarri erabilgarri guztiak ezkutatu dituzte. Doitu hobespenak gehigarriak ikusteko."
 
-#: src/bz-addons-dialog.blp:88
+#: src/bz-addons-dialog.blp:89
 msgid "Add-on Page"
 msgstr "Gehigarriaren orria"
 
-#: src/bz-addons-dialog.blp:204 src/bz-full-view.blp:411
+#: src/bz-addons-dialog.blp:205 src/bz-full-view.blp:408
 msgid "Downloads/Month"
 msgstr "Deskarga hileko"
 
-#: src/bz-addons-dialog.blp:231 src/bz-full-view.blp:447
+#: src/bz-addons-dialog.blp:232 src/bz-full-view.blp:444
 msgid "Stopped Receiving Core Updates"
 msgstr "Oinarrizko eguneratzeak jasotzari utzi dio"
 
-#: src/bz-addons-dialog.blp:245
+#: src/bz-addons-dialog.blp:246
 msgid ""
 "This add-on uses a runtime that no longer receives updates or security "
 "fixes. It may become unsafe to use."
-msgstr ""
-"Gehigarri honek eguneratzerik edo segurtasun-konponketarik jasotzen ez duen "
-"exekuzio-ingurune bat darabil. Baliteke berau erabiltzea ez izatea segurua."
+msgstr "Gehigarri honek eguneratzerik edo segurtasun-konponketarik jasotzen ez duen exekuzio-ingurune bat darabil. Baliteke berau erabiltzea ez izatea segurua."
 
 #: src/bz-addons-dialog.c:346
 #, c-format
 msgid "Add-on for %s"
 msgstr "%s(r)entzako gehigarria"
 
-#: src/bz-addons-dialog.c:360 src/bz-full-view.c:618
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:590
 msgid "Show Less"
 msgstr "Gutxiago erakutsi"
 
-#: src/bz-addons-dialog.c:360 src/bz-full-view.c:618 src/bz-section-view.blp:72
+#: src/bz-addons-dialog.c:360 src/bz-full-view.c:590 src/bz-section-view.blp:72
 msgid "Show More"
 msgstr "Gehiago erakutsi"
 
@@ -161,8 +162,8 @@ msgid "Download Stats"
 msgstr "Deskargen estatistikak"
 
 #: src/bz-age-rating-dialog.blp:7 src/bz-age-rating-dialog.blp:31
-#: src/bz-age-rating-dialog.c:736 src/context-tile-callbacks.c:186
-#: src/context-tile-callbacks.c:193
+#: src/bz-age-rating-dialog.c:737 src/context-tile-callbacks.c:187
+#: src/context-tile-callbacks.c:194
 msgid "Age Rating"
 msgstr "Adin balorazioa"
 
@@ -204,8 +205,7 @@ msgstr "Sarraskia irudikatzen duen indarkeria"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:108
 msgid "No information regarding bloodshed"
-msgstr ""
-"Ez dago informaziorik sarraskia irudikatzen duen indarkeriari dagokionean"
+msgstr "Ez dago informaziorik sarraskia irudikatzen duen indarkeriari dagokionean"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:112
@@ -335,9 +335,7 @@ msgstr "Erabiltzaileen arteko txatak"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:186
 msgid "No information regarding ways to chat with other users"
-msgstr ""
-"Ez dago informaziorik beste erabiltzaileekin berriketan aritzeko bideei "
-"dagokienean"
+msgstr "Ez dago informaziorik beste erabiltzaileekin berriketan aritzeko bideei dagokienean"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:190
@@ -347,8 +345,7 @@ msgstr "Erabiltzaileen arteko audio txatak"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:192
 msgid "No information regarding ways to talk with other users"
-msgstr ""
-"Ez dago informaziorik beste erabiltzaileekin hitz egiteko bideei dagokienean"
+msgstr "Ez dago informaziorik beste erabiltzaileekin hitz egiteko bideei dagokienean"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:196
@@ -360,9 +357,7 @@ msgstr "Harremanetarako xehetasunak"
 msgid ""
 "No information regarding sharing of social network usernames or email "
 "addresses"
-msgstr ""
-"Ez dago informaziorik sare sozialetako erabiltzaileak edo email helbideak "
-"partekatzeari dagokionean"
+msgstr "Ez dago informaziorik sare sozialetako erabiltzaileak edo email helbideak partekatzeari dagokionean"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:202
@@ -372,9 +367,7 @@ msgstr "Identifikatzeko informazioa"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:204
 msgid "No information regarding sharing of user information with third parties"
-msgstr ""
-"Ez dago informaziorik erabiltzailearen datuak hirugarren batekin "
-"partekatzeari dagokionean"
+msgstr "Ez dago informaziorik erabiltzailearen datuak hirugarren batekin partekatzeari dagokionean"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:208
@@ -384,9 +377,7 @@ msgstr "Kokapena partekatzea"
 #. TRANSLATORS: content rating description, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:210
 msgid "No information regarding sharing of physical location with other users"
-msgstr ""
-"Ez dago informaziorik beste erabiltzaileekin kokapen fisikoa partekatzeari "
-"dagokionean"
+msgstr "Ez dago informaziorik beste erabiltzaileekin kokapen fisikoa partekatzeari dagokionean"
 
 #. TRANSLATORS: content rating title, see https://hughsie.github.io/oars/
 #: src/bz-age-rating-dialog.c:214
@@ -494,52 +485,52 @@ msgid "Violence"
 msgstr "Indarkeria"
 
 #. Translators: Age rating format, e.g. "12+" for ages 12 and up
-#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:176
+#: src/bz-age-rating-dialog.c:686 src/context-tile-callbacks.c:177
 #, c-format
 msgid "%d+"
 msgstr "%d+"
 
-#: src/bz-age-rating-dialog.c:711
+#: src/bz-age-rating-dialog.c:712
 msgctxt "Age rating"
 msgid "All"
 msgstr "Guztiak"
 
-#: src/bz-age-rating-dialog.c:747
+#: src/bz-age-rating-dialog.c:748
 #, c-format
 msgid "%s has an unknown age rating"
 msgstr "%s(e)k adin balorazio ezezaguna dauka"
 
-#: src/bz-age-rating-dialog.c:753
+#: src/bz-age-rating-dialog.c:754
 #, c-format
 msgid "%s is suitable for everyone"
 msgstr "%s edonorentzako da egokia"
 
-#: src/bz-age-rating-dialog.c:756
+#: src/bz-age-rating-dialog.c:757
 #, c-format
 msgid "%s is suitable for young children"
 msgstr "%s egokia da haur txikientzako"
 
-#: src/bz-age-rating-dialog.c:759
+#: src/bz-age-rating-dialog.c:760
 #, c-format
 msgid "%s is suitable for children"
 msgstr "%s egokia da haurrentzako"
 
-#: src/bz-age-rating-dialog.c:762
+#: src/bz-age-rating-dialog.c:763
 #, c-format
 msgid "%s is suitable for teenagers"
 msgstr "%s egokia da nerabeentzako"
 
-#: src/bz-age-rating-dialog.c:765
+#: src/bz-age-rating-dialog.c:766
 #, c-format
 msgid "%s is suitable for adults"
 msgstr "%s egokia da helduentzako"
 
-#: src/bz-age-rating-dialog.c:768
+#: src/bz-age-rating-dialog.c:769
 #, c-format
 msgid "%s is suitable for %s"
 msgstr "%s egokia da %s urte bitartekoentzako"
 
-#: src/bz-age-rating-dialog.c:862
+#: src/bz-age-rating-dialog.c:868
 #, c-format
 msgid "%s • %s"
 msgstr "%s • %s"
@@ -719,14 +710,14 @@ msgid "Runtime Download Size"
 msgstr "Exekuzio-ingurunearen deskarga tamaina"
 
 #: src/bz-app-size-dialog.c:111 src/bz-bundle-install-dialog.c:185
-#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:393
-#: src/context-tile-callbacks.c:410
+#: src/context-tile-callbacks.c:104 src/context-tile-callbacks.c:394
+#: src/context-tile-callbacks.c:416
 msgid "N/A"
 msgstr "E/E"
 
-#: src/bz-app-size-dialog.c:207
-msgid "App Size"
-msgstr "Aplikazioaren tamaina"
+#: src/bz-app-size-dialog.c:195 src/bz-app-size-dialog.c:208
+msgid "Storage"
+msgstr "Biltegia"
 
 #: src/bz-app-tile.blp:56 src/bz-developer-badge.c:98
 #: src/bz-rich-app-tile.blp:106 src/bz-rich-app-tile.c:443
@@ -735,42 +726,39 @@ msgstr "Egiaztatua"
 
 #. Translators: As in 'The app is installed'.
 #: src/bz-app-tile.blp:87 src/bz-releases-list.c:206
-#: src/context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:136
 msgid "Installed"
 msgstr "Instalatua"
 
 #. Translators: Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#: src/bz-application.c:783
+#: src/bz-application.c:753
 msgid "translator-credits"
 msgstr "Ibai Oihanguren Sala"
 
-#: src/bz-application.c:793
+#: src/bz-application.c:763
 msgid "Special Thanks"
 msgstr "Eskerrak"
 
-#: src/bz-application.c:851
+#: src/bz-application.c:821
 msgid "Logged Out Successfully!"
 msgstr "Behar bezala amaitu da saioa!"
 
-#: src/bz-application.c:1042
+#: src/bz-application.c:1028
 msgid "Ubuntu Troubles!"
 msgstr "Arazoak Ubuntun!"
 
-#: src/bz-application.c:1045
+#: src/bz-application.c:1031
 msgid ""
-"The more recent versions of Ubuntu have messed up default security rules, "
-"making it <b>impossible to install apps</b> from the Flatpak version of "
-"Bazaar, please just use the normal package for now by using\n"
+"Ubuntu 25.10 and newer have messed up default security rules, making it "
+"<b>impossible to install apps</b> from the Flatpak version of Bazaar, please "
+"just use the normal package for now by using\n"
 "\n"
 "<tt>sudo apt install bazaar</tt>\n"
 "\n"
 "You can then remove this Flatpak version with\n"
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
-msgstr ""
-"Ubunturen azken bertsioek segurtasun arau lehenentsiak nahastu dituzte, "
-"Bazaarren Flatpak bertsioa erabiliz <b>aplikazioak instalatzea ezinezko</b> "
-"bihurtuz. Oraingoz, erabili pakete arrunta honakoa exekutatuz:\n"
+msgstr "Ubunturen 25.10 bertsioak eta berriagoek segurtasun-arau lehenentsiak nahastu dituzte, Bazaarren Flatpak bertsioa erabiliz <b>aplikazioak instalatzea ezinezko</b> bihurtuz. Oraingoz, erabili pakete arrunta honakoa exekutatuz:\n"
 "\n"
 "<tt>sudo apt install bazaar</tt>\n"
 "\n"
@@ -778,113 +766,110 @@ msgstr ""
 "\n"
 "<tt>flatpak uninstall io.github.kolunmi.Bazaar</tt>"
 
-#: src/bz-application.c:1051
+#: src/bz-application.c:1037
 msgid "Continue Anyway"
 msgstr "Jarraitu halere"
 
-#: src/bz-application.c:1067
+#: src/bz-application.c:1053
 msgid "Performing setup…"
 msgstr "Konfigurazioa osatzen…"
 
-#: src/bz-application.c:1159
+#: src/bz-application.c:1152
 msgid "Set Up System Flathub?"
 msgstr "Sistemako Flathub konfiguratu?"
 
-#: src/bz-application.c:1162
+#: src/bz-application.c:1155
 msgid ""
 "The system Flathub remote is not set up. Bazaar requires Flathub to be "
 "configured on the system Flatpak installation to browse and install "
 "applications.\n"
 "\n"
 "You can still use Bazaar to browse and remove already installed apps."
-msgstr ""
-"Sistemako Flathub urruneko biltegia ez dago konfiguratuta. Bazaar erabilita "
-"aplikazioak arakatu eta instalatzeko, Flathub konfiguratuta egon behar da "
-"sistemako Flatpak instalazioan.\n"
+msgstr "Sistemako Flathub urruneko biltegia ez dago konfiguratuta. Bazaar erabilita aplikazioak arakatu eta instalatzeko, Flathub konfiguratuta egon behar da sistemako Flatpak instalazioan.\n"
 "\n"
-"Bestela, Bazaar soilik instalatutako aplikazioak nabigatu eta kentzeko "
-"erabili ahalko duzu."
+"Bestela, Bazaar soilik instalatutako aplikazioak nabigatu eta kentzeko erabili ahalko duzu."
 
-#: src/bz-application.c:1169
+#: src/bz-application.c:1162
 msgid "Set Up Flathub?"
 msgstr "Flathub konfiguratu?"
 
-#: src/bz-application.c:1172
+#: src/bz-application.c:1165
 msgid ""
 "Flathub is not set up on this system. You will not be able to browse and "
 "install applications in Bazaar if its unavailable.\n"
 "\n"
 "You can still use Bazaar to browse and remove already installed apps."
-msgstr ""
-"Flathub ez dago sisteman konfiguratuta. Ezin izango dituzu aplikazioak "
-"nabigatu eta instalatu Bazaar erabilita.\n"
+msgstr "Flathub ez dago sisteman konfiguratuta. Ezin izango dituzu aplikazioak nabigatu eta instalatu Bazaar erabilita.\n"
 "\n"
-"Bazaar dagoeneko instalatutako aplikazioak nabigatu eta kentzeko erabili "
-"ahalko duzu."
+"Bazaar dagoeneko instalatutako aplikazioak nabigatu eta kentzeko erabili ahalko duzu."
 
-#: src/bz-application.c:1178
+#: src/bz-application.c:1171
 msgid "Later"
 msgstr "Geroago"
 
-#: src/bz-application.c:1179
+#: src/bz-application.c:1172
 msgid "Set Up Flathub"
 msgstr "Konfiguratu Flathub"
 
-#: src/bz-application.c:1712
+#: src/bz-application.c:1703
 msgid "A backend error occurred"
 msgstr "Backendeko errorea gertatu da"
 
-#: src/bz-application.c:1912 src/bz-application.c:4150
+#: src/bz-application.c:1911 src/bz-application.c:4185
 msgid "Refreshing…"
-msgstr "Berritzen…"
+msgstr "Freskatzen…"
 
-#: src/bz-application.c:2076 src/bz-application.c:4148
+#: src/bz-application.c:2070
 #, c-format
 msgid "Loading %d apps…"
 msgstr "%d aplikazioak kargatzen…"
 
-#: src/bz-application.c:2129
+#: src/bz-application.c:2123 src/bz-application.c:2197
 msgid "Failed to open file"
 msgstr "Ezin izan da fitxategia ireki"
 
-#: src/bz-application.c:2258
+#: src/bz-application.c:2211
+msgid "Failed to load metainfo"
+msgstr "Ezin izan da meta informazioa kargatu"
+
+#: src/bz-application.c:2305
 msgid "An initialization error occurred"
 msgstr "Hasieratze-errore bat gertatu da"
 
-#: src/bz-application.c:2657
+#: src/bz-application.c:2701
 msgid "Checking for updates…"
 msgstr "Eguneratzeak bilatzen…"
 
-#: src/bz-application.c:2713
+#: src/bz-application.c:2757
 msgid "Failed to check for updates"
 msgstr "Ezin izan dira eguneratzeak bilatu"
 
-#: src/bz-application.c:3852
+#: src/bz-application.c:3953
 msgid "Malformed Link"
 msgstr "Gaizki eratutako esteka"
 
-#: src/bz-application.c:3853
+#: src/bz-application.c:3954
 msgid ""
 "The link used to open this app has incorrect capitalization and may stop "
 "working in the future.\n"
 "\n"
 "This is most likely caused by KRunner sending incorrect app IDs"
-msgstr ""
-"Aplikazio hau irekitzeko erabilitako estekak maiuskulen okerreko erabilera "
-"dauka, eta baliteke noizbait funtzionatzeari uztea.\n"
+msgstr "Aplikazio hau irekitzeko erabilitako estekak maiuskulen okerreko erabilera dauka, eta baliteke noizbait funtzionatzeari uztea.\n"
 "\n"
-"Seguruenera hau KRunner-ek okerreko aplikazio IDak bidaltzen dituelako "
-"izango da."
+"Seguruenera hau KRunner-ek okerreko aplikazio IDak bidaltzen dituelako izango da."
 
-#: src/bz-application.c:3861
+#: src/bz-application.c:3962
 msgid "Could not find app"
 msgstr "Ez da aplikazioa aurkitu"
 
-#: src/bz-application.c:3892
-msgid "Failed to load metainfo"
-msgstr "Ezin izan da meta informazioa kargatu"
+#: src/bz-application.c:4182
+#, c-format
+msgid "Loading %d app…"
+msgid_plural "Loading %d apps…"
+msgstr[0] "Aplikazio %d kargatzen…"
+msgstr[1] "%d aplikazio kargatzen…"
 
-#: src/bz-application.c:4152
+#: src/bz-application.c:4187
 msgid "Writing to cache…"
 msgstr "Cachean idazten…"
 
@@ -908,7 +893,7 @@ msgstr "Ezin izan da artikulua kargatu"
 
 #: src/bz-bundle-install-dialog.blp:21 src/bz-bundle-install-dialog.blp:27
 msgid "Bundle Installation"
-msgstr "Sortaren instalazioa"
+msgstr "Bildumaren instalazioa"
 
 #: src/bz-bundle-install-dialog.blp:198
 msgid "Additional dependencies may take extra space"
@@ -920,9 +905,7 @@ msgid ""
 "from this source will show up in Bazaar.\n"
 "\n"
 "Only add this source if you're sure you trust it."
-msgstr ""
-"Baliteke aplikazio hau instalatzeko software-iturri berri bat gehitu behar "
-"izatea. Iturri honetako beste aplikazioak ere Bazaarren azalduko dira.\n"
+msgstr "Baliteke aplikazio hau instalatzeko software-iturri berri bat gehitu behar izatea. Iturri honetako beste aplikazioak ere Bazaarren azalduko dira.\n"
 "\n"
 "Ez gehitu iturri hau ez bazaude bere fidagarritasunaz ziur."
 
@@ -930,20 +913,21 @@ msgstr ""
 msgid "Successfully Installed!"
 msgstr "Behar bezala instalatu da!"
 
-#: src/bz-bundle-install-dialog.blp:437 src/bz-bundle-install-dialog.blp:522
-#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:298
+#. TRANSLATORS: Button to launch an installed app
+#: src/bz-bundle-install-dialog.blp:438 src/bz-bundle-install-dialog.blp:524
+#: src/bz-rich-app-tile.blp:199 src/bz-transaction-tile.blp:300
 msgid "Open"
 msgstr "Ireki"
 
-#: src/bz-bundle-install-dialog.blp:447 src/bz-bundle-install-dialog.blp:532
+#: src/bz-bundle-install-dialog.blp:448 src/bz-bundle-install-dialog.blp:534
 msgid "Show App Details"
 msgstr "Erakutsi aplikazioaren xehetasunak"
 
-#: src/bz-bundle-install-dialog.blp:498
+#: src/bz-bundle-install-dialog.blp:499
 msgid "Already Installed"
 msgstr "Dagoeneko instalatua"
 
-#: src/bz-bundle-install-dialog.blp:544
+#: src/bz-bundle-install-dialog.blp:546
 msgid "Installation Failed"
 msgstr "Instalazioak huts egin du"
 
@@ -960,40 +944,23 @@ msgstr "%s inguru instalatzeko"
 msgid "No special permissions"
 msgstr "Baimen berezirik ez"
 
-#: src/bz-curated-view.blp:24 src/bz-favorites-page.blp:46
-#: src/bz-flathub-page.blp:19 src/bz-full-view.blp:30 src/bz-full-view.blp:41
-#: src/bz-library-page.blp:29 src/bz-user-data-page.blp:30
-msgid "Empty"
-msgstr "Hutsik"
-
-#: src/bz-curated-view.blp:28
+#: src/bz-curated-view.blp:27
 msgid "No Curation"
 msgstr "Aukeraketarik gabe"
 
-#: src/bz-curated-view.blp:30
+#: src/bz-curated-view.blp:29
 msgid ""
 "There is no curation information provided on this system. You can still "
 "browse apps on Flathub"
-msgstr ""
-"Ez dago aukeraketa informaziorik sistema honetan. Halere, Flathub-eko "
-"aplikazioak araka ditzakezu."
+msgstr "Ez dago aukeraketa informaziorik sistema honetan. Halere, Flathub-eko aplikazioak araka ditzakezu."
 
-#: src/bz-curated-view.blp:34
+#: src/bz-curated-view.blp:33
 msgid "Browse Flathub"
 msgstr "Arakatu Flathub"
 
-#: src/bz-curated-view.blp:47 src/bz-curated-view.blp:51
+#: src/bz-curated-view.blp:49
 msgid "Offline"
 msgstr "Lineaz kanpo"
-
-#. Translators: Search suggestion: the english text will be used for the
-#. search regardless of what you put here, so don't worry about the string
-#. yielding poor search results. Focus on correctness and friendliness,
-#. etc
-#: src/bz-curated-view.blp:57 src/bz-flathub-page.blp:61
-#: src/bz-search-pill-list.c:67
-msgid "Browser"
-msgstr "Nabigatzailea"
 
 #: src/bz-developer-badge.c:94 src/bz-developer-badge.c:98
 msgid "Not Verified"
@@ -1008,9 +975,7 @@ msgstr "Garatzailearen informazioa ez dago eskuragarri."
 msgid ""
 "The ownership of the %s app ID has not been verified and it may be a "
 "community package."
-msgstr ""
-"%s aplikazio IDaren jabetza ez da egiaztatu, eta baliteke komunitateko "
-"paketea izatea."
+msgstr "%s aplikazio IDaren jabetza ez da egiaztatu, eta baliteke komunitateko paketea izatea."
 
 #: src/bz-developer-badge.c:237
 #, c-format
@@ -1024,8 +989,7 @@ msgstr "%s aplikazio IDaren jabetza eskuz egiaztatu du Flathub-eko lantaldeak."
 msgid ""
 "The ownership of the %1$s app ID has been verified by <b>%2$s</b> on "
 "<b>%3$s</b>."
-msgstr ""
-"%1$s aplikazio IDaren jabetza <b>%2$s</b>(e)k egiaztatu du <b>%3$s</b>(e)an."
+msgstr "%1$s aplikazio IDaren jabetza <b>%2$s</b>(e)k egiaztatu du <b>%3$s</b>(e)an."
 
 #: src/bz-developer-badge.c:260
 #, c-format
@@ -1037,34 +1001,36 @@ msgstr "%1$s aplikazio IDaren jabetza %2$s erabiliz egiaztatu da."
 msgid "The ownership of the %s app ID has been verified."
 msgstr "%s aplikazio IDaren jabetza egiaztatua izan da."
 
-#: src/bz-donations-dialog.blp:74
+#: src/bz-donations-dialog.blp:7
+msgid "Bazaar Release"
+msgstr "Bazaar argitalpena"
+
+#: src/bz-donations-dialog.blp:77
 msgid "Full Release Notes"
 msgstr "Bertsio-ohar osoak"
 
-#: src/bz-donations-dialog.blp:108
+#: src/bz-donations-dialog.blp:112
 msgid "This release was made possible by users like you!"
 msgstr "Bertsio hau zu moduko erabiltzaileei esker sortu da!"
 
-#: src/bz-donations-dialog.blp:116
+#: src/bz-donations-dialog.blp:121
 msgid ""
 "I love making Bazaar, but I cannot do it alone. Help support further "
 "development by donating on Ko-Fi."
-msgstr ""
-"Maite dut Bazaar garatzea, baina ezin dut lan hau bakarrik egin. Lagundu "
-"aplikazioaren garapena Ko-Fi erabilita dohaintza bat eginez."
+msgstr "Maite dut Bazaar garatzea, baina ezin dut lan hau bakarrik egin. Lagundu aplikazioaren garapena Ko-Fi erabilita dohaintza bat eginez."
 
-#: src/bz-donations-dialog.blp:131
+#: src/bz-donations-dialog.blp:136
 msgid "Donate to Bazaar"
 msgstr "Lagundu Bazaar diruz"
 
 #. Translators: the %s format specifier will be something along the lines of "0.7.6" etc
-#: src/bz-donations-dialog.c:227
+#: src/bz-donations-dialog.c:228
 #, c-format
 msgid "What's New in %s?"
 msgstr "Zer berri %s bertsioan?"
 
 #. Translators: this is a release date label, like "Released February 9, 2026"
-#: src/bz-donations-dialog.c:243
+#: src/bz-donations-dialog.c:244
 msgid "Released %B %-e, %Y"
 msgstr "%Y(e)ko %Bren %-e(e)an argitaratua"
 
@@ -1076,9 +1042,7 @@ msgstr "Aukeratu instalazio bat"
 msgid ""
 "You have multiple versions of this app installed. Which one would you like "
 "to proceed with?"
-msgstr ""
-"Aplikazio honen hainbat bertsio dituzu instalatuta. Zeinekin egin nahi duzu "
-"aurrera?"
+msgstr "Aplikazio honen hainbat bertsio dituzu instalatuta. Zeinekin egin nahi duzu aurrera?"
 
 #: src/bz-entry-group-util.c:80 src/bz-rich-app-tile.blp:233
 msgid "Cancel"
@@ -1096,16 +1060,17 @@ msgstr "erabiltzaile hau"
 msgid "all users"
 msgstr "erabiltzaile guztiak"
 
-#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:98 src/error.c:69
+#: src/bz-error-dialog.blp:36 src/bz-safety-dialog.blp:100 src/error.c:69
 #: src/error.c:88
 msgid "Details"
 msgstr "Xehetasunak"
 
-#: src/bz-error-dialog.blp:47
+#. TRANSLATORS: tooltip for a button that copies text to the clipboard
+#: src/bz-error-dialog.blp:48
 msgid "Copy"
 msgstr "Kopiatu"
 
-#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:446
+#: src/bz-error-dialog.c:56 src/bz-screenshot-page.c:461
 #: src/bz-share-list.c:364
 msgid "Copied!"
 msgstr "Kopiatuta!"
@@ -1126,8 +1091,7 @@ msgstr "Hasi saioa Flathub-ekin gogokoak kudeatzeko"
 msgid "Log In"
 msgstr "Hasi saioa"
 
-#: src/bz-favorites-page.blp:5 src/bz-favorites-page.blp:56
-#: src/bz-window.blp:348
+#: src/bz-favorites-page.blp:5 src/bz-window.blp:345
 msgid "Favorites"
 msgstr "Gogokoak"
 
@@ -1135,15 +1099,11 @@ msgstr "Gogokoak"
 msgid "Install All"
 msgstr "Instalatu dena"
 
-#: src/bz-favorites-page.blp:34 src/bz-user-data-page.blp:17
-msgid "Loading"
-msgstr "Kargatzen"
-
-#: src/bz-favorites-page.blp:49
+#: src/bz-favorites-page.blp:47
 msgid "No Favorites"
 msgstr "Gogokorik ez"
 
-#: src/bz-favorites-page.blp:50
+#: src/bz-favorites-page.blp:48
 msgid "Applications you mark as favorite will appear here"
 msgstr "Gogoko gisa markatzen dituzun aplikazioak hemen azalduko dira"
 
@@ -1383,7 +1343,7 @@ msgstr "Sistema aplikazio gehiago"
 msgid "Utilities"
 msgstr "Tresnak"
 
-#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:437
+#: src/bz-flathub-category.c:143 src/bz-flathub-page.blp:436
 msgid "Tools"
 msgstr "Tresnak"
 
@@ -1391,8 +1351,8 @@ msgstr "Tresnak"
 msgid "More Utilities"
 msgstr "Tresna gehiago"
 
-#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:109
-#: src/bz-flathub-page.blp:141
+#: src/bz-flathub-category.c:144 src/bz-flathub-page.blp:111
+#: src/bz-flathub-page.blp:143
 msgid "Trending"
 msgstr "Pil-pilean"
 
@@ -1400,8 +1360,8 @@ msgstr "Pil-pilean"
 msgid "More Trending"
 msgstr "Pil-pilean dauden aplikazio gehiago"
 
-#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:115
-#: src/bz-flathub-page.blp:174
+#: src/bz-flathub-category.c:145 src/bz-flathub-page.blp:117
+#: src/bz-flathub-page.blp:176
 msgid "Popular"
 msgstr "Ezagunak"
 
@@ -1409,11 +1369,11 @@ msgstr "Ezagunak"
 msgid "More Popular"
 msgstr "Aplikazio ezagun gehiago"
 
-#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:163
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:165
 msgid "Recently Added"
 msgstr "Azkena gehituak"
 
-#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:121
+#: src/bz-flathub-category.c:146 src/bz-flathub-page.blp:123
 msgid "New"
 msgstr "Berriak"
 
@@ -1421,11 +1381,11 @@ msgstr "Berriak"
 msgid "More New"
 msgstr "Aplikazio berri gehiago"
 
-#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:152
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:154
 msgid "Recently Updated"
 msgstr "Berriki eguneratuak"
 
-#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:127
+#: src/bz-flathub-category.c:147 src/bz-flathub-page.blp:129
 msgid "Updated"
 msgstr "Eguneratuak"
 
@@ -1457,15 +1417,15 @@ msgstr "KDE aplikazioak"
 msgid "More KDE Apps"
 msgstr "KDE aplikazio gehiago"
 
-#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:419
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:418
 msgid "Games"
 msgstr "Jokoak"
 
-#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:479
+#: src/bz-flathub-category.c:151 src/bz-flathub-page.blp:475
 msgid "More Games"
 msgstr "Joko gehiago"
 
-#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:425
+#: src/bz-flathub-category.c:152 src/bz-flathub-page.blp:424
 msgid "Emulators"
 msgstr "Emulatzaileak"
 
@@ -1473,7 +1433,7 @@ msgstr "Emulatzaileak"
 msgid "More Emulators"
 msgstr "Emulatzaile gehiago"
 
-#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:431
+#: src/bz-flathub-category.c:153 src/bz-flathub-page.blp:430
 msgid "Launchers"
 msgstr "Abiarazleak"
 
@@ -1489,111 +1449,202 @@ msgstr "Joko-tresnak"
 msgid "More Game Tools"
 msgstr "Joko-tresna gehiago"
 
-#: src/bz-flathub-page.blp:23
+#: src/bz-flathub-curated-section.c:65
+msgid "New Year, New Workflows"
+msgstr "Urte berria, laneko fluxu berriak"
+
+#: src/bz-flathub-curated-section.c:65
+msgid "Apps to take notes, track tasks, and make plans"
+msgstr "Oharrak hartzeko, zereginen jarraipena egiteko eta planak antolatzeko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:66
+msgid "Staff Picks"
+msgstr "Hautatuak"
+
+#: src/bz-flathub-curated-section.c:66
+msgid "Apps we love right now"
+msgstr "Momentu honetan oso gustuko ditugunak"
+
+#: src/bz-flathub-curated-section.c:67
+msgid "Get Creative"
+msgstr "Izan sortzaile"
+
+#: src/bz-flathub-curated-section.c:67
+msgid "Essential apps for drawing, editing photos, and digital design"
+msgstr "Marrazteko, argazkiak editatzeko eta disenuak sortzeko funtsezko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:68
+msgid "Build Native Apps"
+msgstr "Eraiki berariazko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:68
+msgid "Develop apps that feel at home on your system"
+msgstr "Garatu zure sistemaren baitan etxean bezala sentituko diren aplikazioak"
+
+#: src/bz-flathub-curated-section.c:69
+msgid "Stay in Touch"
+msgstr "Hitz egin jendearekin"
+
+#: src/bz-flathub-curated-section.c:69
+msgid "Essential collaboration and communication apps"
+msgstr "Lankidetza eta komunikaziorako funtsezko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:70
+msgid "Ready for Vacations"
+msgstr "Prest oporretarako"
+
+#: src/bz-flathub-curated-section.c:70
+msgid "Maps, transit, weather, and trip planning apps"
+msgstr "Mapak, garraioa, eguraldia eta bidaiak planifikatzeko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:71
+msgid "Smarter Every Day"
+msgstr "Azkarrago (bi zentzuetan) egunero"
+
+#: src/bz-flathub-curated-section.c:71
+msgid "Apps to help you study, research, and write"
+msgstr "Ikasi, ikertu eta idazten laguntzeko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:72
+msgid "Get Cozy"
+msgstr "Jarri eroso"
+
+#: src/bz-flathub-curated-section.c:72
+msgid "Great apps for reading, watching movies, and playing games"
+msgstr "Irakurtzeko, filmak ikusteko eta jokoetan aritzeko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:73
+msgid "Web Developer Essentials"
+msgstr "Web-garatzaileentzako funtsezkoak"
+
+#: src/bz-flathub-curated-section.c:73
+msgid "Making websites is more fun with these apps"
+msgstr "Webguneak sortzea dibertigarriagoa da app hauekin"
+
+#: src/bz-flathub-curated-section.c:74
+msgid "Take Better Notes"
+msgstr "Hartu oharrak hobeto"
+
+#: src/bz-flathub-curated-section.c:74
+msgid "Find your new favorite note taking tool"
+msgstr "Aurkitu oharrak idazteko zure aplikazko gogokoena izango dena"
+
+#: src/bz-flathub-curated-section.c:75
+msgid "Get Focused"
+msgstr "Zentratu lanean"
+
+#: src/bz-flathub-curated-section.c:75
+msgid "Great apps for task management"
+msgstr "Zereginak kudeatzeko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:76
+msgid "Make Some Noise"
+msgstr "Egin zarata"
+
+#: src/bz-flathub-curated-section.c:76
+msgid "Apps for creating and producing music"
+msgstr "Musika sortu eta ekoizteko aplikazioak"
+
+#: src/bz-flathub-curated-section.c:77
+msgid "Get To Work"
+msgstr "Itzuli lanera"
+
+#: src/bz-flathub-curated-section.c:77
+msgid "Essential office apps"
+msgstr "Bulegorako funtsezko aplikazioak"
+
+#: src/bz-flathub-page.blp:22
 msgid "Flathub Not Added"
 msgstr "Ez da Flathub gehitu"
 
-#: src/bz-flathub-page.blp:24
+#: src/bz-flathub-page.blp:23
 msgid "The Flathub remote was not found on any of your Flatpak installations"
 msgstr "Ez da Flathub urrunekorik aurkitu zure Flatpak instalazioetan"
 
-#: src/bz-flathub-page.blp:30
-msgid "Flathub Unavailable"
-msgstr "Flathub ez dago eskuragarri"
-
-#: src/bz-flathub-page.blp:34
+#: src/bz-flathub-page.blp:32
 msgid "Can't Reach Flathub"
 msgstr "Ezin da Flathub atzitu"
 
-#: src/bz-flathub-page.blp:35
+#: src/bz-flathub-page.blp:33
 msgid "You can still manage and search for apps."
 msgstr "Halere, aplikazioak kudeatu eta bila ditzakezu oraindik."
 
-#: src/bz-flathub-page.blp:41
+#: src/bz-flathub-page.blp:39
 msgid "Search Apps"
 msgstr "Bilatu aplikazioak"
 
-#: src/bz-flathub-page.blp:52
+#: src/bz-flathub-page.blp:50
 msgid "Reconnect"
 msgstr "Birkonektatu"
 
-#: src/bz-flathub-page.blp:202
+#: src/bz-flathub-page.blp:204
 msgid "App of the Day"
 msgstr "Eguneko aplikazioa"
 
-#: src/bz-flathub-page.blp:265
+#: src/bz-flathub-page.blp:267
 msgid "On the Go"
 msgstr "Aldean"
 
-#: src/bz-flathub-page.blp:277
+#: src/bz-flathub-page.blp:279
 msgid "Apps for your Linux phones and tablets"
 msgstr "Linux mugikor eta tabletentzako aplikazioak"
 
-#: src/bz-flathub-page.blp:288 src/bz-flathub-page.blp:323
+#: src/bz-flathub-page.blp:290 src/bz-flathub-page.blp:322
 msgid "More Mobile Apps"
 msgstr "Aplikazio mugikor gehiago"
 
-#: src/bz-flathub-page.blp:381
+#: src/bz-flathub-page.blp:380
 msgid "We​ ♥​ Games"
 msgstr "Guk ere ♥​ ditugu jokoak"
 
-#: src/bz-flathub-page.blp:394
+#: src/bz-flathub-page.blp:393
 msgid "Games and apps to run your favorite titles"
 msgstr "Gogokoen dituzun jokoak eta hauentzako aplikazioak"
 
-#: src/bz-full-view.blp:34 src/bz-library-page.blp:40
-#: src/bz-library-page.blp:44
+#: src/bz-full-view.blp:33
 msgid "No Results"
 msgstr "Emaitzarik ez"
 
-#: src/bz-full-view.blp:35
+#: src/bz-full-view.blp:34
 msgid "Try a different search query"
 msgstr "Saiatu beste bilaketa batekin"
 
-#: src/bz-full-view.blp:47
-msgid "Content"
-msgstr "Edukia"
-
-#: src/bz-full-view.blp:106
+#: src/bz-full-view.blp:103
 msgid ""
 "This is a local preview, some details may differ from the published listing"
-msgstr ""
-"Hau tokiko aurrebista da, baliteke xehetasun batzuk argitaratutako "
-"zerrendarekin bat ez etortzea"
+msgstr "Hau tokiko aurrebista da, baliteke xehetasun batzuk argitaratutako zerrendarekin bat ez etortzea"
 
-#: src/bz-full-view.blp:109
+#: src/bz-full-view.blp:106
 msgid "Preview Store Appearance"
 msgstr "Aurreikusi biltegiaren itxura"
 
-#: src/bz-full-view.blp:236
+#: src/bz-full-view.blp:233
 msgid "_Support"
 msgstr "_Babestu"
 
-#: src/bz-full-view.blp:461
+#: src/bz-full-view.blp:458
 msgid ""
 "This app uses a runtime that no longer receives updates or security fixes. "
 "It may become unsafe to use."
-msgstr ""
-"Aplikazio honek eguneratzerik edo segurtasun-konponketarik jasotzen ez duen "
-"exekuzio-ingurune bat darabil. Baliteke berau erabiltzea ez izatea segurua."
+msgstr "Aplikazio honek eguneratzerik edo segurtasun-konponketarik jasotzen ez duen exekuzio-ingurune bat darabil. Baliteke berau erabiltzea ez izatea segurua."
 
-#: src/bz-full-view.blp:539
+#: src/bz-full-view.blp:536
 msgid "Trash Data"
 msgstr "Bota datuak zakarrontzira"
 
-#: src/bz-full-view.blp:602
+#: src/bz-full-view.blp:599
 msgid "Add-ons"
 msgstr "Gehigarriak"
 
-#: src/bz-full-view.blp:637
+#: src/bz-full-view.blp:634
 msgid "More Add-Ons"
 msgstr "Gehigarri gehiago"
 
-#: src/bz-full-view.blp:648
+#: src/bz-full-view.blp:645
 msgid "Links"
 msgstr "Estekak"
 
-#: src/bz-full-view.blp:679
+#: src/bz-full-view.blp:676
 msgid "Similar Apps"
 msgstr "Antzeko aplikazioak"
 
@@ -1605,18 +1656,13 @@ msgstr "URLrik ez"
 msgid ""
 "This app has a FLOSS license, meaning the source code can be audited for "
 "safety."
-msgstr ""
-"Aplikazio honek lizentzia libre eta irekia dauka, eta ondorioz, bere "
-"iturburu kodea segurtasun ikuspegitik audita daiteke."
+msgstr "Aplikazio honek lizentzia libre eta irekia dauka, eta ondorioz, bere iturburu kodea segurtasun ikuspegitik audita daiteke."
 
 #: src/bz-full-view.c:200
 msgid ""
 "This app has a proprietary license, meaning the source code is developed "
 "privately and cannot be audited by an independent third party."
-msgstr ""
-"Aplikazio honek lizentzia pribatiboa dauka, eta ondorioz, bere iturburu "
-"kodea pribatuki garatzen da eta ezin du hirugarren independente batek "
-"auditatu."
+msgstr "Aplikazio honek lizentzia pribatiboa dauka, eta ondorioz, bere iturburu kodea pribatuki garatzen da eta ezin du hirugarren independente batek auditatu."
 
 #: src/bz-full-view.c:207
 msgid "More Apps"
@@ -1639,8 +1685,7 @@ msgstr "%s(r)en beste aplikazioak"
 #: src/bz-full-view.c:226
 #, c-format
 msgid "%s is not installed, but it still has <b>%s</b> of data present."
-msgstr ""
-"%s ez dago instalatua, baina oraindik <b>%s</b> daude gordeta datuetan."
+msgstr "%s ez dago instalatua, baina oraindik <b>%s</b> daude gordeta datuetan."
 
 #: src/bz-full-view.c:311
 msgid "Other Apps"
@@ -1653,7 +1698,7 @@ msgid_plural "%d Applications"
 msgstr[0] "Aplikazio %d"
 msgstr[1] "%d aplikazio"
 
-#: src/bz-full-view.c:498 src/bz-user-data-tile.c:141
+#: src/bz-full-view.c:470 src/bz-user-data-tile.c:160
 msgid "Failed to Remove User Data"
 msgstr "Huts egin du erabiltzaile-datuak ezabatzeak"
 
@@ -1797,64 +1842,57 @@ msgid "Cancelling"
 msgstr "Uzten"
 
 #: src/bz-installed-tile.blp:80
-msgid "Donate Button"
-msgstr "Dohaintza botoia"
+msgid "Donate"
+msgstr "Lagundu diruz"
 
 #: src/bz-library-page.blp:17
 msgid "Search installed apps"
 msgstr "Bilatu instalatutako aplikazioak"
 
-#: src/bz-library-page.blp:33
+#: src/bz-library-page.blp:32
 msgid "No Apps Found"
 msgstr "Ez da aplikaziorik aurkitu"
 
-#: src/bz-library-page.blp:52
+#: src/bz-library-page.blp:49
 msgid "Search Store Instead"
 msgstr "Bilatu biltegian"
 
-#. Translators: .
-#: src/bz-library-page.blp:62 src/bz-window.blp:114
-msgid "Library"
-msgstr "Liburutegia"
-
-#: src/bz-library-page.blp:91
+#: src/bz-library-page.blp:86
 msgid "Pending Updates"
 msgstr "Zain dauden eguneratzeak"
 
-#: src/bz-library-page.blp:118
+#: src/bz-library-page.blp:113
 msgid "Downloads"
 msgstr "Deskargak"
 
-#: src/bz-library-page.blp:161
+#: src/bz-library-page.blp:156
 msgid "Recently Uninstalled"
 msgstr "Berriki desinstalatuak"
 
-#: src/bz-library-page.blp:212
+#: src/bz-library-page.blp:207
 msgid "Clear Finished Tasks"
 msgstr "Garbitu amaitutako atazak"
 
-#: src/bz-library-page.blp:239
+#: src/bz-library-page.blp:234
 msgid "Sort Options"
 msgstr "Ordenatze-aukerak"
 
-#: src/bz-library-page.blp:298
+#: src/bz-library-page.blp:293
 msgid "Sort By"
 msgstr "Ordenatu honela"
 
-#: src/bz-library-page.blp:312
+#: src/bz-library-page.blp:307
 msgid "Name"
 msgstr "Izena"
 
-#: src/bz-library-page.blp:318
+#: src/bz-library-page.blp:313
 msgid "Size"
 msgstr "Tamaina"
 
 #: src/bz-library-page.c:181
 #, c-format
 msgid "No matches found for \"%s\" in the list of installed apps"
-msgstr ""
-"Ez da \"%s\" bilaketarekin bat datorren emaitzarik aurkitu instalatutako "
-"aplikazioen zerrendan"
+msgstr "Ez da \"%s\" bilaketarekin bat datorren emaitzarik aurkitu instalatutako aplikazioen zerrendan"
 
 #: src/bz-library-page.c:194 src/bz-updates-card.c:437
 #, c-format
@@ -1897,11 +1935,11 @@ msgstr "Lizentzia ezezaguna"
 msgid "Community Built"
 msgstr "Komunitateak eraikia"
 
-#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:288
+#: src/bz-license-dialog.c:133 src/context-tile-callbacks.c:289
 msgid "Proprietary"
 msgstr "Pribatiboa"
 
-#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:290
+#: src/bz-license-dialog.c:135 src/context-tile-callbacks.c:291
 msgid "Special License"
 msgstr "Lizentzia berezia"
 
@@ -1910,8 +1948,7 @@ msgid ""
 "This app is developed in the open by an international community.\n"
 "\n"
 "You can participate and help make it even better."
-msgstr ""
-"Aplikazio hau nazioarteko komunitate batek eraiki du modu irekian.\n"
+msgstr "Aplikazio hau nazioarteko komunitate batek eraiki du modu irekian.\n"
 "\n"
 "Parte hartuz hobetzen lagun dezakezu."
 
@@ -1926,9 +1963,7 @@ msgid ""
 "released under the %s license.\n"
 "\n"
 "You can participate and help make it even better."
-msgstr ""
-"Aplikazio hau nazioarteko komunitate batek eraiki du modu irekian, eta %s "
-"lizentziapean askatu du.\n"
+msgstr "Aplikazio hau nazioarteko komunitate batek eraiki du modu irekian, eta %s lizentziapean askatu du.\n"
 "\n"
 "Parte hartuz hobetzen lagun dezakezu."
 
@@ -1939,10 +1974,7 @@ msgid ""
 "without oversight.\n"
 "\n"
 "You may or may not be able to contribute to this app."
-msgstr ""
-"Aplikazio hau ez da modu irekian garatu eta, beraz, bere garatzaileek soilik "
-"dakite nola funtzionatzen duen. Baliteke segurua ez izatea antzemateko zaila "
-"den eran, eta inork ikuskatu gabe alda daiteke.\n"
+msgstr "Aplikazio hau ez da modu irekian garatu eta, beraz, bere garatzaileek soilik dakite nola funtzionatzen duen. Baliteke segurua ez izatea antzemateko zaila den eran, eta inork ikuskatu gabe alda daiteke.\n"
 "\n"
 "Ezin dugu ziurtatu aplikazio honen garapenean lagun dezakezunik."
 
@@ -1952,12 +1984,12 @@ msgid ""
 "This app is developed under the special license %s.\n"
 "\n"
 "You may or may not be able to contribute to this app."
-msgstr ""
-"Aplikazio hau %s lizentzia berezipean garatu da.\n"
+msgstr "Aplikazio hau %s lizentzia berezipean garatu da.\n"
 "\n"
 "Ezin dugu ziurtatu aplikazio honen garapenean lagun dezakezunik."
 
-#: src/bz-license-dialog.c:356 src/bz-safety-dialog.blp:101
+#: src/bz-license-dialog.c:345 src/bz-license-dialog.c:364
+#: src/bz-safety-dialog.blp:103
 msgid "License"
 msgstr "Lizentzia"
 
@@ -1982,25 +2014,27 @@ msgstr "Amaitu"
 msgid "Hello, %s!"
 msgstr "Kaixo, %s!"
 
-#: src/bz-metainfo-preview.c:84
-msgid "Select Metainfo File"
-msgstr "Hautatu metainfo fitxategia"
+#: src/bz-metainfo-preview.c:105
+msgid "Add Icon to Metainfo Preview?"
+msgstr "Gehitu ikonoa metainfo aurrebistari?"
 
-#: src/bz-metainfo-preview.c:87
-msgid "Metainfo Files"
-msgstr "Metainfo fitxategiak"
+#: src/bz-metainfo-preview.c:108
+msgid ""
+"Metainfo files don't include app icons by themselves. Would you like to "
+"select one manually?"
+msgstr "Metainfo fitxategiek ez dituzte berez aplikazio-ikonoak. Ikono bat eskuz gehitu nahi duzu?"
 
-#: src/bz-metainfo-preview.c:141
-msgid "Select Icon (Optional)"
-msgstr "Hautatu ikonoa (aukerakoa)"
+#: src/bz-metainfo-preview.c:111
+msgid "Skip"
+msgstr "Saltatu"
 
-#: src/bz-metainfo-preview.c:144
+#: src/bz-metainfo-preview.c:112 src/bz-metainfo-preview.c:163
+msgid "Select Icon"
+msgstr "Hautatu ikonoa"
+
+#: src/bz-metainfo-preview.c:166
 msgid "Image Files"
 msgstr "Irudi fitxategiak"
-
-#: src/bz-metainfo-preview.c:231
-msgid "Preview"
-msgstr "Aurrebista"
 
 #: src/bz-preferences-dialog.blp:19
 msgid "Preferences"
@@ -2008,10 +2042,9 @@ msgstr "Hobespenak"
 
 #: src/bz-preferences-dialog.blp:25
 msgid "Network connection is metered — automatic store data refresh is paused"
-msgstr ""
-"Sareko konexioa neurtua da — biltegiko datuen berritze automatikoa pausatu da"
+msgstr "Sareko konexioa neurtua da — biltegiko datuen berritze automatikoa pausatu da"
 
-#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:236 src/bz-window.blp:247
+#: src/bz-preferences-dialog.blp:26 src/bz-window.blp:243 src/bz-window.blp:254
 msgid "Refresh Manually"
 msgstr "Berritu eskuz"
 
@@ -2019,170 +2052,167 @@ msgstr "Berritu eskuz"
 msgid "App Updates"
 msgstr "Aplikazio eguneratzeak"
 
-#: src/bz-preferences-dialog.blp:46
+#: src/bz-preferences-dialog.blp:33
 msgid ""
-"Checking for and downloading app updates uses data and power. Automatic app "
-"update features are therefore paused when on metered network connections and "
-"when power saver is on."
-msgstr ""
-"Aplikazio eguneratzeak bilatu eta deskargatzeak datuak eta argindarra "
-"erabiltzea dakar. Ondorioz, aplikazioen eguneratze automatikorako eginbideak "
-"pausatu egiten dira sareko konexio neurtua erabiltzean edo energia "
-"aurrezpena aktibatuta dagoenean."
+"Auto-updates will pause on metered networks or when power saving is on to "
+"save data and battery."
+msgstr "Eguneratze automatikoak pausatu egingo dira sare mugatuetan edo energia aurreztea aktibatuta dagoenean."
 
-#: src/bz-preferences-dialog.blp:52
+#: src/bz-preferences-dialog.blp:36
 msgid "_Automatic"
 msgstr "_Automatikoa"
 
-#: src/bz-preferences-dialog.blp:53
+#: src/bz-preferences-dialog.blp:37
 msgid "Automatically check for and download app updates"
-msgstr "Bilatu eta deskargatu aplikazio eguneratzeak automatikoki\t"
+msgstr "Bilatu eta deskargatu aplikazio eguneratzeak automatikoki"
 
-#: src/bz-preferences-dialog.blp:62
+#: src/bz-preferences-dialog.blp:49
 msgid "_Manual"
 msgstr "_Eskuzkoa"
 
-#: src/bz-preferences-dialog.blp:63
+#: src/bz-preferences-dialog.blp:50
 msgid "Checking for and downloading app updates must be done manually"
 msgstr "Aplikazio eguneratzeak eskuz bilatu eta deskargatu behar dira"
 
-#: src/bz-preferences-dialog.blp:78
+#: src/bz-preferences-dialog.blp:69
 msgid "Automatic Update _Notifications"
 msgstr "Eguneratze _jakinarazpen automatikoak"
 
-#: src/bz-preferences-dialog.blp:79
+#: src/bz-preferences-dialog.blp:70
 msgid "Notify when updates have been automatically installed"
 msgstr "Jakinarazi eguneratzeak automatikoki instalatu direnean"
 
-#: src/bz-preferences-dialog.blp:84
+#: src/bz-preferences-dialog.blp:75
 msgid "Content Filters"
 msgstr "Eduki iragazkiak"
 
-#: src/bz-preferences-dialog.blp:87
+#: src/bz-preferences-dialog.blp:78
 msgid "_Free Software Only"
 msgstr "Software _librea soilik"
 
-#: src/bz-preferences-dialog.blp:88
+#: src/bz-preferences-dialog.blp:79
 msgid "Hide proprietary apps when browsing and searching"
 msgstr "Ezkutatu aplikazio pribatiboak nabigatzean eta bilatzean"
 
-#: src/bz-preferences-dialog.blp:93
+#: src/bz-preferences-dialog.blp:84
 msgid "F_lathub Results Only"
 msgstr "_Flathub-eko emaitzak soilik"
 
-#: src/bz-preferences-dialog.blp:94
+#: src/bz-preferences-dialog.blp:85
 msgid "Limit search and browse results to apps only available on Flathub"
-msgstr ""
-"Mugatu bilaketa eta nabigazioko emaitzak Flathub-en erabilgarri dauden "
-"aplikazioetara"
+msgstr "Mugatu bilaketa eta nabigazioko emaitzak Flathub-en erabilgarri dauden aplikazioetara"
 
-#: src/bz-preferences-dialog.blp:99
+#: src/bz-preferences-dialog.blp:90
 msgid "_Verified Results Only"
 msgstr "_Egiaztatutako emaitzak soilik"
 
-#: src/bz-preferences-dialog.blp:100
+#: src/bz-preferences-dialog.blp:91
 msgid "Hide results that are not verified on Flathub"
 msgstr "Ezkutatu Flathub-ek egiaztatu gabeko emaitzak"
 
-#: src/bz-preferences-dialog.blp:105
+#: src/bz-preferences-dialog.blp:96
 msgid "Hide _End-of-Life Apps"
 msgstr "Ezkutatu bizirik e_z dauden aplikazioak"
 
-#: src/bz-preferences-dialog.blp:106
+#: src/bz-preferences-dialog.blp:97
 msgid "Hide apps which are no longer supported by their developers"
 msgstr "Ezkutatu garatzaileek mantentzen ez dituzten aplikazioak"
 
-#: src/bz-preferences-dialog.blp:112
+#: src/bz-preferences-dialog.blp:103
 msgid "Progress Bar Theme"
 msgstr "Aurrerapen barraren gaia"
 
-#: src/bz-preferences-dialog.c:32
+#: src/bz-preferences-dialog.c:42
 msgid "Accent Color"
 msgstr "Kolore orokorra"
 
-#: src/bz-preferences-dialog.c:33
+#: src/bz-preferences-dialog.c:43
 msgid "Pride Colors"
 msgstr "Harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:34
+#: src/bz-preferences-dialog.c:44
 msgid "Lesbian Pride Colors"
 msgstr "Harrotasun lesbianaren koloreak"
 
-#: src/bz-preferences-dialog.c:35
+#: src/bz-preferences-dialog.c:45
 msgid "Male Homosexual Pride Colors"
 msgstr "Gay harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:36
+#: src/bz-preferences-dialog.c:46
 msgid "Transgender Pride Colors"
 msgstr "Trans harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:37
+#: src/bz-preferences-dialog.c:47
 msgid "Nonbinary Pride Colors"
 msgstr "Ez-bitar harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:38
+#: src/bz-preferences-dialog.c:48
 msgid "Bisexual Pride Colors"
 msgstr "Harrotasun bisexualaren koloreak"
 
-#: src/bz-preferences-dialog.c:39
+#: src/bz-preferences-dialog.c:49
 msgid "Asexual Pride Colors"
 msgstr "Harrotasun asexualaren koloreak"
 
-#: src/bz-preferences-dialog.c:40
+#: src/bz-preferences-dialog.c:50
 msgid "Pansexual Pride Colors"
 msgstr "Harrotasun pansexualaren koloreak"
 
-#: src/bz-preferences-dialog.c:41
+#: src/bz-preferences-dialog.c:51
 msgid "Aromantic Pride Colors"
 msgstr "Harrotasun arromantikoaren koloreak"
 
-#: src/bz-preferences-dialog.c:42
+#: src/bz-preferences-dialog.c:52
 msgid "Genderfluid Pride Colors"
 msgstr "Genero fluido harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:43
+#: src/bz-preferences-dialog.c:53
 msgid "Polysexual Pride Colors"
 msgstr "Harrotasun polisexualaren koloreak"
 
-#: src/bz-preferences-dialog.c:44
+#: src/bz-preferences-dialog.c:54
 msgid "Omnisexual Pride Colors"
 msgstr "Harrotasun omnisexualaren koloreak"
 
-#: src/bz-preferences-dialog.c:45
+#: src/bz-preferences-dialog.c:55
 msgid "Aroace Pride Colors"
 msgstr "Harrotasun arromantiko asexualaren koloreak"
 
-#: src/bz-preferences-dialog.c:46
+#: src/bz-preferences-dialog.c:56
 msgid "Agender Pride Colors"
 msgstr "Genero gabeko harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:47
+#: src/bz-preferences-dialog.c:57
 msgid "Genderqueer Pride Colors"
 msgstr "Kuir harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:48
+#: src/bz-preferences-dialog.c:58
 msgid "Intersex Pride Colors"
 msgstr "Intersex harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:49
+#: src/bz-preferences-dialog.c:59
 msgid "Demigender Pride Colors"
 msgstr "Demigenero harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:50
+#: src/bz-preferences-dialog.c:60
 msgid "Biromantic Pride Colors"
 msgstr "Harrotasun birromantikoaren koloreak"
 
-#: src/bz-preferences-dialog.c:51
+#: src/bz-preferences-dialog.c:61
 msgid "Disability Pride Colors"
 msgstr "Ezgaitasun harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:52
+#: src/bz-preferences-dialog.c:62
 msgid "Femboy Pride Colors"
 msgstr "Femboy harrotasunaren koloreak"
 
-#: src/bz-preferences-dialog.c:53
+#: src/bz-preferences-dialog.c:63
 msgid "Neutrois Pride Colors"
 msgstr "Genero neutroko harrotasunaren koloreak"
+
+#: src/bz-preferences-dialog.c:285
+msgid "Bazaar needs to run in the background to check for app updates"
+msgstr "Bazaar atzeko planoan exekutatu behar da aplikazio-eguneratzeak dauden ala ez jakiteko"
 
 #: src/bz-releases-dialog.blp:5 src/bz-updates-card.c:159
 msgid "Version History"
@@ -2262,108 +2292,104 @@ msgstr "Desinstalatu"
 msgid "Get"
 msgstr "Eskuratu"
 
-#: src/bz-safety-dialog.blp:31 src/safety-calculator.c:161
+#: src/bz-safety-dialog.blp:32 src/bz-safety-dialog.c:307
+#: src/safety-calculator.c:161
 msgid "Arbitrary Permissions"
 msgstr "Baimen arbitrarioak"
 
-#: src/bz-safety-dialog.blp:48
+#: src/bz-safety-dialog.blp:49
 msgid ""
 "This app has a permission that indirectly allows it to grant itself <b>any "
 "other permission it wants</b>, bypassing the Flatpak sandbox.\n"
 "\n"
-"It can therefore do anything a normal, non-sandboxed application can do, "
+"It can therefore do anything a privileged, non-sandboxed application can do, "
 "such as accessing all your files and connecting to the internet.\n"
 "\n"
 "Viewing the other permissions may still give a better idea of what the app "
 "is likely to do."
-msgstr ""
-"Aplikazio honek duen baimen batek bere buruari <b>nahi duen beste edozein "
-"baimen</b> ematea ahalbidetzen dio, Flatpak-en isolazioa saltatuz.\n"
+msgstr "Aplikazio honek duen baimen batek bere buruari <b>nahi duen beste edozein baimen</b> ematea ahalbidetzen dio, Flatpak-en isolazioa saltatuz.\n"
 "\n"
-"Ondorioz, isolatu gabeko aplikazio arrunt batek egin dezakeen edozer egin "
-"dezake, hala nola, zure fitxategi guztiak atzitu edo Internetera konektatu.\n"
+"Ondorioz, isolatu gabeko pribilegiodun aplikazio batek egin dezakeen edozer egin dezake, hala nola, zure fitxategi guztiak atzitu edo Internetera konektatu.\n"
 "\n"
-"Beste baimenak ikusteak aplikazioak egin dezakeena hobeto ulertzen lagun "
-"zaitzake."
+"Beste baimenak ikusteak aplikazioak egin dezakeena hobeto ulertzen lagun zaitzake."
 
-#: src/bz-safety-dialog.blp:52
+#: src/bz-safety-dialog.blp:53
 msgid "View Other Permissions"
 msgstr "Ikusi beste baimenak"
 
-#: src/bz-safety-dialog.blp:79 src/context-tile-callbacks.c:400
+#. TRANSLATORS: short app safety rating label
+#: src/bz-safety-dialog.blp:81 src/context-tile-callbacks.c:402
 msgid "Safe"
 msgstr "Segurua"
 
-#: src/bz-safety-dialog.blp:112
+#: src/bz-safety-dialog.blp:114
 msgid "App ID"
 msgstr "Aplikazioaren IDa"
 
-#: src/bz-safety-dialog.blp:122
+#: src/bz-safety-dialog.blp:124
 msgid "SDK"
 msgstr "SDK"
 
-#: src/bz-safety-dialog.blp:156
+#: src/bz-safety-dialog.blp:158
 msgid ""
 "This app uses an outdated version of the software platform (SDK) and might "
 "contain bugs or security vulnerabilities which will not be fixed."
-msgstr ""
-"Aplikazio honek software plataformaren (SDK) bertsio zaharkitua darabil, eta "
-"baliteke konpondu gabeko akatsak edo segurtasun-zaurgarritasunak izatea."
+msgstr "Aplikazio honek software plataformaren (SDK) bertsio zaharkitua darabil, eta baliteke konpondu gabeko akatsak edo segurtasun-zaurgarritasunak izatea."
 
-#: src/bz-safety-dialog.c:287
+#: src/bz-safety-dialog.c:293 src/bz-safety-dialog.c:326
 msgid "Safety"
 msgstr "Segurtasuna"
 
-#: src/bz-safety-dialog.c:347
+#: src/bz-safety-dialog.c:386
 #, c-format
 msgid "%s is Safe"
 msgstr "%s segurua da"
 
-#: src/bz-safety-dialog.c:352
+#: src/bz-safety-dialog.c:391
 #, c-format
 msgid "%s has no Unsafe Permissions"
 msgstr "%s(e)k ez dauka baimen ez segururik"
 
-#: src/bz-safety-dialog.c:357
+#: src/bz-safety-dialog.c:396
 #, c-format
 msgid "%s is Probably Safe"
 msgstr "%s segurua da, segur aski"
 
-#: src/bz-safety-dialog.c:362
+#: src/bz-safety-dialog.c:401
 #, c-format
 msgid "%s is Possibly Unsafe"
 msgstr "%s beharbada segurua da"
 
-#: src/bz-safety-dialog.c:367
+#: src/bz-safety-dialog.c:406
 #, c-format
 msgid "%s is Unsafe"
 msgstr "%s ez da segurua"
 
-#: src/bz-screenshot-page.blp:41
+#: src/bz-screenshot-page.blp:73
 msgid "Back"
 msgstr "Atzera"
 
-#: src/bz-screenshot-page.blp:71
+#: src/bz-screenshot-page.blp:103
 msgid "Previous Screenshot"
 msgstr "Aurreko pantaila-argazkia"
 
-#: src/bz-screenshot-page.blp:81
+#: src/bz-screenshot-page.blp:113
 msgid "Next Screenshot"
 msgstr "Hurrengo pantaila-argazkia"
 
-#: src/bz-screenshot-page.blp:97
+#: src/bz-screenshot-page.blp:129
 msgid "Copy Image"
 msgstr "Kopiatu irudia"
 
-#: src/bz-screenshot-page.blp:160
+#: src/bz-screenshot-page.blp:192
 msgid "Reset View"
 msgstr "Berrezarri ikuspegia"
 
-#: src/bz-screenshot-page.blp:171
+#: src/bz-screenshot-page.blp:203
 msgid "Zoom Out"
 msgstr "Urrundu"
 
-#: src/bz-screenshot-page.blp:181
+#: src/bz-screenshot-page.blp:213
 msgid "Zoom In"
 msgstr "Gerturatu"
 
@@ -2449,6 +2475,14 @@ msgstr "Ez da aplikaziorik aurkitu"
 #, c-format
 msgid "No results found for \"%s\" in Flathub"
 msgstr "Ez da emaitzarik aurkitu \"%s\" bilaketarentzat Flathub-en"
+
+#. Translators: Search suggestion: the english text will be used for the
+#. search regardless of what you put here, so don't worry about the string
+#. yielding poor search results. Focus on correctness and friendliness,
+#. etc
+#: src/bz-search-pill-list.c:67
+msgid "Browser"
+msgstr "Nabigatzailea"
 
 #. Translators: Search suggestion: the english text will be used for the
 #. search regardless of what you put here, so don't worry about the string
@@ -2581,19 +2615,22 @@ msgstr "Manifestua"
 msgid "Copy Link"
 msgstr "Kopiatu esteka"
 
-#: src/bz-stats-dialog.blp:27
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:28
 msgid "Timeline"
 msgstr "Denbora-lerroa"
 
-#: src/bz-stats-dialog.blp:46
+#. TRANSLATORS: label prefix shown in graph tooltips, for example: "Installs: 42"
+#: src/bz-stats-dialog.blp:48
 msgid "Installs:"
 msgstr "Instalazioak:"
 
-#: src/bz-stats-dialog.blp:55
+#. TRANSLATORS: page in the statistics dialog
+#: src/bz-stats-dialog.blp:58
 msgid "World"
 msgstr "Mundua"
 
-#: src/bz-stats-dialog.blp:69
+#: src/bz-stats-dialog.blp:72
 msgid "Since 4/15/2024"
 msgstr "2024/04/15etik"
 
@@ -2646,9 +2683,7 @@ msgstr "%s instalatu?"
 #: src/bz-transaction-dialog.c:195
 msgid ""
 "Select which version to install. May install additional shared components"
-msgstr ""
-"Hautatu zein bertsio instalatu nahi duzun. Baliteke partekatutako beste "
-"osagai batzuk ere instalatzea."
+msgstr "Hautatu zein bertsio instalatu nahi duzun. Baliteke partekatutako beste osagai batzuk ere instalatzea."
 
 #: src/bz-transaction-dialog.c:197
 msgid "May install additional shared components"
@@ -2690,14 +2725,9 @@ msgid ""
 "\n"
 "Because the app is proprietary, it can not be audited for what it does with "
 "these permissions."
-msgstr ""
-"Aplikazio honek sistemara sarbide osoa dauka, zure <b>fitxategi guztiak, "
-"nabigatze-historia, gordetako pasahitzak</b> eta gehiago atzitzeko baimena "
-"barne. Internetera sarbidea ere badauka, eta ondorioz, zure datuak kanpoko "
-"norbaiti bidal diezazkioke.\n"
+msgstr "Aplikazio honek sistemara sarbide osoa dauka, zure <b>fitxategi guztiak, nabigatze-historia, gordetako pasahitzak</b> eta gehiago atzitzeko baimena barne. Internetera sarbidea ere badauka, eta ondorioz, zure datuak kanpoko norbaiti bidal diezazkioke.\n"
 "\n"
-"Aplikazio hau pribatiboa denez, ezin da auditatu baimen hauekin zer egiten "
-"duen aztertzeko."
+"Aplikazio hau pribatiboa denez, ezin da auditatu baimen hauekin zer egiten duen aztertzeko."
 
 #: src/bz-transaction-dialog.c:259
 msgid ""
@@ -2708,14 +2738,9 @@ msgid ""
 "\n"
 "Because the app is proprietary, it can not be audited for what it does with "
 "these permissions."
-msgstr ""
-"Aplikazio honek X11 leiho-sistema legatua darabil, eta honek <b>teklatuko "
-"sakatze guztiak grabatu, pantaila-argazkiak atera eta beste aplikazioak "
-"monitorizatzea</b> ahalbidetzen dio. Internetera sarbidea ere badauka, eta "
-"ondorioz, zure datuak kanpoko norbaiti bidal diezazkioke.\n"
+msgstr "Aplikazio honek X11 leiho-sistema legatua darabil, eta honek <b>teklatuko sakatze guztiak grabatu, pantaila-argazkiak atera eta beste aplikazioak monitorizatzea</b> ahalbidetzen dio. Internetera sarbidea ere badauka, eta ondorioz, zure datuak kanpoko norbaiti bidal diezazkioke.\n"
 "\n"
-"Aplikazio hau pribatiboa denez, ezin da auditatu baimen hauekin zer egiten "
-"duen aztertzeko."
+"Aplikazio hau pribatiboa denez, ezin da auditatu baimen hauekin zer egiten duen aztertzeko."
 
 #: src/bz-transaction-dialog.c:275
 msgid "_Install Anyway"
@@ -2744,9 +2769,7 @@ msgstr[1] "%u aplikazioak instalatu?"
 msgid ""
 "The following will be installed. Additional shared components may also be "
 "installed"
-msgstr ""
-"Ondorengoa instalatuko da. Baliteke partekatutako osagai gehigarriak ere "
-"instalatzea."
+msgstr "Ondorengoa instalatuko da. Baliteke partekatutako osagai gehigarriak ere instalatzea."
 
 #: src/bz-transaction-dialog.c:574
 #, c-format
@@ -2761,44 +2784,44 @@ msgstr "Gainera, gehigarriak instalatuko dira."
 msgid "_Install All"
 msgstr "_Instalatu dena"
 
-#: src/bz-transaction-manager.c:795
+#: src/bz-transaction-manager.c:796
 #, c-format
 msgid "Finished in %.02f seconds"
 msgstr "%.02f segundoan amaitua"
 
-#: src/bz-transaction-tile.blp:129
+#: src/bz-transaction-tile.blp:130
 msgid "App Add-On"
 msgstr "Aplikazioaren gehigarria"
 
-#: src/bz-transaction-tile.blp:158
+#: src/bz-transaction-tile.blp:159
 msgid "Runtime"
 msgstr "Exekuzio-ingurunea"
 
-#: src/bz-transaction-tile.blp:182
+#: src/bz-transaction-tile.blp:183
 msgid "In Queue"
 msgstr "Ilaran"
 
-#: src/bz-transaction-tile.blp:206
+#: src/bz-transaction-tile.blp:207
 msgid "Done"
 msgstr "Egina"
 
-#: src/bz-transaction-tile.blp:230
+#: src/bz-transaction-tile.blp:231
 msgid "Cancelled"
 msgstr "Utzita"
 
-#: src/bz-transaction-tile.blp:254
+#: src/bz-transaction-tile.blp:255
 msgid "Error"
 msgstr "Errorea"
 
-#: src/bz-transaction-tile.blp:312
+#: src/bz-transaction-tile.blp:314
 msgid "Cancel Transaction"
 msgstr "Eten transakzioa"
 
-#: src/bz-transaction-tile.blp:322
+#: src/bz-transaction-tile.blp:324
 msgid "Show Details"
 msgstr "Erakutsi xehetasunak"
 
-#: src/bz-transaction-tile.blp:437
+#: src/bz-transaction-tile.blp:439
 msgid "Show Error Info"
 msgstr "Erakutsi errore-informazioa"
 
@@ -2830,13 +2853,25 @@ msgstr[1] "Exekuzio-ingurunearen %u eguneratze"
 msgid "Manage Leftover User Data"
 msgstr "Kudeatu soberako erabiltzaile-datuak"
 
-#: src/bz-user-data-page.blp:34
-msgid "No User Data Found"
-msgstr "Ez da erabiltzaile-daturik aurkitu"
+#: src/bz-user-data-page.blp:32
+msgid "No Leftover User Data Found"
+msgstr "Ez da aurkitu soberako erabiltzaile-daturik"
 
-#: src/bz-user-data-page.blp:40
-msgid "User Data"
-msgstr "Erabiltzaile-datuak"
+#: src/bz-user-data-page.blp:33
+msgid "Personal data left behind by apps that were removed will show up here"
+msgstr "Kendu diren aplikazioek utzi dituzten datu pertsonalak hemen erakutsiko dira"
+
+#: src/bz-user-data-page.c:229
+#, c-format
+msgid "Trashed User Data for %u App"
+msgid_plural "Trashed User Data for %u Apps"
+msgstr[0] "Aplikazio %uen erabiltzaile-datuak zakarrontzira bota dira"
+msgstr[1] "%u aplikazioren erabiltzaile-datuak zakarrontzira bota dira"
+
+#: src/bz-user-data-page.c:233
+#, c-format
+msgid "Trashed User Data for %s"
+msgstr "%s(r)en erabiltzaile-datuak zakarrontzira bota dira"
 
 #: src/bz-user-data-tile.blp:92
 msgid "Open User Data Folder"
@@ -2846,100 +2881,99 @@ msgstr "Ireki erabiltzaile-datuen karpeta"
 msgid "Trash User Data"
 msgstr "Bota erabiltzaile-datuak zakarrontzira"
 
-#: src/bz-user-data-tile.c:147
-#, c-format
-msgid "Trashed User Data for %s"
-msgstr "%s(r)en erabiltzaile-datuak zakarrontzira bota dira"
-
-#: src/bz-window.blp:72
+#: src/bz-window.blp:79
 msgid "Refreshing"
-msgstr "Berritzen"
+msgstr "Freskatzen"
 
-#: src/bz-window.blp:90
+#: src/bz-window.blp:97
 msgid "Curated"
 msgstr "Aukeratua"
 
-#: src/bz-window.blp:102
+#: src/bz-window.blp:109
 msgid "Explore"
 msgstr "Arakatu"
 
-#: src/bz-window.blp:129
+#. Translators: .
+#: src/bz-window.blp:121
+msgid "Library"
+msgstr "Liburutegia"
+
+#: src/bz-window.blp:136
 msgid "Search"
 msgstr "Bilaketa"
 
-#: src/bz-window.blp:216
+#: src/bz-window.blp:223
 msgid "Main Menu"
 msgstr "Menu nagusia"
 
-#: src/bz-window.blp:227
+#: src/bz-window.blp:234
 msgid "You are running a new version of Bazaar!"
 msgstr "Bazaarren bertsio berria ari zara erabiltzen!"
 
-#: src/bz-window.blp:228
+#: src/bz-window.blp:235
 msgid "See What's New"
 msgstr "Ikusi berritasunak"
 
-#: src/bz-window.blp:235
+#: src/bz-window.blp:242
 msgid ""
 "You have a network connection but are viewing a cached version of Flathub"
-msgstr ""
-"Sareko konexioa daukazu, baina Flathub-en bertsio cacheratua ari zara ikusten"
+msgstr "Sareko konexioa daukazu, baina Flathub-en bertsio cacheratua ari zara ikusten"
 
-#: src/bz-window.blp:246
+#: src/bz-window.blp:253
 msgid "Network connection is metered — automatic refreshes disabled"
 msgstr "Sareko konexioa neurtua da — berritze automatikoa ezgaitu da"
 
-#: src/bz-window.blp:292
+#: src/bz-window.blp:289
 msgid "_Donate to Bazaar"
 msgstr "_Lagundu Bazaar diruz"
 
-#: src/bz-window.blp:298
+#: src/bz-window.blp:295
 msgid "_Refresh"
 msgstr "_Berritu"
 
-#: src/bz-window.blp:302
+#: src/bz-window.blp:299
 msgid "_Login With Flathub"
 msgstr "Hasi saioa _Flathub-en"
 
-#: src/bz-window.blp:308
+#: src/bz-window.blp:305
 msgid "_Manage Leftover User Data"
 msgstr "_Kudeatu soberako erabiltzaile-datuak"
 
-#: src/bz-window.blp:314
+#: src/bz-window.blp:311
 msgid "_Preferences"
 msgstr "_Hobespenak"
 
-#: src/bz-window.blp:319
+#: src/bz-window.blp:316
 msgid "_Keyboard Shortcuts"
 msgstr "_Teklatuko lasterbideak"
 
-#: src/bz-window.blp:324
+#: src/bz-window.blp:321
 msgid "_About Bazaar"
 msgstr "B_azaarri buruz"
 
-#: src/bz-window.blp:330
+#: src/bz-window.blp:327
 msgid "_Quit Bazaar"
 msgstr "_Irten"
 
-#: src/bz-window.blp:355
+#: src/bz-window.blp:352
 msgid "Log Out"
 msgstr "Amaitu saioa"
 
 #. Translators: %s is the title of the current page
-#: src/bz-window.c:390
+#: src/bz-window.c:395
 #, c-format
 msgid "Bazaar — %s"
 msgstr "Bazaar — %s"
 
-#: src/bz-window.c:635 src/bz-window.c:673
+#: src/bz-window.c:668 src/bz-window.c:706
 msgid "Failed to launch application"
 msgstr "Huts egin du aplikazioa abiarazteak"
 
-#: src/bz-window.c:925
+#: src/bz-window.c:962
 msgid "You can't remove Bazaar from Bazaar!"
 msgstr "Ezin duzu Bazaar kendu Bazaar erabilita!"
 
-#: src/bz-window.c:1238 src/bz-window.c:1272
+#: src/bz-window.c:1298 src/bz-window.c:1332
 msgid "Can't do that right now!"
 msgstr "Orain ezin duzu hori egin!"
 
@@ -2971,94 +3005,98 @@ msgstr "%.*fK"
 msgid "%d downloads in the last month"
 msgstr "%d deskarga azken hilean"
 
-#: src/context-tile-callbacks.c:132
+#. TRANSLATORS: %s is a formatted file size, for example: "128 MB"
+#: src/context-tile-callbacks.c:133
 #, c-format
-msgid "+%s runtime"
+msgid "+%s Runtime"
 msgstr "+%s exekuzio-ingurunea"
 
-#: src/context-tile-callbacks.c:135
+#: src/context-tile-callbacks.c:136
 msgid "Download"
 msgstr "Deskargatzeko"
 
-#: src/context-tile-callbacks.c:155
+#: src/context-tile-callbacks.c:156
 msgid "Size information unavailable"
 msgstr "Ez dago tamainaren informaziorik"
 
-#: src/context-tile-callbacks.c:158
+#: src/context-tile-callbacks.c:159
 #, c-format
 msgid "Download size of %s"
-msgstr "%sko deskarga tamaina"
+msgstr "%s(r)en deskarga-tamaina"
 
-#: src/context-tile-callbacks.c:191
+#: src/context-tile-callbacks.c:192
 msgid "All Ages"
 msgstr "Adin guztiak"
 
-#: src/context-tile-callbacks.c:203
+#: src/context-tile-callbacks.c:204
 msgid "Age rating information unavailable"
 msgstr "Ez dago adin balorazioaren informaziorik"
 
-#: src/context-tile-callbacks.c:208
+#: src/context-tile-callbacks.c:209
 msgid "Suitable for all ages"
 msgstr "Egokia adin guztietakoentzat"
 
-#: src/context-tile-callbacks.c:210
+#: src/context-tile-callbacks.c:211
 #, c-format
 msgid "Suitable for ages %d and up"
 msgstr "Egokia %d urtetik gorakoentzat"
 
-#: src/context-tile-callbacks.c:243 src/context-tile-callbacks.c:248
-#: src/context-tile-callbacks.c:276 src/context-tile-callbacks.c:285
+#: src/context-tile-callbacks.c:244 src/context-tile-callbacks.c:249
+#: src/context-tile-callbacks.c:277 src/context-tile-callbacks.c:286
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: src/context-tile-callbacks.c:253
+#: src/context-tile-callbacks.c:254
 #, c-format
 msgid "Free software licensed under %s"
 msgstr "Software librea %s lizentziapean"
 
-#: src/context-tile-callbacks.c:258
+#: src/context-tile-callbacks.c:259
 msgid "Free software"
 msgstr "Software librea"
 
-#: src/context-tile-callbacks.c:261
+#: src/context-tile-callbacks.c:262
 msgid "Proprietary Software"
 msgstr "Software pribatiboa"
 
-#: src/context-tile-callbacks.c:264
+#: src/context-tile-callbacks.c:265
 #, c-format
 msgid "Special License: %s"
 msgstr "Lizentzia berezia: %s"
 
 #. TRANSLATORS: You can omit the "software" part if your translation makes it obvious we're talking about "libre" and not "gratis"
-#: src/context-tile-callbacks.c:282
+#: src/context-tile-callbacks.c:283
 msgid "Free Software"
 msgstr "Software librea"
 
-#: src/context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:311
 msgid "Adaptive"
 msgstr "Moldakorra"
 
-#: src/context-tile-callbacks.c:310
+#: src/context-tile-callbacks.c:311
 msgid "Desktop Only"
 msgstr "Mahaigainerako soilik"
 
-#: src/context-tile-callbacks.c:316
+#: src/context-tile-callbacks.c:317
 msgid "Works on desktop, tablets, and phones"
 msgstr "Mahaigainean, tabletetan eta mugikorretan dabil"
 
-#: src/context-tile-callbacks.c:317
+#: src/context-tile-callbacks.c:318
 msgid "May not work on mobile devices"
 msgstr "Baliteke gailu mugikorretan ez ibiltzea"
 
-#: src/context-tile-callbacks.c:402 src/context-tile-callbacks.c:404
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:405 src/context-tile-callbacks.c:408
 msgid "Low Risk"
 msgstr "Arrisku txikia"
 
-#: src/context-tile-callbacks.c:406
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:411
 msgid "Medium Risk"
 msgstr "Arrisku ertaina"
 
-#: src/context-tile-callbacks.c:408
+#. TRANSLATORS: short app safety rating label
+#: src/context-tile-callbacks.c:414
 msgid "High Risk"
 msgstr "Arrisku handia"
 
@@ -3124,8 +3162,7 @@ msgstr "Mikrofonora eta audio erreprodukziora sarbidea"
 
 #: src/safety-calculator.c:134
 msgid "Can listen using microphones and play audio without asking permission"
-msgstr ""
-"Mikrofonotik entzun eta audioa erreproduzitu dezake baimenik eskatu gabe"
+msgstr "Mikrofonotik entzun eta audioa erreproduzitu dezake baimenik eskatu gabe"
 
 #: src/safety-calculator.c:140
 msgid "System Device Access"
@@ -3145,11 +3182,11 @@ msgstr "Pantailako edo beste leihoetako edukia ikus dezake"
 
 #: src/safety-calculator.c:154
 msgid "Legacy Windowing System"
-msgstr "Leiho-sistema legatua"
+msgstr "Leiho-sistema zaharra"
 
 #: src/safety-calculator.c:155
 msgid "Always uses a legacy windowing system (X11)"
-msgstr "Leiho-sistema legatua (X11) darabil beti"
+msgstr "Leiho-sistema zaharra (X11) darabil beti"
 
 #: src/safety-calculator.c:162
 msgid "Can acquire arbitrary permissions"
@@ -3253,7 +3290,7 @@ msgstr "Ez dauka sistemako edo saioko zerbitzu zuzenetara inolako sarbiderik"
 
 #: src/safety-calculator.c:354
 msgid "Verified App Developer"
-msgstr "Aplikazio garatzaile egiaztatua"
+msgstr "Aplikazio-garatzaile egiaztatua"
 
 #: src/safety-calculator.c:355
 msgid "The developer of this app has been verified to be who they say they are"
@@ -3267,9 +3304,7 @@ msgstr "Kode pribatiboa"
 msgid ""
 "The source code is not public, so it cannot be independently audited and "
 "might be unsafe"
-msgstr ""
-"Iturburu kodea ez da publikoa, ezin da era independentean auditatu, eta "
-"baliteke segurua ez izatea"
+msgstr "Iturburu kodea ez da publikoa, ezin da era independentean auditatu, eta baliteke segurua ez izatea"
 
 #: src/safety-calculator.c:375
 msgid "Auditable Code"
@@ -3279,9 +3314,7 @@ msgstr "Kode auditagarria"
 msgid ""
 "The source code is public and can be independently audited, which makes the "
 "app more likely to be safe"
-msgstr ""
-"Iturburu kodea publikoa da, independenteki audita daiteke, eta aplikazioa "
-"segurua izatea errazten du"
+msgstr "Iturburu kodea publikoa da, independenteki audita daiteke, eta aplikazioa segurua izatea errazten du"
 
 #: src/safety-calculator.c:516
 #, c-format
@@ -3320,11 +3353,11 @@ msgstr "Bere menuak menu orokorraren barran erakuts ditzake"
 
 #: src/safety-calculator.c:559
 msgid "KDE Settings Integration"
-msgstr "KDEren ezarpenekin integrazioa"
+msgstr "KDEren ezarpenen integrazioa"
 
 #: src/safety-calculator.c:560
 msgid "Can detect when KDE desktop settings change"
-msgstr "KDE mahaigaineko ezarpenen aldaketak antzeman ditzake"
+msgstr "KDE mahaigaineko ezarpenen aldaketak detektatu ditzake"
 
 #: src/safety-calculator.c:565
 msgid "KDE Global Settings"
@@ -3332,9 +3365,7 @@ msgstr "KDEren ezarpen orokorrak"
 
 #: src/safety-calculator.c:566
 msgid "Can read KDE desktop preferences like fonts and colors"
-msgstr ""
-"KDE mahaigaineko hobespenak irakur ditzake, esaterako letra-tipo eta "
-"koloreei buruzkoak"
+msgstr "KDE mahaigaineko hobespenak irakur ditzake, esaterako letra-tipo eta koloreei buruzkoak"
 
 #: src/safety-calculator.c:571
 msgid "Secret Storage Service"
@@ -3376,17 +3407,17 @@ msgstr "Nabigazioa"
 #: src/shortcuts-dialog.blp:8
 msgctxt "shortcut window"
 msgid "Open Explore Page"
-msgstr "Ireki Arakatu orria"
+msgstr "Ireki 'Arakatu' orria"
 
 #: src/shortcuts-dialog.blp:14
 msgctxt "shortcut window"
 msgid "Open Library Page"
-msgstr "Ireki Liburutegia orria"
+msgstr "Ireki 'Liburutegia' orria"
 
 #: src/shortcuts-dialog.blp:20
 msgctxt "shortcut window"
 msgid "Open Search Page"
-msgstr "Ireki Bilaketa orria"
+msgstr "Ireki 'Bilaketa' orria"
 
 #: src/shortcuts-dialog.blp:25
 msgctxt "shortcut window"
@@ -3423,27 +3454,84 @@ msgctxt "shortcut window"
 msgid "Quit Bazaar"
 msgstr "Irten"
 
-#: src/update-worker.c:358
+#: src/transaction-notification.c:133
+#, c-format
+msgid "%s Installed"
+msgstr "%s instalatu da"
+
+#: src/transaction-notification.c:135
+msgid "The app is ready to be used"
+msgstr "Aplikazioa erabiltzeko prest dago"
+
+#: src/update-worker.c:263
+msgid "Updates Are Out of Date"
+msgstr "Eguneratzeak zaharkituta daude"
+
+#: src/update-worker.c:264
+msgid "Please check for available updates"
+msgstr "Begiratu eguneratzerik dagoen"
+
+#: src/update-worker.c:449
 #, c-format
 msgid "%u App Updated"
 msgid_plural "%u Apps Updated"
 msgstr[0] "Aplikazio %u eguneratu da"
 msgstr[1] "%u aplikazio eguneratu dira"
 
-#: src/update-worker.c:361
+#: src/update-worker.c:452
 #, c-format
 msgid "%s has been updated."
 msgstr "%s eguneratu da."
 
-#: src/update-worker.c:364
+#: src/update-worker.c:455
 #, c-format
 msgid "%s and %s have been updated."
 msgstr "%s eta %s eguneratu dira."
 
-#: src/update-worker.c:368
+#: src/update-worker.c:459
 #, c-format
 msgid "Includes %s, %s and %s."
 msgstr "%s, %s eta %s barne."
+
+#~ msgid "Exhibit app page"
+#~ msgstr "Aplikazio baten orria"
+
+#~ msgid "Empty"
+#~ msgstr "Hutsik"
+
+#~ msgid "Loading"
+#~ msgstr "Kargatzen"
+
+#~ msgid "Flathub Unavailable"
+#~ msgstr "Flathub ez dago eskuragarri"
+
+#~ msgid "Content"
+#~ msgstr "Edukia"
+
+#~ msgid "Donate Button"
+#~ msgstr "Dohaintza botoia"
+
+#~ msgid "Select Metainfo File"
+#~ msgstr "Hautatu metainfo fitxategia"
+
+#~ msgid "Metainfo Files"
+#~ msgstr "Metainfo fitxategiak"
+
+#~ msgid "Preview"
+#~ msgstr "Aurrebista"
+
+#~ msgid ""
+#~ "Checking for and downloading app updates uses data and power. Automatic "
+#~ "app update features are therefore paused when on metered network "
+#~ "connections and when power saver is on."
+#~ msgstr ""
+#~ "Aplikazio eguneratzeak bilatu eta deskargatzeak datuak eta argindarra "
+#~ "erabiltzea dakar. Ondorioz, aplikazioen eguneratze automatikorako "
+#~ "eginbideak pausatu egiten dira sareko konexio neurtua erabiltzean edo "
+#~ "energia aurrezpena aktibatuta dagoenean."
+
+#~ msgid "User Data"
+#~ msgstr "Erabiltzaile-datuak"
 
 #~ msgid "Free"
 #~ msgstr "Librea"
